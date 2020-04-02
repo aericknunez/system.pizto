@@ -484,17 +484,16 @@ $return.= ' ?>';
 	public function AddSucursal($user,$td){
 		$db = new dbConn();
 
-		    $datos = array();
-		    $datos["user"] = $user;
-		    $datos["sucursal"] = $td;
-		    $datos["hash"] = Helpers::HashId();
-			$datos["time"] = Helpers::TimeId();
-		    if ($db->insert("login_sucursales", $datos)) {
-		    Alerts::Alerta("success","Agregado Correctamente","Usuario agregado correctamente a la sucursal");
-		    } else {
-		    Alerts::Alerta("danger","Error","Ocurrio un error inesperado");
-		    }
+	    $datos = array();
+	    $datos["user"] = $user;
+	    $datos["sucursal"] = $td;
+	    if ($db->insert("login_sucursales", $datos)) {
+	    Alerts::Alerta("success","Agregado Correctamente","Usuario agregado correctamente a la sucursal");
+	    } else {
+	    Alerts::Alerta("danger","Error","Ocurrio un error inesperado");
+	    }
 		$this->CuentasSucursal($_SESSION['user']);
+
 	}
 
 

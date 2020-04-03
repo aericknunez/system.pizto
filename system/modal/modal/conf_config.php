@@ -171,7 +171,7 @@ $r = $db->select("*", "config_master", "where td = ".$_SESSION['td']."")
           <?php if($_SESSION['nodatainicial'] == NULL){
             echo '<a href="?configuraciones" class="btn btn-primary btn-rounded">Regresar</a>';
           } else {
-            echo '<a href="application/includes/logout.php" class="btn btn-primary btn-rounded">Cerrar Sessi&oacuten</a>';
+           echo '<a href="application/includes/logout.php" class="btn btn-primary btn-rounded">Cerrar Sessi&oacuten</a>';
           } ?>
           
     

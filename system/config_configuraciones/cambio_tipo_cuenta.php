@@ -12,6 +12,7 @@ $configuracion = new Config;
 	<div id="cuentas">
 		<?php 
 		$configuracion->CuentasSucursal($_SESSION['user']);
+
 		 ?>
 
 	</div>

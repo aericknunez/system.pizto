@@ -93,6 +93,7 @@ $user = $_SESSION["user"];
 
     } $a->close();
 
+echo 'system/facturar/facturas/'.$_SESSION["td"].'/Ticket.php';
 
 }
 

@@ -234,6 +234,11 @@ echo '<script type="text/javascript" src="assets/js/query/planilla.js?v='.$numer
 } 
 
 
+//////////////// BackUp
+elseif(isset($_GET["backup"])) {
+echo '<script type="text/javascript" src="assets/js/query/backup.js?v='.$numero.'"></script>';
+} 
+
 
 else{
 echo '<script type="text/javascript" src="assets/js/query/ventas.js?v='.$numero.'"></script>';	

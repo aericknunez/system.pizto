@@ -99,6 +99,9 @@ elseif(isset($_GET["descuentos"])) include_once 'system/planilla/descuentos.php'
 elseif(isset($_GET["planillasver"])) include_once 'system/planilla/planillasver.php'; // ver planilla
 
 
+// backup
+elseif(isset($_GET["backup"])) include_once 'system/bdbackup/respaldo.php'; // backup de bd
+
 
 // admin
 elseif(isset($_GET["syncstatus"])) include_once 'system/historial/syncstatus.php';

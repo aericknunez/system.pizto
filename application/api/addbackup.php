@@ -1,5 +1,6 @@
 <?
-/// crea un backup en el sistema es elemental 
+/// crea un backup en el sistema es el que llama a la clase de Backup para generalos desde el cron 
+/// de la app
 
 include_once '../common/Helpers.php';
 include_once '../common/Fechas.php';

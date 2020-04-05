@@ -1,10 +1,35 @@
 $(document).ready(function()
 {
 
+
+ /////////////////// sverifica si hay datos en la api
+    fetch_data();
+
+    function fetch_data(){
+
+        var op = "353";
+        var dataString = 'op='+op;
+
+        $.ajax({
+            type: "POST",
+            url: "application/src/routes.php",
+            data: dataString,
+            beforeSend: function () {
+               $("#pendientes").html('<div class="row justify-content-md-center" ><img src="assets/img/load.gif" alt=""></div>');
+            },
+            success: function(data) {            
+                $("#pendientes").html(data); // lo que regresa de la busquea      
+                $("#respaldos").load('application/src/routes.php?op=351');
+            }
+        });
+    }
+///////////////////
+
     $("body").on("click","#backup",function(){ 
         
         var op = "350";
-        var dataString = 'op='+op;
+        var sistema = $(this).attr('sistema');
+        var dataString = 'op='+op+'&sistema='+sistema;
 
         $.ajax({
             type: "POST",
@@ -14,9 +39,9 @@ $(document).ready(function()
                $("#vista").html('<div class="row justify-content-md-center" ><img src="assets/img/load.gif" alt=""></div>');
             },
             success: function(data) {            
-                $("#vista").html(data); // lo que regresa de la busquea   
-                $("#backup").hide();   
+                $("#vista").html(data); // lo que regresa de la busquea      
                 $("#respaldos").load('application/src/routes.php?op=351');
+                $("#pendientes").load('application/src/routes.php?op=353');
             }
         });
 
@@ -38,8 +63,8 @@ $(document).ready(function()
             },
             success: function(data) {            
                 $("#vista").html(data); // lo que regresa de la busquea   
-                $("#backup").show();   
                 $("#respaldos").load('application/src/routes.php?op=351');
+                $("#pendientes").load('application/src/routes.php?op=353');
             }
         });
 

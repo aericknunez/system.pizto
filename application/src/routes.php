@@ -1757,7 +1757,7 @@ include_once '../../system/planilla/Planilla.php';
 if($_REQUEST["op"]=="350"){ // crear back up
 include_once '../../system/bdbackup/Backup.php';
 	$back = new BackUp();
-	$back->Crear();
+	$back-> AddRegistro($_POST["sistema"]);
 
 }
 
@@ -1772,6 +1772,12 @@ if($_REQUEST["op"]=="352"){ // crear back up
 include_once '../../system/bdbackup/Backup.php';
 	$back = new BackUp();
 	$back->Eliminar("../../system/bdbackup/backup/" .$_SESSION["td"] . "/", $_POST["data"]);
+}
+
+if($_REQUEST["op"]=="353"){ // verifica solicitus
+include_once '../../system/bdbackup/Backup.php';
+	$back = new BackUp();
+	$back->Search();
 }
 // backup
 

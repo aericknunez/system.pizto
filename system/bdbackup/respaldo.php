@@ -14,15 +14,13 @@ $back = new BackUp();
 
 <div class="text-center">
 	<h1 class="h1-responsive">CREAR RESPALDO DE SUS DATOS</h1>
-	<a id="backup" class="btn btn-success">Crear BackUp</a>
 	<div id="vista"></div>
 
-	<div id="respaldos" class="mt-4">
-		<?php 
-				$back->VerRespaldos("system/bdbackup/backup/".$_SESSION["td"] . "/");
-
-		 ?>
+	<div id="pendientes" class="mt-4">
 	</div>
+	<div id="respaldos" class="mt-4">
+	</div>
+
 </div>
 
 

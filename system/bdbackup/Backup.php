@@ -5,15 +5,66 @@ class BackUp{
      } 
 
 
+public function AddRegistro($sistema){
+    $db = new dbConn();
+    /// el registro no se realiza en el servidor del sistema sino que en la app
+      
+      $updata = array(
+      'sistema'  =>  $sistema,
+      'td'   =>  $_SESSION['td']
+        );
+    $api_url = "http://localhost/app/api/addbackup.php";
+    $client = curl_init($api_url);
+    curl_setopt($client, CURLOPT_POST, true);
+    curl_setopt($client, CURLOPT_POSTFIELDS, $updata);
+    curl_setopt($client, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($client);
+    curl_close($client);
+    $result = json_decode($response, true);
+    foreach($result as $keys => $values)
+    {
+      if($result[$keys]['success'] == '1'){
+        Alerts::Alerta("success","Creado correctamente","Respaldo creado correctamente");
+      }
+      else{
+        Alerts::Alerta("error","Error!","No se ha podido crear el registro de respaldo");
+      }
+    }
 
-  public function Crear(){
+}
+
+
+public function Search(){
+    $db = new dbConn();
+
+$api_url = "http://localhost/app/api/addbackup.php?action=search&x=" . $_SESSION["td"] . "&type=2";
+$client = curl_init($api_url);
+curl_setopt($client, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($client);
+curl_close($client);
+$result = json_decode($response, true);
+    foreach($result as $keys => $values){
+        if($result[$keys]['success'] == '1'){
+           Alerts::Mensajex("YA TIENES UNA PETICION DE RESPALDO PENDIENTE","danger");
+        
+        } elseif($result[$keys]['success'] == '2'){
+          Alerts::Mensajex("EN ESTE MOMENTO SE ESTA GENERANDO TU RESPALDO","info");
+
+        } else{
+         echo '<a id="backup" sistema="2" class="btn btn-success">Crear BackUp</a>';
+        }
+    }
+}
+
+
+  public function Crear($td){
     $db = new dbConn();
 
     $dir = $this->Tablas();
 
 foreach ($dir as $key => $tabla) {
   //////////////////////        
-    $s = $db->query("SELECT * FROM $tabla WHERE td = ".$_SESSION["td"]."");
+    $s = $db->query("SELECT * FROM $tabla WHERE td = '$td'");
     foreach ($s as $y){ 
 
     $archivo.= "INSERT INTO $tabla VALUES(";
@@ -40,10 +91,10 @@ foreach ($dir as $key => $tabla) {
     if($archivo != NULL){
 
       // verifico si existe la carpeta. sino la creo
-      if(!is_dir("../../system/bdbackup/backup/" .$_SESSION["td"] . "/")){
-        mkdir("../../system/bdbackup/backup/" .$_SESSION["td"] . "/");
+      if(!is_dir("../../system/bdbackup/backup/" .$td . "/")){
+        mkdir("../../system/bdbackup/backup/" .$td . "/");
 
-        $gitarch = fopen("../../system/bdbackup/backup/" .$_SESSION["td"] . "/" . ".gitkeep",'w+');
+        $gitarch = fopen("../../system/bdbackup/backup/" .$td . "/" . ".gitkeep",'w+');
         fwrite($gitarch,"");
         fclose($gitarch);
       }
@@ -51,15 +102,9 @@ foreach ($dir as $key => $tabla) {
       $filename = "Backup-" . date("d-m-Y") . "-" . date("His");
       $ext =  ".piz";
 
-      $handle = fopen("../../system/bdbackup/backup/" .$_SESSION["td"] . "/" . $filename . $ext,'w+');
+      $handle = fopen("../../system/bdbackup/backup/" .$td . "/" . $filename . $ext,'w+');
       
-      if(fwrite($handle,$archivo)){
-        
-        echo "<br>";
-        echo '<a href="downloader.php?data='. $filename . $ext .'&name='. $filename .'&type=1"><i class="fas fa-cloud-download-alt fa-5x red-text"></i><br>Descargar
-      </a>';
-  
-       }
+      fwrite($handle,$archivo);
 
      fclose($handle);
 

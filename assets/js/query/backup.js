@@ -15,9 +15,11 @@ $(document).ready(function()
             url: "application/src/routes.php",
             data: dataString,
             beforeSend: function () {
+               $("#respaldos").hide();
                $("#pendientes").html('<div class="row justify-content-md-center" ><img src="assets/img/load.gif" alt=""></div>');
             },
-            success: function(data) {            
+            success: function(data) {  
+                $("#respaldos").show();          
                 $("#pendientes").html(data); // lo que regresa de la busquea      
                 $("#respaldos").load('application/src/routes.php?op=351');
             }

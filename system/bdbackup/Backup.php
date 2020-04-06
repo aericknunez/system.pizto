@@ -13,7 +13,7 @@ public function AddRegistro($sistema){
       'sistema'  =>  $sistema,
       'td'   =>  $_SESSION['td']
         );
-    $api_url = "http://localhost/app/api/addbackup.php";
+    $api_url = "https://hibridosv.com/app/api/addbackup.php";
     $client = curl_init($api_url);
     curl_setopt($client, CURLOPT_POST, true);
     curl_setopt($client, CURLOPT_POSTFIELDS, $updata);
@@ -37,7 +37,7 @@ public function AddRegistro($sistema){
 public function Search(){
     $db = new dbConn();
 
-$api_url = "http://localhost/app/api/addbackup.php?action=search&x=" . $_SESSION["td"] . "&type=2";
+$api_url = "https://hibridosv.com/app/api/addbackup.php?action=search&x=" . $_SESSION["td"] . "&type=2";
 $client = curl_init($api_url);
 curl_setopt($client, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($client);
@@ -51,7 +51,7 @@ $result = json_decode($response, true);
           Alerts::Mensajex("EN ESTE MOMENTO SE ESTA GENERANDO TU RESPALDO","info");
 
         } else{
-         echo '<a id="backup" sistema="2" class="btn btn-success">Crear BackUp</a>';
+         echo '<a id="backup" sistema="1" class="btn btn-success">Crear BackUp</a>';
         }
     }
 }

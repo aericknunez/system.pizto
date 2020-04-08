@@ -1,6 +1,10 @@
 <?php
-
-//////////////// este archivo nad mas sirve para imprimir el ticket o factura antes de ser cobrado.
+// obtengo el numero de la factura
+     $a = $db->query("SELECT num_fac FROM ticket_temp WHERE mesa = ".$_REQUEST["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." order by id desc limit 1");
+    foreach ($a as $b) {
+        $factura = $b["num_fac"];
+    } $a->close();
+//
 ?>
 <div class="modal" id="<? echo $_GET["modal"]; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-backdrop="false">
   <div class="modal-dialog" role="document">
@@ -64,9 +68,6 @@ echo '<p class="text-center font-weight-bold">CAMBIO:</p>';
 echo '<div class="display-4 text-center font-weight-bold">'. Helpers::Dinero($cambio) . '</div>'; 
 
 
-if($_SESSION["noimprimir"] == NULL){
-//////////////// para facturar //////////////
-///
 $user = $_SESSION["user"];
     $a = $db->query("SELECT * FROM facturar_users WHERE user = '$user' and td = ".$_SESSION["td"]."");
     foreach ($a as $b) {
@@ -89,8 +90,7 @@ $user = $_SESSION["user"];
 
     } $a->close();
 
-
-}
+echo 'system/facturar/facturas/'.$_SESSION["td"].'/Ticket.php';
  ?> 
 
 

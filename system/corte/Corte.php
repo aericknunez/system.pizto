@@ -1,4 +1,4 @@
-<?php 
+<?php
 class Corte{
 
 	public function __construct() { 

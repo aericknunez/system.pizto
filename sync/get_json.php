@@ -18,7 +18,7 @@ $hora = date("H:i:s");
 
 
 
-$data =  file_get_contents('http://localhost/app/api/bd_remota.php?x=' . $_SESSION["temporal_td"] . '&type=1');  
+$data =  file_get_contents('https://hibridosv.com/app/api/bd_remota.php?x=' . $_SESSION["temporal_td"] . '&type=1');  
 $datos = json_decode($data, true);
 
 foreach ($datos as $valores) { // vamos hacer un archivo por cada hash

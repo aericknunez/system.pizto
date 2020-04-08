@@ -3,13 +3,13 @@
 
 	<div class="row">
 
-			<div id="container" class="col-xs-8 col-sm-12 col-md-8">
+			<div id="container" class="col-xs-8 col-sm-12 col-md-8 mb-4">
 		<?php 
 		include_once 'application/src/redirect.php';
 		?>
 			</div>
 
-			<div id="lateral" class="col-xs-4 col-sm-12 col-md-4 mt-4">
+			<div id="lateral" class="col-xs-4 col-sm-12 col-md-4">
 		<?php 
 			if(isset($_GET["admon"])) {
 				include_once 'system/admon/lateral.php';

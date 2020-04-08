@@ -31,7 +31,13 @@ $seslog->sec_session_start(); // Our custom secure way of starting a PHP session
     
     } $a->close();
 
-
+    $a = $db->query("SELECT username FROM login_members");
+    foreach ($a as $b) {
+            
+            $userx = sha1($b["username"]);
+            $db->update("facturar_users", $cambio, "WHERE user='$userx'");
+    
+    } $a->close();
 ////////////////////////////////////////////////////
 
 if (isset($_POST['email'], $_POST['password'])) {

@@ -188,6 +188,14 @@ if($_REQUEST["op"]=="15"){
 }
 
 
+///////////// modificar las facturas que se imprimiran
+if($_REQUEST["op"]=="16"){
+	include_once '../../system/facturar/Facturar.php';
+	$fact = new Facturar();
+	$fact->ModFactura($_POST);
+}
+
+
 /////////////////////// comienza las ventas
 
 if($_REQUEST["op"]=="20"){ //venta normal
@@ -196,10 +204,7 @@ if($_REQUEST["op"]=="20"){ //venta normal
 		include_once '../../system/ventas/Venta.php';
 		$ventas = new Venta;
 		if($_REQUEST["cliente"] == NULL) { $clientes = 1; }
-		else { $clientes = $_REQUEST["cliente"]; } 
-			
-			if($_SESSION["mesa"] == NULL){
-			$ventas->CrearMesa($clientes); }
+		else { $clientes = $_REQUEST["cliente"]; } 			
 
 		$ventas->Execute($_REQUEST["cod"], $_SESSION["mesa"], $clientes, $_SESSION['config_imp']);
 
@@ -224,9 +229,7 @@ include_once '../../system/ventas/Venta.php';
 $ventas = new Venta;
 if($_REQUEST["cliente"] == NULL) { $clientes = 1; }
 else { $clientes = $_REQUEST["cliente"]; } 
-	if($_SESSION["mesa"] == NULL){
-	$ventas->CrearMesa($clientes);
-	}
+
 $ventas->OtrasVentas(8888, 
 	$_SESSION["mesa"], 
 	$clientes, $_SESSION['config_imp'],
@@ -247,9 +250,7 @@ include_once '../../system/ventas/Especial.php';
 $especial = new Especial;
 if($_REQUEST["cliente"] == NULL) { $clientes = 1; }
 else { $clientes = $_REQUEST["cliente"]; } 
-	if($_SESSION["mesa"] == NULL){
-	$ventas->CrearMesa($clientes);
-	}
+
 $especial->VentaEspecial($_REQUEST["cod"], 
 						$_SESSION["mesa"], 
 						$clientes, $_SESSION['config_imp']);
@@ -279,10 +280,7 @@ if($_REQUEST["op"]=="20u"){ // agrega detalle especial
 include_once '../../system/ventas/Venta.php';
 $ventas = new Venta;
 if($_REQUEST["cliente"] == NULL) { $clientes = 1; }
-else { $clientes = $_REQUEST["cliente"]; } 
-	if($_SESSION["mesa"] == NULL){
-	$ventas->CrearMesa($clientes);
-	}
+
 $ventas->OtrasVentas(8889, 
 	$_SESSION["mesa"], 
 	$clientes, $_SESSION['config_imp'],
@@ -296,9 +294,8 @@ else { header("location: ../../?");}
 if($_REQUEST["op"]=="21"){ // cobra la venta
 include_once '../../system/ventas/Venta.php';
 $ventas = new Venta;
-$mesa = $_SESSION["mesa"];
-$ventas->Facturar($_SESSION["mesa"],$_POST["total"]);
-header("location: ../../?modal=factura&mesa=$mesa&efectivo=".$_POST["total"]."");
+$num = $ventas->Facturar($_SESSION["mesa"],$_POST["total"]);
+header("location: ../../?modal=factura&factura=$num&efectivo=".$_POST["total"]."");
 } 
 
 if($_REQUEST["op"]=="22"){ // MUESTRA EL LATERAL (FACTURA)
@@ -338,9 +335,8 @@ include_once '../../system/tv/Pantallas.php';
 if($_REQUEST["op"]=="25"){ // cobra la venta
 include_once '../../system/ventas/Venta.php';
 $ventas = new Venta;
-$mesa = $_SESSION["mesa"];
-$ventas->FacturarCliente($_SESSION["mesa"],$_POST["total"],$_POST["cancela"]);
-header("location: ../../?modal=factura&mesa=$mesa&efectivo=".$_POST["total"]."&cancela=".$_POST["cancela"]."");
+$num = $ventas->FacturarCliente($_SESSION["mesa"],$_POST["total"],$_POST["cancela"]);
+header("location: ../../?modal=factura&factura=$num&efectivo=".$_POST["total"]."&cancela=".$_POST["cancela"]."");
 }
 
 
@@ -541,7 +537,7 @@ $mesas->Restar();
 if($_REQUEST["op"]=="42"){ // activar mesa
 include_once '../../system/ventas/Venta.php';
 $ventas = new Venta;
-$ventas->CrearMesa($_SESSION["nclientes"]);
+$ventas->CrearMesa($_SESSION["nclientes"], 2);
 $mesa=$_SESSION["mesa"];
 unset($_SESSION["mesa"], $_SESSION["nclientes"]);
 header("location: ../../?view&mesa=".$mesa."");
@@ -971,30 +967,21 @@ if($_REQUEST["op"]=="87"){ // para no facturar
 
 if($_REQUEST["op"]=="88"){ // Abrir Caja
 
-	$user = $_SESSION["user"];
-	if ($r = $db->select("impresora", "facturar_users", 
-		"WHERE tipo = 1 and user = '$user' and td = ".$_SESSION["td"]."")) { 
-		$impresora = $r["impresora"];
-	} unset($r);  
-
-		include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Ticket.php';
-		$imprimir = new Ticket; 
-		$imprimir->AbrirCaja($impresora);//(tipo,numero,cambio,impresor,mesa)	
+    include_once 'system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
+    $imprimir = new Impresiones; 
+    $imprimir->AbrirCaja();
 }
 
 
 if($_REQUEST["op"]=="89"){ // Reporte Diario
 
-	$user = $_SESSION["user"];
-	if ($r = $db->select("ticket, impresora", "facturar_users", 
-		"WHERE tipo = 2 and user = '$user' and td = ".$_SESSION["td"]."")) { 
-		$impresora = $r["impresora"]; $ticket = $r["ticket"];
-	} unset($r);  
-
-		include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Factura.php';
-		$imprimir = new Factura; 
-		$imprimir->ReporteDiario($_REQUEST["iden"],$impresora,$ticket);	
-		Alerts::Alerta("success","Imprimiendo","Imprimiendo Factura");
+    include_once 'system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
+    $imprimir = new Impresiones; 
+    
+    if($imprimir->ReporteDiario($_REQUEST["iden"])){
+    	Alerts::Alerta("success","Imprimiendo","Imprimiendo Factura");
+    }
+	
 }
 
 
@@ -1287,61 +1274,8 @@ include_once '../../system/facturar/Facturar.php';
 }
 
 
-if($_REQUEST["op"]=="140"){ // agregar factura
-include_once '../../system/facturar/Facturar.php';
-	$facturar = new Facturar; 
-	$facturar->AgregarFactura($_POST["nombre"],
-							$_POST["imagen"],
-							$_POST["tipo"],
-							$_POST["txt1"],
-							$_POST["txt2"],
-							$_POST["txt3"],
-							$_POST["txt4"],
-							$_POST["n1"],
-							$_POST["n2"],
-							$_POST["n3"],
-							$_POST["n4"]);
-	
-
-}
 
 
-if($_REQUEST["op"]=="141"){ // agragar impresora
-include_once '../../system/facturar/Facturar.php';
-	$facturar = new Facturar; 
-	$facturar->AgregarImpresora($_POST["impresora"],$_POST["comentarios"]);
-	
-}
-
-
-if($_REQUEST["op"]=="142"){ // agragarUsuarios
-include_once '../../system/facturar/Facturar.php';
-	$facturar = new Facturar; 
-	$facturar->AgregarUsuarios($_POST["tipo"],$_POST["ticket"],$_POST["impresora"],$_POST["clase"]);
-	
-}
-
-
-//// eliminar factura (ticket)
-if($_REQUEST["op"]=="143"){ 
-include_once '../../system/facturar/Facturar.php';
-	$facturar = new Facturar; 
-	$facturar->EliminarFact($_REQUEST["iden"]);
-	
-}
-/// eliminar impresora
-if($_REQUEST["op"]=="144"){ 
-include_once '../../system/facturar/Facturar.php';
-	$facturar = new Facturar; 
-	$facturar->EliminarPrint($_REQUEST["iden"]);
-	
-}
-/// Usuarios
-if($_REQUEST["op"]=="145"){ 
-include_once '../../system/facturar/Facturar.php';
-	$facturar = new Facturar; 
-	$facturar->EliminarUser($_REQUEST["iden"]);
-}
 
 
 

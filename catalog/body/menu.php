@@ -101,7 +101,6 @@ if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (
 <ul class="list-unstyled">
 <li><a href="?rtn" class="waves-effect"> Agregar <?php echo $_SESSION['config_nombre_documento']; ?></a></li>
 <li><a href="#" class="waves-effect"> Agregar Exonerado</a></li>
-<li><a href="?facturasopciones" class="waves-effect"> Opciones</a></li>
 <?php if(($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 5) and $_SESSION['config_pais'] == 2) { // para agregar un cai solo en honduras?>
 <li><a href="?cai" class="waves-effect"> Nuevo CAI</a></li>
 <?php } ?>
@@ -178,6 +177,7 @@ if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (
 <li><a href="?venta_especial" class="waves-effect">Venta Especial</a></li>
 <?php if($_SESSION["tipo_cuenta"] == 1) { ?>
 <li><a href="?root" class="waves-effect">Configuracion Root</a></li>
+<li><a href="?conf_factura" class="waves-effect">Configuracion Facturas</a></li>
 <li><a href="?codigos" class="waves-effect">C&oacutedigos de validaci&oacuten</a></li>
 <?php } ?>
 </ul>

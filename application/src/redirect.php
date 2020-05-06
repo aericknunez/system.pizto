@@ -19,6 +19,9 @@ elseif(isset($_GET["venta_especial"])) include_once 'system/config_especial/vent
 
 elseif(isset($_GET["root"]) and $_SESSION['tipo_cuenta'] == "1") include_once 'system/config_configuraciones/root.php';
 
+elseif(isset($_GET["conf_factura"]) and $_SESSION['tipo_cuenta'] == "1") include_once 'system/config_configuraciones/facturas.php';
+
+
 // Gastos y compras
 elseif(isset($_GET["gastos"])) include_once 'system/gastos/gastos.php'; 
 elseif(isset($_GET["entradas"])) include_once 'system/gastos/entradas.php'; 
@@ -75,8 +78,6 @@ elseif(isset($_GET["rtn"])) include_once 'system/facturar/rtn.php';
 elseif(isset($_GET["cai"])) include_once 'system/facturar/cai.php';
 
 elseif(isset($_GET["eliminar_facturas"])) include_once 'system/facturar/eliminar_facturas.php';
-
-elseif(isset($_GET["facturasopciones"])) include_once 'system/facturar/opciones.php';
 
 elseif(isset($_GET["reportediario"])) include_once 'system/reportes/reporteespecial.php';
 

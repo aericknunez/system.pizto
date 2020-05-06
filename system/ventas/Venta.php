@@ -18,7 +18,7 @@ class Venta{
 		$a->close();
 	}
 
-	public function CrearMesa($clientes) {
+	public function CrearMesa($clientes, $tipo) {
 		$db = new dbConn();
 
 	    if ($r = $db->select("mesa", "mesa", "WHERE td = ".$_SESSION["td"]." and tx = ".$_SESSION["tx"]." order by mesa desc limit 1")) { 
@@ -28,7 +28,9 @@ class Venta{
 			$datos = array();
 		    $datos["clientes"] = $clientes;
 		    $datos["mesa"] = $ultimamesa + 1;
+		    $datos["tipo"] = $tipo;
 		    $datos["empleado"] = $_SESSION["nombre"];
+		    $datos["user"] = $_SESSION["user"];
 		    $datos["fecha"] = date("d-m-Y");
 		    $datos["hora"] = date("H:i:s");
 		    $datos["estado"] = 1;
@@ -505,11 +507,12 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 		    unset($_SESSION["mesa"]);
 
 		    if($_SESSION['config_propina'] != 0.00){ ///  prara agregarle la propina
-			$this->AgregarPropina($ultimon); }
+			$this->AgregarPropina($ultimon); 
+			}
 
 		    $this->DataCopy($mesa, $ultimon);
 
-		    return TRUE;
+		    return $ultimon;
 		    }
 		}
 
@@ -554,11 +557,12 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 		}
 		$a->close();
 		
-		if($_SESSION['config_propina'] != 0.00){ ///  prara agregarle la propina
-		$this->AgregarPropina($ultimon); }
+		if($_SESSION['config_propina'] != 0.00){ ///  prara agregarle la propina	
+		$this->AgregarPropina($ultimon); 
+		}
 
-    	     $this->DataCopy($mesa, $ultimon);
-		    return TRUE;
+    	    $this->DataCopy($mesa, $ultimon);
+		    return $ultimon;
 		    }
 		}
 

@@ -36,7 +36,7 @@ if($_SESSION["muestra_vender"] == NULL){
 					//aqui generamos la nueva mesa si no hay creada
 					if($_SESSION["mesa"] == NULL){
 					$ventas = new Venta;
-					$ventas->CrearMesa(1); }
+					$ventas->CrearMesa(1, 1); }
 
 					if(file_exists('application/iconos/iconos_'.$_SESSION["td"].'.php') == TRUE){
 						include_once 'application/iconos/iconos_'.$_SESSION["td"].'.php';
@@ -79,7 +79,7 @@ if($_SESSION["muestra_vender"] == NULL){
 				//aqui generamos la nueva mesa si no hay creada
 					if($_SESSION["mesa"] == NULL){
 					$ventas = new Venta;
-					$ventas->CrearMesa(1); }
+					$ventas->CrearMesa(1, 1); }
 					
 					if(file_exists('application/iconos/iconos_'.$_SESSION["td"].'.php') == TRUE){
 						include_once 'application/iconos/iconos_'.$_SESSION["td"].'.php';
@@ -109,7 +109,7 @@ if($_SESSION["muestra_vender"] == NULL){
 				//aqui generamos la nueva mesa si no hay creada
 					if($_SESSION["mesa"] == NULL){
 					$ventas = new Venta;
-					$ventas->CrearMesa(1); }
+					$ventas->CrearMesa(1, 1); }
 
 					if(file_exists('application/iconos/iconos_'.$_SESSION["td"].'.php') == TRUE){
 						include_once 'application/iconos/iconos_'.$_SESSION["td"].'.php';

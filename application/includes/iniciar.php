@@ -111,15 +111,19 @@ $_SESSION["ver_avatar"] = NULL;
     function VerificaMesa(){
         $db = new dbConn();
 
-            if ($r = $db->select("estado, mesa", "mesa", "where td = ".$_SESSION["td"]." order by id DESC LIMIT 1")) { 
-                $estado=$r["estado"]; $mesa=$r["mesa"]; } unset($r); 
-        
-        if($estado == 1){
+    $a = $db->query("SELECT mesa FROM mesa WHERE estado = 1 and user = '".$_SESSION["user"]."' and td = ".$_SESSION["td"]."");
+
+        if($a->num_rows > 0){
             include_once '../../system/ventas/Venta.php'; 
-                if(Venta::VerProductosMesa($_SESSION["mesa"]) == NULL){
-                  Helpers::DeleteId("mesa", "estado = 1 and mesa = '$mesa' and tx = ". $_SESSION["tx"] ." and td = " . $_SESSION["td"]);
-                }
-        }
+            foreach ($a as $b) {    
+                    
+                    if(Venta::VerProductosMesa($b["mesa"]) == NULL){
+                      Helpers::DeleteId("mesa", "estado = 1 and mesa = '".$b["mesa"]."' and user = '".$_SESSION["user"]."' and td = " . $_SESSION["td"]);
+                    }
+
+            } 
+        } $a->close();
+
     }
 
 

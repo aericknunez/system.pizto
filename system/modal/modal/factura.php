@@ -1,10 +1,5 @@
 <?php
-// obtengo el numero de la factura
-     $a = $db->query("SELECT num_fac FROM ticket_temp WHERE num_fac != 0 and mesa = ".$_REQUEST["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." order by id desc limit 1");
-    foreach ($a as $b) {
-        $factura = $b["num_fac"];
-    } $a->close();
-//
+$factura = $_REQUEST["factura"];
 ?>
 <div class="modal" id="<? echo $_GET["modal"]; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-backdrop="false">
   <div class="modal-dialog" role="document">
@@ -17,34 +12,14 @@
       <div class="modal-body">
 <!-- ./  content -->
 <?php 
-if($_REQUEST["cancela"] != NULL){ 
- $a = $db->query("SELECT sum(stotal) FROM ticket_temp WHERE num_fac = '$factura' and cancela = ".$_REQUEST["cancela"]." and mesa = ".$_REQUEST["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"].""); 
- } else { 
- $a = $db->query("SELECT sum(stotal) FROM ticket_temp WHERE num_fac = '$factura' and mesa = ".$_REQUEST["mesa"]."  and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"].""); 
-}
+ $a = $db->query("SELECT sum(stotal) , sum(imp), sum(total) FROM ticket_temp WHERE num_fac = '$factura' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"].""); 
+
     foreach ($a as $b) {
         $stotal=$b["sum(stotal)"];
-    } $a->close();
-//////////////////
-if($_REQUEST["cancela"] != NULL){ 
-$a = $db->query("SELECT sum(imp) FROM ticket_temp WHERE num_fac = '$factura' and cancela = ".$_REQUEST["cancela"]." and mesa = ".$_REQUEST["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
- } else { 
-$a = $db->query("SELECT sum(imp) FROM ticket_temp WHERE num_fac = '$factura' and mesa = ".$_REQUEST["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"].""); 
-}
-foreach ($a as $b) {
         $imp=$b["sum(imp)"];
-    } $a->close();
-
-
-//////////////////
-if($_REQUEST["cancela"] != NULL){ 
-$a = $db->query("SELECT sum(total) FROM ticket_temp WHERE num_fac = '$factura' and cancela = ".$_REQUEST["cancela"]." and mesa = ".$_REQUEST["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
- } else { 
-$a = $db->query("SELECT sum(total) FROM ticket_temp WHERE num_fac = '$factura' and mesa = ".$_REQUEST["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
-}
-    foreach ($a as $b) {
         $total=$b["sum(total)"];
     } $a->close();
+//////////////////
 
 /// define las variables finales
 
@@ -64,38 +39,69 @@ echo '<div class="display-4 text-center font-weight-bold">'. Helpers::Dinero($to
 echo '<p class="text-center font-weight-bold">EFECTIVO:</p>';
 echo '<div class="display-4 text-center font-weight-bold">'. Helpers::Dinero($efectivo) .'</div> <hr>';
 
-echo '<p class="text-center font-weight-bold">CAMBIO:</p>'; 
-echo '<div class="display-4 text-center font-weight-bold">'. Helpers::Dinero($cambio) . '</div>'; 
+echo '<p class="text-center text-danger font-weight-bold">CAMBIO:</p>'; 
+echo '<div class="display-4 text-danger text-center font-weight-bold">'. Helpers::Dinero($cambio) . '</div>'; 
 
 
-if($_SESSION["noimprimir"] == NULL){
-//////////////// para facturar //////////////
-///
-$user = $_SESSION["user"];
-    $a = $db->query("SELECT * FROM facturar_users WHERE user = '$user' and td = ".$_SESSION["td"]."");
-    foreach ($a as $b) {
+if($_SESSION["noimprimir"] == NULL){ // sino viene null hay que sacar la factura
 
-    $clase = $b["clase"];
-    
-    if($b["tipo"] == 1){ // para ticket
-    include_once 'system/facturar/facturas/'.$_SESSION["td"].'/Ticket.php';
-    $imprimir = new Ticket; 
-        $imprimir->$clase(2,$factura,$_REQUEST["efectivo"],$b["impresora"],$_REQUEST["mesa"],$b["ticket"]);
-    
-    } //(tipo,numero,cambio,impresor,mesa,factura_o_tiket)
-    // el tipo es 1 =  mesa, 2 = factura, 3 = cancela un cliente
-    if($b["tipo"] == 2 and $_SESSION["tx"] == 1){ // para factura
-    include_once 'system/facturar/facturas/'.$_SESSION["td"].'/Factura.php';
-    $imprimir = new Factura;  // la mesa aqui es solo si es op 3 en el 1er para
-        $imprimir->$clase(2,$factura,$_REQUEST["efectivo"],$b["impresora"],$_REQUEST["mesa"],$b["ticket"]);
-    //(tipo,numero,cambio,imp,mesa,factura_o_tiket)
-    }
 
-    } $a->close();
 
-echo 'system/facturar/facturas/'.$_SESSION["td"].'/Ticket.php';
+//////// verifico si es local o web
+
+
+if($_SESSION["tx"] == 0){
+
+    if ($r = $db->select("ax0, bx0", "facturar_opciones", "WHERE td = ".$_SESSION["td"]."")) { 
+        $ax0 = $r["ax0"]; $bx0 = $r["bx0"];
+    } unset($r);  
+
+if($ax0 == 1 or $bx0 == 1){
+    include_once 'system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
+    $imprimir = new Impresiones; 
+
+      if($ax0 == 1){
+        $imprimir->Ticket($_REQUEST["efectivo"], $factura);
+         //(tipo,numero,cambio,impresor,mesa,factura_o_tiket)
+      }
+      if($bx0 == 1){
+         $imprimir->Factura($_REQUEST["efectivo"], $factura);
+         //(tipo,numero,cambio,impresor,mesa,factura_o_tiket)
+      }
+
 
 }
+
+
+} else {
+    
+    if ($r = $db->select("ax1, bx1", "facturar_opciones", "WHERE td = ".$_SESSION["td"]."")) { 
+        $ax1 = $r["ax1"]; $bx1 = $r["bx1"];
+    } unset($r);  
+ 
+     if($bx1 == 1 or $bx1 == 1){
+        include_once 'system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
+        $imprimir = new Impresiones; 
+
+        if($ax0 == 1){
+           $imprimir->Ticket($_REQUEST["efectivo"], $factura);
+        }
+        if($bx0 == 1){
+           $imprimir->Factura($_REQUEST["efectivo"], $factura);
+        }
+
+    } 
+
+
+}
+
+
+
+/// termina local o web
+
+
+
+}  /// termina si no es null
 
     if($_SESSION["noimprimir"] == 1){ unset($_SESSION["noimprimir"]); } /// elimino la opcion de no imprimir
     // elimino los rtn

@@ -100,6 +100,9 @@ echo '
 elseif($_SESSION["caduca"] != 0) {
 echo '<script type="text/javascript" src="assets/js/query/noacceso.js?v='.$numero.'"></script>';
 } 
+elseif(isset($_GET["conf_factura"])) {
+echo '<script type="text/javascript" src="assets/js/query/conf_factura.js?v='.$numero.'"></script>';
+}  
 elseif(isset($_GET["precios"])) {
 echo '<script type="text/javascript" src="assets/js/query/conf_config.js?v='.$numero.'"></script>';
 }   
@@ -187,9 +190,6 @@ elseif(isset($_GET["rtn"])) {
 echo '<script type="text/javascript" src="assets/js/query/facturar.js?v='.$numero.'"></script>';
 }
 elseif(isset($_GET["cai"])) {
-echo '<script type="text/javascript" src="assets/js/query/facturar.js?v='.$numero.'"></script>';
-}
-elseif(isset($_GET["facturasopciones"])) {
 echo '<script type="text/javascript" src="assets/js/query/facturar.js?v='.$numero.'"></script>';
 }
 elseif(isset($_GET["eliminar_facturas"])) {

@@ -28,6 +28,7 @@ $mesas->VerClientes($_REQUEST["mesa"]);
 <img src="assets/img/loading.gif">
 </div>
 <div id="ventana"></div>
+
   <div class="modal fade top" id="NuevoCliente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
       data-backdrop="false">
       <div class="modal-dialog modal-frame modal-bottom modal-notify modal-info" role="document">

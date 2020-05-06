@@ -207,6 +207,14 @@ class Facturar{
 		    $this->ListarCai();  
 	}
 
+
+
+
+
+
+
+
+
 ///////////////// facturas e impresoras /////////////
 
 	public function VerImpresoras(){
@@ -523,6 +531,68 @@ class Facturar{
 
    	}
 
+
+
+
+
+
+
+
+
+
+
+
+
+	public function ModFactura($data){
+		$db = new dbConn();
+
+		$cambio = array();	
+
+		switch ($data["iden"]) {
+			case "ax0":
+				$cambio["ax0"] = $data["edo"];
+				break;
+			case "ax1":
+				$cambio["ax1"] = $data["edo"];
+				break;
+			case "bx0":
+				$cambio["bx0"] = $data["edo"];
+				break;
+			case "bx1":
+				$cambio["bx1"] = $data["edo"];
+				break;
+			case "cx0":
+				$cambio["cx0"] = $data["edo"];
+				break;
+			case "cx1":
+				$cambio["cx1"] = $data["edo"];
+				break;
+			case "dx0":
+				$cambio["dx0"] = $data["edo"];
+				break;
+			case "dx1":
+				$cambio["dx1"] = $data["edo"];
+				break;
+
+		}
+
+
+		$a = $db->query("SELECT * FROM facturar_opciones WHERE td = ".$_SESSION["td"]."");
+		if($a->num_rows > 0){    
+		    if (Helpers::UpdateId("facturar_opciones", $cambio, "td = ".$_SESSION["td"]."")) {
+		        Alerts::Alerta("success","Echo!","Registros actualizados correctamente");
+		    }		
+		} else {
+		    $cambio["td"] = $_SESSION["td"];
+			$cambio["hash"] = Helpers::HashId();
+			$cambio["time"] = Helpers::TimeId();
+		    if ($db->insert("facturar_opciones", $cambio)) {
+		    	Alerts::Alerta("success","Echo!","Registros actualizados correctamente");
+		    } 			
+		}
+
+		$a->close();     
+	}
 
 
 

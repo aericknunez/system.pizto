@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 unset($_SESSION["mesa"]);
 
-    $a = $db->query("SELECT * FROM mesa WHERE estado = 1 and tx = ".$_SESSION["tx"]." and td =".$_SESSION["td"]."");
+    $a = $db->query("SELECT * FROM mesa WHERE estado = 1 and tipo = 2 and tx = ".$_SESSION["tx"]." and td =".$_SESSION["td"]."");
     echo '<div class="row justify-content-center">';
     
     foreach ($a as $b) {

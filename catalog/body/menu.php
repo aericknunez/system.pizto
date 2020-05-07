@@ -160,30 +160,6 @@ if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (
 
 
 
-<?php if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 5) { 
- 
-if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (Helpers::ServerDomain() == TRUE and $_SESSION["root_plataforma"] == 1)) {
- ?>
-
-<li><a class="collapsible-header waves-effect arrow-r"><i class="fas fa-cogs"></i> Configuraciones<i class="fas fa-angle-down rotate-icon"></i></a>
-<div class="collapsible-body">
-<ul class="list-unstyled">
-<li><a href="?iconos" class="waves-effect">Iconos</a></li>
-<li><a href="?precios" class="waves-effect">Precios</a></li>
-<?php if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 5 or $_SESSION["tipo_cuenta"] == 2) { ?>                        
-<li><a href="?configuraciones" class="waves-effect">Configuraciones</a></li>
-<li><a href="?tablas" class="waves-effect">Tablas Sync</a></li>
-<?php } ?>
-<li><a href="?venta_especial" class="waves-effect">Venta Especial</a></li>
-<?php if($_SESSION["tipo_cuenta"] == 1) { ?>
-<li><a href="?root" class="waves-effect">Configuracion Root</a></li>
-<li><a href="?conf_factura" class="waves-effect">Configuracion Facturas</a></li>
-<li><a href="?codigos" class="waves-effect">C&oacutedigos de validaci&oacuten</a></li>
-<?php } ?>
-</ul>
-</div>
-</li>
-<?php } } ?>
 
 
 
@@ -248,6 +224,38 @@ echo '<li><a id="cambiar-pantalla-inicio" op="27x" class="collapsible-header wav
 </li>
 <?php } ?>
 
+
+
+
+
+
+
+
+
+<?php if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 5) { 
+ 
+if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (Helpers::ServerDomain() == TRUE and $_SESSION["root_plataforma"] == 1)) {
+ ?>
+
+<li><a class="collapsible-header waves-effect arrow-r"><i class="fas fa-cogs"></i> Configuraciones<i class="fas fa-angle-down rotate-icon"></i></a>
+<div class="collapsible-body">
+<ul class="list-unstyled">
+<li><a href="?iconos" class="waves-effect">Iconos</a></li>
+<li><a href="?precios" class="waves-effect">Precios</a></li>
+<?php if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 5 or $_SESSION["tipo_cuenta"] == 2) { ?>                        
+<li><a href="?configuraciones" class="waves-effect">Configuraciones</a></li>
+<li><a href="?tablas" class="waves-effect">Tablas Sync</a></li>
+<?php } ?>
+<li><a href="?venta_especial" class="waves-effect">Venta Especial</a></li>
+<?php if($_SESSION["tipo_cuenta"] == 1) { ?>
+<li><a href="?root" class="waves-effect">Configuracion Root</a></li>
+<li><a href="?conf_factura" class="waves-effect">Configuracion Facturas</a></li>
+<li><a href="?codigos" class="waves-effect">C&oacutedigos de validaci&oacuten</a></li>
+<?php } ?>
+</ul>
+</div>
+</li>
+<?php } } ?>
 
 
 

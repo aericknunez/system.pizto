@@ -54,6 +54,8 @@ if($_REQUEST["modal"]=="respaldar") include_once 'system/modal/modal/respaldar.p
 
 if($_REQUEST["modal"]=="newcut") include_once 'system/modal/modal/newcut.php';
 
+if($_REQUEST["modal"]=="editcliente") include_once 'system/modal/modal/editar-cliente.php';
+
 
 
 /// planilla

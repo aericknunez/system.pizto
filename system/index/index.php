@@ -32,35 +32,11 @@ if($_SESSION["muestra_vender"] == NULL){
 		Alerts::CorteEcho("ventas");
 	} else {
 		// aqui para cobrar
-				if($_SESSION["tipo_inicio"] == 1){
-					//aqui generamos la nueva mesa si no hay creada
-					if($_SESSION["mesa"] == NULL){
-					$ventas = new Venta;
-					$ventas->CrearMesa(1, 1); }
-
-					if(file_exists('application/iconos/iconos_'.$_SESSION["td"].'.php') == TRUE){
-						include_once 'application/iconos/iconos_'.$_SESSION["td"].'.php';
-					} else {
-						echo '<a id="crear-iconos" op="92" class="btn btn-success">Crear Iconos</a>';
-					}
-
-				} else {
-				include_once 'system/mesas/mesas.php';
-				}
+		ActivarMenu();
 	}
 			
 }
 	
-
-
-
-
-
-
-
-
-
-
 } elseif ($_SESSION["tipo_cuenta"] == 2) {
 		
 	if($_SESSION["muestra_vender"] == NULL){
@@ -74,22 +50,8 @@ if($_SESSION["muestra_vender"] == NULL){
 		if(Corte::UltimaFecha() == date("d-m-Y")){
 			Alerts::CorteEcho("ventas");
 		} else {
-			// aqui para cobrar
-			if($_SESSION["tipo_inicio"] == 1){
-				//aqui generamos la nueva mesa si no hay creada
-					if($_SESSION["mesa"] == NULL){
-					$ventas = new Venta;
-					$ventas->CrearMesa(1, 1); }
-					
-					if(file_exists('application/iconos/iconos_'.$_SESSION["td"].'.php') == TRUE){
-						include_once 'application/iconos/iconos_'.$_SESSION["td"].'.php';
-					} else {
-						echo '<a id="crear-iconos" op="92" class="btn btn-success">Crear Iconos</a>';
-					}
-
-			} else {
-			include_once 'system/mesas/mesas.php';
-			}
+		// aqui para cobrar
+			ActivarMenu();
 		}			
 			
 	} // muestra vender
@@ -99,34 +61,43 @@ if($_SESSION["muestra_vender"] == NULL){
 	echo '<script>
 	window.location.href="?tv"
 	</script>';
+
 } else {
 			// verificamos primero el tipo cuenta
 	if(Corte::UltimaFecha() == date("d-m-Y")){
 		Alerts::CorteEcho("ventas");
 		} else {
-			// aqui para cobrar
-			if($_SESSION["tipo_inicio"] == 1){
-				//aqui generamos la nueva mesa si no hay creada
-					if($_SESSION["mesa"] == NULL){
-					$ventas = new Venta;
-					$ventas->CrearMesa(1, 1); }
-
-					if(file_exists('application/iconos/iconos_'.$_SESSION["td"].'.php') == TRUE){
-						include_once 'application/iconos/iconos_'.$_SESSION["td"].'.php';
-					} else {
-						echo '<a id="crear-iconos" op="92" class="btn btn-success">Crear Iconos</a>';
-					}
-			
-			} else {
-			include_once 'system/mesas/mesas.php';
-			}
+		// aqui para cobrar
+			ActivarMenu();
 		}
 		
 }
 
 
+function ActivarMenu(){
+	$db = new dbConn();
+	
+	if($_SESSION["delivery_on"] == TRUE){
 
+		include_once 'system/delivery/delivery.php';
 
+	} elseif($_SESSION["tipo_inicio"] == 1){
+		//aqui generamos la nueva mesa si no hay creada
+		if($_SESSION["mesa"] == NULL){
+		$ventas = new Venta;
+		$ventas->CrearMesa(1, 1); }
+
+		if(file_exists('application/iconos/iconos_'.$_SESSION["td"].'.php') == TRUE){
+		include_once 'application/iconos/iconos_'.$_SESSION["td"].'.php';
+		} else {
+		echo '<a id="crear-iconos" op="92" class="btn btn-success">Crear Iconos</a>';
+		}
+
+	} else {
+
+		include_once 'system/mesas/mesas.php';
+	}
+}
 
 	
 echo '<div id="ventana"></div>';

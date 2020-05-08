@@ -69,6 +69,10 @@
 </div>
 
             <ul class="nav navbar-nav nav-flex-icons ml-auto">
+
+                <li class="nav-item">
+                    <a id="cambiar-pantalla-inicio" op="28" class="nav-link"><i class="fas fa-truck"></i></a>
+                </li>
                 
             <?php if($_SESSION["tipo_cuenta"] == 4) { ?>
                 <li class="nav-item">

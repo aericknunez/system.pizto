@@ -360,6 +360,8 @@ if($_REQUEST["op"]=="26"){ // cambiar tipo de pantalla de inicio mesa o rapida
 			else $_SESSION["tipo_inicio"] = 1;
 		}
 	}
+
+	$_SESSION["delivery_on"] = FALSE;
 } // termina op
 
 
@@ -383,7 +385,7 @@ if($_REQUEST["op"]=="27"){ // cambiar tx
  
 
 
-if($_REQUEST["op"]=="27x"){ // cambiar panel
+if($_REQUEST["op"]=="27x"){ // cambiar panel de datos o para vender
 	include_once '../../system/ventas/Venta.php';
 	$venta = new Venta;
 	if($_SESSION["mesa"] == NULL){
@@ -405,6 +407,26 @@ if($_REQUEST["op"]=="27x"){ // cambiar panel
 
 
 }
+
+
+
+
+if($_REQUEST["op"]=="28"){ // ACTIVAR delivery
+	include_once '../../system/ventas/Venta.php';
+	$venta = new Venta;
+
+	if($_SESSION["mesa"] != NULL){
+		
+		if($venta->VerProductosMesa($_SESSION["mesa"]) == 0){
+			Helpers::DeleteId("mesa", "mesa=".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");
+			unset($_SESSION["mesa"]);
+		}
+	}
+
+	if($_SESSION["delivery_on"] == FALSE) { $_SESSION["delivery_on"] = TRUE; } 
+	else { $_SESSION["delivery_on"] = FALSE; }
+
+} // termina op
 ////////////////////////////////////////////////////
 
 
@@ -740,6 +762,11 @@ include_once '../../system/tv/Pantallas.php';
 	$pantalla = new Pantallas;
 	$pantalla->Cambia(1);
 }
+
+
+
+
+
 
 
 
@@ -1714,6 +1741,167 @@ include_once '../../system/bdbackup/Backup.php';
 	$back->Search();
 }
 // backup
+
+
+
+
+
+
+
+
+
+/////////////////////// cliente
+
+if($_REQUEST["op"]=="364"){ // agregar cliente
+include_once '../../system/cliente/Cliente.php';
+	$cliente = new Clientes;
+	$_POST["nacimiento"] = $_POST["nacimiento_submit"];
+	unset($_POST["nacimiento_submit"]);
+	$cliente->AddCliente($_POST);
+}
+
+if($_REQUEST["op"]=="365"){ // elimina cliente
+include_once '../../system/cliente/Cliente.php';
+	$cliente = new Clientes;
+	$cliente->DelCliente($_REQUEST["hash"]);
+}
+
+if($_REQUEST["op"]=="366"){ // elimina cliente desde liasta completa
+include_once '../../system/cliente/Cliente.php';
+	$cliente = new Clientes;
+	$cliente->DelClientex($_REQUEST["hash"]);
+}
+
+if($_REQUEST["op"]=="367"){ // actualizar cliente
+include_once '../../system/cliente/Cliente.php';
+	$cliente = new Clientes;
+	$_POST["nacimiento"] = $_POST["nacimiento_submit"];
+	unset($_POST["nacimiento_submit"]);
+	$cliente->UpCliente($_POST);
+}
+
+
+if($_REQUEST["op"]=="368"){ // ver cliente
+include_once '../../system/cliente/Cliente.php';
+	$cliente = new Clientes;
+	$cliente->VistaCliente($_POST);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////// delivery
+
+if($_REQUEST["op"]=="400"){ // agregar cliente
+include_once '../../system/cliente/Cliente.php';
+	$cliente = new Clientes;
+	$_POST["nacimiento"] = $_POST["nacimiento_submit"];
+	unset($_POST["nacimiento_submit"]);
+	echo $cliente->AddCliente($_POST, 1);
+}
+
+
+
+if($_REQUEST["op"]=="401"){ // busca cliente
+include_once '../../system/delivery/Llevar.php';
+	$deliver = new Llevar;
+	$deliver->Busqueda($_POST);
+}
+
+
+
+if($_REQUEST["op"]=="402"){ // activar mesa para delivery
+include_once '../../system/ventas/Venta.php';
+$ventas = new Venta;
+unset($_SESSION["mesa"], $_SESSION["nclientes"], $_SESSION["cad"]);
+$ventas->CrearMesa(1, 3);
+
+///////////
+if($_POST["hash"] != NULL){
+	 $_SESSION["cad"] = $_POST["hash"];
+}
+
+if($_SESSION["mesa"] != NULL and $_SESSION["cad"] != NULL){
+include_once '../../system/delivery/Llevar.php';
+	$deliver = new Llevar;
+	$deliver->AsignarCliente($_SESSION["mesa"], $_SESSION["cad"]);
+}
+//////////
+$mesa = $_SESSION["mesa"];
+unset($_SESSION["mesa"], $_SESSION["cad"]);
+echo '<script>
+	window.location.href="?delivery&mesa='.$mesa.'"
+</script>';
+} 
+
+
+
+/// para asignar un cliente a un delivery, es otra busqueda
+if($_REQUEST["op"]=="403"){ // busca cliente
+include_once '../../system/delivery/Llevar.php';
+	$deliver = new Llevar;
+	$deliver->BusquedaAsig($_POST);
+}
+
+
+
+
+if($_REQUEST["op"]=="404"){ // activar mesa para delivery
+if($_POST["hash"] != NULL){
+	 $_SESSION["cad"] = $_POST["hash"];
+}
+
+if($_SESSION["mesa"] != NULL and $_SESSION["cad"] != NULL){
+include_once '../../system/delivery/Llevar.php';
+	$deliver = new Llevar;
+	$deliver->AsignarCliente($_SESSION["mesa"], $_SESSION["cad"]);
+}
+//////////
+$mesa = $_SESSION["mesa"];
+unset($_SESSION["mesa"], $_SESSION["cad"]);
+echo '<script>
+	window.location.href="?delivery&mesa='.$mesa.'"
+</script>';
+} 
+
+
+if($_REQUEST["op"]=="405"){ // desvincular cliente
+include_once '../../system/delivery/Llevar.php';
+	$deliver = new Llevar;
+	$deliver->DesvincularCliente($_POST["hash"]);
+
+//////////
+$mesa = $_SESSION["mesa"];
+unset($_SESSION["mesa"], $_SESSION["cad"]);
+echo '<script>
+	window.location.href="?delivery&mesa='.$mesa.'"
+</script>';
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

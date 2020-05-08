@@ -66,6 +66,10 @@ echo '
 	if($_GET["modal"] == "img_negocio"){
 	echo '<script type="text/javascript" src="assets/js/query/img_negocio.js?v='.$numero.'"></script>';
 	}  
+	/// Cliente
+	if($_GET["modal"] == "editcliente"){
+	echo '<script type="text/javascript" src="assets/js/query/cliente.js?v='.$numero.'"></script>';
+	}
 
 		/// Planilla
 	if($_GET["modal"] == "editempleado"){
@@ -214,6 +218,16 @@ elseif(isset($_GET["admon"])) {
 		include_once 'system/admon/script.php';
 }
 
+//////////////// cliente
+elseif(isset($_GET["clienteadd"])) {
+echo '<script type="text/javascript" src="assets/js/query/cliente.js?v='.$numero.'"></script>';
+} 
+elseif(isset($_GET["clientever"])) {
+echo '
+<script type="text/javascript" src="assets/js/addons/datatables.min.js?v='.$numero.'"></script>
+<script type="text/javascript" src="assets/js/query/clientedatatable.js?v='.$numero.'"></script>
+<script type="text/javascript" src="assets/js/query/cliente.js?v='.$numero.'"></script>';
+} 
 
 //////////////// Planilla
 elseif(isset($_GET["addempleado"])) {
@@ -241,7 +255,12 @@ echo '<script type="text/javascript" src="assets/js/query/backup.js?v='.$numero.
 
 
 else{
-echo '<script type="text/javascript" src="assets/js/query/ventas.js?v='.$numero.'"></script>';	
+	if($_SESSION["delivery_on"] == TRUE){
+		echo '<script type="text/javascript" src="assets/js/query/delivery.js?v='.$numero.'"></script>';
+		echo '<script type="text/javascript" src="assets/js/query/ventas.js?v='.$numero.'"></script>';
+	} else {
+		echo '<script type="text/javascript" src="assets/js/query/ventas.js?v='.$numero.'"></script>';		
+	}
 }
 	
 ?>

@@ -647,16 +647,20 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 					////////
 				}
 			// comprueba si aun hay productos en la mesa para eliminar o mantener esta
-   		$x = $db->query("SELECT * FROM ticket_temp WHERE mesa = ".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
-			if($x->num_rows == NULL){
-				Helpers::DeleteId("mesa", "mesa=".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");
-		        unset($_SESSION["mesa"]);
-		        echo '<script>
-						window.location.href="?"
-		        	</script>';
-			}
-			$x->close();
-	 
+		$x = $db->query("SELECT * FROM ticket_temp WHERE mesa = ".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
+		if($x->num_rows == 0){
+			Helpers::DeleteId("mesa", "mesa=".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");
+
+		if($_SESSION["delivery_on"] == TRUE){ // accion si es en delivery que borre el cliente tambien
+			Helpers::DeleteId("clientes_mesa", "mesa='$mesa' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
+		}
+
+	        unset($_SESSION["mesa"]);
+	        echo '<script>
+					window.location.href="?"
+	        	</script>';
+		} $x->close();
+ 
 	} 
 
 
@@ -665,15 +669,17 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 		$db = new dbConn();
 		    
 Helpers::DeleteId("ticket_temp", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
-
 Helpers::DeleteId("mesa", "mesa='$mesa' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");
-
 Helpers::DeleteId("mesa_nombre", "mesa='$mesa' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
 
-unset($_SESSION["mesa"]);
-echo '<script>
-		window.location.href="?"
-	</script>';
+	if($_SESSION["delivery_on"] == TRUE){ // accion si es en delivery que borre el cliente tambien
+		Helpers::DeleteId("clientes_mesa", "mesa='$mesa' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
+	}
+
+	unset($_SESSION["mesa"]);
+	echo '<script>
+			window.location.href="?"
+		</script>';
 
 
    	}

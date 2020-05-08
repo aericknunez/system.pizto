@@ -181,6 +181,29 @@ if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (
 
 
 
+
+
+
+<li><a class="collapsible-header waves-effect arrow-r"><i class="far fa-user"></i> Clientes<i class="fa fa-angle-down rotate-icon"></i></a>
+<div class="collapsible-body">
+<ul class="list-unstyled">
+
+<li><a href="?clienteadd" class="waves-effect"><i class="fas fa-user"></i> Agrega Cliente</a></li>
+<li><a href="?clientever" class="waves-effect"><i class="fas fa-address-book"></i> Ver Cliente</a></li>
+
+</ul>
+</div>
+</li>
+
+
+
+
+
+
+
+
+
+
 <li><a href="?user" class="collapsible-header waves-effect arrow-r"><i class="fas fa-user-alt"></i> Usuarios </a></li>
 
 

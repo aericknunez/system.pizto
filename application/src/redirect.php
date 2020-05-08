@@ -36,6 +36,8 @@ elseif(isset($_GET["addpro"])) include_once 'system/productos/agregar.php';
 
 elseif(isset($_GET["view"])) include_once 'system/mesas/view.php';
 
+elseif(isset($_GET["delivery"])) include_once 'system/delivery/view.php';
+
 elseif(isset($_GET["corte"])) include_once 'system/corte/cortes.php';
 
 elseif(isset($_GET["diario"])) include_once 'system/historial/diario.php';
@@ -91,6 +93,9 @@ elseif(isset($_GET["tablas"])) include_once 'system/config_configuraciones/tabla
 
 elseif($_SESSION['sinuso'] != NULL) include_once 'system/index/mensajes.php';
 
+// clientes
+elseif(isset($_GET["clienteadd"])) include_once 'system/cliente/clientes.php'; // agregar cliente
+elseif(isset($_GET["clientever"])) include_once 'system/cliente/clientever.php'; // ver clientes
 
 
 // planilla

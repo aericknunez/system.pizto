@@ -137,7 +137,7 @@ class Mesas{
 		   $a = $db->query("SELECT * FROM ".$tbl." WHERE mesa = '$mesa' and tx = '$tx' and td = ".$_SESSION["td"]."");
 		    if($a->num_rows > 0){
 		    
-		      	echo '<table class="table table-striped table-sm">
+		      	echo '<table class="table table-striped table-responsive-sm table-sm">
 					  <thead>
 					    <tr>
 					      <th scope="col">Cantidad</th>

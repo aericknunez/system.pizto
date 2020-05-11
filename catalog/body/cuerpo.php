@@ -9,7 +9,7 @@
 		?>
 			</div>
 
-			<div id="lateral" class="col-xs-4 col-sm-12 col-md-4">
+		<div id="lateral" class="col-xs-4 col-sm-12 col-md-4 <?php if($datalive != TRUE) echo 'd-none d-md-block'; ?>">
 		<?php 
 			if(isset($_GET["admon"])) {
 				include_once 'system/admon/lateral.php';
@@ -23,3 +23,4 @@
 
 
 </div>
+<!-- d-none d-md-block || para desaparecer en pantalla pequena -->

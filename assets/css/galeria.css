@@ -5,7 +5,7 @@
 	padding-left: 3px;
 }
 .gallery li {
-	border: solid 2px #00D5CF; 
+	border: solid 2px #002E79; /*color de border solido*/
 	padding: 10px;
 	margin: 10px;
 	float: left;

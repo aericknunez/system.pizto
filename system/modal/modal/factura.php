@@ -1,4 +1,5 @@
 <?php
+include_once 'application/common/Alerts.php';
 $factura = $_REQUEST["factura"];
 ?>
 <div class="modal" id="<? echo $_GET["modal"]; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-backdrop="false">
@@ -12,6 +13,13 @@ $factura = $_REQUEST["factura"];
       <div class="modal-body">
 <!-- ./  content -->
 <?php 
+/// verifico si existe la mesa antes de continuar
+$ver_mesa = $db->query("SELECT num_fac FROM ticket_temp WHERE num_fac = '$factura' and edo = 1 and tx = ". $_SESSION["tx"]." and td = ". $_SESSION["td"]."");
+if($ver_mesa->num_rows){
+////
+
+
+
  $a = $db->query("SELECT sum(stotal) , sum(imp), sum(total) FROM ticket_temp WHERE num_fac = '$factura' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"].""); 
 
     foreach ($a as $b) {
@@ -109,6 +117,14 @@ if($ax0 == 1 or $bx0 == 1){
         unset($_SESSION["cliente"]);
         unset($_SESSION["rtn"]); }
 
+
+
+
+
+///////////// termina factura
+} else {
+ Alerts::Error404("Este pedido ya no existe, posiblemente ha sido cobrado o eliminado!");
+} $ver_mesa->close();
  ?> 
 
 

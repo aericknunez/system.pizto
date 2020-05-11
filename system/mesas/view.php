@@ -1,13 +1,22 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+include_once 'application/common/Alerts.php';
 include_once 'system/mesas/Mesa.php';
 $mesas = new Mesa;
+
+$datalive = TRUE; /// para saber que estoy en index
 
 
 unset($_SESSION['client-asign']);
 $_SESSION["mesa"] = $_REQUEST["mesa"];
 $_SESSION["view"] = "1"; // esta hace que la mesa este activada para saber que biene de view
+
+
+
+/// verifico si existe la mesa antes de continuar
+$ver_mesa = $db->query("SELECT estado FROM mesa WHERE estado = 1 and mesa = ". $_REQUEST["mesa"]. " and tx = ". $_SESSION["tx"]." and td = ". $_SESSION["td"]."");
+if($ver_mesa->num_rows){
+
 
  ?>
 
@@ -28,6 +37,16 @@ $mesas->VerClientes($_REQUEST["mesa"]);
 <img src="assets/img/loading.gif">
 </div>
 <div id="ventana"></div>
+
+
+<?php 
+} else {
+ Alerts::Error404("Este pedido ya no existe, posiblemente ha sido cobrado o eliminado!");
+} $ver_mesa->close();
+?>
+
+
+
 
   <div class="modal fade top" id="NuevoCliente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
       data-backdrop="false">

@@ -4,33 +4,49 @@ include_once 'application/common/Alerts.php';
 include_once 'system/delivery/Llevar.php';
 $delivery = new LLevar();
 
+$datalive = TRUE; /// para saber que estoy en index
+
 
 $_SESSION["mesa"] = $_REQUEST["mesa"];
 $_SESSION["view"] = "1"; // esta hace que la mesa este activada para saber que biene de view
 
- ?>
 
-<?php
+/// verifico si existe la mesa antes de continuar
+$ver_mesa = $db->query("SELECT estado FROM mesa WHERE estado = 1 and mesa = ". $_REQUEST["mesa"]. " and tx = ". $_SESSION["tx"]." and td = ". $_SESSION["td"]."");
+if($ver_mesa->num_rows){
+
+
+
+
+/// datos del cliente asignado a este delivery
 $delivery->DatosCliente($_REQUEST["mesa"]);
  ?>  
 
    <?php 
-// para agregarle el numbre de la mesa a la ventana
-    if ($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = ". $_REQUEST["mesa"]. " and tx = ". $_SESSION["tx"]." and td = ". $_SESSION["td"]."")) { 
-        $mesa_nombre = $r["nombre"];
-    } unset($r);  echo "<div align='center'>" . $mesa_nombre . "</div>";
+// para saber el estado de la orden
+    if ($r = $db->select("edo", "clientes_mesa", "WHERE mesa = ". $_REQUEST["mesa"]. " and tx = ". $_SESSION["tx"]." and td = ". $_SESSION["td"]."")) { 
+        $edo = $r["edo"];
+    } unset($r); 
 
  ?> 
+
  <hr>
-<div align="center">
+<div align="center" id="edoiconos">
 
 <?php 
 
+if($edo == 1 or $edo == NULL){
+   
     if(file_exists('application/iconos/iconos_'.$_SESSION["td"].'.php') == TRUE){
     include_once 'application/iconos/iconos_'.$_SESSION["td"].'.php';
     } else {
     echo '<a id="crear-iconos" op="92" class="btn btn-success">Crear Iconos</a>';
     }
+
+} else {
+  $delivery->MensajeEdoBlock();
+}
+
 
  ?>
 
@@ -38,6 +54,11 @@ $delivery->DatosCliente($_REQUEST["mesa"]);
 <div id="ventana"></div>
 
 
+<?php 
+} else {
+ Alerts::Error404("Este pedido ya no existe, posiblemente ha sido cobrado o eliminado!");
+} $ver_mesa->close();
+ ?>
 
 
 
@@ -79,7 +100,7 @@ $delivery->DatosCliente($_REQUEST["mesa"]);
 
 
 <a id="ncliente" class="btn btn-secondary btn-rounded">Nuevo Cliente</a>
-<a id="cerrarmodal" class="btn btn-primary btn-rounded" data-dismiss="modal">Regresar</a>
+<a class="btn btn-primary btn-rounded" data-dismiss="modal">Regresar</a>
          
     
       </div>
@@ -193,7 +214,85 @@ $delivery->DatosCliente($_REQUEST["mesa"]);
       </div>
       <div class="modal-footer">
 
-<a id="cerrarmodal" class="btn btn-primary btn-rounded" data-dismiss="modal">Regresar</a>
+<a class="btn btn-primary btn-rounded" data-dismiss="modal">Regresar</a>
+         
+    
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ./  Modal -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Ver agregar delivery -->
+<div class="modal" id="ModalOpciones" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-backdrop="false">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+         OPCIONES</h5>
+      </div>
+      <div class="modal-body">
+<!-- ./  content -->
+
+
+<div id="vistaopciones">
+  
+</div>
+
+
+<!-- ./  content -->
+      </div>
+      <div class="modal-footer">
+
+<a class="btn btn-primary btn-rounded" data-dismiss="modal">Regresar</a>
+         
+    
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ./  Modal -->
+
+
+
+
+
+<!-- Ver agregar delivery -->
+<div class="modal" id="ModalEstado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-backdrop="false">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+         ESTADO</h5>
+      </div>
+      <div class="modal-body">
+<!-- ./  content -->
+<div id="vistaestado">
+ 
+
+</div>
+<!-- ./  content -->
+      </div>
+      <div class="modal-footer">
+
+      <a class="btn btn-primary btn-rounded" data-dismiss="modal">Regresar</a>
          
     
       </div>

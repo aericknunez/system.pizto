@@ -144,7 +144,25 @@ $(document).ready(function()
 
 
 
+/// activar una mesa
+	$("body").on("click","#activarmesa",function(){
+	var op = $(this).attr('op');
+	var tx = $(this).attr('tx');
+	var mesa = $(this).attr('mesa');
+	var tipo = $(this).attr('tipo');
+    	$.post("application/src/routes.php", {op:op, tx:tx, mesa:mesa, tipo:tipo}, 
+    	function(htmlexterno){
 
+    		if(tipo == 2) {
+    			var dir = "view&mesa="+mesa;
+    		} else if(tipo == 3){
+    			var dir = "delivery&mesa="+mesa;
+    		} else {
+    			var dir = "";
+    		}
+			window.location.href="?"+dir;
+   	 	});
+	});
 
 
 

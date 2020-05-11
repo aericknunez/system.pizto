@@ -34,6 +34,52 @@ $(document).ready(function()
            
     });
 
+///////////modal para agregar estado delivery
+    $("body").on("click","#deliveryedo",function(){ 
+        
+        $('#ModalEstado').modal('show');
+
+        var op = "407";
+		var dataString = 'op='+op;
+		$.ajax({
+            type: "POST",
+            url: "application/src/routes.php",
+            data: dataString,
+            beforeSend: function () {
+               $("#vistaestado").html('<div class="row justify-content-md-center" ><img src="assets/img/load.gif" alt=""></div>');
+            },
+            success: function(data) {            
+                $("#vistaestado").html(data); // lo que regresa de la busquea 		
+            }
+        });
+        
+    });
+
+
+
+///////////modal para agregar nuevo delivery
+    $("body").on("click","#opciones",function(){ 
+        
+        $('#ModalOpciones').modal('show');
+
+        var mesa = $(this).attr('mesa');
+        var hash = $(this).attr('hash');
+		var op = "406";
+		var dataString = 'op='+op+'&mesa='+mesa+'&hash='+hash;
+
+		$.ajax({
+            type: "POST",
+            url: "application/src/routes.php",
+            data: dataString,
+            beforeSend: function () {
+               $("#vistaopciones").html('<div class="row justify-content-md-center" ><img src="assets/img/load.gif" alt=""></div>');
+            },
+            success: function(data) {            
+                $("#vistaopciones").html(data); // lo que regresa de la busquea 		
+            }
+        });
+        
+    });
 
 
 
@@ -208,6 +254,17 @@ return false;
 
 
 
+
+	$("body").on("click","#addedo",function(){
+		var edo = $(this).attr('edo');
+		var op = "408";
+    	$.post("application/src/routes.php", {op:op, edo:edo}, 
+    	function(data){
+    		$("#vistaestado").html(data); // lo que regresa de la busquea 
+    		$("#lateral").load('application/src/routes.php?op=22');
+    		$("#edoiconos").load('application/src/routes.php?op=409'); // mostrar el mensaje de block segun edo
+   	 	});
+	});
 
 
 

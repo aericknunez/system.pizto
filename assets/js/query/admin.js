@@ -1,6 +1,20 @@
 $(document).ready(function()
 {
 
+		$('.datepicker').pickadate({
+		  weekdaysShort: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+		  weekdaysFull: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+		  monthsFull: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre',
+		  'Noviembre', 'Diciembre'],
+		  monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct',
+		  'Nov', 'Dic'],
+		  showMonthsShort: true,
+		  formatSubmit: 'dd-mm-yyyy',
+		  close: 'Cancelar',
+		  clear: 'Limpiar',
+		  today: 'Hoy'
+		})
+		
 // db_sync
 	$("body").on("click","#ejecuta-db-sync",function(){
 	var op = $(this).attr('op');
@@ -34,19 +48,6 @@ return false;
 
 
 
-
-
-$('.datepicker').pickadate({
-  weekdaysShort: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
-  weekdaysFull: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
-  monthsFull: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre',
-  'Noviembre', 'Diciembre'],
-  monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct',
-  'Nov', 'Dic'],
-  showMonthsShort: true,
-  formatSubmit: 'dd-mm-yyyy',
-  close: 'Cancel'
-})
 
 
 	$('#btn-edocortes').click(function(e){ /// para el formulario

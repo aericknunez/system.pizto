@@ -232,7 +232,8 @@ else { $clientes = $_REQUEST["cliente"]; }
 
 $ventas->OtrasVentas(8888, 
 	$_SESSION["mesa"], 
-	$clientes, $_SESSION['config_imp'],
+	$clientes, 
+	$_SESSION['config_imp'],
 	$_POST["producto"],
 	$_POST["cantidad"]);
 
@@ -295,6 +296,7 @@ if($_REQUEST["op"]=="21"){ // cobra la venta
 include_once '../../system/ventas/Venta.php';
 $ventas = new Venta;
 $num = $ventas->Facturar($_SESSION["mesa"],$_POST["total"]);
+
 header("location: ../../?modal=factura&factura=$num&efectivo=".$_POST["total"]."");
 } 
 
@@ -347,21 +349,21 @@ if($_REQUEST["op"]=="26"){ // cambiar tipo de pantalla de inicio mesa o rapida
 	include_once '../../system/ventas/Venta.php';
 	$venta = new Venta;
 
-	if($_SESSION["mesa"] == NULL){
-			if($_SESSION["tipo_inicio"] == 1) $_SESSION["tipo_inicio"] = 2;
-			else $_SESSION["tipo_inicio"] = 1;
-		
-	} else {
+	if($_SESSION["mesa"] != NULL){
 
 		if($venta->VerProductosMesa($_SESSION["mesa"]) == 0){
 			Helpers::DeleteId("mesa", "mesa=".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");
 			unset($_SESSION["mesa"]);
-			if($_SESSION["tipo_inicio"] == 1) $_SESSION["tipo_inicio"] = 2;
-			else $_SESSION["tipo_inicio"] = 1;
 		}
 	}
 
-	$_SESSION["delivery_on"] = FALSE;
+	if($_SESSION["mesa"] == NULL){
+			if($_SESSION["tipo_inicio"] == 1) $_SESSION["tipo_inicio"] = 2;
+			else $_SESSION["tipo_inicio"] = 1;
+		
+			$_SESSION["delivery_on"] = FALSE;
+	}
+
 } // termina op
 
 
@@ -369,18 +371,20 @@ if($_REQUEST["op"]=="26"){ // cambiar tipo de pantalla de inicio mesa o rapida
 if($_REQUEST["op"]=="27"){ // cambiar tx
 	include_once '../../system/ventas/Venta.php';
 	$venta = new Venta;
-	if($_SESSION["mesa"] == NULL){
-			if($_SESSION["tx"] == 1) { $_SESSION["tx"] = 0; } 
-			else { $_SESSION["tx"] = 1; }
-	} else {
+
+	if($_SESSION["mesa"] != NULL){
 		
 		if($venta->VerProductosMesa($_SESSION["mesa"]) == 0){
 			Helpers::DeleteId("mesa", "mesa=".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");
 			unset($_SESSION["mesa"]);
-			if($_SESSION["tx"] == 1) { $_SESSION["tx"] = 0; } 
-			else { $_SESSION["tx"] = 1; }
 		}
 	}
+
+	if($_SESSION["mesa"] == NULL){
+			if($_SESSION["tx"] == 1) { $_SESSION["tx"] = 0; } 
+			else { $_SESSION["tx"] = 1; }
+	}
+
 } // termina op
  
 
@@ -388,22 +392,21 @@ if($_REQUEST["op"]=="27"){ // cambiar tx
 if($_REQUEST["op"]=="27x"){ // cambiar panel de datos o para vender
 	include_once '../../system/ventas/Venta.php';
 	$venta = new Venta;
+
+	if($_SESSION["mesa"] != NULL){
+
+			if($venta->VerProductosMesa($_SESSION["mesa"]) == 0){
+			Helpers::DeleteId("mesa", "mesa=".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");
+			unset($_SESSION["mesa"]);
+			}
+	}	
+
 	if($_SESSION["mesa"] == NULL){
 		if($_SESSION["muestra_vender"] == 1) { unset($_SESSION["muestra_vender"]); }
 		else {
 			$_SESSION["muestra_vender"] = 1;
-		} 
-		
-	} else {
-				if($venta->VerProductosMesa($_SESSION["mesa"]) == 0){
-				Helpers::DeleteId("mesa", "mesa=".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");
-				unset($_SESSION["mesa"]);
-					if($_SESSION["muestra_vender"] == 1) { unset($_SESSION["muestra_vender"]); }
-					else {
-						$_SESSION["muestra_vender"] = 1;
-					} 
-				}
-	}	
+		} 	
+	}
 
 
 }
@@ -421,10 +424,44 @@ if($_REQUEST["op"]=="28"){ // ACTIVAR delivery
 			Helpers::DeleteId("mesa", "mesa=".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");
 			unset($_SESSION["mesa"]);
 		}
-	}
+
+	} 
+
+	if($_SESSION["mesa"] == NULL){
 
 	if($_SESSION["delivery_on"] == FALSE) { $_SESSION["delivery_on"] = TRUE; } 
 	else { $_SESSION["delivery_on"] = FALSE; }
+
+	}
+
+} // termina op
+
+
+
+
+
+if($_REQUEST["op"]=="29"){ // Ir a mesa seleccionada segun mesa y tx
+
+
+	$_SESSION["tx"] = $_REQUEST["tx"];
+	$_SESSION["mesa"] = $_REQUEST["mesa"];
+
+	if($_REQUEST["tipo"] == 1){
+
+		$_SESSION["tipo_inicio"] = 1;
+		$_SESSION["delivery_on"] = FALSE;
+
+	} elseif($_REQUEST["tipo"] == 2){
+
+		$_SESSION["tipo_inicio"] = 2;
+		$_SESSION["delivery_on"] = FALSE;
+
+	} else{
+
+		$_SESSION["delivery_on"] = TRUE;
+
+	}
+
 
 } // termina op
 ////////////////////////////////////////////////////
@@ -1343,6 +1380,7 @@ $reporte = new Reporte;
 
 if($_REQUEST["op"]=="160"){ // agragarUsuarios
 include_once '../../system/reportes/Reporte.php';
+include_once '../../system/gastos/Gasto.php';
 include_once '../../system/historial/Historial.php';
 	$reporte = new Reporte; 
 	if($_POST["fecha_submit"] == NULL){ 
@@ -1890,8 +1928,31 @@ echo '<script>
 } 
 
 
+if($_REQUEST["op"]=="406"){ // modal botones opciones
+include_once '../../system/delivery/Llevar.php';
+	$deliver = new Llevar;
+	$deliver->BotonesOpciones($_POST);
+} 
+
+if($_REQUEST["op"]=="407"){ // modalpara edo
+include_once '../../system/delivery/Llevar.php';
+	$deliver = new Llevar;
+	$deliver->ModalEdo();
+} 
 
 
+if($_REQUEST["op"]=="408"){ // agrega cambio de edo
+include_once '../../system/delivery/Llevar.php';
+	$deliver = new Llevar;
+	$deliver->AddEdo($_REQUEST["edo"]);
+} 
+
+
+if($_REQUEST["op"]=="409"){ // agrega cambio de edo
+include_once '../../system/delivery/Llevar.php';
+	$deliver = new Llevar;
+	$deliver->MensajeEdoBlock();
+} 
 
 
 

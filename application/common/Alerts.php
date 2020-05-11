@@ -156,6 +156,15 @@ Existe un corte realizado este dia, ya no se puede seguir agregando '.$tipo.' a 
     }
 
 
+    static public function Error404($texto){
+      $num = rand(1,4);
+      echo '<div class="alert alert-danger alert-dismissible">
+<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+'.$texto.' 
+<br>
+</div><div align="center"><img src="assets/img/imagenes/404.jpg" class="img-fluid" alt="Responsive image"></div>';
+    }
+
     static public function Mensaje($texto,$style,$boton = NULL,$boton2 = NULL){
       echo '<div class="border border-light alert alert-'.$style.' alert-dismissible">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>

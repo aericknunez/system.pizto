@@ -238,14 +238,34 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 
 
 //////////////////////////////////////////////////////////////
-	public function VerFactura($mesa) {
+	public function VerFactura($mesa) {  /// solo enruta a cual factura va mostar, normal o delivery
+		$db = new dbConn();	
+
+		if($_SESSION["delivery_on"] == TRUE){ // accion si es en delivery 
+			      
+		      if ($r = $db->select("edo", "clientes_mesa", "WHERE mesa='".$_SESSION["mesa"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+
+			        if($r["edo"] == 1){
+						$this->VerFacturaNormal($_SESSION["mesa"]);	
+			        } else {
+						$this->VerFacturaDelivery($_SESSION["mesa"]);	
+			        }
+
+				} unset($r); 
+		} else {
+			$this->VerFacturaNormal($_SESSION["mesa"]);			
+		}
+	}
+
+
+	public function VerFacturaNormal($mesa) {
 		$db = new dbConn();
 
-		if($this->VerProductosMesa($_SESSION["mesa"]) != 0 && !isset($_GET["modal"])) {
+		if($this->VerProductosMesa($_SESSION["mesa"]) != 0) {
 
 		    $a = $db->query("SELECT * FROM ticket_temp WHERE producto != 'Producto-Especial' and mesa = '$mesa' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."  and num_fac= 0");
 		    if($a->num_rows == 0){
-		    echo '<div align="center"><br><img src="assets/img/logo/'. $_SESSION['config_imagen'] .'" alt="" class="img-fluid hoverable"></div>';
+		    	echo '<div align="center"><br><img src="assets/img/logo/'. $_SESSION['config_imagen'] .'" alt="" class="img-fluid hoverable"></div>';
 		    } else {
 		    	//echo '<br><h3 class="h3-responsive">'.$_SESSION['config_cliente'].'</h3>';
 		    	echo '<table class="table table-striped table-sm table-condensed">
@@ -303,49 +323,31 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 				    }
 				    	    
 				    
-
-				    // <div class="switch">
-					//   <label>
-					//    || Agregar RTN ||  Off
-					//     <input type="checkbox"  id="rtn" name="rtn" >
-					//     <span class="lever"></span> On 
-					//   </label>
-					// </div>
-				     echo '<form action="application/src/routes.php?op=21" method="post"  name="form-vender" id="form-vender" >
-		        	<input type="text" id="total" name="total" class="form-control mb-1" placeholder="100.00" autofocus>
+				     echo '<form action="application/src/routes.php?op=21" method="post" name="form-vender" id="form-vender" >
+		        	<input type="number" id="total" name="total" class="form-control mb-1" placeholder="100.00" autofocus>
 					<div align="center">';
 
 				
 
 				echo '<button class="white" type="submit" name="btn-vender" id="btn-vender"><img src="assets/img/imagenes/print.png"></button>';
 					
-					if(!isset($_SESSION['view'])){
-						if($_SESSION['opcionesactivas'] == TRUE){
-					echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'&view=0" class="btn-floating blue"><i class="fas fa-redo" aria-hidden="true"></i></a>'; }
-					} else {
-						if($_SESSION['config_imprimir_antes'] != NULL){
-						 	echo '<a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&efectivo=" class="btn-floating blue"><i class="fas fa-print" aria-hidden="true"></i></a>'; }
-						
-					}
-					
 					echo '</div>
 					</form>';
 
 
+					$this->BotonesFactura();
+
 		    } $a->close();
 		   
 
-			} elseif(isset($_GET["modal"])) {
-				
 			} else {
 
-				if($this->VerProductosMesa($_SESSION["mesa"]) == 0){
-					echo '<div align="center"><h2 class="h2-responsive"><a id="cambiar-pantalla-inicio" op="88">'.$_SESSION["config_cliente"].'</a></h2></div><br>';	
-				}
 
-				echo '<div align="center"><img src="assets/img/logo/'. $_SESSION['config_imagen'] .'" alt="" class="img-fluid hoverable"></div>';
+				echo '<div align="center"><h2 class="h2-responsive"><a id="cambiar-pantalla-inicio" op="88">'.$_SESSION["config_cliente"].'</a></h2></div><br>';	
+		
+				echo '<div align="center" class="d-none d-md-block"><img src="assets/img/logo/'. $_SESSION['config_imagen'] .'" alt="" class="img-fluid hoverable"></div>';
 
-				if($this->VerProductosMesa($_SESSION["mesa"]) == 0 and $_SESSION["tx"] == 0){
+				if($_SESSION["tx"] == 0){
 					echo '<div align="center" class="border border-light"><h2 class="h2-responsive">'. Corte::Porcentaje() .'</h2></div>';
 				}
 
@@ -355,15 +357,116 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 	}
 
 
+
+
+
+
+
+
+
+
+////////////
+	public function VerFacturaDelivery($mesa) { /// para delivery
+		$db = new dbConn();
+
+		if($this->VerProductosMesa($_SESSION["mesa"]) != 0) {
+
+		    $a = $db->query("SELECT * FROM ticket_temp WHERE producto != 'Producto-Especial' and mesa = '$mesa' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."  and num_fac= 0");
+		    if($a->num_rows == 0){
+		    	echo '<div align="center"><br><img src="assets/img/logo/'. $_SESSION['config_imagen'] .'" alt="" class="img-fluid hoverable"></div>';
+		    } else {
+		    	//echo '<br><h3 class="h3-responsive">'.$_SESSION['config_cliente'].'</h3>';
+		    	echo '<table class="table table-striped table-sm table-condensed">
+					  <thead>
+					    <tr>
+					      <th scope="col">#</th>
+					      <th scope="col">Producto</th>
+					      <th scope="col">Precio</th>
+					      <th scope="col">Total</th>
+					    </tr>
+					  </thead>
+					  <tbody>';
+
+		    	 foreach ($a as $b) {
+		    	     echo '<tr>
+				      <th scope="row">'. $b["cant"] .'</th>
+				      <td>'. $b["producto"] .'</td>
+				      <td>'. $b["pv"] .'</td>
+				      <td>'. $b["total"] .'</td>
+				    </tr>';
+		    	}
+		    	echo '</tbody>
+					</table>';
+
+				    $s = $db->query("SELECT sum(total) FROM ticket_temp WHERE mesa = '$mesa' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and num_fac= 0");
+				    foreach ($s as $t) {
+				        $max=$t["sum(total)"];
+				    } $s->close();
+				   
+				    if($_SESSION["rtn"] != NULL){ echo $_SESSION['config_nombre_documento'] . ": " . $_SESSION["rtn"]; }
+
+				    if($_SESSION["tx"] == 0){
+				    		if($_SESSION["noimprimir"] != NULL){
+				    		echo '<a id="cambiar-pantalla-inicio" op="87"><h1 class="text-danger">Total: '. Helpers::Dinero(Helpers::PropinaTotal($max)).'</h1></a>';
+						    } else {
+						    		if($_SESSION['config_propina'] != 0.00){
+						    		echo '<p>Subtotal: '.$max.' | Propina '.$_SESSION['config_propina'].'% : '. Helpers::Dinero(Helpers::Propina($max)) .'</p>'; }
+
+						    		echo '<a id="cambiar-pantalla-inicio" op="87"><h1 class="h1-responsive">Total: '. Helpers::Dinero(Helpers::PropinaTotal($max)) .'</h1></a>';
+							}
+				    } else {
+				    			if($_SESSION['config_propina'] != 0.00){
+				    		echo '<p>Subtotal: '.$max.' | Propina '.$_SESSION['config_propina'].'% : '.Helpers::Dinero( Helpers::Propina($max)) .'</p>'; }
+
+				    		echo '<h1 class="h1-responsive">Total: '. Helpers::Dinero(Helpers::PropinaTotal($max)) .'</h1>';
+				    }
+				    	    
+				    
+				     echo '<form action="application/src/routes.php?op=21" method="post" name="form-vender" id="form-vender" >
+		        	<input type="number" id="total" name="total" class="form-control mb-1" placeholder="100.00" autofocus>
+					<div align="center">';
+
+				
+
+				echo '<button class="white" type="submit" name="btn-vender" id="btn-vender"><img src="assets/img/imagenes/print.png"></button>';
+					
+					echo '</div>
+					</form>';
+
+
+					$this->BotonesFactura();
+
+		    } $a->close();
+		   
+
+			} else {
+
+
+				echo '<div align="center"><h2 class="h2-responsive"><a id="cambiar-pantalla-inicio" op="88">'.$_SESSION["config_cliente"].'</a></h2></div><br>';	
+		
+				echo '<div align="center" class="d-none d-md-block"><img src="assets/img/logo/'. $_SESSION['config_imagen'] .'" alt="" class="img-fluid hoverable"></div>';
+
+				if($_SESSION["tx"] == 0){
+					echo '<div align="center" class="border border-light"><h2 class="h2-responsive">'. Corte::Porcentaje() .'</h2></div>';
+				}
+
+				
+			}
+				
+	}
+//////////////////
+
+
+
+
+
 //////////////////////////////////////////////////////////////
 	public function VerFacturaCliente($mesa,$cancela) {
 		$db = new dbConn();
 
 		    $a = $db->query("SELECT * FROM ticket_temp WHERE producto != 'Producto-Especial' and mesa = '$mesa' and cancela = '$cancela' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and num_fac= 0");
-		    if($a->num_rows == 0){
-		    echo '<br><img src="assets/img/logo/'. $_SESSION['config_imagen'] .'" alt="" class="img-fluid hoverable">';
-		    } else {
-		    	// echo '<br><h3>'.$_SESSION['config_cliente'].'</h3>';
+		    if($a->num_rows != 0){
+		    	echo '<h3 class="red-text text-center">CLIENTE: '.$cancela.'</h3>';
 		    	echo '<table class="table table-striped table-sm">
 					  <thead>
 					    <tr>
@@ -396,17 +499,10 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 
 				    echo "<h1 class='h1-responsive'>Total: ". Helpers::Dinero(Helpers::PropinaTotal($max)) ."</h1>";
 
-				 //    <div class="switch">
-					//   <label>
-					//    || Agregar RTN ||  Off
-					//     <input type="checkbox"  id="rtn" name="rtn" >
-					//     <span class="lever"></span> On 
-					//   </label>
-					// </div>
 
 				     echo '<form action="application/src/routes.php?op=25" method="post"  name="form-vender" id="form-vender" >
 		        	
-					<input type="text" id="total" name="total" class="form-control mb-1" placeholder="100.00" autofocus>
+					<input type="number" id="total" name="total" class="form-control mb-1" placeholder="100.00" autofocus>
 
 					<input type="hidden" id="cancela" name="cancela" value="'.$cancela.'">
 
@@ -414,24 +510,21 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 					   <button class="white" type="submit" name="btn-vender" id="btn-vender"><img src="assets/img/imagenes/print.png"></button>
 					</div>
 					</form>';
-					if($_SESSION['config_imprimir_antes'] != NULL){
-						 	echo '<div align="center"><a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&cancela='.$cancela.'" class="btn-floating blue"><i class="fas fa-print" aria-hidden="true"></i></a></div>'; }
+
 		    } $a->close();
 		   
-
+		    $this->BotonesFactura($cancela);
 	}
 
 
 
-	public function VerProductosFactura($mesa) {
+	public function VerProductosFactura($mesa) {  // es para hacer los cambios de guarnicion
 		$db = new dbConn();
 
 		if($_SESSION["mesa"] != NULL) {
 
 		    $a = $db->query("SELECT * FROM ticket_temp WHERE producto != 'Producto-Especial' and mesa = '$mesa' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."  and num_fac= 0");
-		    if($a->num_rows == 0){
-		    echo '<div align="center"><br><img src="assets/img/logo/'. $_SESSION['config_imagen'] .'" alt="" class="img-fluid hoverable"></div>';
-		    } else { 	
+		    if($a->num_rows != 0){ 	
 		    	echo '<br><table class="table table-striped table-sm">
 					  <thead>
 					    <tr>
@@ -453,7 +546,7 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 						      <td>'. $b["pv"] .'</td>
 						      <td>'. $b["total"] .'</td>
 						      <td><a id="ver-producto" op="56" iden="'. $b["id"] .'" cod="'. $i .'" mesa="'. $mesa .'">
-						      <span class="badge red"><i class="fas fa-coffee" aria-hidden="true"></i></span>
+						      <span class="badge red"><i class="fas fa-refresh" aria-hidden="true"></i></span>
 						      </a></td>
 						    </tr>';
 		    	 		$i = $i + 1;
@@ -503,6 +596,12 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 		    $cambio["estado"] = "2";
 		    
 		    Helpers::UpdateId("mesa", $cambio, "td = ".$_SESSION["td"]." and tx = ".$_SESSION["tx"]." and mesa = $mesa"); 
+			if($_SESSION["delivery_on"] == TRUE){ /// si es delivery		
+			$cambiox["tiempo_pagado"] = date("H:i:s");
+		    $cambiox["tiempo_pagadoF"] = Fechas::Format(date("H:i:s"));  
+			$cambiox["edo"] = 4;    
+			Helpers::UpdateId("clientes_mesa", $cambiox, "mesa = '".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");		
+			}
 
 		    unset($_SESSION["mesa"]);
 
@@ -652,7 +751,7 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 			Helpers::DeleteId("mesa", "mesa=".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");
 
 		if($_SESSION["delivery_on"] == TRUE){ // accion si es en delivery que borre el cliente tambien
-			Helpers::DeleteId("clientes_mesa", "mesa='$mesa' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
+			Helpers::DeleteId("clientes_mesa", "mesa='".$_SESSION["mesa"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
 		}
 
 	        unset($_SESSION["mesa"]);
@@ -683,6 +782,56 @@ Helpers::DeleteId("mesa_nombre", "mesa='$mesa' and tx = ".$_SESSION["tx"]." and 
 
 
    	}
+
+
+
+
+
+ public function BotonesFactura($cancela = NULL){
+
+echo '<div class="row d-flex justify-content-center">';
+
+/// si es en delivery
+
+	if($_SESSION["delivery_on"] == TRUE){
+		echo '<a id="deliveryedo" class="btn-floating red"><i class="fas fa-user" aria-hidden="true"></i></a>';
+	}
+
+
+/////////// view
+
+
+
+	if(!isset($_SESSION['view'])){ // si es para view o no...
+		if($_SESSION['opcionesactivas'] == TRUE){
+	echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'&view=0" class="btn-floating btn-success"><i class="fas fa-hamburger"></i></a>'; }
+	} else {
+		if($_SESSION['config_imprimir_antes'] != NULL){
+		 	echo '<a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&efectivo=&cancela='.$cancela.'" class="btn-floating blue"><i class="fas fa-print"></i></a>'; }
+		
+	}
+	/// si es para todos
+
+
+
+	// if($_SESSION['config_imprimir_antes'] != NULL){
+	// 	 	echo '<div align="center"><a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&cancela='.$cancela.'" class="btn-floating blue"><i class="fas fa-print" aria-hidden="true"></i></a></div>'; }
+
+ // echo '<a class="btn-floating blue"><i class="fas fa-print" aria-hidden="true"></i></a>';
+ // echo '<a class="btn-floating green"><i class="fas fa-cogs" aria-hidden="true"></i></a>';
+ // echo '<a class="btn-floating red"><i class="fas fa-user" aria-hidden="true"></i></a>';
+ // echo '<a class="btn-floating blue"><i class="fas fa-print" aria-hidden="true"></i></a>';
+ // echo '<a class="btn-floating green"><i class="fas fa-cogs" aria-hidden="true"></i></a>';
+ // echo '<a class="btn-floating red"><i class="fas fa-minus-circle" aria-hidden="true"></i></a>';
+
+echo '</div>';
+ }
+
+
+
+
+
+
 
 
 

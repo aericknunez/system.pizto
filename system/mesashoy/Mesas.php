@@ -84,7 +84,13 @@ class Mesas{
 		   if($b["estado"] == 1) { 
 		   	//$totalz='<span class="badge badge-danger">Pendiente</span>';
 		   	$propz='<span class="badge badge-danger">Pendiente</span>';
-		    $totalesz='<span class="badge badge-danger">Pendiente</span>';
+
+		    	// para agragar vinculo a la mesa no cobrada, solo si el el user es igual
+		    	if($_SESSION["user"] == $b["user"]){
+		    		$totalesz='<a id="activarmesa" op="29" tipo="'.$b["tipo"].'" mesa="'.$b["mesa"].'" tx="'.$b["tx"].'"><span class="badge badge-success">Ir a Orden</span></a>';
+		    	} else {
+		    		$totalesz='<span class="badge badge-danger">Pendiente</span>';
+		    	}
 		   } ///////
 		   	
 		  echo '<tr>

@@ -3,18 +3,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 unset($_SESSION["mesa"]);
 
-    $a = $db->query("SELECT * FROM mesa WHERE estado = 1 and tipo = 3 and tx = ".$_SESSION["tx"]." and td =".$_SESSION["td"]."");
+    $a = $db->query("SELECT mesa FROM mesa WHERE estado = 1 and tipo = 3 and tx = ".$_SESSION["tx"]." and td =".$_SESSION["td"]."");
     echo '<div class="row justify-content-center">';
     
     foreach ($a as $b) {
 
+    $ax = $db->query("SELECT clientes.nombre FROM clientes_mesa INNER JOIN clientes ON clientes_mesa.cliente = clientes.hash WHERE clientes_mesa.mesa = ".$b["mesa"]." and clientes_mesa.tx = ".$_SESSION["tx"]." and clientes_mesa.td =".$_SESSION["td"]."");
+    foreach ($ax as $bx) {
+        $nombre = $bx["nombre"];
+        $nombre = explode(" ",$nombre);
+    } $ax->close();
+
+    if($nombre == NULL){ $nombre = $b["mesa"]; } else { $nombre = $nombre[0]; }
+
 	echo '<a href="?delivery&mesa='.$b["mesa"].'">
 	<figure class="figure">
 	    <img src="assets/img/imagenes/delivery.jpg" class="figure-img img-fluid z-depth-2 rounded-circle"  alt="hoverable" >
-	    <figcaption class="figure-caption text-center">'.$b["mesa"].'</figcaption>
+	    <figcaption class="figure-caption text-center">'.$nombre.'</figcaption>
 	</figure>
 	</a>  &nbsp &nbsp &nbsp';
 
+  unset($nombre);
     } 
 echo '</div>';
     $a->close();

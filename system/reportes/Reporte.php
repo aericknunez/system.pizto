@@ -8,12 +8,15 @@ class Reporte{
 
 
 	public function Contenido($fecha){ // para sacar el resumen del dia
+		
+		$gas = new Gastos;
+		$his = new Historial;
 
 		$this->Corte($fecha);
 		$this->CalculaMateriaPrima($fecha);
 		$this->ProductosEspeciales($fecha);
-		Historial::HistorialGDiario($fecha);
-		Gastos::VerEntradas($fecha);
+		$his->HistorialGDiario($fecha);
+		$gas->VerEntradas($fecha);
 		$this->VentaEspecial($fecha);
 		$this->OtrasVentas($fecha);
 

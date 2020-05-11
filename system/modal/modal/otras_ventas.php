@@ -15,11 +15,12 @@
     <button class="btn btn-success" type="submit">Agregar</button>
 </form>
 
+
 <!-- ./  content -->
       </div>
       <div class="modal-footer">
 
-          <a href="?" class="btn btn-primary btn-rounded">Regresar</a>
+          <a href="<?php echo $_SERVER["HTTP_REFERER"]; ?>" class="btn btn-primary btn-rounded">Regresar</a>
     
       </div>
     </div>

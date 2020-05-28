@@ -46,9 +46,12 @@ class Pantallas{
 		echo '<div class="card '. Helpers::Color($b["mesa"]).' mb-2">
 		  <div class="card-body">';
 
-		if ($r = $db->select("nombre", "producto", "WHERE cod = ". $b["producto"] ." and td = ".$_SESSION['td']."")) { 
-			        $producto = $r["nombre"];
-			    } unset($r);
+
+		if ($r = $db->select("cajero, producto", "ticket_temp", "WHERE id = ".$b["identificador"]."")) { 
+        $nombre_mesero = $r["cajero"];
+        $producto = $r["producto"];
+    	} unset($r); 
+
 		echo '<h4>'.$producto.'</h4>';
 
 		// busco las opciones del producto
@@ -61,9 +64,7 @@ class Pantallas{
 
 	    } $x->close();
 	    //
-	    if ($r = $db->select("cajero", "ticket_temp", "WHERE id = ".$b["identificador"]."")) { 
-        $nombre_mesero = $r["cajero"];
-    	} unset($r); 
+
 
 		echo '<p class="card-text">Orden de: '. $nombre_mesero .'</p>
 		     <p class="card-text blue-text">Mesa: '.$b["mesa"].' || Cliente: '.$b["cliente"].' <br> Hora: '.$b["hora"].'</p>
@@ -88,24 +89,15 @@ class Pantallas{
 		echo '<div class="card '. Helpers::Color($b["mesa"]).' mb-2">
 		  <div class="card-body">';
 
-		if ($r = $db->select("nombre", "producto", "WHERE cod = ". $b["producto"] ." and td = ".$_SESSION['td']."")) { 
-			        $producto = $r["nombre"];
-			    } unset($r);
+		if ($r = $db->select("cajero, producto", "ticket_temp", "WHERE id = ".$b["identificador"]."")) { 
+        $nombre_mesero = $r["cajero"];
+        $producto = $r["producto"];
+    	} unset($r); 
+
 		echo '<h4>'.$producto.'</h4>';
 
-				// busco las opciones del producto
-		$x = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = ".$b["identificador"]." and cod = ".$b["cod"]." and td = ".$_SESSION['td']."");
-	    foreach ($x as $y) {
-	    	
-	    	if ($s = $db->select("nombre", "opciones_name", "WHERE cod = ".$y["opcion"]." and td = ".$_SESSION['td']."")) { 
-		        echo '<h6 class="card-title warning-color">'. $s["nombre"].'</h6>';
-		    } unset($s);
-
-	    } $x->close();
-	    //
-	    if ($r = $db->select("cajero", "ticket_temp", "WHERE id = ".$b["identificador"]."")) { 
-        $nombre_mesero = $r["cajero"];
-    	} unset($r); 
+				// no tiene opciones el producto
+	    
 		//echo '<h6 class="card-title warning-color">Opciones</h6>';
 		// para tener la cantidad
 		$a = $db->query("SELECT * FROM control_cocina WHERE mesa = ".$b["mesa"]." and producto = ".$b["producto"]." and opciones = 0 and edo = 1 and td = ".$_SESSION["td"]."");

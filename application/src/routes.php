@@ -34,17 +34,19 @@ exit();
 
 //
 
-/// precios
-if($_REQUEST["op"]=="3"){
+/// inicia el switch
+switch ($_REQUEST["op"]) {
+
+
+case "3":
 	include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
 	$configuracion->CambiarPrecio($_POST);
-}
+break;
 
 
 
-//////////iconos
-if($_REQUEST["op"]=="4"){
+case "4":
 include_once '../../system/config_iconos/Icono.php';
 $iconos = new Icono;
 $iconos->AddCategoria($_REQUEST["nombre"], $_REQUEST["imagen"]);
@@ -52,9 +54,9 @@ $iconos->AddCategoria($_REQUEST["nombre"], $_REQUEST["imagen"]);
 include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
 	$configuracion->CrearIconos("../iconos/", 1);
-}
+break;
 
-if($_REQUEST["op"]=="5"){
+case "5":
 include_once '../../system/config_iconos/Icono.php';
 $iconos = new Icono;
 $iconos->AddProducto($_REQUEST["nombre"],$_REQUEST["imagen"],$_REQUEST["popup"],$_REQUEST["preci"],$_REQUEST["opcion"]);
@@ -63,10 +65,10 @@ include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
 	$configuracion->CrearIconos("../iconos/", 1);
 	
-}
+break;
 
 
-if($_REQUEST["op"]=="6"){
+case "6":
 include_once '../../system/config_iconos/Icono.php';
 $iconos = new Icono;
 $iconos->ModProducto($_REQUEST["cod"],$_REQUEST["nombre"],$_REQUEST["popup"],$_REQUEST["imagen"]);
@@ -74,10 +76,10 @@ $iconos->ModProducto($_REQUEST["cod"],$_REQUEST["nombre"],$_REQUEST["popup"],$_R
 include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
 	$configuracion->CrearIconos("../iconos/", 1);
-}
+break;
 
 
-if($_REQUEST["op"]=="7"){
+case "7":
 include_once '../../system/config_iconos/Icono.php';
 $iconos = new Icono;
 $iconos->ModCategoria($_REQUEST["cod"],$_REQUEST["nombre"],$_REQUEST["imagen"]);
@@ -85,10 +87,10 @@ $iconos->ModCategoria($_REQUEST["cod"],$_REQUEST["nombre"],$_REQUEST["imagen"]);
 include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
 	$configuracion->CrearIconos("../iconos/", 1);
-}
+break;
 
 
-if($_REQUEST["op"]=="8"){
+case "8":
 include_once '../../system/config_iconos/Icono.php';
 $iconos = new Icono;
 $iconos->DelProducto($_REQUEST["cod"]);
@@ -97,10 +99,10 @@ include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
 	$configuracion->CrearIconos("../iconos/", 1);
 	
-}
+break;
 
 
-if($_REQUEST["op"]=="9"){
+case "9":
 include_once '../../system/config_iconos/Icono.php';
 $iconos = new Icono;
 $iconos->DelCategoria($_REQUEST["cod"]);
@@ -109,10 +111,10 @@ include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
 	$configuracion->CrearIconos("../iconos/", 1);
 	
-}
+break;
 
 
-if($_REQUEST["op"]=="10"){
+case "10":
 	include_once '../../system/config_iconos/Icono.php';
 	$iconos = new Icono;
 if($_REQUEST["nombre"] != NULL){
@@ -126,11 +128,11 @@ include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
 	$configuracion->CrearIconos("../iconos/", 1);
 	
-}
+break;
 
 
 
-if($_REQUEST["op"]=="11"){
+case "11":
 include_once '../../system/config_iconos/Icono.php';
 $iconos = new Icono;
 $iconos->AddOpcionName($_REQUEST["cod"],$_REQUEST["nombre"],$_REQUEST["imagen"]);
@@ -139,10 +141,10 @@ include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
 	$configuracion->CrearIconos("../iconos/", 1);
 
-}
+break;
 
 
-if($_REQUEST["op"]=="12"){
+case "12":
 include_once '../../system/config_iconos/Icono.php';
 $iconos = new Icono;
 $iconos->DelOpciones($_REQUEST["cod"]);
@@ -151,10 +153,10 @@ include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
 	$configuracion->CrearIconos("../iconos/", 1);
 	
-}
+break;
 
 
-if($_REQUEST["op"]=="13"){
+case "13":
 include_once '../../system/config_iconos/Icono.php';
 $iconos = new Icono;
 $iconos->DelOpcionesName($_REQUEST["cod"], $_REQUEST["opciones"]);
@@ -163,42 +165,42 @@ include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
 	$configuracion->CrearIconos("../iconos/", 1);
 	
-} 
+break; 
 
 
 
-if($_REQUEST["op"]=="14"){
+case "14":
 include_once '../../system/config_iconos/Icono.php';
 $iconos = new Icono;
 
 $idArray = explode(",",$_POST['ids']);
 //update images order
 $iconos->UpdateReordenar($idArray);
-} 
+break; 
 
 
  // termina iconos////
 
 
 ///////////// modifica las tablas del sync
-if($_REQUEST["op"]=="15"){
+case "15":
 	include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
 	$configuracion->ModTabla($_POST);
-}
+break;
 
 
 ///////////// modificar las facturas que se imprimiran
-if($_REQUEST["op"]=="16"){
+case "16":
 	include_once '../../system/facturar/Facturar.php';
 	$fact = new Facturar();
 	$fact->ModFactura($_POST);
-}
+break;
 
 
 /////////////////////// comienza las ventas
 
-if($_REQUEST["op"]=="20"){ //venta normal
+case "20": //venta normal
 
 
 		include_once '../../system/ventas/Venta.php';
@@ -221,10 +223,11 @@ if($_REQUEST["op"]=="20"){ //venta normal
 		}
 		$pantalla->Cambia(1);
 
-} 
+break; 
 
 
-if($_REQUEST["op"]=="20x"){ //Otras Ventas
+
+case "20x": //Otras Ventas
 include_once '../../system/ventas/Venta.php';
 $ventas = new Venta;
 if($_REQUEST["cliente"] == NULL) { $clientes = 1; }
@@ -240,10 +243,11 @@ $ventas->OtrasVentas(8888,
 if($_POST["view"] == 1) { header("location: ../../?view&mesa=".$_SESSION["mesa"].""); }
 else { header("location: ../../?");}
 
-}
+break;
 
 
-if($_REQUEST["op"]=="20y"){ //Venta Especial
+
+case "20y": //Venta Especial
 include_once '../../system/ventas/Venta.php';
 $ventas = new Venta;
 
@@ -256,28 +260,34 @@ $especial->VentaEspecial($_REQUEST["cod"],
 						$_SESSION["mesa"], 
 						$clientes, $_SESSION['config_imp']);
 
-}
+break;
 
-if($_REQUEST["op"]=="20z"){ // MUESTRA EL LATERAL (venta especial)
+
+
+case "20z": // MUESTRA EL LATERAL (venta especial)
 		include_once '../../system/ventas/Especial.php';
 		$ventas = new Especial;
 		$ventas->VerProductos($_SESSION["mesa"]);
-} 
+break; 
 
 
-if($_REQUEST["op"]=="20w"){ // BORRAR ESPECIAL 
+
+case "20w": // BORRAR ESPECIAL 
 		include_once '../../system/ventas/Especial.php';
 		$ventas = new Especial;
 		$ventas->BorrarEspecial($_REQUEST["iden"]);
-} 
+break; 
 
-if($_REQUEST["op"]=="20v"){ // BORRAR TODO  venta especial
+
+
+case "20v": // BORRAR TODO  venta especial
 		include_once '../../system/ventas/Especial.php';
 		$ventas = new Especial;
 		$ventas->BorrarTodo($_REQUEST["url"]);
-} 
+break; 
 
-if($_REQUEST["op"]=="20u"){ // agrega detalle especial
+
+case "20u": // agrega detalle especial
 include_once '../../system/ventas/Venta.php';
 $ventas = new Venta;
 if($_REQUEST["cliente"] == NULL) { $clientes = 1; }
@@ -290,25 +300,29 @@ $ventas->OtrasVentas(8889,
 
 if($_POST["view"] == 1) { header("location: ../../?view&mesa=".$_SESSION["mesa"].""); }
 else { header("location: ../../?");}
-}
 
-if($_REQUEST["op"]=="21"){ // cobra la venta
+break;
+
+
+
+case "21": // cobra la venta
 include_once '../../system/ventas/Venta.php';
 $ventas = new Venta;
 $num = $ventas->Facturar($_SESSION["mesa"],$_POST["total"]);
 
 header("location: ../../?modal=factura&factura=$num&efectivo=".$_POST["total"]."");
-} 
+break; 
 
-if($_REQUEST["op"]=="22"){ // MUESTRA EL LATERAL (FACTURA)
+case "22": // MUESTRA EL LATERAL (FACTURA)
 		include_once '../../system/ventas/Venta.php';
 		include_once '../../system/corte/Corte.php';
 		$ventas = new Venta;
 		$ventas->VerFactura($_SESSION["mesa"]);
-} 
+break; 
 
 
-if($_REQUEST["op"]=="23"){ // borrar producto
+
+case "23": // borrar producto
 include_once '../../system/ventas/Venta.php';
 include_once '../../system/ventas/Especial.php';
 $ventas = new Venta;
@@ -319,10 +333,11 @@ include_once '../../system/tv/Pantallas.php';
 	$pantalla = new Pantallas;
 	$pantalla->EliminaProducto($_REQUEST["iden"]);
 	$pantalla->Cambia(1);
-} 
+break; 
 
 
-if($_REQUEST["op"]=="24"){ // borrar factura
+
+case "24": // borrar factura
 include_once '../../system/ventas/Venta.php';
 $ventas = new Venta;
 $ventas->BorrarFactura($_REQUEST["mesa"]);
@@ -331,21 +346,18 @@ include_once '../../system/tv/Pantallas.php';
 	$pantalla = new Pantallas;
 	$pantalla->EliminaControl($_REQUEST["mesa"]);
 	$pantalla->Cambia(1);
-} 
+break; 
 
 
-if($_REQUEST["op"]=="25"){ // cobra la venta
+case "25": // cobra la venta
 include_once '../../system/ventas/Venta.php';
 $ventas = new Venta;
 $num = $ventas->FacturarCliente($_SESSION["mesa"],$_POST["total"],$_POST["cancela"]);
 header("location: ../../?modal=factura&factura=$num&efectivo=".$_POST["total"]."&cancela=".$_POST["cancela"]."");
-}
+break;
 
 
-
-
-//////////
-if($_REQUEST["op"]=="26"){ // cambiar tipo de pantalla de inicio mesa o rapida
+case "26": // cambiar tipo de pantalla de inicio mesa o rapida
 	include_once '../../system/ventas/Venta.php';
 	$venta = new Venta;
 
@@ -364,11 +376,11 @@ if($_REQUEST["op"]=="26"){ // cambiar tipo de pantalla de inicio mesa o rapida
 			$_SESSION["delivery_on"] = FALSE;
 	}
 
-} // termina op
+break; 
 
 
 
-if($_REQUEST["op"]=="27"){ // cambiar tx
+case "27": // cambiar tx
 	include_once '../../system/ventas/Venta.php';
 	$venta = new Venta;
 
@@ -385,11 +397,11 @@ if($_REQUEST["op"]=="27"){ // cambiar tx
 			else { $_SESSION["tx"] = 1; }
 	}
 
-} // termina op
- 
+break; 
 
 
-if($_REQUEST["op"]=="27x"){ // cambiar panel de datos o para vender
+
+case  "27x": // cambiar panel de datos o para vender
 	include_once '../../system/ventas/Venta.php';
 	$venta = new Venta;
 
@@ -409,12 +421,11 @@ if($_REQUEST["op"]=="27x"){ // cambiar panel de datos o para vender
 	}
 
 
-}
+break; 
 
 
 
-
-if($_REQUEST["op"]=="28"){ // ACTIVAR delivery
+case  "28": // ACTIVAR delivery
 	include_once '../../system/ventas/Venta.php';
 	$venta = new Venta;
 
@@ -434,13 +445,11 @@ if($_REQUEST["op"]=="28"){ // ACTIVAR delivery
 
 	}
 
-} // termina op
+break; 
 
 
 
-
-
-if($_REQUEST["op"]=="29"){ // Ir a mesa seleccionada segun mesa y tx
+case "29": // Ir a mesa seleccionada segun mesa y tx
 
 
 	$_SESSION["tx"] = $_REQUEST["tx"];
@@ -463,108 +472,117 @@ if($_REQUEST["op"]=="29"){ // Ir a mesa seleccionada segun mesa y tx
 	}
 
 
-} // termina op
-////////////////////////////////////////////////////
+break; 
 
 
-///////////////////////////////// productos
-if($_REQUEST["op"]=="30"){ // Agregar Unidad
+
+case  "30": // Agregar Unidad
 	include_once '../../system/productos/Producto.php';
 	$productos = new Producto;
 	$productos->AddUnidad($_POST["nombre"],$_POST["abreviacion"]);
 	
-} 
+break; 
 
 
-if($_REQUEST["op"]=="31"){ // Borrar gasto
+
+case  "31": // Borrar gasto
 	include_once '../../system/productos/Producto.php';
 	$productos = new Producto;
 	$productos->BorrarUnidad($_POST["iden"]);
 
-} 
+break; 
 
 
-if($_REQUEST["op"]=="32"){ // Agregar Porciones
+
+case  "32": // Agregar Porciones
 	include_once '../../system/productos/Producto.php';
 	$productos = new Producto;
 	$productos->AddPorciones($_POST["nombre"],$_POST["producto"],$_POST["cantidad"]);
 	
-} 
+break; 
 
 
 
-if($_REQUEST["op"]=="33"){ // Borrar porcion
+case  "33": // Borrar porcion
 	include_once '../../system/productos/Producto.php';
 	$productos = new Producto;
 	$productos->BorrarPorcion($_POST["iden"]);
 	
-} 
+break; 
 
 
 
-if($_REQUEST["op"]=="34"){ // agrega materia prima
+case  "34": // agrega materia prima
 	include_once '../../system/productos/Producto.php';
 	$productos = new Producto;
 	$productos->AddMateria($_POST["nombre"],$_POST["cantidad"],$_POST["unidad"]);
 	
-}
+break; 
 
 
-if($_REQUEST["op"]=="35"){ // Borrar gasto
+
+case  "35": // Borrar gasto
 	include_once '../../system/productos/Producto.php';
 	$productos = new Producto;
 	$productos->BorrarMateria($_POST["iden"]);
 	
-}
+break; 
 
 
-if($_REQUEST["op"]=="36"){ // Agregar Porciones a un producto
+
+case  "36": // Agregar Porciones a un producto
 	if(isset($_POST["producto"])){
 		include_once '../../system/productos/Producto.php';
 		$productos = new Producto;
 		$productos->AddPorcionProducto($_POST["iden"],$_POST["producto"]);
 	}
 	
-} 
- 
+break; 
 
-if($_REQUEST["op"]=="37"){ // Agregar Porciones a un producto
+
+
+case  "37": // Agregar Porciones a un producto
 include_once '../../system/productos/Producto.php';
 $productos = new Producto;
 $productos->BorrarPorcionProducto($_POST["iden"],$_POST["cod"]);
 	
-} 
+break; 
 
 
-if($_REQUEST["op"]=="38"){ // mostrar productos paginados
+
+case  "38": // mostrar productos paginados
 include_once '../../system/productos/Producto.php';
 $productos = new Producto;
 $productos->VerPlatillos($_POST["iden"]);
-} 
+break; 
 
 
-if($_REQUEST["op"]=="39"){ // mostrar productos paginados
+
+case  "39": // mostrar productos paginados
 include_once '../../system/productos/Producto.php';
 $productos = new Producto;
 $productos->VerMateria($_POST["iden"]);
-}
+break; 
 
 
-if($_REQUEST["op"]=="39.3"){ // mostrar productos paginados
+
+case  "39.3": // mostrar productos paginados
 include_once '../../system/productos/Producto.php';
 $productos = new Producto;
 $productos->VerPorciones($_POST["iden"]);
-}
+break; 
 
 
-if($_REQUEST["op"]=="39.1"){ // mostrar productos paginados
+
+case  "39.1": // mostrar productos paginados
 include_once '../../system/productos/Producto.php';
 $productos = new Producto;
 $productos->VerUnidad($_POST["iden"]);
-} 
+break; 
 
 
-if($_REQUEST["op"]=="39.2"){ // cambiar pantalla
+
+case  "39.2": // cambiar pantalla
 include_once '../../system/productos/Producto.php';
 $productos = new Producto;
 $productos->CambiarPantalla($_REQUEST["cod"],$_REQUEST["iden"]);
@@ -573,100 +591,106 @@ $productos->VerPlatillos($_REQUEST["pagina"]);
 include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
 	$configuracion->CrearIconos("../iconos/", 1);
-} 
+break; 
 
 
 
-
-/////////////////////////////////// mesa
-if($_REQUEST["op"]=="40"){ // sumar numero de clientes
+case  "40": // sumar numero de clientes
 include_once '../../system/mesas/Mesa.php';
 $mesas = new Mesa;
 $mesas->Sumar();
-}
+break; 
 
 
-if($_REQUEST["op"]=="41"){ // Agrega uno mas a la mesa
+
+case  "41": // Agrega uno mas a la mesa
 include_once '../../system/mesas/Mesa.php';
 $mesas = new Mesa;
 $mesas->Restar();
-} 
+break; 
 
 
-if($_REQUEST["op"]=="42"){ // activar mesa
+
+case  "42": // activar mesa
 include_once '../../system/ventas/Venta.php';
 $ventas = new Venta;
 $ventas->CrearMesa($_SESSION["nclientes"], 2);
 $mesa=$_SESSION["mesa"];
 unset($_SESSION["mesa"], $_SESSION["nclientes"]);
 header("location: ../../?view&mesa=".$mesa."");
-} 
+break; 
 
 
-if($_REQUEST["op"]=="43"){ // 
+
+case  "43": // 
 unset($_SESSION["nclientes"]);
 header("location: ../../?");
-} 
+break; 
 
 
-if($_REQUEST["op"]=="44"){ // nuevo cliente en mesa
+
+case  "44": // nuevo cliente en mesa
 include_once '../../system/mesas/Mesa.php';
 $mesas = new Mesa;
 $mesas->AddCliente($_REQUEST["mesa"]);
-} 
+break; 
 
 
-if($_REQUEST["op"]=="45"){ // cambiar cliente
+
+case  "45": // cambiar cliente
 
 		if($_REQUEST["select"] != 0) { 
 			$_SESSION['clientselect'] = $_REQUEST["select"];
 		} else {
 			unset($_SESSION['clientselect']);
 		}
-}
+break; 
 
 
-if($_REQUEST["op"]=="46"){ // cargar clientes
+
+case  "46": // cargar clientes
 include_once '../../system/mesas/Mesa.php';
 $mesas = new Mesa;
 $mesas->VerClientes($_SESSION['mesa']);
-} 
+break; 
 
 
-if($_REQUEST["op"]=="47"){ // cargar iconos
+
+case  "47": // cargar iconos
 include_once '../../system/mesas/Mesa.php';
 $mesas = new Mesa;
 $mesas->VerIconos($_SESSION['mesa']);
-}  
+break; 
 
 
 
-///////////////////////////////////////////// cuentas
-
-if($_REQUEST["op"]=="50"){ // clientes
+case  "50": // clientes
 include_once '../../system/mesas/Mesa.php';
 $mesas = new Mesa;
 $mesas->ClientSelect($_SESSION['mesa']);
-}  
+break; 
 
 
-if($_REQUEST["op"]=="51"){ // clientes a pasar cuenta
+
+case  "51": // clientes a pasar cuenta
 include_once '../../system/mesas/Mesa.php';
 $mesas = new Mesa;
 $mesas->AsignClient($_SESSION['mesa']);
-}  
+break; 
 
 
-if($_REQUEST["op"]=="52"){ // seleccionar cliente
+
+case  "52": // seleccionar cliente
 		if($_SESSION['client-asign'] == $_REQUEST["cliente"]) { 
 			unset($_SESSION['client-asign']);
 		} else {
 			$_SESSION['client-asign'] = $_REQUEST["cliente"];			
 		}
-}
+break; 
 
 
-if($_REQUEST["op"]=="53"){ // seleccionar cliente
+
+case  "53": // seleccionar cliente
 	if($_SESSION['client-asign'] != NULL){
 include_once '../../system/mesas/Mesa.php';
 $mesas = new Mesa;
@@ -675,28 +699,27 @@ $mesas->DividirCuenta($_SESSION['mesa'],$_SESSION['client-asign'],$_REQUEST["cli
 		Alerts::Alerta("error","Error!","Seleccione el cliente del que va a transferir!");
 	}
 
-}
+break; 
 
 
-if($_REQUEST["op"]=="54"){ // mostrar cliente a facturar
+
+case  "54": // mostrar cliente a facturar
 include_once '../../system/mesas/Mesa.php';
 $mesas = new Mesa;
 $mesas->ClienteFactura($_SESSION['mesa']); 
-}
+break; 
 
 
-if($_REQUEST["op"]=="55"){ // mostrar cliente a facturar
+
+case  "55": // mostrar cliente a facturar
 		include_once '../../system/ventas/Venta.php';
 		$ventas = new Venta;
 		$ventas->VerFacturaCliente($_REQUEST["mesa"],$_REQUEST["cliente"]);
-}
+break; 
 
 
 
-
-
-/////////////////////////////////////////////////////
-if($_REQUEST["op"]=="56"){ // modificar opciones
+case  "56": // modificar opciones
 include_once '../../system/mesas/Mesa.php';
 $mesas = new Mesa;
 $mesas->OpcionesActivas($_REQUEST["mesa"],$_REQUEST["iden"],$_REQUEST["cod"]); 
@@ -704,10 +727,11 @@ $mesas->OpcionesActivas($_REQUEST["mesa"],$_REQUEST["iden"],$_REQUEST["cod"]);
 include_once '../../system/tv/Pantallas.php';
 	$pantalla = new Pantallas;
 	$pantalla->Cambia(1);
-}
+break; 
 
 
-if($_REQUEST["op"]=="57"){ // modificar opciones
+
+case  "57": // modificar opciones
 	include_once '../../system/mesas/Mesa.php';
 	$mesas = new Mesa;
 	$mesas->OpcionesModificar(
@@ -720,10 +744,11 @@ if($_REQUEST["op"]=="57"){ // modificar opciones
 include_once '../../system/tv/Pantallas.php';
 	$pantalla = new Pantallas;
 	$pantalla->Cambia(1);
-}
+break; 
 
 
-if($_REQUEST["op"]=="58"){ // eliminar opciones
+
+case  "58": // eliminar opciones
 	include_once '../../system/ventas/Venta.php';
 	$ventas = new Venta;
 	$ventas->BorrarOpcion($_REQUEST["cod"], $_REQUEST["iden"], $_REQUEST["activo"]);
@@ -736,19 +761,19 @@ if($_REQUEST["op"]=="58"){ // eliminar opciones
 include_once '../../system/tv/Pantallas.php';
 	$pantalla = new Pantallas;
 	$pantalla->Cambia(1);
-}
+break; 
 
 
 
-if($_REQUEST["op"]=="59"){ // agregar opciones (listar opciones para agregar)
+case  "59": // agregar opciones (listar opciones para agregar)
 	include_once '../../system/mesas/Mesa.php';
 	$mesas = new Mesa;
 	$mesas->ListarOpciones($_REQUEST["cod"], $_REQUEST["iden"], $_REQUEST["cliente"]);
-}
+break; 
 
 
 
-if($_REQUEST["op"]=="60"){ // cambiar o eliminar
+case  "60": // cambiar o eliminar
 include_once '../../system/ventas/Venta.php';
 $ventas = new Venta;
 	
@@ -764,9 +789,11 @@ $mesas->OpcionesActivas($_REQUEST["mesa"],$_REQUEST["iden"],$_REQUEST["cod"]);
 include_once '../../system/tv/Pantallas.php';
 	$pantalla = new Pantallas;
 	$pantalla->Cambia(1);
-}
+break; 
 
-if($_REQUEST["op"]=="61"){ // muestra las sub opciones para aplicarlas
+
+
+case  "61": // muestra las sub opciones para aplicarlas
 include_once '../../system/mesas/Mesa.php';
 $mesas = new Mesa;
 $mesas->VerSubOpciones(
@@ -775,11 +802,11 @@ $mesas->VerSubOpciones(
 	$_REQUEST["iden"],
 	$_REQUEST["opcion"],
 	$_REQUEST["cliente"]);
-}
+break; 
 
 
 
-if($_REQUEST["op"]=="62"){ // agrega la opcion
+case  "62": // agrega la opcion
 	include_once '../../system/ventas/Venta.php';
 	$ventas = new Venta;
 	$ventas->AgregarOpcion(
@@ -798,26 +825,20 @@ $mesas->VerificaOpcionesActivas($_REQUEST["mesa"],$_REQUEST["iden"],$_REQUEST["c
 include_once '../../system/tv/Pantallas.php';
 	$pantalla = new Pantallas;
 	$pantalla->Cambia(1);
-}
+break; 
 
 
-
-
-
-
-
-
-///////////////////////// corte /////////////////
-
-if($_REQUEST["op"]=="65"){ // corte preguntar
+case "65": // corte preguntar
 	if($_POST["efectivo"] ==  NULL){
 		Alerts::Alerta("error","Error!","El Formulario esta vacio");
 	} else {
 		Alerts::RealizarCorte("ejecuta-corte","66",$_POST["efectivo"]);
 	}
-}
+break; 
 
-if($_REQUEST["op"]=="66"){ // ejecuta corte
+
+
+case  "66": // ejecuta corte
 include_once '../../system/corte/Corte.php';
 include_once '../../system/sync/Sync.php';
 $cortes = new Corte;
@@ -826,19 +847,20 @@ if($_POST["fecha"] == NULL){ $fecha = date("d-m-Y");
    $fecha = $_POST["fecha"];
 }
 $cortes->EjecutarCorte($_POST["efectivo"], $fecha);
-}
+break; 
 
 
 
-if($_REQUEST["op"]=="67"){ // ver el contenido
+case  "67": // ver el contenido
 	include_once '../../system/corte/Corte.php';
 	include_once '../../system/sync/Sync.php';
 	$cortes = new Corte;
 	$cortes->Contenido(date("d-m-Y"));
-}
+break; 
 
 
-if($_REQUEST["op"]=="68"){ // cancelar corte
+
+case  "68": // cancelar corte
 	include_once '../../system/corte/Corte.php';
 	$cortes = new Corte;
 	if($_POST["fecha"] == NULL){ $fecha = date("d-m-Y"); 
@@ -846,10 +868,11 @@ if($_REQUEST["op"]=="68"){ // cancelar corte
 	   $fecha = $_POST["fecha"];
 	}
 	$cortes->CancelarCorte($_POST["random"], $fecha);
-}
+break; 
 
 
-if($_REQUEST["op"]=="70"){ // historial diario
+
+case  "70": // historial diario
 	include_once '../../system/historial/Historial.php';
 	$historial = new Historial;
 	if($_POST["fecha_submit"] == NULL){ 
@@ -858,10 +881,11 @@ if($_REQUEST["op"]=="70"){ // historial diario
 		$fecha = $_POST["fecha_submit"];
 	}
 	$historial->HistorialDiario($fecha);
-}
+break; 
 
 
-if($_REQUEST["op"]=="71"){ // historial mensual
+
+case  "71": // historial mensual
 	include_once '../../system/historial/Historial.php';
 	$historial = new Historial;
 		$fecha=$_POST["mes"];
@@ -869,10 +893,11 @@ if($_REQUEST["op"]=="71"){ // historial mensual
 		$fechax="-$fecha-$ano";
 
 	$historial->HistorialMensual($fechax);
-}
+break; 
 
 
-if($_REQUEST["op"]=="72"){ // historial cortes
+
+case  "72": // historial cortes
 	include_once '../../system/historial/Historial.php';
 	$historial = new Historial;
 	if($_POST["fecha1_submit"]){
@@ -882,11 +907,11 @@ if($_REQUEST["op"]=="72"){ // historial cortes
 	}
 	$historial->HistorialCortes($inicio, $fin);
 
-}
+break; 
 
 
-///////
-if($_REQUEST["op"]=="73"){ // historial diario
+
+case "73": // historial diario
 	include_once '../../system/historial/Historial.php';
 	$historial = new Historial;
 	if($_POST["fecha_submit"] == NULL){ 
@@ -895,10 +920,11 @@ if($_REQUEST["op"]=="73"){ // historial diario
 		$fecha = $_POST["fecha_submit"];
 	}
 	$historial->HistorialGDiario($fecha);
-}
+break; 
 
 
-if($_REQUEST["op"]=="74"){ // historial mensual
+
+case  "74": // historial mensual
 	include_once '../../system/historial/Historial.php';
 	$historial = new Historial;
 		$fecha=$_POST["mes"];
@@ -906,10 +932,11 @@ if($_REQUEST["op"]=="74"){ // historial mensual
 		$fechax="-$fecha-$ano";
 
 	$historial->HistorialGMensual($fechax);
-}
+break; 
 
 
-if($_REQUEST["op"]=="75"){ // mesas fecha
+
+case  "75": // mesas fecha
 	include_once '../../system/mesashoy/Mesas.php';
 	$mesas = new Mesas;
 	
@@ -919,9 +946,11 @@ if($_REQUEST["op"]=="75"){ // mesas fecha
 		$fecha = $_POST["fecha_submit"];
 	}
 	$mesas->VerMesas($fecha,2);
-}
+break; 
 
-if($_REQUEST["op"]=="76"){ // historial In Out
+
+
+case  "76": // historial In Out
 	include_once '../../system/historial/Historial.php';
 	$historial = new Historial;
 	if($_POST["fecha_submit"] == NULL){ 
@@ -930,10 +959,11 @@ if($_REQUEST["op"]=="76"){ // historial In Out
 		$fecha = $_POST["fecha_submit"];
 	}
 	$historial->InOut($fecha);
-}
+break; 
 
 
-if($_REQUEST["op"]=="77"){ // historial ticket borrados
+
+case  "77": // historial ticket borrados
 	include_once '../../system/historial/Historial.php';
 	$historial = new Historial;
 	if($_POST["fecha1_submit"]){
@@ -943,52 +973,61 @@ if($_REQUEST["op"]=="77"){ // historial ticket borrados
 	}
 	$historial->HistorialTickets($inicio, $fin);
 
-}
+break; 
 
-///////////modal ver mesas
-if($_REQUEST["op"]=="78"){ 
+
+
+case "78": 
 	include_once '../../system/mesashoy/Mesas.php';
 	$mesas = new Mesas;
 	$mesas->ModalVerMesa($_POST["mesa"],$_POST["tx"],$_POST["tbl"]);
-}
+break; 
 
 
 
-if($_REQUEST["op"]=="80"){ // search -> Eliminar Orden tx =0
+case  "80": // search -> Eliminar Orden tx =0
 Alerts::AlertaCambios("eliminar-orden","81",$_REQUEST["iden"],"Esta seguro que desea eliminar esta orden? El cambio no se puede revertir");
-}
+break; 
 
-if($_REQUEST["op"]=="81"){ // search -> Eliminar Orden tx =0
+
+
+case  "81": // search -> Eliminar Orden tx =0
 	include_once '../../system/search/Busqueda.php';
 	$search = new Busqueda;
 	$search->BorrarOrden($_REQUEST["iden"]); // el iden es el numero de factura
-}
+break; 
 
 
-if($_REQUEST["op"]=="82"){ // search -> Eliminar Orden tx =0
+
+case  "82": // search -> Eliminar Orden tx =0
 Alerts::AlertaCambios("cancelar-factura","83",$_REQUEST["iden"],"Esta seguro que desea eliminar esta Factura? El cambio no se puede revertir");
-}
+break; 
 
-if($_REQUEST["op"]=="83"){ // search -> Eliminar Factura tx =1
+
+
+case  "83": // search -> Eliminar Factura tx =1
 	include_once '../../system/search/Busqueda.php';
 	$search = new Busqueda;
 	$search->CancelarFactura($_REQUEST["iden"]); // el iden es el numero de factura
-}
+break; 
 
 
-if($_REQUEST["op"]=="84"){ // search -> Eliminar Orden tx =0
+
+case  "84": // search -> Eliminar Orden tx =0
 Alerts::AlertaCambios("pasar-factura","85",$_REQUEST["iden"],"Esta seguro que desea Pasar a factura esta orden? El cambio no se puede revertir");
-}
+break; 
 
-if($_REQUEST["op"]=="85"){ // search -> Eliminar Factura tx =1
+
+
+case  "85": // search -> Eliminar Factura tx =1
 	include_once '../../system/search/Busqueda.php';
 	$search = new Busqueda;
 	$search->CambiarFactura($_REQUEST["iden"]); // el iden es el numero de factura
-}
+break; 
 
 
 
-if($_REQUEST["op"]=="86"){ // imprimir factura
+case  "86": // imprimir factura
     $user = $_SESSION["user"];
     $tipo = $_REQUEST["tipo"];
 
@@ -1014,11 +1053,11 @@ if($_REQUEST["op"]=="86"){ // imprimir factura
 	}
 
 
-}
+break; 
 
 
 
-if($_REQUEST["op"]=="87"){ // para no facturar
+case  "87": // para no facturar
 	if($_SESSION["mesa"] != NULL){
 			if($_SESSION["noimprimir"] == 1) unset($_SESSION["noimprimir"]);
 			else $_SESSION["noimprimir"] = 1;
@@ -1026,18 +1065,20 @@ if($_REQUEST["op"]=="87"){ // para no facturar
 	} else {
 	Alerts::Alerta("error","Error!","No debe haber ninguna mesa activa para continuar!");
 	}
-}
+break; 
 
 
-if($_REQUEST["op"]=="88"){ // Abrir Caja
+
+case  "88": // Abrir Caja
 
     include_once 'system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
     $imprimir = new Impresiones; 
     $imprimir->AbrirCaja();
-}
+break; 
 
 
-if($_REQUEST["op"]=="89"){ // Reporte Diario
+
+case  "89": // Reporte Diario
 
     include_once 'system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
     $imprimir = new Impresiones; 
@@ -1046,13 +1087,11 @@ if($_REQUEST["op"]=="89"){ // Reporte Diario
     	Alerts::Alerta("success","Imprimiendo","Imprimiendo Factura");
     }
 	
-}
+break; 
 
 
 
-
-/////////////////configuracion
-if($_REQUEST["op"]=="90"){ 
+case "90": 
 	include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
 
@@ -1087,9 +1126,11 @@ if($_REQUEST["op"]=="90"){
 									$_POST["venta_especial"],
 									$_POST["imprimir_antes"],
 									$_POST["cambio_tx"]);
-}
+break; 
 
-if($_REQUEST["op"]=="91"){ 
+
+
+case  "91": 
 include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
 
@@ -1104,159 +1145,184 @@ include_once '../../system/config_configuraciones/Config.php';
 						Encrypt::Encrypt($_POST["ftp_password"],$_SESSION['secret_key']),
 						Encrypt::Encrypt($_POST["tipo_sistema"],$_SESSION['secret_key']),
 						Encrypt::Encrypt($_POST["plataforma"],$_SESSION['secret_key']));
-}
+break; 
 
 
-if($_REQUEST["op"]=="92"){  // crear iconos para venta
+
+case  "92":  // crear iconos para venta
 include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
 	$configuracion->CrearIconos("../iconos/", 1);
-}
+break; 
 
 
-if($_REQUEST["op"]=="95"){ 
+
+case  "95": 
 include_once '../../system/tv/Pantallas.php';
 	$pantalla = new Pantallas;
 	$pantalla->Comprueba();
-}
+break; 
 
-if($_REQUEST["op"]=="96"){  // muestra el panel
+
+
+case  "96":  // muestra el panel
 include_once '../../system/tv/Pantallas.php';
 	$pantalla = new Pantallas;
 	$pantalla->Panel();
 	$pantalla->Cambia(0);
-}
+break; 
 
-if($_REQUEST["op"]=="97"){ // mostrar lateral
+
+
+case  "97": // mostrar lateral
 include_once '../../system/tv/Pantallas.php';
 	$pantalla = new Pantallas;
 	$pantalla->MostarLateral();
-}
+break; 
 
-if($_REQUEST["op"]=="98"){ // pasar producto a sacado
+
+
+case  "98": // pasar producto a sacado
 include_once '../../system/tv/Pantallas.php';
 	$pantalla = new Pantallas;
 	$pantalla->PasarProducto($_REQUEST["iden"],$_REQUEST["cod"],$_REQUEST["identificador"]);
 	$pantalla->Panel();
 	$pantalla->Cambia(1);
-}
+break; 
 
-if($_REQUEST["op"]=="99"){ // cambiar pantalla panel
+
+
+case  "99": // cambiar pantalla panel
 include_once '../../system/tv/Pantallas.php';
 	$pantalla = new Pantallas;
 	$pantalla->CambiarPanel($_REQUEST["iden"]);
 	$pantalla->Panel();
-}
+break; 
 
 
-if($_REQUEST["op"]=="100"){ // mostrar productos paginados products venta especial
+
+case  "100": // mostrar productos paginados products venta especial
 include_once '../../system/config_especial/Config.php';
 $configuracion = new Config;
 $configuracion->VerProductosEspecial($_REQUEST["iden"]);
-} 
+break; 
 
 
-if($_REQUEST["op"]=="101"){ // mostrar productos paginados products venta especial
+
+case  "101": // mostrar productos paginados products venta especial
 include_once '../../system/config_especial/Config.php';
 $configuracion = new Config;
 $configuracion->CambiarEspecial($_REQUEST["cod"]);
 $configuracion->VerProductosEspecial($_REQUEST["iden"]);
-} 
+break; 
 
 
-if($_REQUEST["op"]=="102"){ // cambia para mostrarlo en el reporte
+
+case  "102": // cambia para mostrarlo en el reporte
 include_once '../../system/config_especial/Config.php';
 $configuracion = new Config;
 $configuracion->CambiarReporte($_REQUEST["cod"]);
 $configuracion->VerProductosEspecial($_REQUEST["iden"]);
-} 
+break; 
 
 
-if($_REQUEST["op"]=="110"){ // agregar producto averias
+
+case  "110": // agregar producto averias
 include_once '../../system/productos/Product.php';
 $producto = new Product;
 $producto->AgregarAveria($_POST["producto"],$_POST["cantidad"],$_POST["comentarios"]);
 	
-} 
+break; 
 
 
-if($_REQUEST["op"]=="111"){ // borrar averias
+
+case  "111": // borrar averias
 include_once '../../system/productos/Product.php';
 $producto = new Product;
 $producto->EliminarAveria($_REQUEST["iden"]);
 	
-} 
+break; 
 
-if($_REQUEST["op"]=="112"){ // paginador averias
+
+
+case  "112": // paginador averias
 include_once '../../system/productos/Product.php';
 $producto = new Product;
 $producto->VerAverias($_REQUEST["iden"]);
-} 
+break; 
 
 
-if($_REQUEST["op"]=="115"){ // agregar producto nuevo
+
+case  "115": // agregar producto nuevo
 include_once '../../system/productos/Product.php';
 $producto = new Product;
 $producto->AgregarProducto($_POST["producto"],$_POST["cantidad"],$_POST["comentarios"]);
 	
-} 
+break; 
 
-if($_REQUEST["op"]=="116"){ // borrar averias
+
+
+case  "116": // borrar averias
 include_once '../../system/productos/Product.php';
 $producto = new Product;
 $producto->EliminarProducto($_REQUEST["iden"]);
 	
-} 
+break; 
 
-if($_REQUEST["op"]=="117"){ // paginador averias
+
+
+case  "117": // paginador averias
 include_once '../../system/productos/Product.php';
 $producto = new Product;
 $producto->VerProducto($_REQUEST["iden"]);
-}
+break; 
 
 
 
-if($_REQUEST["op"]=="124"){ // comprueba es estado de cada respaldo
+case  "124": // comprueba es estado de cada respaldo
 include_once '../../system/historial/Historial.php';
 	$historial = new Historial;
 	$historial->SyncStatus("../../sync/database/");
-}
+break; 
 
 
-if($_REQUEST["op"]=="125"){ // comprueba se se ha desarrollado respaldo
+
+case  "125": // comprueba se se ha desarrollado respaldo
 include_once '../../system/sync/Sync.php';
 $sync = new Sync;
 $sync->RespaldoStatus(date("d-m-Y"));
-}
+break; 
 
 
-if($_REQUEST["op"]=="126"){ // validar el sistema
+
+case  "126": // validar el sistema
 $_SESSION["caduca"] = 0;
 echo '<script>
 	window.location.href="?"
 </script>';
-}
+break; 
 
 
-if($_REQUEST["op"]=="127"){ // validar codigo de sistema
+
+case  "127": // validar codigo de sistema
 include_once '../common/Encrypt.php';
 include_once '../../system/index/Inicio.php';
 $inicio = new Inicio;
 $inicio->Validar($_POST["fecha_submit"], $_POST["codigo"]);
 	
-}
+break; 
 
 
 
-
-if($_REQUEST["op"]=="128"){ // validar cuentas
+case  "128": // validar cuentas
 include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
 	$configuracion->AddSucursal($_POST["user"],$_POST["sistema"]);
-}
+break; 
 
 
-if($_REQUEST["op"]=="129"){ // cambiar local
+
+case  "129": // cambiar local
 include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config; 
   	$_SESSION['td'] = $_POST["iden"];
@@ -1266,87 +1332,93 @@ include_once '../../system/config_configuraciones/Config.php';
   echo '<script>
 	window.location.href="?"
 	</script>';
-}
+break; 
 
 
-if($_REQUEST["op"]=="130"){ // crear codigos
+
+case  "130": // crear codigos
 include_once '../common/Encrypt.php';
 include_once '../../system/index/Inicio.php';
 $inicio = new Inicio;
 $inicio->CreaCodigos($_POST["fecha_submit"]);
-}
+break; 
 
 
-if($_REQUEST["op"]=="131"){ // cambiar local predeterminado
+
+case  "131": // cambiar local predeterminado
 include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config; 
 	$configuracion->DefineSucursal($_SESSION["user"],$_REQUEST["iden"]);
-}
+break; 
 
 
-if($_REQUEST["op"]=="132"){ // buscar RTN
+
+case  "132": // buscar RTN
 include_once '../../system/facturar/Facturar.php';
 	$facturar = new Facturar; 
 	$facturar->BuscarRtn($_POST["keyword"]);
-}
+break; 
 
 
-if($_REQUEST["op"]=="133"){ // ver RTN
+
+case  "133": // ver RTN
 include_once '../../system/facturar/Facturar.php';
 	$facturar = new Facturar; 
 	$facturar->VerRtn($_REQUEST["iden"]);
-}
+break; 
 
-if($_REQUEST["op"]=="134"){ // ver RTN
+
+
+case  "134": // ver RTN
 include_once '../../system/facturar/Facturar.php';
 	$facturar = new Facturar; 
 	$facturar->QuitarRtn();
-}
+break; 
 
-if($_REQUEST["op"]=="135"){ // ver RTN
+
+
+case  "135": // ver RTN
 include_once '../../system/facturar/Facturar.php';
 	$facturar = new Facturar; 
 	$facturar->AgregarRtn($_POST["cliente"],$_POST["rtn"]);
-}
+break; 
 
-if($_REQUEST["op"]=="136"){ // vpregunta eliminar una cosa
+
+
+case  "136": // vpregunta eliminar una cosa
 $alert->Eliminar($_REQUEST["idx"],$_REQUEST["opx"],$_REQUEST["iden"],"rtn");
-}
+break; 
 
 
-if($_REQUEST["op"]=="137"){ // eliminar RTN
+
+case  "137": // eliminar RTN
 include_once '../../system/facturar/Facturar.php';
 	$facturar = new Facturar; 
 	$facturar->EliminarRtn($_REQUEST["iden"]);
-}
+break; 
 
 
-if($_REQUEST["op"]=="138"){ // eliminar RTN
+
+case  "138": // eliminar RTN
 include_once '../../system/facturar/Facturar.php';
 	$facturar = new Facturar; 
 	$facturar->AgregarCai($_POST["inicial"],$_POST["final"],$_POST["fechalimite_submit"],$_POST["cai"]);
 	
 
-}
+break; 
 
 
-if($_REQUEST["op"]=="139"){ // eliminar RTN
+
+case  "139": // eliminar RTN
 include_once '../../system/facturar/Facturar.php';
 	$facturar = new Facturar; 
 	$facturar->EliminarCai($_REQUEST["iden"]);
 	
-}
+break; 
 
 
 
-
-
-
-
-
-
-
-if($_REQUEST["op"]=="150"){ // Imprimir Ticket
+case "150": // Imprimir Ticket
 // busco que facura voy a ocupar
 $user = $_SESSION["user"];
 	if ($r = $db->select("impresora, clase", "facturar_users", 
@@ -1365,20 +1437,19 @@ $user = $_SESSION["user"];
 		$imprimir->$clase(2,47,NULL,$impresora,null);//(tipo,numero,cambio,imp)
 	}
 
-} /// imprimir ticket
+break; 
 
 
 
-
-
-if($_REQUEST["op"]=="159"){ 
+case "159": 
 include_once '../../system/reportes/Reporte.php';
 $reporte = new Reporte;
 	$reporte->ModalEspecial($_POST);
-}
+break; 
 
 
-if($_REQUEST["op"]=="160"){ // agragarUsuarios
+
+case  "160": // agragarUsuarios
 include_once '../../system/reportes/Reporte.php';
 include_once '../../system/gastos/Gasto.php';
 include_once '../../system/historial/Historial.php';
@@ -1389,11 +1460,11 @@ include_once '../../system/historial/Historial.php';
 		$fecha = $_POST["fecha_submit"];
 	}
 	$reporte->Contenido($fecha);
-}
+break; 
 
 
 
-if($_REQUEST["op"]=="161"){ // ImprimirRanfo
+case  "161": // ImprimirRanfo
 $user = $_SESSION["user"];
 
 if($_SESSION["tx"] == 1){
@@ -1427,13 +1498,11 @@ if($_SESSION["tx"] == 1){
 		Alerts::Alerta("error","Error!","Debe estar facturando para usar esta función!");
 	}
 
-} 
+break; 
 
 
 
-
-
-if($_REQUEST["op"]=="162"){ // Imprimir contadora
+case "162": // Imprimir contadora
 	include_once '../../system/reportes/Reporte.php';
 	include_once '../../system/historial/Historial.php';
 
@@ -1447,12 +1516,11 @@ if($_REQUEST["op"]=="162"){ // Imprimir contadora
 
 	$reporte = new Reporte; 
 	$reporte->Contadora($mes, $ano);
-}
+break; 
 
 
 
-
-if($_REQUEST["op"]=="163"){ // Subir imagen negocio
+case  "163": // Subir imagen negocio
 		
 include("../common/Imagenes.php");
 	$imagen = new upload($_FILES['archivo']);
@@ -1479,18 +1547,18 @@ $imgs = new Success();
 	  $imgs->VerImgNegocio("assets/img/logo/");
 	}
 
-}
+break; 
 
 
 
-if($_REQUEST["op"]=="164"){ // comparar las versiones del sistema
+case  "164": // comparar las versiones del sistema
 	include_once '../../system/sync/Sync.php';
 	$synchro = new Sync; 
 	$synchro->ComparaVersiones();
-}	
+break; 
 
 
-// if($_REQUEST["op"]=="165"){ // actualizar sistema
+// case "165": // actualizar sistema
 // 	include_once '../../system/sync/Sync.php';
 // 	$synchro = new Sync; 
 // 	exec('C:\Windows\System32\cmd.exe /c START C:\AppServ\www\pizto\download.bat');
@@ -1499,21 +1567,20 @@ if($_REQUEST["op"]=="164"){ // comparar las versiones del sistema
 //     $cambio["up_hora"] = date("H:i:s");
 //     Helpers::UpdateId("alter_opciones", $cambio, "td = ".$_SESSION["td"]."");
 // 	$synchro->ComparaVersiones();
-// }
+// break; 
 
 
 
-
-if($_REQUEST["op"]=="167"){ // dar seguimiento a materia prima
+case  "167": // dar seguimiento a materia prima
 	include_once '../../system/productos/Producto.php';
 	$productos = new Producto;
 	$productos-> SeguirMateria($_REQUEST["cod"], $_REQUEST["iden"]);
 	
-}
+break; 
 
 
 
-if($_REQUEST["op"]=="168"){ // borrar factura completa
+case  "168": // borrar factura completa
 include_once '../../system/facturar/Facturar.php';
 	$facturar = new Facturar; 
 	$facturar->BorrarFactura($_REQUEST["mesa"], $_REQUEST["num_fac"]);
@@ -1522,43 +1589,45 @@ include_once '../../system/tv/Pantallas.php';
 	$pantalla = new Pantallas;
 	$pantalla->EliminaControl($_REQUEST["mesa"]);
 	$pantalla->Cambia(1);
-} 
+break; 
 
 
 
-
-
-
-///////////////gastos
-if($_REQUEST["op"]=="170"){ 
+case "170": 
 include_once '../../system/gastos/Gasto.php';
 	$gastos = new Gastos;
 	$gastos->AddGasto($_POST);
-}
+break; 
 
-if($_REQUEST["op"]=="171"){ 
+
+
+case  "171": 
 include_once '../../system/gastos/Gasto.php';
 	$gastos = new Gastos;
 	$gastos->BorrarGasto($_POST["iden"]);
 
-}
+break; 
 
-if($_REQUEST["op"]=="172"){  // entrada de efectivo
+
+
+case  "172":  // entrada de efectivo
 include_once '../../system/gastos/Gasto.php';
 	$gastos = new Gastos;
 	$gastos->AddEfectivo($_POST);
-}
+break; 
 
 
-if($_REQUEST["op"]=="173"){ 
+
+case  "173": 
 include_once '../../system/gastos/Gasto.php';
 	$gastos = new Gastos;
 	$gastos->BorrarEfectivo($_POST["iden"]);
 
-}
+break; 
 
-/// subir imagen de producto
-if($_REQUEST["op"]=="174"){
+
+
+case "174":
 include("../common/Imagenes.php");
 	$imagen = new upload($_FILES['archivo']);
 include("../common/ImagenesSuccess.php");
@@ -1583,60 +1652,61 @@ $imgs = new Success();
 	  echo 'error : ' . $imagen->error;
 	  $imgs->VerImagenGasto($_POST['codigo']);
 	}	
-}
+break; 
 
 
-if($_REQUEST["op"]=="175"){ 
+
+case  "175": 
 include("../common/ImagenesSuccess.php");
 	$imgs = new Success();
 	$imgs->VerImagenGasto($_REQUEST['gasto'], $_REQUEST['iden']);
 	$imgs->ImagenesGasto($_REQUEST['gasto']);
-}
+break; 
 
 
-if($_REQUEST["op"]=="176"){ 
+
+case  "176": 
 include("../common/ImagenesSuccess.php");
 	$imgs = new Success();
 	$imgs->VerImagenGasto($_REQUEST['gasto'], $_REQUEST['iden']);
 	$imgs->ImagenesGasto($_REQUEST['gasto']);
-}
+break; 
 
 
 
-
-
-/// comienza admin 200
-/// 
-/// 
-if($_REQUEST["op"]=="200"){ // agrega un usuario a sync
+case "200": // agrega un usuario a sync
 include_once '../../system/admon/Admin.php';
 	$admin = new Admin; 
 	$admin->AddClienteSync($_REQUEST["hash"],$_REQUEST["td"]);
-} 
+break; 
 
 
-if($_REQUEST["op"]=="201"){ // elimina un usuario a sync
+
+case  "201": // elimina un usuario a sync
 include_once '../../system/admon/Admin.php';
 	$admin = new Admin; 
 	$admin->DelClienteSync($_REQUEST["hash"],$_REQUEST["td"]);
-} 
+break; 
 
 
-if($_REQUEST["op"]=="202"){ // elimina un usuario a sync
+
+case  "202": // elimina un usuario a sync
 include_once '../../system/admon/Admin.php';
 	$admin = new Admin; 
 	$admin->DelHash($_REQUEST["hash"]);
-} 
+break; 
 
 
-if($_REQUEST["op"]=="203"){ // agregar neuevo hash
+
+case  "203": // agregar neuevo hash
 include_once '../../system/admon/Admin.php';
 	$admin = new Admin; 
 	$admin->NewHash($_POST["hash"]);
-} 
+break; 
 
 
-if($_REQUEST["op"]=="204"){ // muestra listado de  estado cortes web
+
+case  "204": // muestra listado de  estado cortes web
 include_once '../../system/admon/Admin.php';
 	$admin = new Admin; 
 
@@ -1647,219 +1717,229 @@ include_once '../../system/admon/Admin.php';
 		$fecha = $_POST["fecha_submit"];
 	}
 	$admin->EdoCortes($fecha);
-} 
+break; 
 
 
 
-
-
-
-
-///////////////////// planilla
-
-if($_REQUEST["op"]=="300"){ // agregar empleado
+case "300": // agregar empleado
 include_once '../../system/planilla/Planilla.php';
 	$plan = new planilla;
 	$plan->AddEmpleado($_POST);
 
-}
-if($_REQUEST["op"]=="301"){ // eliminar empleado
+break; 
+
+
+
+case   "301": // eliminar empleado
 include_once '../../system/planilla/Planilla.php';
 	$plan = new planilla;
 	$plan->DelEmpleado($_REQUEST["hash"], $_REQUEST["dir"]);
 
-}
+break; 
 
-if($_REQUEST["op"]=="302"){ // paginar empleado
+
+
+case  "302": // paginar empleado
 include_once '../../system/planilla/Planilla.php';
 	$plan = new planilla;
 	$plan->VerTodosEmpleados($_POST["iden"], $_POST["orden"], $_POST["dir"]);
-}
+break; 
 
-if($_REQUEST["op"]=="303"){ //  carga de modal con detalles empleado
+
+
+case  "303": //  carga de modal con detalles empleado
 include_once '../../system/planilla/Planilla.php';
 	$plan = new planilla;
 	$plan->VerDetalles($_POST["key"]);
-}
+break; 
 
-if($_REQUEST["op"]=="304"){ //  actualizar empleado
+
+
+case  "304": //  actualizar empleado
 include_once '../../system/planilla/Planilla.php';
 	$plan = new planilla;
 	$plan->UpEmpleado($_POST);
-}
+break; 
 
 
-if($_REQUEST["op"]=="305"){ // agrega extra
+
+case  "305": // agrega extra
 include_once '../../system/planilla/Planilla.php';
 	$plan = new planilla;
 	$plan->AddExtra($_POST);
-}
+break; 
 
 
-if($_REQUEST["op"]=="306"){ // agrega extra
+
+case  "306": // agrega extra
 include_once '../../system/planilla/Planilla.php';
 	$plan = new planilla;
 	$plan->VerTodasExtras($_POST["key"],NULL,1);
-}
+break; 
 
-if($_REQUEST["op"]=="307"){ // eliminar extra
+
+
+case  "307": // eliminar extra
 include_once '../../system/planilla/Planilla.php';
 	$plan = new planilla;
 	$plan->DelExtra($_POST);
-}
+break; 
 
-if($_REQUEST["op"]=="308"){ // eliminar extra
+
+
+case  "308": // eliminar extra
 include_once '../../system/planilla/Planilla.php';
 	$plan = new planilla;
 	$plan->AddPlanilla($_POST);
-}
-if($_REQUEST["op"]=="309"){ // descuento
+break; 
+
+
+
+case  "309": // descuento
 include_once '../../system/planilla/Planilla.php';
 	$plan = new planilla;
 	$plan->AddDescuento($_POST);
-}
+break; 
 
-if($_REQUEST["op"]=="310"){ // descuento
+
+
+case  "310": // descuento
 include_once '../../system/planilla/Planilla.php';
 	$plan = new planilla;
 	$plan->DelDescuento($_POST["hash"]);
-}
+break; 
 
-if($_REQUEST["op"]=="311"){ // select descuento
+
+
+case  "311": // select descuento
 include_once '../../system/planilla/Planilla.php';
 	$plan = new planilla;
 	$plan->SelectDescuento($_POST["hash"]);
-}
+break; 
 
-if($_REQUEST["op"]=="312"){ // descuento
+
+
+case  "312": // descuento
 include_once '../../system/planilla/Planilla.php';
 	$plan = new planilla;
 	$plan->AddDescuentoAsig($_POST);
-}
-if($_REQUEST["op"]=="313"){ // descuento
+break; 
+
+
+
+case  "313": // descuento
 include_once '../../system/planilla/Planilla.php';
 	$plan = new planilla;
 	$plan->DelDescuentoAsig($_POST["hash"]);
-}
+break; 
 
-if($_REQUEST["op"]=="314"){ // paginar planillas
+
+
+case  "314": // paginar planillas
 include_once '../../system/planilla/Planilla.php';
 	$plan = new planilla;
 	$plan->VerTodosPlanillas($_POST["iden"], $_POST["orden"], $_POST["dir"]);
-}
+break; 
 
 
-/// planilla ///////////////
 
-
-// bsckup
-if($_REQUEST["op"]=="350"){ // crear back up
+case "350": // crear back up
 include_once '../../system/bdbackup/Backup.php';
 	$back = new BackUp();
 	$back-> AddRegistro($_POST["sistema"]);
 
-}
+break; 
 
-if($_REQUEST["op"]=="351"){ // crear back up
+
+
+case  "351": // crear back up
 include_once '../../system/bdbackup/Backup.php';
 	$back = new BackUp();
 	$back->VerRespaldos("../../system/bdbackup/backup/" .$_SESSION["td"] . "/");
 
-}
+break; 
 
-if($_REQUEST["op"]=="352"){ // crear back up
+
+
+case  "352": // crear back up
 include_once '../../system/bdbackup/Backup.php';
 	$back = new BackUp();
 	$back->Eliminar("../../system/bdbackup/backup/" .$_SESSION["td"] . "/", $_POST["data"]);
-}
+break; 
 
-if($_REQUEST["op"]=="353"){ // verifica solicitus
+
+
+case  "353": // verifica solicitus
 include_once '../../system/bdbackup/Backup.php';
 	$back = new BackUp();
 	$back->Search();
-}
-// backup
+break; 
 
 
 
-
-
-
-
-
-
-/////////////////////// cliente
-
-if($_REQUEST["op"]=="364"){ // agregar cliente
+case "364": // agregar cliente
 include_once '../../system/cliente/Cliente.php';
 	$cliente = new Clientes;
 	$_POST["nacimiento"] = $_POST["nacimiento_submit"];
 	unset($_POST["nacimiento_submit"]);
 	$cliente->AddCliente($_POST);
-}
+break; 
 
-if($_REQUEST["op"]=="365"){ // elimina cliente
+
+
+case  "365": // elimina cliente
 include_once '../../system/cliente/Cliente.php';
 	$cliente = new Clientes;
 	$cliente->DelCliente($_REQUEST["hash"]);
-}
+break; 
 
-if($_REQUEST["op"]=="366"){ // elimina cliente desde liasta completa
+
+
+case  "366": // elimina cliente desde liasta completa
 include_once '../../system/cliente/Cliente.php';
 	$cliente = new Clientes;
 	$cliente->DelClientex($_REQUEST["hash"]);
-}
+break; 
 
-if($_REQUEST["op"]=="367"){ // actualizar cliente
+
+
+case  "367": // actualizar cliente
 include_once '../../system/cliente/Cliente.php';
 	$cliente = new Clientes;
 	$_POST["nacimiento"] = $_POST["nacimiento_submit"];
 	unset($_POST["nacimiento_submit"]);
 	$cliente->UpCliente($_POST);
-}
+break; 
 
 
-if($_REQUEST["op"]=="368"){ // ver cliente
+
+case  "368": // ver cliente
 include_once '../../system/cliente/Cliente.php';
 	$cliente = new Clientes;
 	$cliente->VistaCliente($_POST);
-}
+break; 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-/////////////////////// delivery
-
-if($_REQUEST["op"]=="400"){ // agregar cliente
+case "400": // agregar cliente
 include_once '../../system/cliente/Cliente.php';
 	$cliente = new Clientes;
 	$_POST["nacimiento"] = $_POST["nacimiento_submit"];
 	unset($_POST["nacimiento_submit"]);
 	echo $cliente->AddCliente($_POST, 1);
-}
+break; 
 
 
 
-if($_REQUEST["op"]=="401"){ // busca cliente
+case  "401": // busca cliente
 include_once '../../system/delivery/Llevar.php';
 	$deliver = new Llevar;
 	$deliver->Busqueda($_POST);
-}
+break; 
 
 
 
-if($_REQUEST["op"]=="402"){ // activar mesa para delivery
+case  "402": // activar mesa para delivery
 include_once '../../system/ventas/Venta.php';
 $ventas = new Venta;
 unset($_SESSION["mesa"], $_SESSION["nclientes"], $_SESSION["cad"]);
@@ -1881,21 +1961,19 @@ unset($_SESSION["mesa"], $_SESSION["cad"]);
 echo '<script>
 	window.location.href="?delivery&mesa='.$mesa.'"
 </script>';
-} 
+break; 
 
 
 
-/// para asignar un cliente a un delivery, es otra busqueda
-if($_REQUEST["op"]=="403"){ // busca cliente
+case "403": // busca cliente
 include_once '../../system/delivery/Llevar.php';
 	$deliver = new Llevar;
 	$deliver->BusquedaAsig($_POST);
-}
+break; 
 
 
 
-
-if($_REQUEST["op"]=="404"){ // activar mesa para delivery
+case  "404": // activar mesa para delivery
 if($_POST["hash"] != NULL){
 	 $_SESSION["cad"] = $_POST["hash"];
 }
@@ -1911,10 +1989,11 @@ unset($_SESSION["mesa"], $_SESSION["cad"]);
 echo '<script>
 	window.location.href="?delivery&mesa='.$mesa.'"
 </script>';
-} 
+break; 
 
 
-if($_REQUEST["op"]=="405"){ // desvincular cliente
+
+case  "405": // desvincular cliente
 include_once '../../system/delivery/Llevar.php';
 	$deliver = new Llevar;
 	$deliver->DesvincularCliente($_POST["hash"]);
@@ -1925,37 +2004,91 @@ unset($_SESSION["mesa"], $_SESSION["cad"]);
 echo '<script>
 	window.location.href="?delivery&mesa='.$mesa.'"
 </script>';
-} 
+break; 
 
 
-if($_REQUEST["op"]=="406"){ // modal botones opciones
+
+case  "406": // modal botones opciones
 include_once '../../system/delivery/Llevar.php';
 	$deliver = new Llevar;
 	$deliver->BotonesOpciones($_POST);
-} 
+break; 
 
-if($_REQUEST["op"]=="407"){ // modalpara edo
+
+
+case  "407": // modalpara edo
 include_once '../../system/delivery/Llevar.php';
 	$deliver = new Llevar;
 	$deliver->ModalEdo();
-} 
+break; 
 
 
-if($_REQUEST["op"]=="408"){ // agrega cambio de edo
+
+case  "408": // agrega cambio de edo
 include_once '../../system/delivery/Llevar.php';
 	$deliver = new Llevar;
 	$deliver->AddEdo($_REQUEST["edo"]);
-} 
+break; 
 
 
-if($_REQUEST["op"]=="409"){ // agrega cambio de edo
+
+case  "409": // agrega cambio de edo
 include_once '../../system/delivery/Llevar.php';
 	$deliver = new Llevar;
 	$deliver->MensajeEdoBlock();
-} 
+break; 
 
 
 
+case  "410": // busca repartidor
+include_once '../../system/delivery/Llevar.php';
+	$deliver = new Llevar;
+	$deliver->BusquedaRepartidor($_POST);
+break; 
+
+
+case  "411": // activar repartidor a mesa
+include_once '../../system/delivery/Llevar.php';
+	$deliver = new Llevar;
+	$deliver->AsignarRepartidor($_POST["hash"]);
+	echo '<script>
+	window.location.href="?delivery&mesa='.$_SESSION["mesa"].'"
+	</script>';
+break; 
+
+
+case  "412": // add repartidor
+include_once '../../system/delivery/Llevar.php';
+	$deliver = new Llevar;
+	
+	if($deliver->AddRepartidor($_POST) == TRUE){
+		Alerts::Alerta("success","Realizado!","Cambio realizado corectamente!");
+		echo '<script>
+		window.location.href="?delivery&mesa='.$_SESSION["mesa"].'"
+		</script>';
+	} else {
+		Alerts::Alerta("error","Error!","Ocurrio algo!");
+	}
+break; 
+
+
+
+case  "413": // desvincular repartidor
+include_once '../../system/delivery/Llevar.php';
+	$deliver = new Llevar;
+	$deliver->DelRepartidor();
+
+echo '<script>
+	window.location.href="?delivery&mesa='.$_SESSION["mesa"].'"
+</script>';
+break; 
+
+
+
+
+
+
+} // termina switch
 
 
 

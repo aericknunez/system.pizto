@@ -17,8 +17,7 @@ class Corte{
 	        $caja_chica=$r["efectivo"];
 	    } unset($r);
 
- 		// eliminar el los datos de ticket_temp
-		   	    $db->query("TRUNCATE ticket_temp");
+
 		   	    $this->EliminarMesasActivas($fecha);
 		   	    
     	// inserto los datos del corte de ahora
@@ -45,11 +44,19 @@ class Corte{
 		   	$this->CalcularGastoProductos($fecha);
 
 		   	  	if(Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0 and $_SESSION["root_tipo_sistema"] != 0){
+			 		
+			 		// eliminar el los datos de ticket_temp
+					   	    $db->query("TRUNCATE ticket_temp");
+
 			   		echo '<script>
 						window.location.href="?modal=respaldar"
 					</script>';
 			   	}
-		   	
+
+		   	  	if(Helpers::ServerDomain() == TRUE and $_SESSION["root_plataforma"] != 0){
+		   	  		// eliminar el los datos de ticket_temp si estan el la web
+		   	  		$db->delete("ticket_temp", "WHERE fecha = '$fecha' and td = ".$_SESSION["td"]."");
+		   	  	}		   	
 		   }
 
 		  

@@ -7,7 +7,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 15-06-2020 a las 05:39:36
+-- Tiempo de generación: 15-06-2020 a las 06:44:52
 -- Versión del servidor: 5.7.17-log
 -- Versión de PHP: 5.6.30
 
@@ -82,7 +82,7 @@ CREATE TABLE `alter_producto_reporte` (
 --
 
 CREATE TABLE `categorias` (
-  `id` int(6) DEFAULT NULL,
+  `id` int(6) NOT NULL,
   `cod` int(4) NOT NULL,
   `categoria` varchar(50) NOT NULL,
   `edo` int(2) NOT NULL,
@@ -707,7 +707,7 @@ CREATE TABLE `gastos_images` (
 --
 
 CREATE TABLE `images` (
-  `id` int(6) DEFAULT NULL,
+  `id` int(6) NOT NULL,
   `img_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `img_order` int(5) NOT NULL DEFAULT '0',
   `popup` int(3) NOT NULL,
@@ -787,9 +787,9 @@ INSERT INTO `images` (`id`, `img_name`, `img_order`, `popup`, `cod`, `edo`, `td`
 (64, 'assets/img/ico/gegt.png', 61, 9905, 1056, 1, 0, 'de90f3463d', 1565038142),
 (65, 'assets/img/ico/gegt.png', 62, 9905, 1057, 1, 0, '810318162a', 1565038142),
 (66, 'assets/img/ico/5.png', 63, 0, 1058, 1, 0, '9ae14ad558', 1565038142),
-(NULL, 'assets/img/ico/cebolla.png', 64, 1, 101, 1, 0, 'f1c49cd7bf', 1588974396),
-(NULL, 'assets/img/ico/tomate.png', 65, 1, 102, 1, 0, '60368b8c97', 1588974413),
-(NULL, 'assets/img/ico/pepino.png', 66, 1, 101, 1, 0, 'e8f589518f', 1590494649);
+(67, 'assets/img/ico/cebolla.png', 64, 1, 101, 1, 0, 'f1c49cd7bf', 1588974396),
+(68, 'assets/img/ico/tomate.png', 65, 1, 102, 1, 0, '60368b8c97', 1588974413),
+(69, 'assets/img/ico/pepino.png', 66, 1, 101, 1, 0, 'e8f589518f', 1590494649);
 
 -- --------------------------------------------------------
 
@@ -1417,7 +1417,8 @@ INSERT INTO `mesa` (`id`, `clientes`, `mesa`, `tipo`, `empleado`, `user`, `fecha
 (516, 1, 49, 1, 'Erick Nunez', 'Erick', '26-05-2020', '06:02:59', 2, 0, 0, 'b6807ac5a1', 1590495746),
 (518, 1, 50, 1, 'Erick Nunez', 'Erick', '26-05-2020', '06:22:32', 2, 0, 0, '67ebf11305', 1590495758),
 (532, 1, 52, 3, 'Erick Nunez', 'Erick', '04-06-2020', '12:21:15', 2, 0, 0, '37a58f68d4', 1591294926),
-(537, 1, 53, 3, 'Erick Nunez', 'Erick', '04-06-2020', '12:25:54', 2, 0, 0, '849849eef5', 1591295181);
+(537, 1, 53, 3, 'Erick Nunez', 'Erick', '04-06-2020', '12:25:54', 2, 0, 0, '849849eef5', 1591295181),
+(548, 1, 54, 1, 'Erick Nunez', 'Erick', '15-06-2020', '06:03:53', 1, 0, 0, '93f27aa9d5', 1592222633);
 
 -- --------------------------------------------------------
 
@@ -1622,7 +1623,7 @@ INSERT INTO `planilla_pagos` (`id`, `empleado`, `fecha_inicio`, `fecha_fin`, `in
 --
 
 CREATE TABLE `precios` (
-  `id` int(6) DEFAULT NULL,
+  `id` int(6) NOT NULL,
   `cod` int(4) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `cat` int(2) NOT NULL,
@@ -1695,8 +1696,7 @@ INSERT INTO `precios` (`id`, `cod`, `nombre`, `cat`, `precio`, `td`, `hash`, `ti
 (58, 1055, 'Orilla de queso Pesonal', 9905, 30.00, 0, 'a397103d0b', 1587599047),
 (59, 1056, 'Orilla de queso Grande', 9905, 55.00, 0, '11e08cffc6', 1587599047),
 (60, 1057, 'Orilla de queso Gigante', 9905, 65.00, 0, 'b1fb259bd1', 1587599047),
-(61, 1058, 'Combo Orilla de Queso', 0, 190.00, 0, 'ffb7f0c860', 1587599047),
-(62, 1059, '', 0, 0.00, 0, 'fd14f33c82', 1587599047);
+(61, 1058, 'Combo Orilla de Queso', 0, 190.00, 0, 'ffb7f0c860', 1587599047);
 
 -- --------------------------------------------------------
 
@@ -1705,7 +1705,7 @@ INSERT INTO `precios` (`id`, `cod`, `nombre`, `cat`, `precio`, `td`, `hash`, `ti
 --
 
 CREATE TABLE `producto` (
-  `id` int(6) DEFAULT NULL,
+  `id` int(6) NOT NULL,
   `cod` int(6) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `categoria` varchar(50) NOT NULL,
@@ -1780,8 +1780,7 @@ INSERT INTO `producto` (`id`, `cod`, `nombre`, `categoria`, `cantidad`, `gravado
 (58, 1055, 'Orilla de queso Pesonal', '9905', 0, 1, '29-05-2019', 0, '5180498ad3', 1565038151),
 (59, 1056, 'Orilla de queso Grande', '9905', 0, 1, '29-05-2019', 0, '87dcb59e7f', 1565038151),
 (60, 1057, 'Orilla de queso Gigante', '9905', 0, 1, '29-05-2019', 0, 'a70c112ddd', 1565038151),
-(61, 1058, 'Combo Orilla de Queso', '0', 0, 1, '29-05-2019', 0, 'affec36829', 1565038151),
-(62, 1059, '', '', 0, 1, '24-08-2019', 0, '0d73fa3765', 1566684023);
+(61, 1058, 'Combo Orilla de Queso', '0', 0, 1, '29-05-2019', 0, 'affec36829', 1565038151);
 
 -- --------------------------------------------------------
 
@@ -3530,6 +3529,12 @@ ALTER TABLE `alter_producto_reporte`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `clientes`
 --
 ALTER TABLE `clientes`
@@ -3635,6 +3640,12 @@ ALTER TABLE `gastos`
 -- Indices de la tabla `gastos_images`
 --
 ALTER TABLE `gastos_images`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `images`
+--
+ALTER TABLE `images`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -3757,6 +3768,18 @@ ALTER TABLE `planilla_extras`
 -- Indices de la tabla `planilla_pagos`
 --
 ALTER TABLE `planilla_pagos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `precios`
+--
+ALTER TABLE `precios`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `producto`
+--
+ALTER TABLE `producto`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -4028,7 +4051,7 @@ ALTER TABLE `login_userdata`
 -- AUTO_INCREMENT de la tabla `mesa`
 --
 ALTER TABLE `mesa`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=548;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=549;
 --
 -- AUTO_INCREMENT de la tabla `mesa_nombre`
 --

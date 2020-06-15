@@ -1,7 +1,3 @@
-<br />
-<b>Warning</b>:  require(streams.php): failed to open stream: No such file or directory in <b>C:\AppServ\www\phpMyAdmin\libraries\php-gettext\gettext.inc</b> on line <b>41</b><br />
-<br />
-<b>Warning</b>:  require(gettext.php): failed to open stream: No such file or directory in <b>C:\AppServ\www\phpMyAdmin\libraries\php-gettext\gettext.inc</b> on line <b>42</b><br />
 -- phpMyAdmin SQL Dump
 -- version 4.6.6
 -- https://www.phpmyadmin.net/

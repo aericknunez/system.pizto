@@ -313,6 +313,7 @@ $num = $ventas->Facturar($_SESSION["mesa"],$_POST["total"]);
 header("location: ../../?modal=factura&factura=$num&efectivo=".$_POST["total"]."");
 break; 
 
+
 case "22": // MUESTRA EL LATERAL (FACTURA)
 		include_once '../../system/ventas/Venta.php';
 		include_once '../../system/corte/Corte.php';

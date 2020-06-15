@@ -243,17 +243,17 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 
 		if($_SESSION["delivery_on"] == TRUE){ // accion si es en delivery 
 			      
-		      if ($r = $db->select("edo", "clientes_mesa", "WHERE mesa='".$_SESSION["mesa"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
-
-			        if($r["edo"] == 1){
-						$this->VerFacturaNormal($_SESSION["mesa"]);	
-			        } else {
-						$this->VerFacturaDelivery($_SESSION["mesa"]);	
-			        }
-
+		      if ($r = $db->select("edo", "clientes_mesa", "WHERE mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+		      		$edo = $r["edo"];
 				} unset($r); 
+					
+					if($edo == 1 or $edo == NULL){
+						$this->VerFacturaNormal($mesa);	
+			        } else {
+						$this->VerFacturaDelivery($mesa);	
+			        }
 		} else {
-			$this->VerFacturaNormal($_SESSION["mesa"]);			
+			$this->VerFacturaNormal($mesa);			
 		}
 	}
 

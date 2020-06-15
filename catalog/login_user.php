@@ -15,7 +15,7 @@
 </head>
 
 <body class="hidden-sn <?php echo SKIN; ?>">
-<main>
+<main id="todocontenido">
 
 <div id="mdb-preloader" class="flex-center">
     <div class="preloader-wrapper big active crazy">
@@ -95,10 +95,9 @@ if (isset($_GET['error'])) {
 <!-- </div> -->
 
 
-
-</main>
 <a href="?change">Cambiar inicio</a>
-  
+</main>
+
     <script type="text/javascript" src="assets/js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="assets/js/popper.min.js"></script>
     <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
@@ -167,6 +166,7 @@ $(document).ready(function(){
 
 
         $("body").css("background","#000");
+        $("main").hide();
 
     });      
     
@@ -174,6 +174,7 @@ $(document).ready(function(){
 
         $("#ModalLogin").modal("hide");
          $("body").css("background","#FFF");
+         $("main").show();
     });
 
   

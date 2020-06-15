@@ -192,17 +192,20 @@ class Clientes {
 
 
 
-  public function VistaCliente($data){
+public function VistaCliente($data){
       $db = new dbConn();
      if ($r = $db->select("*", "clientes", "WHERE hash = '".$data["key"]."' and td = ".$_SESSION["td"]."")) { 
 
+
+echo '<blockquote class="blockquote bq-primary">
+  <p class="bq-title" mb-0>'.$r["nombre"].'</p>
+</blockquote>';
+
+echo '  <p  class="mt-1">Documento: <strong>'.$r["documento"].'</strong> </p>';
+echo '  <p  class="mt-1">Tel&eacutefono: <strong>'.$r["telefono"].'</strong> </p>';
+echo '  <p  class="mt-1">Fecha de Nacimiento: <strong>'.Fechas::FechaEscrita($r["nacimiento"]).'</strong> </p>';
+
               echo '<table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th>Documento: '.$r["nombre"].'</th>
-                    <td>Documento: '.$r["documento"].'</td>
-                  </tr>
-                </thead>
                 <tbody>
                   <tr>
                     <th colspan="2">Direcci&oacuten: '.$r["direccion"].'</th>
@@ -212,11 +215,7 @@ class Clientes {
                     <td>Municipio: '.$r["municipio"].'</td>
                   </tr>
                   <tr>
-                    <td>Giro: '.$r["email"].'</td>
-                    <td>Telefono: '.$r["telefono"].'</td>
-                  </tr>
-                  <tr>
-                    <td>Fecha de Nacimiento: '.$r["nacimiento"].'</td>
+                    <td>Email: '.$r["email"].'</td>
                     <td>Comentarios: '.$r["comentarios"].'</td>
                   </tr>
                 </tbody>
@@ -225,10 +224,8 @@ class Clientes {
         }  unset($r); 
 
 
-
-
-
   }
+
 
 
 

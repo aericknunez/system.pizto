@@ -16,6 +16,7 @@ $preci=$_POST["precio"];
 $opcion=$_POST["opcion"];
 
 
+
 $opciones='id="iconos" op="' . $op .'" nombre="'.$nombres.'" cod="'.$cod.'" cat="'.$cat.'" popup="'.$popup.'" canti="'.$canti.'" preci="'.$preci.'" opcion="'.$opcion.'"';
 
 if($_SESSION["opcionesx"] == NULL){

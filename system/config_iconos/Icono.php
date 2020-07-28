@@ -59,9 +59,6 @@ class Icono{
 		    $db->insert("opciones_asig", $datos);
 		}
 
-
-		$db->close();
-
 		if($_SESSION["opcionesx"] != NULL){ unset($_SESSION["opcionesx"]); } // borra la variable que creo en iconosselect
 	}
 	
@@ -92,7 +89,6 @@ class Icono{
 
 	    $db->insert("images", $datos);
 
-	$db->close();
 
 	if($_SESSION["opcionesx"] != NULL){ unset($_SESSION["opcionesx"]); } // borra la variable que creo en iconosselect
    }
@@ -171,7 +167,6 @@ class Icono{
 			    
 			    Helpers::UpdateId("images", $cambio, "popup='$cod' and td = ".$_SESSION["td"]."");
 
-			$db->close();
     	}
 
 

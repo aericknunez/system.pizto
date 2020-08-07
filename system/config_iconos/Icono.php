@@ -405,7 +405,7 @@ class Icono{
     		$a = $db->query("SELECT * FROM login_imagenes");
     	}	    
 	    foreach ($a as $b) {
-	        echo '<li><a ' . $opciones .' imagen="assets/img/ico/' . $b["imagen"] .'"><img src="assets/img/ico/' . $b["imagen"] .'" alt="image" class="img-fluid img-responsive wow fadeIn" /></a></li>';
+	        echo '<li><a ' . $opciones .' imagen="assets/img/ico/' . $b["imagen"] .'"><em>Seleccionar</em><img src="assets/img/ico/' . $b["imagen"] .'" alt="image" class="img-fluid img-responsive wow fadeIn" /></a></li>';
 	    } $a->close();
    	}
 

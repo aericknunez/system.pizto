@@ -45,12 +45,15 @@ $_SESSION["opcionesx"] = $opciones;
 
  <div id="iconoinfo"></div>  
 <div class="row text-center portfolio"> 
-   <ul class="gallery"> 
+    
 <?
 
-echo ' <div id="mostrariconos">';
+echo ' <div id="mostrariconos">
+<ul class="gallery">';
 $iconos->MostrarIconos($_REQUEST["cat"],$_SESSION["opcionesx"]);
-echo '</div> ';
+echo '
+</ul>
+</div> ';
 // $images = glob("assets/img/ico/*.*");  
 //       foreach($images as $image)  
 //       {  
@@ -61,7 +64,7 @@ echo '</div> ';
 //       echo $output;
 ?>
 
-</ul> 
+ 
 </div>
 
 <!-- ./  content -->

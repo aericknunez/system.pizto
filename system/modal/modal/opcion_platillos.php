@@ -23,11 +23,14 @@
                $imagen = $r["img_name"];
             } unset($r);
       
-      echo '<li><em>'.$b["nombre"].'</em><input type="image" 
-      id="ventaopcion" op="20" cod="'.$_REQUEST["cod"].'" mesa="'.$_REQUEST["mesa"].'" cliente="'.$_REQUEST["cliente"].'" opcion="'.$b["cod"] .'" panel="'.$_REQUEST["panel"].'" view="'.$_REQUEST["view"].'" src="'.$imagen.'" alt="image" class="img-fluid img-responsive wow fadeIn" /></li>';
+      echo '<li><a id="ventaopcion" op="20" cod="'.$_REQUEST["cod"].'" mesa="'.$_REQUEST["mesa"].'" cliente="'.$_REQUEST["cliente"].'" opcion="'.$b["cod"] .'" panel="'.$_REQUEST["panel"].'" view="'.$_REQUEST["view"].'"><em>'.$b["nombre"].'</em><img src="'.$imagen.'" alt="image" class="img-fluid img-responsive wow fadeIn" /></a></li>';
     } $a->close();
 
 ?>
+
+
+
+
 
 </ul> 
  </div>

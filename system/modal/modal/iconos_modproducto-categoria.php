@@ -21,17 +21,16 @@ $a = $db->query("Select * from images where popup=".$_REQUEST["cod"]." and td = 
     $nom=$r["nombre"]; $cat=$r["cat"];
     }
 
-    if ($r = $db->select("categoria", "categorias", "where cod='$cod' td = ".$_SESSION["td"]."")) { 
-        $nombres=$r["categoria"]; 
-        }
+     echo '<li><a href="?modal=modproducto&cod='.$cod.'&name='.$nom.'&img='.$img.'&cat='.$cat.'&pop='.$_REQUEST["cod"].'" >
+     <em>'.$nom.'</em><img src="'.$img.'" alt="image" class="img-fluid img-responsive wow fadeIn" /></a></li>';
 
-    echo "<li><a href='?modal=modproducto&cod=$cod&name=$nom&img=$img&cat=$cat&pop=".$_REQUEST["cod"]."'><em>$nombres</em><img src='$img' alt='image' class='img-fluid img-responsive wow fadeIn' /></a></li>";
     
     }
     $a->close();
 
  ?>
 
+ 
   <br>
    </ul> 
 

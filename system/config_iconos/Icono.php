@@ -280,7 +280,7 @@ class Icono{
    	$db = new dbConn();
 	   	$a = $db->query("SELECT * FROM opciones WHERE td = ".$_SESSION["td"]."");
           echo '<div class="table-responsive-sm">
-            <table class="table">
+            <table class="table table-sm table-hover">
               <thead>
           <tr>
             <th scope="col">#</th>
@@ -295,8 +295,8 @@ class Icono{
       echo '<tr>
       <th scope="row">'.$n.'</th>
       <td>'.$b["nombre"].'</td>
-      <td><a href="?modal=addopciones&cod='.$b["cod"].'" class="btn-floating btn-sm green"><i class="fas fa-edit"></i></a></td>
-      <td><a id="delopciones" op="12" cod="'.$b["cod"].'" class="btn-floating btn-sm red"><i class="fas fa-trash-alt"></i></a></td>
+      <td><a href="?modal=addopciones&cod='.$b["cod"].'"><i class="fas fa-edit fa-lg green-text"></i></a></td>
+      <td><a id="delopciones" op="12" cod="'.$b["cod"].'"><i class="fas fa-trash-alt fa-lg red-text"></i></a></td>
       </tr>';
     }
     echo '</tbody>
@@ -312,7 +312,7 @@ class Icono{
    	$db = new dbConn();
 	   	$a = $db->query("SELECT * FROM opciones_name where opcion='$cod' and td = ".$_SESSION["td"]."");
           echo '<div class="table-responsive-sm">
-            <table class="table">
+            <table class="table table-sm">
               <thead>
           <tr>
             <th scope="col">#</th>
@@ -326,7 +326,7 @@ class Icono{
       echo '<tr>
       <th scope="row">'.$n.'</th>
       <td>'.$b["nombre"].'</td>
-      <td><a id="delopciones" op="13" cod="'.$b["cod"].'" opciones="'.$cod.'" class="btn-floating btn-sm red"><i class="fas fa-trash-alt"></i></a></td>
+      <td><a id="delopciones" op="13" cod="'.$b["cod"].'" opciones="'.$cod.'" ><i class="fas fa-trash-alt fa-lg red-text"></i></a></td>
       </tr>';
     }
     echo '</tbody>

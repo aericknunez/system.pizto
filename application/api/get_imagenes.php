@@ -15,7 +15,7 @@ include_once '../common/Fechas.php';
 
 // aqui comparo si debo actualizar o no
 
-$check =  file_get_contents("http://localhost/app/api/imagenes_checker.php"); 
+$check =  file_get_contents("https://hibridosv.com/app/api/imagenes_checker.php"); 
 $checker = json_decode($check, true);
 
 if($checker != NULL){
@@ -27,7 +27,7 @@ if($checker != NULL){
 
 if($checker != NULL and $checker[0] != $numero){
 
-$data =  file_get_contents("http://localhost/app/api/imagenes.php"); 
+$data =  file_get_contents("https://hibridosv.com/app/api/imagenes.php"); 
 $datos = json_decode($data, true);
 
 if($datos != NULL){
@@ -48,7 +48,7 @@ unset($data, $datos, $valores);
 
 
 
-$data =  file_get_contents("http://localhost/app/api/categorias_imagenes.php"); 
+$data =  file_get_contents("https://hibridosv.com/app/api/categorias_imagenes.php"); 
 $datos = json_decode($data, true);
 
 if($datos != NULL){

@@ -164,11 +164,18 @@ public function VerificarEmail($email){
 					
 				} else { Alerts::Alerta("error","Error!","Debe tener al manos una Mayuscula");  }
 				
-			}
-			else { Alerts::Alerta("error","Error!","El password debe tener mas de 6 Caracteres"); }
+			} else { Alerts::Alerta("error","Error!","El password debe tener mas de 6 Caracteres"); }
 			
 		} else { Alerts::Alerta("error","Error!","Los password no son iguales"); }
+	}
 
+
+	public function CompararPassInseguro($pass1, $pass2) { // esta funcion aun es experimental
+		if($pass1 == $pass2){
+			return TRUE;	
+		} else { 
+			Alerts::Alerta("error","Error!","Los password no son iguales"); 
+		}
 	}
 
 

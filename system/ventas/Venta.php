@@ -173,14 +173,17 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 	public function AgregarOpcion($cod,$opcion,$mesa,$cliente,$identificador) {
 		$db = new dbConn();
 
-		if($identificador == NULL){
-		$a = $db->query("SELECT max(id) FROM ticket_temp WHERE td = ".$_SESSION["td"]."");
+	if($identificador == NULL){
+	
+	$a = $db->query("SELECT hash FROM ticket_temp WHERE td = ". $_SESSION["td"] ." ORDER BY id desc LIMIT 1");
     	foreach ($a as $b) {
-        $identificador=$b["max(id)"];
-    	} $a->close(); }
+        $identificador = $b["hash"];
+    	} $a->close(); 
+
+    }
 
     	if($cod == NULL){
-    		    if ($r = $db->select("cant", "ticket_temp", "WHERE id = $identificador and mesa=$mesa and cliente=$cliente and td=".$_SESSION["td"]."")) { 
+    		    if ($r = $db->select("cant", "ticket_temp", "WHERE hash = '".$identificador."' and mesa=$mesa and cliente='$cliente' and td=".$_SESSION["td"]."")) { 
 			        $cod=$r["cant"];
 			    } unset($r); }
 		
@@ -203,7 +206,7 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 		$a = $db->query("SELECT * FROM opciones_ticket WHERE cod = '$cod' and identificador='$identificador' and td = ".$_SESSION["td"]."");
 		if($a->num_rows > 0){
 
-			 if(Helpers::DeleteId("opciones_ticket", "cod='$cod' and identificador='$identificador' and opcion = $activo and td = ".$_SESSION["td"]." limit 1")){
+			 if(Helpers::DeleteId("opciones_ticket", "cod='$cod' and identificador='".$identificador."' and opcion = $activo and td = ".$_SESSION["td"]." limit 1")){
 			 	 Alerts::Alerta("success","Exito!","Opcion Eliminada corectamente!");
 			 } else {
 			 	 Alerts::Alerta("error","Error!","Ocurrio un error desconocido!");
@@ -219,7 +222,7 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 		    $cambio = array();
 		    $cambio["opcion"] = $cambios;
 		        
-		    if (Helpers::UpdateId("opciones_ticket", $cambio, "cod=$cod and identificador = $identificador and opcion = $activo and td = ".$_SESSION["td"]." limit 1")) 
+		    if (Helpers::UpdateId("opciones_ticket", $cambio, "cod=$cod and identificador = '$identificador' and opcion = $activo and td = ".$_SESSION["td"]." limit 1")) 
 		    {
 		         Alerts::Alerta("success","Exito!","Opcion Cambiada corectamente!"); 
 		    } else {
@@ -255,6 +258,8 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 		} else {
 			$this->VerFacturaNormal($mesa);			
 		}
+
+		$this->Sonar();
 	}
 
 
@@ -290,11 +295,20 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 				      <td>'. $b["producto"] .'</td>
 				      <td>'. $b["pv"] .'</td>
 				      <td>'. $b["total"] .'</td>
-				      <td><a id="borrar-producto" op="23" iden="'. $b["id"] .' mesa="'. $mesa .'">
+				      <td><a id="borrar-producto" op="23" iden="'. $b["hash"] .'" mesa="'. $mesa .'">
 				      <span><i class="fas fa-minus-circle red-text fa-lg" aria-hidden="true"></i></span>
 				      </a>
 				      </td>
 				    </tr>';
+
+
+			 // echo '<tr>
+				//       <th scope="row">gf</th>
+				//       <td>fg</td>
+				//       <td>fg</td>
+				//       <td>fg</td>
+				//       <td>fg </td>
+				//     </tr>';
 		    	}
 		    	echo '</tbody>
 					</table>';
@@ -545,8 +559,8 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 						      <td>'. $b["producto"] .'</td>
 						      <td>'. $b["pv"] .'</td>
 						      <td>'. $b["total"] .'</td>
-						      <td><a id="ver-producto" op="56" iden="'. $b["id"] .'" cod="'. $i .'" mesa="'. $mesa .'">
-						      <span class="badge red"><i class="fas fa-refresh" aria-hidden="true"></i></span>
+						      <td><a id="ver-producto" op="56" iden="'. $b["hash"] .'" cod="'. $i .'" mesa="'. $mesa .'" cliente="'. $b["cliente"] .'">
+						      <i class="fas fa-edit fa-lg red-text" aria-hidden="true"></i>
 						      </a></td>
 						    </tr>';
 		    	 		$i = $i + 1;
@@ -706,19 +720,19 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 		$db = new dbConn();
 		    
 		    // obtengo los datos para poder determinar si actualizo o borro
-		    if ($r = $db->select("cant, pv, cod", "ticket_temp", "WHERE id = '$iden'")) { 
+		    if ($r = $db->select("cant, pv, cod", "ticket_temp", "WHERE hash = '".$iden."'")) { 
         	$cantidad = $r["cant"];
         	$pv = $r["pv"];
         	$codigos = $r["cod"];
    			 } unset($r);  
 
    			 // obtengo datos si tiene opcion activada, si la tiene borro todos los productos
-   			 $a = $db->query("SELECT * FROM opciones_ticket WHERE identificador = '$iden' and td = ".$_SESSION["td"]."");
+   			 $a = $db->query("SELECT * FROM opciones_ticket WHERE identificador = '".$iden."' and td = ".$_SESSION["td"]."");
 				$comprobacion = $a->num_rows; $a->close();
    			 
    			 if($comprobacion > 0){ // si tiene opciones activado. borro todo
-   			 	Helpers::DeleteId("ticket_temp", "id='$iden' limit 1");
-   			 	Helpers::DeleteId("opciones_ticket", "identificador='$iden' and td = ".$_SESSION["td"]."");
+   			 	Helpers::DeleteId("ticket_temp", "hash='".$iden."' limit 1");
+   			 	Helpers::DeleteId("opciones_ticket", "identificador='".$iden."' and td = ".$_SESSION["td"]."");
 
    			 } else { // sino borro o actualizo
 
@@ -734,9 +748,9 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 				    $cambio["stotal"] = $stot;
 				    $cambio["imp"] = $im;
 				    $cambio["total"] =  $stot + $im;
-				    Helpers::UpdateId("ticket_temp", $cambio, "id='$iden' limit 1");
+				    Helpers::UpdateId("ticket_temp", $cambio, "hash='".$iden."' limit 1");
 		   			 } else {
-		   			 	    Helpers::DeleteId("ticket_temp", "id='$iden' limit 1");
+		   			 	    Helpers::DeleteId("ticket_temp", "hash='".$iden."' limit 1");
 		   			 }
 
 		   			 /////////////////////////// borrar si es venta especial
@@ -768,11 +782,11 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 		$db = new dbConn();
 		    
 Helpers::DeleteId("ticket_temp", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
-Helpers::DeleteId("mesa", "mesa='$mesa' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");
-Helpers::DeleteId("mesa_nombre", "mesa='$mesa' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
+Helpers::DeleteId("mesa", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");
+Helpers::DeleteId("mesa_nombre", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
 
 	if($_SESSION["delivery_on"] == TRUE){ // accion si es en delivery que borre el cliente tambien
-		Helpers::DeleteId("clientes_mesa", "mesa='$mesa' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
+		Helpers::DeleteId("clientes_mesa", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
 	}
 
 	unset($_SESSION["mesa"]);
@@ -795,20 +809,17 @@ echo '<div class="row d-flex justify-content-center">';
 
 	if($_SESSION["delivery_on"] == TRUE){
 		echo '<a id="deliveryedo" class="btn-floating red"><i class="fas fa-user" aria-hidden="true"></i></a>';
-	}
-
-
-/////////// view
-
-
-
-	if(!isset($_SESSION['view'])){ // si es para view o no...
 		if($_SESSION['opcionesactivas'] == TRUE){
-	echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'&view=0" class="btn-floating btn-success"><i class="fas fa-hamburger"></i></a>'; }
-	} else {
-		if($_SESSION['config_imprimir_antes'] != NULL){
-		 	echo '<a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&efectivo=&cancela='.$cancela.'" class="btn-floating blue"><i class="fas fa-print"></i></a>'; }
+		echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'" class="btn-floating btn-success"><i class="fas fa-hamburger"></i></a>'; }
 		
+	} elseif($_SESSION['view']){ // si esta en view.
+		if($_SESSION['config_imprimir_antes'] != NULL){
+		 	echo '<a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&efectivo=&cancela='.$cancela.'" class="btn-floating blue"><i class="fas fa-print"></i></a>'; }		 	
+		
+	} else { // si esta en root
+		
+		if($_SESSION['opcionesactivas'] == TRUE){
+		echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'" class="btn-floating btn-success"><i class="fas fa-hamburger"></i></a>'; }
 	}
 	/// si es para todos
 
@@ -829,8 +840,16 @@ echo '</div>';
 
 
 
+	public function Sonar(){
 
+		if($_SESSION["config_sonido"] == "on"){
+		echo '<audio id="audioplayer" autoplay=true>
+				  <source src="assets/sound/Beep4.mp3" type="audio/mpeg">
+				  <source src="assets/sound/Beep4.ogg" type="audio/ogg">
+			</audio>';
 
+		}
+	}
 
 
 

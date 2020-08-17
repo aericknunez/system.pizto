@@ -104,7 +104,10 @@ if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (
 <?php if(($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 5) and $_SESSION['config_pais'] == 2) { // para agregar un cai solo en honduras?>
 <li><a href="?cai" class="waves-effect"> Nuevo CAI</a></li>
 <?php } ?>
+<?php if($_SESSION["root_plataforma"] == 0){ ?>
 <li><a href="?rango" class="waves-effect"> Imprimir Facturas</a></li>
+<?php } ?>
+
 
 <?php if($_SESSION["tx"] == 1 and ($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 5)){
 echo '<li><a href="?contadora" class="waves-effect"> Imprimir Reporte</a></li>';
@@ -162,8 +165,7 @@ if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (
 
 
 
-
-<?php if($_SESSION["tipo_cuenta"] != 4 and $_SESSION["tipo_sistema"] == 3) {  /// planilla?>
+<?php if($_SESSION["tipo_cuenta"] != 4 and $_SESSION["root_tipo_sistema"] == 3) {  /// planilla?>
 
 <li><a class="collapsible-header waves-effect arrow-r"><i class="fas fa-user-alt"></i> PLANILLA<i class="fa fa-angle-down rotate-icon"></i></a>
 <div class="collapsible-body">
@@ -256,15 +258,19 @@ echo '<li><a id="cambiar-pantalla-inicio" op="27x" class="collapsible-header wav
 
 
 
-<?php if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 5) { 
- 
+<?php 
 if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (Helpers::ServerDomain() == TRUE and $_SESSION["root_plataforma"] == 1)) {
  ?>
 
 <li><a class="collapsible-header waves-effect arrow-r"><i class="fas fa-cogs"></i> CONFIGURACIONES<i class="fas fa-angle-down rotate-icon"></i></a>
 <div class="collapsible-body">
 <ul class="list-unstyled">
+
 <li><a href="?user" class="collapsible-header waves-effect arrow-r"> Usuarios </a></li>
+<?php 
+if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 5) { 
+ 
+ ?>
 <li><a href="?iconos" class="waves-effect">Iconos</a></li>
 <li><a href="?precios" class="waves-effect">Precios</a></li>
 <?php if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 5 or $_SESSION["tipo_cuenta"] == 2) { ?>                        
@@ -277,11 +283,11 @@ if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (
 <li><a href="?root" class="waves-effect">Configuracion Root</a></li>
 <li><a href="?conf_factura" class="waves-effect">Configuracion Facturas</a></li>
 <li><a href="?codigos" class="waves-effect">C&oacutedigos de validaci&oacuten</a></li>
-<?php } ?>
+<?php } } ?>
 </ul>
 </div>
 </li>
-<?php } } ?>
+<?php }  ?>
 
 
 

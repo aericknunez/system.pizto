@@ -190,10 +190,10 @@ class Mesa{
 
 
 
-	public function OpcionesActivas($mesa,$identificador,$codigo){
+	public function OpcionesActivas($mesa, $identificador, $codigo, $cliente){
 			$db = new dbConn();
 
-		$a = $db->query("SELECT * FROM opciones_ticket WHERE identificador = $identificador and mesa=$mesa and cod = $codigo and td = ".$_SESSION["td"]."");
+		$a = $db->query("SELECT * FROM opciones_ticket WHERE identificador = '$identificador' and mesa=$mesa and cod = $codigo and td = ".$_SESSION["td"]."");
     		if($a->num_rows){
     			 if ($r = $db->select("producto", "ticket_temp", "WHERE id = $identificador and td = " . $_SESSION["td"] . "")) { 
 		        $producto = $r["producto"]; } unset($r);
@@ -212,11 +212,11 @@ class Mesa{
 				      <th scope="row">'. $nombre .'</th>
 				      <td>'. $b["cliente"] .'</td>
 				      <td>
-				      <a id="modificar-opcion" op="57" iden="'. $identificador .'" cod="'. $codigo .'" opcion="'. $opcion .'" activo="'. $b["opcion"] .'" mesa="'. $mesa .'">
+				      <a id="modificar-opcion" op="57" iden="'. $identificador .'" cod="'. $codigo .'" opcion="'. $opcion .'" activo="'. $b["opcion"] .'" mesa="'. $mesa .'" cliente="'. $cliente .'">
 				      <span class="badge green"><i class="fas fa-edit" aria-hidden="true"></i> MODIFICAR</span></a>
 				      </td>
 				      <td>
-				      <a id="borrar-opcion" op="58" iden="'. $identificador .'" cod="'. $codigo .'" mesa="'. $mesa .'" activo="'. $b["opcion"] .'">
+				      <a id="borrar-opcion" op="58" iden="'. $identificador .'" cod="'. $codigo .'" mesa="'. $mesa .'" activo="'. $b["opcion"] .'" cliente="'. $cliente .'">
 				      <span class="badge red"><i class="fas fa-trash" aria-hidden="true"></i> ELIMINAR</span></a>
 				      </td>
 				    </tr>';

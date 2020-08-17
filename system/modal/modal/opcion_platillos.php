@@ -13,6 +13,8 @@
       </div>
       <div class="modal-body">
 <!-- ./  content -->
+<div id="ventana"></div>
+
  <div class="row text-center portfolio"> 
    <ul class="gallery"> 
 <?php 
@@ -38,12 +40,20 @@
 <!-- ./  content -->
       </div>
       <div class="modal-footer">
-          
-          <a href="<?php if($_REQUEST["view"]==1){
-            $url="?view&mesa=".$_REQUEST["mesa"]."&select=".$_REQUEST["cliente"];
+
+        <?php 
+
+          if($_SESSION["delivery_on"] == TRUE){
+            $url="?delivery&mesa=" . $_REQUEST["mesa"];
+          } elseif($_SESSION['view'] != NULL){
+            $url="?view&mesa=" . $_REQUEST["mesa"];
           } else {
             $url="?";
-          } echo $url; ?>" class="btn btn-primary btn-rounded">Regresar</a>
+          }
+
+         ?>
+          
+          <a href="<?php echo $url; ?>" class="btn btn-primary btn-rounded">Regresar</a>
     
       </div>
     </div>

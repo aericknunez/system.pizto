@@ -17,7 +17,7 @@ $(document).ready(function()
             data: dataString,
             success: function(data) {   
                $("#lateral").load('application/src/routes.php?op=22');         
-               $("#ventana").html(data);        
+               $("#ventana").html(data);   // si la activo redirecciona     
             }
         });       
     });
@@ -35,19 +35,14 @@ $(document).ready(function()
 		var cliente = $(this).attr('cliente');
 		var opcion = $(this).attr('opcion');
 		var panel = $(this).attr('panel');
-		var view = $(this).attr('view');
-        var dataString = 'op='+op+'&cod='+cod+'&mesa='+mesa+'&panel='+panel+'&cliente='+cliente+'&opcion='+opcion+'&view='+view;
+        var dataString = 'op='+op+'&cod='+cod+'&mesa='+mesa+'&panel='+panel+'&cliente='+cliente+'&opcion='+opcion;
 
         $.ajax({
             type: "POST",
             url: "application/src/routes.php",
             data: dataString,
             success: function(data) {   
-		    		if(view != "1"){
-		    			window.location.href="?";
-		    		} else {
-		    			window.location.href="?view&mesa=" + mesa;
-		    		}     
+                $("#ventana").html(data);            
             }
         });       
     });
@@ -87,7 +82,7 @@ $(document).ready(function()
             url: "application/src/routes.php",
             data: dataString,
             beforeSend: function () {
-               $("#lateral").html('<div class="row d-fex justify-content-md-center"><img src="assets/img/loa.gif" alt=""></div>');
+               $("#lateral").html('<div class="row justify-content-center" ><img src="assets/img/loa.gif" alt=""></div>');
             },
             success: function(data) {            
                 $("#lateral").load('application/src/routes.php?op=22');

@@ -65,9 +65,8 @@ $(document).ready(function()
 
 		$("body").on("click","#imprimir-factura",function(){
 	var op = $(this).attr('op');
-	var tipo = $(this).attr('tipo');
-	var iden = $(this).attr('iden');
-    	$.post("application/src/routes.php", {op:op, tipo:tipo, iden:iden}, 
+	var factura = $(this).attr('factura');
+    	$.post("application/src/routes.php", {op:op, factura:factura}, 
     	function(htmlexterno){
 		$("#ventana").html(htmlexterno);
    	 	});

@@ -13,9 +13,8 @@ $datalive = TRUE; /// para saber que estoy en index
 // Alerts::Mensaje('<strong>En este momento el Sistema se encuentra en tareas de mantenimiento urgentes. Es necesario que actualice su sistema local, y es muy probable que sus datos no estén disponibles en este momento.</strong>',"danger",NULL,NULL);	
 // }
 
-unset($_SESSION['client-asign']);	
-unset($_SESSION['clientselect']);
-unset($_SESSION['view']);
+// print_r($_SESSION);
+
 
 if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 5) {
 		
@@ -97,6 +96,7 @@ function ActivarMenu(){
 	}
 }
 
+// print_r($_SESSION);
 	
 echo '<div id="ventana"></div>';
 ?>

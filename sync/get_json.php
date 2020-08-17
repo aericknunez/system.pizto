@@ -33,7 +33,7 @@ if($a->num_rows == 0){
 				      'type' 	=>  2,
 				  	  'x'   	=>  $_SESSION["temporal_td"]);
 
-    $api_url = "http://localhost/app/api/bd_remota.php";
+    $api_url = "https://hibridosv.com/app/api/bd_remota.php";
     $client = curl_init($api_url);
     curl_setopt($client, CURLOPT_POST, true);
     curl_setopt($client, CURLOPT_POSTFIELDS, $updata);

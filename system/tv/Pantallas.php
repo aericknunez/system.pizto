@@ -193,12 +193,14 @@ class Pantallas{
 		$db = new dbConn();
 
 		if($identificador == NULL){
-		$a = $db->query("SELECT max(id) FROM ticket_temp WHERE td = ".$_SESSION["td"]."");
+	$a = $db->query("SELECT hash FROM ticket_temp WHERE td = ". $_SESSION["td"] ." ORDER BY id desc LIMIT 1");
     	foreach ($a as $b) {
-        $identificador=$b["max(id)"];
-    	} $a->close(); }
+        $identificador = $b["hash"];
+    	} $a->close(); 
 
-    	if ($r = $db->select("cant, cod", "ticket_temp", "WHERE id = $identificador and mesa=$mesa and cliente=$cliente and td=".$_SESSION["td"]."")) { 
+    }
+
+    	if ($r = $db->select("cant, cod", "ticket_temp", "WHERE id = '$identificador' and mesa=$mesa and cliente=$cliente and td=".$_SESSION["td"]."")) { 
 		        $cod=$r["cant"]; $producto=$r["cod"];
 		    } unset($r); 
 		

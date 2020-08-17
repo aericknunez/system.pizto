@@ -5,33 +5,41 @@ class Config{
      } 
 
 
-	public function Configuraciones($sistema,$cliente,$slogan,$propietario,$telefono,$direccion,$email,$pais,$giro,$nit,$imp,$propina,$nombre_impuesto,$nombre_documento,$moneda,$moneda_simbolo,$tipo_inicio,$skin,$inicio_tx,$otras_ventas,$venta_especial,$imprimir_antes,$cambio_tx){
+	public function Configuraciones($data){
 		$db = new dbConn();
 
+	if($data["pais"] == 1){
+		$moneda = "Dolares"; $simbolo = "$"; $imp = "IVA"; $doc = "NIT";
+	}if($data["pais"] == 2){
+		$moneda = "Lempiras"; $simbolo = "L"; $imp = "ISV"; $doc = "RTN";
+	}if($data["pais"] == 3){
+		$moneda = "Quetzales"; $simbolo = "Q"; $imp = "IVA"; $doc = "NIT";
+	}
 		$cambio = array();
-	    $cambio["sistema"] = $sistema;
-	    $cambio["cliente"] = $cliente;
-	    $cambio["slogan"] = $slogan;
-	    $cambio["propietario"] = $propietario;
-	    $cambio["telefono"] = $telefono;
-	    $cambio["direccion"] = $direccion;
-	    $cambio["email"] = $email;
-	    $cambio["pais"] = $pais;
-	    $cambio["giro"] = $giro;
-	    $cambio["nit"] = $nit;
-	    $cambio["imp"] = $imp;
-	    $cambio["propina"] = $propina;
-	    $cambio["nombre_impuesto"] = $nombre_impuesto;
-	    $cambio["nombre_documento"] = $nombre_documento;
+	    $cambio["sistema"] = $data["sistema"];
+	    $cambio["cliente"] = $data["cliente"];
+	    $cambio["slogan"] = $data["slogan"];
+	    $cambio["propietario"] = $data["propietario"];
+	    $cambio["telefono"] = $data["telefono"];
+	    $cambio["direccion"] = $data["direccion"];
+	    $cambio["email"] = $data["email"];
+	    $cambio["pais"] = $data["pais"];
+	    $cambio["giro"] = $data["giro"];
+	    $cambio["nit"] = $data["nit"];
+	    $cambio["imp"] = $data["imp"];
+	    $cambio["propina"] = $data["propina"];
+	    $cambio["nombre_impuesto"] = $imp;
+	    $cambio["nombre_documento"] = $doc;
 	    $cambio["moneda"] = $moneda;
-	    $cambio["moneda_simbolo"] = $moneda_simbolo;
-	    $cambio["tipo_inicio"] = $tipo_inicio;
-	    $cambio["skin"] = $skin;
-	    $cambio["inicio_tx"] = $inicio_tx;
-	    $cambio["otras_ventas"] = $otras_ventas;
-	    $cambio["venta_especial"] = $venta_especial;
-	    $cambio["imprimir_antes"] = $imprimir_antes;
-	    $cambio["cambio_tx"] = $cambio_tx;
+	    $cambio["moneda_simbolo"] = $simbolo;
+	    $cambio["tipo_inicio"] = $data["tipo_inicio"];
+	    $cambio["skin"] = $data["skin"];
+	    $cambio["inicio_tx"] = $data["inicio_tx"];
+	    $cambio["otras_ventas"] = $data["otras_ventas"];
+	    $cambio["venta_especial"] = $data["venta_especial"];
+	    $cambio["imprimir_antes"] = $data["imprimir_antes"];
+	    $cambio["cambio_tx"] = $data["cambio_tx"];
+	    $cambio["sonido"] = $data["sonido"];
 	    if (Helpers::UpdateId("config_master", $cambio, "td = ".$_SESSION["td"]."")) {
 	    	$this->CrearVariables();
 	        Alerts::Alerta("success","Echo!","Registros actualizados correctamente");
@@ -44,8 +52,19 @@ class Config{
 
 
 
-	public function Root($expira,$expiracion,$pantallas,$ftp_servidor,$ftp_path,$ftp_ruta,$ftp_user,$ftp_password,$tipo_sistema,$plataforma){
+	public function Root($data){
 		$db = new dbConn();
+
+		$expira = Encrypt::Encrypt($data["expira"],$_SESSION['secret_key']);
+		$expiracion = Encrypt::Encrypt(Fechas::Format($_POST["expira"]),$_SESSION['secret_key']);
+		$pantallas = Encrypt::Encrypt($_POST["pantallas"],$_SESSION['secret_key']);
+		$ftp_servidor = Encrypt::Encrypt($_POST["ftp_servidor"],$_SESSION['secret_key']);
+		$ftp_path = Encrypt::Encrypt($_POST["ftp_path"],$_SESSION['secret_key']);
+		$ftp_ruta = Encrypt::Encrypt($_POST["ftp_ruta"],$_SESSION['secret_key']);
+		$ftp_user = Encrypt::Encrypt($_POST["ftp_user"],$_SESSION['secret_key']);
+		$ftp_password = Encrypt::Encrypt($_POST["ftp_password"],$_SESSION['secret_key']);
+		$tipo_sistema = Encrypt::Encrypt($_POST["tipo_sistema"],$_SESSION['secret_key']);
+		$plataforma = Encrypt::Encrypt($_POST["plataforma"],$_SESSION['secret_key']);
 
 		$cambio = array();
 	    $cambio["expira"] = $expira;
@@ -120,12 +139,6 @@ $return.= ' ?>';
 $return.= '&panel=';
 $return.= $panel; 
 
-$return.= '&view=';  
-$return.= '<? '; 
-$return.= 'echo ';
-$return.= '$_SESSION["view"]'; 
-$return.= ' ?>'; 
-
 $return.= '"><em>';
 $return.= $x['nombre'];
 $return.= '</em><img src="';
@@ -160,11 +173,6 @@ $return.= 'panel='; $return.= '"';
 $return.= $panel; 
 $return.= '" ';
 
-$return.= 'view='; $return.= '"'; 
-$return.= '<? '; 
-$return.= 'echo ';
-$return.= '$_SESSION["view"]'; 
-$return.= ' ?>'; 
 
 $return.= '"><em>';
 $return.= $x['nombre'];
@@ -298,12 +306,6 @@ $return.= ' ?>';
 $return.= '&panel=';
 $return.= $panel; 
 
-$return.= '&view=';  
-$return.= '<? '; 
-$return.= 'echo ';
-$return.= '$_SESSION["view"]'; 
-$return.= ' ?>'; 
-
 
 $return.= '"><em>';
 $return.= $x['nombre'];
@@ -339,11 +341,6 @@ $return.= 'panel='; $return.= '"';
 $return.= $panel; 
 $return.= '" ';
 
-$return.= 'view='; $return.= '"'; 
-$return.= '<? '; 
-$return.= 'echo ';
-$return.= '$_SESSION["view"]'; 
-$return.= ' ?>'; 
 
 $return.= '"><em>';
 $return.= $x['nombre'];
@@ -455,6 +452,7 @@ $return.= ' ?>';
 			
 			$_SESSION['config_imprimir_antes'] = $r["imprimir_antes"];
 			$_SESSION['config_cambio_tx'] = $r["cambio_tx"];
+			$_SESSION['config_sonido'] = $r["sonido"];
 
 			if($_SESSION['config_skin'] == NULL) $_SESSION['config_skin'] = "mdb-skin";
 			// white-skin , mdb-skin , grey-skin , pink-skin ,  light-blue-skin , black-skin  cyan-skin, navy-blue-skin

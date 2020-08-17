@@ -7,7 +7,8 @@ $(document).ready(function()
 	var iden = $(this).attr('iden');
 	var cod = $(this).attr('cod');
 	var mesa = $(this).attr('mesa');
-    	$.post("application/src/routes.php", {op:op, iden:iden, cod:cod, mesa:mesa}, 
+	var cliente = $(this).attr('cliente');
+    	$.post("application/src/routes.php", {op:op, iden:iden, cod:cod, mesa:mesa, cliente:cliente}, 
     	function(htmlexterno){
 		$("#destino").html(htmlexterno);
    	 	});
@@ -20,7 +21,8 @@ $(document).ready(function()
 	var iden = $(this).attr('iden');
 	var mesa = $(this).attr('mesa');
 	var activo = $(this).attr('activo');
-    	$.post("application/src/routes.php", {op:op, cod:cod, iden:iden, mesa:mesa, activo:activo}, 
+	var cliente = $(this).attr('cliente');
+    	$.post("application/src/routes.php", {op:op, cod:cod, iden:iden, mesa:mesa, activo:activo, cliente:cliente}, 
     	function(htmlexterno){
 		$("#destino").html(htmlexterno);
    	 	});
@@ -34,8 +36,9 @@ $(document).ready(function()
 	var opcion = $(this).attr('opcion');
 	var mesa = $(this).attr('mesa');
 	var activo = $(this).attr('activo');
+	var cliente = $(this).attr('cliente');
     	$.post("application/src/routes.php", {op:op, cod:cod, iden:iden, 
-    		opcion:opcion, mesa:mesa, activo:activo}, 
+    		opcion:opcion, mesa:mesa, activo:activo, cliente:cliente}, 
     	function(htmlexterno){
 		$("#destino").html(htmlexterno);
    	 	});
@@ -50,8 +53,9 @@ $(document).ready(function()
 	var mesa = $(this).attr('mesa');
 	var activo = $(this).attr('activo');
 	var cambio = $(this).attr('cambio');
+	var cliente = $(this).attr('cliente');
     	$.post("application/src/routes.php", {op:op, cod:cod, iden:iden, 
-    		opcion:opcion, mesa:mesa, activo:activo, cambio:cambio}, 
+    		opcion:opcion, mesa:mesa, activo:activo, cambio:cambio, cliente:cliente}, 
     		function(htmlexterno){
 		$("#destino").html(htmlexterno);
    	 	});

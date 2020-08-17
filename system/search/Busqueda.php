@@ -43,7 +43,7 @@ class Busqueda{
 		    	echo '</tbody>
 					</table>';
 				if($b["edo"]==2){
-					echo '<h2 class="text-danger">Esta factura ya ha sido eliminada!</h2>';
+					Alerts::Mensajex("Esta factura ya ha sido eliminada!","danger");
 				}
 			   
 

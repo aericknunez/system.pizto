@@ -156,6 +156,20 @@ $r = $db->select("*", "config_master", "where td = ".$_SESSION['td']."")
           </div></td>
   </tr>
 
+
+  <tr>
+    <td><div class="switch">
+            <label>
+             Activar Sonido ||  Off
+              <input type="checkbox" <?php if($r["sonido"] == "on") echo "checked"; ?> id="sonido" name="sonido" >
+              <span class="lever"></span> On 
+            </label>
+          </div></td>
+
+    <td></td>
+  </tr>
+
+
 <?
  unset($r);  
 

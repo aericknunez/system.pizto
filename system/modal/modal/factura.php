@@ -1,6 +1,10 @@
 <?php
 include_once 'application/common/Alerts.php';
 $factura = $_REQUEST["factura"];
+include_once 'system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
+include_once 'system/facturar/Facturar.php';
+      $fact = new Facturar();
+
 ?>
 <div class="modal" id="<? echo $_GET["modal"]; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-backdrop="false">
   <div class="modal-dialog" role="document">
@@ -53,61 +57,11 @@ echo '<div class="display-4 text-danger text-center font-weight-bold">'. Helpers
 
 if($_SESSION["noimprimir"] == NULL){ // sino viene null hay que sacar la factura
 
-
-
 //////// verifico si es local o web
 
-
-if($_SESSION["tx"] == 0){
-
-    if ($r = $db->select("ax0, bx0", "facturar_opciones", "WHERE td = ".$_SESSION["td"]."")) { 
-        $ax0 = $r["ax0"]; $bx0 = $r["bx0"];
-    } unset($r);  
-
-if($ax0 == 1 or $bx0 == 1){
-    include_once 'system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
-    $imprimir = new Impresiones; 
-
-      if($ax0 == 1){
-        $imprimir->Ticket($_REQUEST["efectivo"], $factura);
-         //(tipo,numero,cambio,impresor,mesa,factura_o_tiket)
-      }
-      if($bx0 == 1){
-         $imprimir->Factura($_REQUEST["efectivo"], $factura);
-         //(tipo,numero,cambio,impresor,mesa,factura_o_tiket)
-      }
-
-
-}
-
-
-} else {
-    
-    if ($r = $db->select("ax1, bx1", "facturar_opciones", "WHERE td = ".$_SESSION["td"]."")) { 
-        $ax1 = $r["ax1"]; $bx1 = $r["bx1"];
-    } unset($r);  
- 
-     if($bx1 == 1 or $bx1 == 1){
-        include_once 'system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
-        $imprimir = new Impresiones; 
-
-        if($ax0 == 1){
-           $imprimir->Ticket($_REQUEST["efectivo"], $factura);
-        }
-        if($bx0 == 1){
-           $imprimir->Factura($_REQUEST["efectivo"], $factura);
-        }
-
-    } 
-
-
-}
-
-
+$fact->ObtenerEstadoFactura($_REQUEST["efectivo"], $factura);
 
 /// termina local o web
-
-
 
 }  /// termina si no es null
 

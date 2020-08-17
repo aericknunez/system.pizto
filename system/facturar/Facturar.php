@@ -597,6 +597,91 @@ class Facturar{
 
 
 
+public function ObtenerEstadoFactura($efectivo, $factura){ // esta funcion obtiene el estado de la factura, el tx o si es local o web para decidir cual factura mostrar
+		$db = new dbConn();
+		$imprimir = new Impresiones(); 
+		
+if($_SESSION["tx"] == 0){
+
+    if ($r = $db->select("ax0, bx0", "facturar_opciones", "WHERE td = ".$_SESSION["td"]."")) { 
+        $ax0 = $r["ax0"]; $bx0 = $r["bx0"];
+    } unset($r);  
+
+	if($ax0 == 1 or $bx0 == 1){
+
+	      if($ax0 == 1){  // tx0 ticket
+
+	      		if($_SESSION["root_plataforma"] == 0){ // si es local
+	      			$imprimir->Ticket($efectivo, $factura);
+	      			// echo "Ticket tx0 y local";
+	         //(tipo,numero,cambio,impresor,mesa,factura_o_tiket)
+	      		} else {
+	      			// aqui va el vinculo a web
+	      			echo '<a href="system/facturar/ticket_web.php?factura='.$factura.'" class="btn-floating btn-sm btn-info"><i class="fas fa-print"></i></a>';
+	      			// echo "Ticket tx0 y Web";
+	      		}        
+	      }
+	      if($bx0 == 1){ // tx0 factura
+	      		if($_SESSION["root_plataforma"] == 0){ // si es local
+	      			$imprimir->Factura($efectivo, $factura);
+	      			// echo "Factura tx0 y local";
+	         //(tipo,numero,cambio,impresor,mesa,factura_o_tiket)
+	      		} else {
+	      			// aqui va el vinculo a web
+	      			echo '<a href="system/facturar/ticket_web.php?factura='.$factura.'" class="btn-floating btn-sm btn-info"><i class="fas fa-print"></i></a>';
+	      			// echo "Factura tx0 y Web";
+	      		}
+	      }
+
+
+	}
+
+} else {
+    
+    if ($r = $db->select("ax1, bx1", "facturar_opciones", "WHERE td = ".$_SESSION["td"]."")) { 
+        $ax1 = $r["ax1"]; $bx1 = $r["bx1"];
+    } unset($r);  
+ 
+     if($bx1 == 1 or $bx1 == 1){ 
+
+        if($ax1 == 1){ // tx1 ticket
+        		if($_SESSION["root_plataforma"] == 0){ // si es local
+	      			$imprimir->Ticket($efectivo, $factura);
+	      			// echo "Ticket tx1 y local";
+	         //(tipo,numero,cambio,impresor,mesa,factura_o_tiket)
+	      		} else {
+	      			// aqui va el vinculo a web
+	      			echo '<a href="system/facturar/ticket_web.php?factura='.$factura.'" class="btn-floating btn-sm btn-info"><i class="fas fa-print"></i></a>';
+	      			// echo "Ticekt tx1 y Web";
+	      		}
+           
+        }
+        if($bx1 == 1){ // tx1 Factura
+        		if($_SESSION["root_plataforma"] == 0){ // si es local
+	      			$imprimir->Factura($efectivo, $factura);
+
+	      			// echo "Factura tx1 y local";
+	         //(tipo,numero,cambio,impresor,mesa,factura_o_tiket)
+	      		} else {
+	      			// aqui va el vinculo a web
+	      			echo '<a href="system/facturar/ticket_web.php?factura='.$factura.'" class="btn-floating btn-sm btn-info"><i class="fas fa-print"></i></a>';
+	      			// echo "Factura tx1 y Web";
+	      		}        	
+           
+        }
+
+    } 
+
+
+}
+
+}// termina le funcion
+
+
+
+
+
+
 
 }  // class
 ?>

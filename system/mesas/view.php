@@ -9,8 +9,6 @@ $datalive = TRUE; /// para saber que estoy en index
 
 unset($_SESSION['client-asign']);
 $_SESSION["mesa"] = $_REQUEST["mesa"];
-$_SESSION["view"] = "1"; // esta hace que la mesa este activada para saber que biene de view
-
 
 
 /// verifico si existe la mesa antes de continuar

@@ -1,30 +1,158 @@
  <?php  
 
-class Factura{
+class Impresiones{
 		public function __construct() { 
      } 
 
 
- public function Imprimir($tipo,$numero,$efectivo,$imp,$dato,$ticket){
+ public function Ticket($efectivo, $numero){
   $db = new dbConn();
-//(tipo,numero,cambio,impresor,mesa,factura_o_tiket)
-// el tipo es 1 =  mesa, 2 = factura, 3 = cancela un cliente
 
-if ($r = $db->select("*", "facturar_ticket", "WHERE id = '$ticket' and td = ".$_SESSION["td"]."")) { 
-$img = $r["img"];
-$txt1=$r["txt1"]; 
-$txt2=$r["txt2"];
-$txt3=$r["txt3"];
-$txt4=$r["txt4"];
-$n1=$r["n1"];
-$n2=$r["n2"];
-$n3=$r["n3"];
-$n4=$r["n4"];
-} unset($r);  
+$img 	= "italia.bmp";
+$txt1 	= "26"; 
+$txt2 	= "12";
+$txt3 	= "0";
+$txt4 	= "0";
+$n1 	= "30";
+$n2 	= "45";
+$n3 	= "0";
+$n4 	= "0";
 
-if ($r = $db->select("*", "facturar_impresora", "WHERE id = '$imp'")) { 
-$print = $r["impresora"];
-} unset($r); 
+// $print
+$print = "POS-80C";
+
+$logo_imagen="C:/AppServ/www/pizto/assets/img/logo_factura/". $img;
+
+
+$handle = printer_open($print);
+printer_set_option($handle, PRINTER_MODE, "RAW");
+
+printer_start_doc($handle, "Mi Documento");
+printer_start_page($handle);
+
+
+printer_draw_bmp($handle, $logo_imagen, 100, 1, 300, 120);
+
+$font = printer_create_font("Arial", $txt1, $txt2, PRINTER_FW_NORMAL, false, false, false, 0);
+printer_select_font($handle, $font);
+
+
+$oi="140";
+printer_draw_text($handle, "ORDEN DE COMPRA", 100, $oi);
+
+
+$a = $db->query("select cod, cant, producto, pv, total from ticket_temp where num_fac = '".$numero."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." group by cod");
+ 
+    foreach ($a as $b) {
+ 
+
+/// para hacer las sumas
+if ($s = $db->select("sum(cant), sum(total)", "ticket_temp", "WHERE cod = ".$b["cod"]." and num_fac = '$numero' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+        $scant=$s["sum(cant)"]; $stotal=$s["sum(total)"];
+    } unset($s); 
+//////
+if ($sx = $db->select("sum(total)", "ticket_temp", "WHERE num_fac = '$numero' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+       $stotalx=$sx["sum(total)"];
+    } unset($sx); 
+ 
+ 
+
+      $oi=$oi+$n1;
+        printer_draw_text($handle, $scant, 0, $oi);
+        printer_draw_text($handle, $b["producto"], 30, $oi);
+        printer_draw_text($handle, $b["pv"], 315, $oi);
+        printer_draw_text($handle, $stotal, 415, $oi);
+
+    }    $a->close();
+
+
+
+if($_SESSION['config_propina'] != 0.00){ ///  prara agregarle la propina -- sino borrar
+$stotalx = Helpers::PropinaTotal($stotalx);
+}
+
+
+$oi=$oi+$n2;
+printer_draw_text($handle, "Total:", 325, $oi);
+printer_draw_text($handle, Helpers::Dinero($stotalx), 402, $oi);
+
+
+if($efectivo != NULL){
+$oi=$oi+$n1;
+printer_draw_text($handle, "Efectivo:", 285, $oi);
+printer_draw_text($handle, Helpers::Dinero($efectivo), 402, $oi);
+
+$cambio = $efectivo - $stotalx;
+  $oi=$oi+$n1;
+  printer_draw_text($handle, "Cambio:", 290, $oi);
+  printer_draw_text($handle, Helpers::Dinero($cambio), 402, $oi);
+} else {
+$oi=$oi+$n1;
+printer_draw_text($handle, "Efectivo:", 285, $oi);
+printer_draw_text($handle, Helpers::Dinero($stotalx), 402, $oi);
+
+  $oi=$oi+$n1;
+  printer_draw_text($handle, "Cambio:", 290, $oi);
+  printer_draw_text($handle, Helpers::Dinero(0), 402, $oi);  
+}
+
+// $oi=$oi+$n2;
+// printer_draw_text($handle, "____________________________________", 0, $oi);
+
+
+$oi=$oi+$n1;
+printer_draw_text($handle, date("d-m-Y"), 0, $oi);
+printer_draw_text($handle, date("H:i:s"), 400, $oi);
+
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "Cajero: " . $_SESSION['nombre'], 25, $oi);
+
+
+$oi=$oi+$n1+$n2;
+printer_draw_text($handle, "GRACIAS POR SU COMPRA...", 60, $oi);
+printer_delete_font($font);
+$oi=$oi+$n2;
+printer_draw_text($handle, "REF: ". $numero, NULL, $oi);
+
+if($_SESSION["td"] != 3){
+$oi=$oi+$n1;
+printer_draw_text($handle, ".", NULL, $oi);
+}
+
+printer_write($handle, chr(27).chr(112).chr(48).chr(55).chr(121)); //enviar pulso
+
+
+printer_end_page($handle);
+printer_end_doc($handle);
+printer_close($handle);
+
+
+
+}
+
+
+
+
+
+
+
+
+ public function Factura($efectivo, $numero){
+  $db = new dbConn();
+
+$txt1   = "17"; 
+$txt2   = "10";
+$txt3   = "15";
+$txt4   = "8";
+$n1   = "30";
+$n2   = "45";
+$n3   = "21";
+$n4   = "10";
+
+// $print
+$print = "EPSON TM-U220 Receipt";
+
 
 
 $handle = printer_open($print);
@@ -41,17 +169,7 @@ printer_select_font($handle, $font);
 //// comienza la factura
 printer_draw_text($handle, $_SESSION['config_cliente'], 110, $oi);
 
-if($_SESSION["td"] == 4){
-  $oi=$oi+$n1;
-printer_draw_text($handle, "Venta de pollo frito en piezas, Papas fritas", 0, $oi);
 $oi=$oi+$n1;
-printer_draw_text($handle, "y ensaladas, etc", 120, $oi);
-$oi=$oi+$n1;
-printer_draw_text($handle, "Mercado Concepcion, 1/2 al sur de", 0, $oi);
-$oi=$oi+$n1;
-printer_draw_text($handle, "Farmacia san Jose, Choluteca.", 0, $oi);
-} elseif($_SESSION["td"] == 3){
-  $oi=$oi+$n1;
 printer_draw_text($handle, "Venta de pollo frito en piezas, Papas fritas", 0, $oi);
 $oi=$oi+$n1;
 printer_draw_text($handle, "y ensaladas, etc", 120, $oi);
@@ -59,13 +177,7 @@ $oi=$oi+$n1;
 printer_draw_text($handle, "Bo. El centro 1/2 Cdra al Este", 0, $oi);
 $oi=$oi+$n1;
 printer_draw_text($handle, "del Elektra, Choluteca, Honduras.", 0, $oi);
-} else {
-  $oi=$oi+$n1;
-printer_draw_text($handle, $_SESSION['config_giro'], 0, $oi);
 
-$oi=$oi+$n1;
-  printer_draw_text($handle, $_SESSION['config_direccion'], 0, $oi);
-} 
 //printer_draw_text($handle, $_SESSION['config_direccion'], 0, $oi);
 // $oi=$oi+$n1;
 // printer_draw_text($handle, Helpers::Pais($_SESSION['config_pais']), 0, $oi);
@@ -156,33 +268,15 @@ printer_draw_text($handle, "____________________________________", 0, $oi);
 ///
 $subtotalf = 0;
 ///
- if($tipo==1){
-$a = $db->query("select cod, cant, producto, pv, total, fecha, hora from ticket where mesa = ".$numero." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." group by cod");
- }
- if($tipo==2) {
+
 $a = $db->query("select cod, cant, producto, pv, total, fecha, hora from ticket where num_fac = ".$numero."  and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." group by cod");
- }
-if($tipo==3) {
-$a = $db->query("select cod, cant, producto, pv, total, fecha, hora from ticket where cancela = ".$numero." and mesa='$dato' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." group by cod");
- }   
+  
     foreach ($a as $b) {
  
  $fechaf=$b["fecha"];
  $horaf=$b["hora"];
 
- if($tipo==1){
-/// para hacer las sumas
-if ($s = $db->select("sum(cant), sum(total)", "ticket", "WHERE cod = ".$b["cod"]." and mesa = '$numero' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
-        $scant=$s["sum(cant)"]; $stotal=$s["sum(total)"];
-    } unset($s); 
 
-
-if ($sx = $db->select("sum(total)", "ticket", "WHERE mesa = '$numero' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
-        $stotalx=$sx["sum(total)"];
-    } unset($sx); 
-//////
- }
- if($tipo==2) {
 /// para hacer las sumas
 if ($s = $db->select("sum(cant), sum(total)", "ticket", "WHERE cod = ".$b["cod"]." and num_fac = '$numero' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
         $scant=$s["sum(cant)"]; $stotal=$s["sum(total)"];
@@ -192,20 +286,6 @@ if ($sx = $db->select("sum(total)", "ticket", "WHERE num_fac = '$numero' and tx 
        $stotalx=$sx["sum(total)"];
     } unset($sx); 
  
- }
-
-  if($tipo==3) {
-/// para hacer las sumas
-if ($s = $db->select("sum(cant), sum(total)", "ticket", "WHERE cod = ".$b["cod"]." and cancela = '$numero' and mesa='$dato' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
-        $scant=$s["sum(cant)"]; $stotal=$s["sum(total)"];
-    } unset($s); 
-//////
-if ($sx = $db->select("sum(total)", "ticket", "WHERE cancela = '$numero' and mesa='$dato' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
-       $stotalx=$sx["sum(total)"];
-    } unset($sx); 
- 
- }
-
 
           $oi=$oi+$n1;
           printer_draw_text($handle, $scant, 0, $oi);
@@ -315,13 +395,21 @@ printer_draw_text($handle, ".", NULL, $oi);
 printer_write($handle, chr(27).chr(112).chr(48).chr(55).chr(121)); //enviar pulso
 
 
-///
-///
-///
+
 ///
 printer_end_page($handle);
 printer_end_doc($handle);
 printer_close($handle);
+
+
+}   /// termina FACTURA
+
+
+
+
+
+ public function CreditoFiscal($data){
+  $db = new dbConn();
 
 }
 
@@ -329,28 +417,240 @@ printer_close($handle);
 
 
 
-   public function ReporteDiario($fecha,$imp,$ticket){
-    $db = new dbConn();
 
 
-if ($r = $db->select("*", "facturar_ticket", "WHERE id = '$ticket' and td = ".$_SESSION["td"]."")) { 
-$img = $r["img"];
-$txt1=$r["txt1"]; 
-$txt2=$r["txt2"];
-$txt3=$r["txt3"];
-$txt4=$r["txt4"];
-$n1=$r["n1"];
-$n2=$r["n2"];
-$n3=$r["n3"];
-$n4=$r["n4"];
-} unset($r);  
 
 
-    if ($r = $db->select("*", "facturar_impresora", "WHERE id = '$imp'")) { 
-    $print = $r["impresora"];
-    } unset($r); 
+
+ public function ImprimirAntes($efectivo, $numero, $cancela){
+  $db = new dbConn();
 
 
+$img  = "italia.bmp";
+$txt1   = "26"; 
+$txt2   = "12";
+$txt3   = "0";
+$txt4   = "0";
+$n1   = "30";
+$n2   = "45";
+$n3   = "0";
+$n4   = "0";
+
+// $print
+$print = "POS-80C";
+
+
+
+$handle = printer_open($print);
+printer_set_option($handle, PRINTER_MODE, "RAW");
+
+printer_start_doc($handle, "Mi Documento");
+printer_start_page($handle);
+
+
+$font = printer_create_font("Arial", $txt1, $txt2, PRINTER_FW_NORMAL, false, false, false, 0);
+printer_select_font($handle, $font);
+
+
+//// comienza la factura
+printer_draw_text($handle, $_SESSION['config_cliente'], 110, $oi);
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "Venta de pollo frito en piezas, Papas fritas", 0, $oi);
+$oi=$oi+$n1;
+printer_draw_text($handle, "y ensaladas, etc", 120, $oi);
+$oi=$oi+$n1;
+printer_draw_text($handle, "Bo. El centro 1/2 Cdra al Este", 0, $oi);
+$oi=$oi+$n1;
+printer_draw_text($handle, "del Elektra, Choluteca, Honduras.", 0, $oi);
+
+//printer_draw_text($handle, $_SESSION['config_direccion'], 0, $oi);
+// $oi=$oi+$n1;
+// printer_draw_text($handle, Helpers::Pais($_SESSION['config_pais']), 0, $oi);
+$oi=$oi+$n1;
+printer_draw_text($handle, "Propietario: " . $_SESSION['config_propietario'], 0, $oi);
+$oi=$oi+$n1;
+printer_draw_text($handle, "Email: " . $_SESSION['config_email'], 0, $oi);
+$oi=$oi+$n1;
+printer_draw_text($handle, $_SESSION['config_nombre_documento'] . ": " . $_SESSION['config_nit'], 0, $oi);
+$oi=$oi+$n1;
+printer_draw_text($handle, "Tel: " . $_SESSION['config_telefono'], 0, $oi);
+
+
+
+$oi=$oi+$n2;
+printer_draw_text($handle, "____________________________________", 0, $oi);
+$oi=$oi+$n1;
+printer_draw_text($handle, "Cant.", 0, $oi);
+printer_draw_text($handle, "Descripcion", 60, $oi);
+printer_draw_text($handle, "P/U", 240, $oi);
+printer_draw_text($handle, "Total", 320, $oi);
+$oi=$oi+$n1+$n3;
+printer_draw_text($handle, "____________________________________", 0, $oi);
+
+
+///////////////
+///
+$subtotalf = 0;
+///
+
+$a = $db->query("select cod, cant, producto, pv, total, fecha, hora from ticket where mesa = ".$numero." and cancela='$cancela'  and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." group by cod");
+  
+    foreach ($a as $b) {
+ 
+ $fechaf=$b["fecha"];
+ $horaf=$b["hora"];
+
+
+/// para hacer las sumas
+if ($s = $db->select("sum(cant), sum(total)", "ticket", "WHERE cod = ".$b["cod"]." and mesa = '$numero' and cancela='$cancela' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+        $scant=$s["sum(cant)"]; $stotal=$s["sum(total)"];
+    } unset($s); 
+//////
+if ($sx = $db->select("sum(total)", "ticket", "WHERE mesa = '$numero' and cancela='$cancela' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+       $stotalx=$sx["sum(total)"];
+    } unset($sx); 
+ 
+
+          $oi=$oi+$n1;
+          printer_draw_text($handle, $scant, 0, $oi);
+          printer_draw_text($handle, $b["producto"], 30, $oi);
+          printer_draw_text($handle, $b["pv"], 240, $oi);
+          printer_draw_text($handle, $stotal, 320, $oi);
+
+          $g="G";
+
+          printer_draw_text($handle, $g, 385, $oi);
+////
+$subtotalf = $subtotalf + $stotal;
+///
+
+    }    $a->close();
+
+
+$oi=$oi+$n3+$n1;
+printer_draw_text($handle, "Sub Total " . $_SESSION['config_moneda_simbolo'] . ":", 185, $oi);
+printer_draw_text($handle, Helpers::Format(Helpers::STotal($subtotalf, $_SESSION['config_imp'])), 320, $oi);
+
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "15% Impu. " . $_SESSION['config_moneda_simbolo'] . ":", 175, $oi);
+printer_draw_text($handle, Helpers::Format(Helpers::Impuesto(Helpers::STotal($subtotalf, $_SESSION['config_imp']), $_SESSION['config_imp'])), 320, $oi);
+
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "18% Impu. ", 175, $oi);
+printer_draw_text($handle, Helpers::Format(0), 320, $oi);
+
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "Descuentos y Rebajas. ", 100, $oi);
+printer_draw_text($handle, Helpers::Format(0), 320, $oi);
+
+
+if($_SESSION['config_propina'] != 0.00){ ///  prara agregarle la propina -- sino borrar
+$oi=$oi+$n1;
+printer_draw_text($handle, "Propina:", 320, $oi);
+printer_draw_text($handle, Helpers::Format(Helpers::Propina($subtotalf)), 402, $oi);
+$subtotalf = Helpers::PropinaTotal($subtotalf);
+}
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "Total " . $_SESSION['config_moneda_simbolo'] . ":", 232, $oi);
+printer_draw_text($handle, Helpers::Format($subtotalf), 320, $oi);
+
+$oi=$oi+$n2;
+printer_draw_text($handle, "____________________________________", 0, $oi);
+
+//efectivo
+if($efectivo == NULL){
+  $efectivo = $subtotalf;
+}
+$oi=$oi+$n1;
+printer_draw_text($handle, "Efectivo " . $_SESSION['config_moneda_simbolo'] . ":", 160, $oi);
+printer_draw_text($handle, Helpers::Format($efectivo), 320, $oi);
+
+//cambio
+$cambios = $efectivo - $subtotalf;
+$oi=$oi+$n1;
+printer_draw_text($handle, "Cambio " . $_SESSION['config_moneda_simbolo'] . ":", 162, $oi);
+printer_draw_text($handle, Helpers::Format($cambios), 320, $oi);
+
+$oi=$oi+$n2;
+printer_draw_text($handle, "___________________________________", 0, $oi);
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "G=Articulo Gravado  E= Artculo Exento", 0, $oi);
+
+
+
+$oi=$oi+$n1;
+printer_draw_text($handle, $fechaf, 0, $oi);
+printer_draw_text($handle, $horaf, 232, $oi);
+
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "Cajero: " . $_SESSION['nombre'], 25, $oi);
+
+
+$oi=$oi+$n1+$n4;
+printer_draw_text($handle, "GRACIAS POR SU COMPRA...", 50, $oi);
+printer_delete_font($font);
+
+$oi=$oi+$n1+$n2;
+printer_draw_text($handle, ".", NULL, $oi);
+printer_write($handle, chr(27).chr(112).chr(48).chr(55).chr(121)); //enviar pulso
+
+
+///
+printer_end_page($handle);
+printer_end_doc($handle);
+printer_close($handle);
+
+
+} /// TERMINA IMPRIMIR ANTES
+
+
+
+
+
+
+
+
+
+
+
+ public function Comanda($data){
+  $db = new dbConn();
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+ public function ReporteDiario($fecha){
+  $db = new dbConn();
+
+
+$txt1   = "17"; 
+$txt2   = "10";
+$txt3   = "15";
+$txt4   = "8";
+$n1   = "30";
+$n2   = "45";
+$n3   = "21";
+$n4   = "10";
+
+// $print
+$print = "EPSON TM-U220 Receipt";
 
 
     $handle = printer_open($print);
@@ -365,17 +665,12 @@ $n4=$r["n4"];
 $oi=0;
 //// comienza la factura
 printer_draw_text($handle, $_SESSION['config_cliente'], 110, $oi);
-if($_SESSION["td"] == 4){
-$oi=$oi+$n1;
-printer_draw_text($handle, "Mercado Concepcion, 1/2 al sur de", 0, $oi);
-$oi=$oi+$n1;
-printer_draw_text($handle, "Farmacia san Jose, Choluteca.", 0, $oi);
-} if($_SESSION["td"] == 3){
+
 $oi=$oi+$n1;
 printer_draw_text($handle, "Bo. El centro 1/2 Cdra al Este", 0, $oi);
 $oi=$oi+$n1;
 printer_draw_text($handle, "del Elektra, Choluteca, Honduras.", 0, $oi);
-} 
+
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "Email: " . $_SESSION['config_email'], 0, $oi);
@@ -459,7 +754,8 @@ $oi=$oi+$n2;
 
 
 
-  }   /// termina reporte diario
+
+}   // termina reporte diario
 
 
 
@@ -468,11 +764,20 @@ $oi=$oi+$n2;
 
 
 
+ public function AbrirCaja(){
+ // $print
+$print = "POS-80C";
+	
+    $handle = printer_open($print);
+    printer_set_option($handle, PRINTER_MODE, "RAW");
 
-
-
-
-
+    printer_start_doc($handle, "Mi Documento");
+    printer_start_page($handle);
+    printer_write($handle, chr(27).chr(112).chr(48).chr(55).chr(121)); //enviar pulso
+    printer_end_page($handle);
+    printer_end_doc($handle, 20);
+    printer_close($handle);
+}
 
 
 

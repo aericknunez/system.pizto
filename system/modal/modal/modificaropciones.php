@@ -34,14 +34,20 @@ $clientes = $r["clientes"];
 <!-- ./  content -->
       </div>
       <div class="modal-footer">
+
         <?php 
-              if($_REQUEST["view"] == 1){
-                echo '<a href="?view&mesa='.$_REQUEST["mesa"].'" class="btn btn-primary btn-rounded">Regresar</a>';
-              } else {
-                echo '<a href="?" class="btn btn-primary btn-rounded">Regresar</a>';
-              }
+
+          if($_SESSION["delivery_on"] == TRUE){
+            $url="?delivery&mesa=" . $_REQUEST["mesa"];
+          } elseif($_SESSION['view'] != NULL){
+            $url="?view&mesa=" . $_REQUEST["mesa"];
+          } else {
+            $url="?";
+          }
+
          ?>
           
+          <a href="<?php echo $url; ?>" class="btn btn-primary btn-rounded">Regresar</a>
     
       </div>
     </div>

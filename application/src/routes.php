@@ -223,6 +223,22 @@ case "20": //venta normal
 		}
 		$pantalla->Cambia(1);
 
+// redireccionar
+if($_REQUEST["opcion"] != NULL){
+	if($_SESSION["delivery_on"] == TRUE){
+		echo '<script>
+		window.location.href="?delivery&mesa='.$_SESSION["mesa"].'"
+		</script>';
+	} elseif($_SESSION['view'] != NULL){
+		echo '<script>
+		window.location.href="?view&mesa='.$_SESSION["mesa"].'"
+		</script>';
+	} else {
+		echo '<script>
+		window.location.href="?"
+		</script>';
+	}
+}
 break; 
 
 
@@ -240,8 +256,20 @@ $ventas->OtrasVentas(8888,
 	$_POST["producto"],
 	$_POST["cantidad"]);
 
-if($_POST["view"] == 1) { header("location: ../../?view&mesa=".$_SESSION["mesa"].""); }
-else { header("location: ../../?");}
+// redireccionar
+	if($_SESSION["delivery_on"] == TRUE){
+		echo '<script>
+		window.location.href="../../?delivery&mesa='.$_SESSION["mesa"].'"
+		</script>';
+	} elseif($_SESSION['view'] != NULL){
+		echo '<script>
+		window.location.href="../../?view&mesa='.$_SESSION["mesa"].'"
+		</script>';
+	} else {
+		echo '<script>
+		window.location.href="../../?"
+		</script>';
+	}
 
 break;
 
@@ -298,8 +326,20 @@ $ventas->OtrasVentas(8889,
 	$_POST["producto"],
 	$_POST["cantidad"]);
 
-if($_POST["view"] == 1) { header("location: ../../?view&mesa=".$_SESSION["mesa"].""); }
-else { header("location: ../../?");}
+// redireccionar
+	if($_SESSION["delivery_on"] == TRUE){
+		echo '<script>
+		window.location.href="?delivery&mesa='.$_SESSION["mesa"].'"
+		</script>';
+	} elseif($_SESSION['view'] != NULL){
+		echo '<script>
+		window.location.href="?view&mesa='.$_SESSION["mesa"].'"
+		</script>';
+	} else {
+		echo '<script>
+		window.location.href="?"
+		</script>';
+	}
 
 break;
 
@@ -371,11 +411,18 @@ case "26": // cambiar tipo de pantalla de inicio mesa o rapida
 	}
 
 	if($_SESSION["mesa"] == NULL){
-			if($_SESSION["tipo_inicio"] == 1) $_SESSION["tipo_inicio"] = 2;
-			else $_SESSION["tipo_inicio"] = 1;
+			if($_SESSION["tipo_inicio"] == 1) {
+				$_SESSION["view"] = "1"; // esta hace que la mesa este activada para saber que biene de view
+				$_SESSION["tipo_inicio"] = 2;
+			} else {
+				unset($_SESSION['client-asign']);	
+				unset($_SESSION['clientselect']);
+				unset($_SESSION['view']);
+				$_SESSION["tipo_inicio"] = 1;
+			}
 		
 			$_SESSION["delivery_on"] = FALSE;
-	}
+			}
 
 break; 
 
@@ -459,11 +506,15 @@ case "29": // Ir a mesa seleccionada segun mesa y tx
 	if($_REQUEST["tipo"] == 1){
 
 		$_SESSION["tipo_inicio"] = 1;
+		unset($_SESSION['client-asign']);	
+		unset($_SESSION['clientselect']);
+		unset($_SESSION['view']);
 		$_SESSION["delivery_on"] = FALSE;
 
 	} elseif($_REQUEST["tipo"] == 2){
 
 		$_SESSION["tipo_inicio"] = 2;
+		$_SESSION["view"] = "1";
 		$_SESSION["delivery_on"] = FALSE;
 
 	} else{
@@ -723,7 +774,7 @@ break;
 case  "56": // modificar opciones
 include_once '../../system/mesas/Mesa.php';
 $mesas = new Mesa;
-$mesas->OpcionesActivas($_REQUEST["mesa"],$_REQUEST["iden"],$_REQUEST["cod"]); 
+$mesas->OpcionesActivas($_REQUEST["mesa"],$_REQUEST["iden"],$_REQUEST["cod"],$_REQUEST["cliente"]); 
 
 include_once '../../system/tv/Pantallas.php';
 	$pantalla = new Pantallas;
@@ -756,7 +807,7 @@ case  "58": // eliminar opciones
 
 	include_once '../../system/mesas/Mesa.php';
 	$mesas = new Mesa;
-	$mesas->OpcionesActivas($_REQUEST["mesa"],$_REQUEST["iden"],$_REQUEST["cod"]); 
+	$mesas->OpcionesActivas($_REQUEST["mesa"],$_REQUEST["iden"],$_REQUEST["cod"],$_REQUEST["cliente"]); 
 	$mesas->VerificaOpcionesActivas($_REQUEST["mesa"],$_REQUEST["iden"],$_REQUEST["cod"]);
 
 include_once '../../system/tv/Pantallas.php';
@@ -785,7 +836,7 @@ $ventas = new Venta;
 	}
 include_once '../../system/mesas/Mesa.php';
 $mesas = new Mesa;
-$mesas->OpcionesActivas($_REQUEST["mesa"],$_REQUEST["iden"],$_REQUEST["cod"]);
+$mesas->OpcionesActivas($_REQUEST["mesa"],$_REQUEST["iden"],$_REQUEST["cod"],$_REQUEST["cliente"]);
 
 include_once '../../system/tv/Pantallas.php';
 	$pantalla = new Pantallas;
@@ -820,7 +871,7 @@ case  "62": // agrega la opcion
 Alerts::Alerta("success","Exito!","Opcion agregada corectamente!");
 include_once '../../system/mesas/Mesa.php';
 $mesas = new Mesa;
-$mesas->OpcionesActivas($_REQUEST["mesa"],$_REQUEST["iden"],$_REQUEST["cod"]);
+$mesas->OpcionesActivas($_REQUEST["mesa"],$_REQUEST["iden"],$_REQUEST["cod"],$_REQUEST["cliente"]);
 $mesas->VerificaOpcionesActivas($_REQUEST["mesa"],$_REQUEST["iden"],$_REQUEST["cod"]);
 
 include_once '../../system/tv/Pantallas.php';
@@ -1029,31 +1080,13 @@ break;
 
 
 case  "86": // imprimir factura
-    $user = $_SESSION["user"];
-    $tipo = $_REQUEST["tipo"];
 
-    $a = $db->query("SELECT * FROM facturar_users WHERE tipo = '$tipo' and user = '$user' and td = ".$_SESSION["td"]."");
-    foreach ($a as $b) {
+$factura = $_REQUEST["factura"];
+include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
+include_once '../../system/facturar/Facturar.php';
+      $fact = new Facturar();
 
-    $clase = $b["clase"];
-    
-	    if($_REQUEST["tipo"] == 1){ // para ticket
-	    include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Ticket.php';
-	    $imprimir = new Ticket; 
-	        $imprimir->$clase(2,$_REQUEST["iden"],$_REQUEST["efectivo"],$b["impresora"],$_REQUEST["mesa"],$b["ticket"]);
-	    Alerts::Alerta("success","Imprimiendo","Imprimiendo Factura");
-	    }
-
-	    if($_REQUEST["tipo"] == 2 and $_SESSION["tx"] == 1){ // para factura
-	    include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Factura.php';
-	    $imprimir = new Factura;  // la mesa aqui es solo si es op 3 en el 1er para
-	        $imprimir->$clase(2,$_REQUEST["iden"],$_REQUEST["efectivo"],$b["impresora"],$_REQUEST["mesa"],$b["ticket"]);
-	    Alerts::Alerta("success","Imprimiendo","Imprimiendo Factura");
-	    }
-
-	}
-
-
+$fact->ObtenerEstadoFactura($_REQUEST["efectivo"], $factura);
 break; 
 
 
@@ -1096,37 +1129,7 @@ case "90":
 	include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
 
-	if($_POST["pais"] == 1){
-		$moneda = "Dolares"; $simbolo = "$"; $imp = "IVA"; $doc = "NIT";
-	}if($_POST["pais"] == 2){
-		$moneda = "Lempiras"; $simbolo = "L"; $imp = "ISV"; $doc = "RTN";
-	}if($_POST["pais"] == 3){
-		$moneda = "Quetzales"; $simbolo = "Q"; $imp = "IVA"; $doc = "NIT";
-	}
-
-	$configuracion->Configuraciones($_POST["sistema"],
-									$_POST["cliente"],
-									$_POST["slogan"],
-									$_POST["propietario"],
-									$_POST["telefono"],
-									$_POST["direccion"],
-									$_POST["email"],
-									$_POST["pais"],
-									$_POST["giro"],
-									$_POST["nit"],
-									$_POST["imp"],
-									$_POST["propina"],
-									$imp,
-									$doc,
-									$moneda,
-									$simbolo,
-									$_POST["tipo_inicio"],
-									$_POST["skin"],
-									$_POST["inicio_tx"],
-									$_POST["otras_ventas"],
-									$_POST["venta_especial"],
-									$_POST["imprimir_antes"],
-									$_POST["cambio_tx"]);
+	$configuracion->Configuraciones($_POST);
 break; 
 
 
@@ -1136,16 +1139,7 @@ include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
 
 	include_once '../common/Encrypt.php';
-	$configuracion->Root(Encrypt::Encrypt($_POST["expira"],$_SESSION['secret_key']),
-		Encrypt::Encrypt(Fechas::Format($_POST["expira"]),$_SESSION['secret_key']),
-						Encrypt::Encrypt($_POST["pantallas"],$_SESSION['secret_key']),
-						Encrypt::Encrypt($_POST["ftp_servidor"],$_SESSION['secret_key']),
-						Encrypt::Encrypt($_POST["ftp_path"],$_SESSION['secret_key']),
-						Encrypt::Encrypt($_POST["ftp_ruta"],$_SESSION['secret_key']),
-						Encrypt::Encrypt($_POST["ftp_user"],$_SESSION['secret_key']),
-						Encrypt::Encrypt($_POST["ftp_password"],$_SESSION['secret_key']),
-						Encrypt::Encrypt($_POST["tipo_sistema"],$_SESSION['secret_key']),
-						Encrypt::Encrypt($_POST["plataforma"],$_SESSION['secret_key']));
+	$configuracion->Root($_POST);
 break; 
 
 
@@ -1466,7 +1460,11 @@ break;
 
 
 case  "161": // ImprimirRanfo
-$user = $_SESSION["user"];
+$factura = $_REQUEST["factura"];
+include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
+include_once '../../system/facturar/Facturar.php';
+      $fact = new Facturar();
+      
 
 if($_SESSION["tx"] == 1){
 	
@@ -1474,21 +1472,14 @@ if($_SESSION["tx"] == 1){
 		Alerts::Alerta("error","Error!","El numero inicial de factura debe ser menor a el numero final!");
 	} else {
 		
-		if ($r = $db->select("ticket, impresora, clase", "facturar_users", 
-			"WHERE tipo = 2 and user = '$user' and td = ".$_SESSION["td"]."")) {
-			$impresora = $r["impresora"]; $clase = $r["clase"]; $ticket = $r["ticket"]; 
-		} unset($r);  
 
-
-			include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Factura.php';
-			$imprimir = new Factura;  // la mesa aqui es solo si es op 3 en el 1er para
 
 		$counter = 0;
 
 		for ($x = $_REQUEST["inicio"]; $x <= $_REQUEST["final"]; $x++) {
 			$counter = $counter + 1;
-			$imprimir->$clase(2,$x,NULL,$impresora,NULL,$ticket);
-			//(tipo,numero,efectivo,impresora,(mesa), (tiket o factura))
+
+			$fact->ObtenerEstadoFactura($_REQUEST["efectivo"], $ticket);
 		}
 
 	$texto = "<br>Se estan imprimiendo las facturas desde la factura ".$_REQUEST["inicio"]." hasta la factura ".$_REQUEST["final"]." con un total de facturas de " . $counter . ". Por favor espere hasta que se hayan impreso todas las facturas.";

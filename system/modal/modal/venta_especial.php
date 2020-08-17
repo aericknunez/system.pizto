@@ -28,7 +28,7 @@ $especiales = new Especial;
       </div>
       <div class="modal-footer">
         <?php 
-        if($_REQUEST["view"]==1){
+        if($_SESSION["view"]==1){
             $url="?view&mesa=".$_REQUEST["mesa"]."&select=".$_REQUEST["cliente"];
           } else {
             $url="?";

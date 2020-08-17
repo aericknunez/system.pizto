@@ -67,10 +67,10 @@ class Especial{
 
 		public function BorrarTodo($url) {
 		$db = new dbConn();
-		Helpers::DeleteId("ticket_temp", "producto = 'Producto-Especial' and mesa = ".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and num_fac= 0");
+		Helpers::DeleteId("ticket_temp", "producto = 'Producto-Especial' and mesa = '".$_SESSION["mesa"]."' and tx = '".$_SESSION["tx"]."' and td = '".$_SESSION["td"]."' and num_fac= 0");
 		
 		if($url != NULL){
-		unset($_SESSION["mesa"]);
+		// unset($_SESSION["mesa"]);
 		header("location: ../../$url");
 		}
 			

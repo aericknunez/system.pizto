@@ -121,7 +121,7 @@ if (isset($_GET['error'])) {
    <input type="hidden" name="email" id="email" />
 
 <div class="col-xs-2">
-  <input type="password" name="password" id="password" class="form-control"/>
+  <input type="password" name="password" id="password" class="form-control" autocomplete="off" />
   <button id="show_password" class="btn btn-primary" type="button">
   <span class="fa fa-eye-slash icon"></span>
   </button>

@@ -128,6 +128,16 @@ $r = $db->select("*", "config_master", "where td = ".$_SESSION['td']."")
        <td>Permimitri Sonido</td>
        <td><? if($r["sonido"] == "on") echo "Activado"; else echo "Inactivo"; ?></td>    
      </tr>
+
+<?php if(Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0){
+  ?>
+     <tr>
+       <td>Permitir CLave Simple</td>
+       <td><? if($r["clave_simple"] == "on") echo "Activado"; else echo "Inactivo"; ?></td>    
+     </tr>
+  <?
+} ?>
+
 <?
  unset($r);  
 

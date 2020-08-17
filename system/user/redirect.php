@@ -71,7 +71,16 @@ include_once 'Usuarios.php';
 $usuarios = new Usuarios;
 $passw1 = filter_input(INPUT_POST, 'pass1', FILTER_SANITIZE_STRING);
 $passw2 = filter_input(INPUT_POST, 'pass2', FILTER_SANITIZE_STRING);
-$usuarios->CompararPass($passw1, $passw2); 
+
+
+if($_SESSION['config_clave_simple'] == "on"){
+	$claseComparar = "CompararPassInseguro";
+} else {
+	$claseComparar = "CompararPass";
+}
+
+
+$usuarios->$claseComparar($passw1, $passw2); 
 }
 
 

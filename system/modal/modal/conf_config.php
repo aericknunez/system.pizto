@@ -166,7 +166,19 @@ $r = $db->select("*", "config_master", "where td = ".$_SESSION['td']."")
             </label>
           </div></td>
 
-    <td></td>
+    <td>
+      <?php if(Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0){
+  ?>
+  <div class="switch">
+            <label>
+             Activar Clave Simple ||  Off
+              <input type="checkbox" <?php if($r["clave_simple"] == "on") echo "checked"; ?> id="clave_simple" name="clave_simple" >
+              <span class="lever"></span> On 
+            </label>
+          </div>
+          <?
+} ?>
+</td>
   </tr>
 
 

@@ -40,6 +40,7 @@ class Config{
 	    $cambio["imprimir_antes"] = $data["imprimir_antes"];
 	    $cambio["cambio_tx"] = $data["cambio_tx"];
 	    $cambio["sonido"] = $data["sonido"];
+	    $cambio["clave_simple"] = $data["clave_simple"];
 	    if (Helpers::UpdateId("config_master", $cambio, "td = ".$_SESSION["td"]."")) {
 	    	$this->CrearVariables();
 	        Alerts::Alerta("success","Echo!","Registros actualizados correctamente");
@@ -453,6 +454,7 @@ $return.= ' ?>';
 			$_SESSION['config_imprimir_antes'] = $r["imprimir_antes"];
 			$_SESSION['config_cambio_tx'] = $r["cambio_tx"];
 			$_SESSION['config_sonido'] = $r["sonido"];
+			$_SESSION['config_clave_simple'] = $r["clave_simple"];
 
 			if($_SESSION['config_skin'] == NULL) $_SESSION['config_skin'] = "mdb-skin";
 			// white-skin , mdb-skin , grey-skin , pink-skin ,  light-blue-skin , black-skin  cyan-skin, navy-blue-skin

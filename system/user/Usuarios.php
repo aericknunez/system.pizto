@@ -190,6 +190,18 @@ echo '<label>Tipo de Cuenta</label>
 
 	}
 
+
+	public function CompararPassInseguro($pass1, $pass2) { // esta funcion aun es experimental
+		if($pass1 == $pass2){
+			$this->CambiarPass($pass1);
+		} else { 
+			Alerts::Alerta("error","Error!","Los password no son iguales"); 
+		}
+	}
+
+
+
+	
 	function MayusCount($string){
 	    $string = preg_match_all('/([A-Z]{1})/',$string,$foo);
 	    return $string;

@@ -12,7 +12,14 @@ class Login {
 
 	public function Register($data){
 	    $db = new dbConn();
-		if($this->CompararPass($data["password"], $data["confirmpwd"]) == TRUE){
+
+if($_SESSION['config_clave_simple'] == "on"){
+	$claseComparar = "CompararPassInseguro";
+} else {
+	$claseComparar = "CompararPass";
+}
+
+		if($this->$claseComparar($data["password"], $data["confirmpwd"]) == TRUE){
 
 
 					$email = $this->ValidaEmail($data["email"]);

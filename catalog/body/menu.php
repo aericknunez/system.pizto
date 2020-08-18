@@ -1,26 +1,4 @@
 
-<?php if(Helpers::IsAdmin() == TRUE) { ?>
-<li><a class="collapsible-header waves-effect arrow-r"><i class="fas fa-table"></i> Reportes Root<i class="fas fa-angle-down rotate-icon"></i></a>
-<div class="collapsible-body">
-<ul class="list-unstyled">
-<li><a href="?admon" class="waves-effect"> Ver Administración</a></li>
-<li><a href="?syncstatus" class="waves-effect"> Estado Sincronizaci&oacuten</a></li>
-<li><a href="?inout" class="waves-effect"> Entradas y Salidas</a></li>
-<li><a href="?db_sync" class="waves-effect"> Gestionar Sync DB</a></li>
-<li><a href="?actualizacionesup" class="waves-effect"> Ver Sucursales Up</a></li>
-<li><a href="?edocortes" class="collapsible-header waves-effect arrow-r"> Estado Cortes</a></li>
-<li><a href="?ctc" class="collapsible-header waves-effect arrow-r"> Cambiar Cuenta</a></li>
-<li><a href="?user" class="collapsible-header waves-effect arrow-r"> Usuarios </a></li>
-
-
-<!-- <li><a href="?propinas" class="waves-effect"> Calcular Propinas</a></li> -->
-</ul>
-</div>
-</li>
-<?php } 
-?>
-
-
 <?php if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2  or $_SESSION["tipo_cuenta"] == 5) { ?>
 
 <li><a href="?mesashoy" class="collapsible-header waves-effect arrow-r"><i class="fas fa-table"></i> MESAS HOY</a></li>

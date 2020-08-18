@@ -1666,53 +1666,6 @@ break;
 
 
 
-case "200": // agrega un usuario a sync
-include_once '../../system/admon/Admin.php';
-	$admin = new Admin; 
-	$admin->AddClienteSync($_REQUEST["hash"],$_REQUEST["td"]);
-break; 
-
-
-
-case  "201": // elimina un usuario a sync
-include_once '../../system/admon/Admin.php';
-	$admin = new Admin; 
-	$admin->DelClienteSync($_REQUEST["hash"],$_REQUEST["td"]);
-break; 
-
-
-
-case  "202": // elimina un usuario a sync
-include_once '../../system/admon/Admin.php';
-	$admin = new Admin; 
-	$admin->DelHash($_REQUEST["hash"]);
-break; 
-
-
-
-case  "203": // agregar neuevo hash
-include_once '../../system/admon/Admin.php';
-	$admin = new Admin; 
-	$admin->NewHash($_POST["hash"]);
-break; 
-
-
-
-case  "204": // muestra listado de  estado cortes web
-include_once '../../system/admon/Admin.php';
-	$admin = new Admin; 
-
-
-	if($_POST["fecha_submit"] == NULL){ 
-		$fecha = date("d-m-Y"); 
-	} else { 
-		$fecha = $_POST["fecha_submit"];
-	}
-	$admin->EdoCortes($fecha);
-break; 
-
-
-
 case "300": // agregar empleado
 include_once '../../system/planilla/Planilla.php';
 	$plan = new planilla;

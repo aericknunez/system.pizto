@@ -109,14 +109,6 @@ elseif(isset($_GET["planillasver"])) include_once 'system/planilla/planillasver.
 elseif(isset($_GET["backup"])) include_once 'system/bdbackup/respaldo.php'; // backup de bd
 
 
-// admin
-elseif(isset($_GET["syncstatus"])) include_once 'system/historial/syncstatus.php';
-elseif(isset($_GET["db_sync"])) include_once 'system/admon/db_user.php';
-elseif(isset($_GET["synclist"])) include_once 'system/admon/listar_sync.php';
-elseif(isset($_GET["actualizacionesup"])) include_once 'system/admon/actualizaciones_activas.php';
-elseif(isset($_GET["edocortes"])) include_once 'system/admon/estado_cortes.php';
-elseif(isset($_GET["admon"])) include_once 'system/admon/inicio.php';
-
 else{
 include_once 'system/index/index.php';
 }

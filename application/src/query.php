@@ -199,24 +199,12 @@ echo '<script type="text/javascript" src="assets/js/query/facturar.js?v='.$numer
 elseif(isset($_GET["eliminar_facturas"])) {
 echo '<script type="text/javascript" src="assets/js/query/facturar.js?v='.$numero.'"></script>';
 }
-elseif(isset($_GET["syncstatus"])) {
-echo '<script type="text/javascript" src="assets/js/query/respaldo.js?v='.$numero.'"></script>';
-}
+
 
 elseif(isset($_GET["tablas"])) {
 echo '<script type="text/javascript" src="assets/js/query/conf_config.js?v='.$numero.'"></script>';
 } 
-/// admin
-elseif(isset($_GET["db_sync"])) {
-echo '<script type="text/javascript" src="assets/js/query/admin.js?v='.$numero.'"></script>';
-}
-elseif(isset($_GET["edocortes"])) {
-echo '<script type="text/javascript" src="assets/js/query/admin.js?v='.$numero.'"></script>';
-}
-elseif(isset($_GET["admon"])) {
-		echo '<script type="text/javascript" src="assets/js/query/admin.js?v='.$numero.'"></script>';
-		include_once 'system/admon/script.php';
-}
+
 
 //////////////// cliente
 elseif(isset($_GET["clienteadd"])) {

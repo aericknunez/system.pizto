@@ -6,14 +6,13 @@ include_once 'application/common/Fechas.php';
 include_once 'system/index/Inicio.php';
 include_once 'system/corte/Corte.php';
 include_once 'system/ventas/Venta.php';
+$corte = new Corte();
 
 $datalive = TRUE; /// para saber que estoy en index
 
 // if(Helpers::ServerDomain() == TRUE){
 // Alerts::Mensaje('<strong>En este momento el Sistema se encuentra en tareas de mantenimiento urgentes. Es necesario que actualice su sistema local, y es muy probable que sus datos no estén disponibles en este momento.</strong>',"danger",NULL,NULL);	
 // }
-
-// print_r($_SESSION);
 
 
 if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 5) {
@@ -25,7 +24,7 @@ if($_SESSION["muestra_vender"] == NULL){
 
 } else {
 
-	if(Corte::UltimaFecha() == date("d-m-Y")){
+	if($corte->UltimaFecha() == date("d-m-Y")){
 		Alerts::CorteEcho("ventas");
 	} else {
 		// aqui para cobrar
@@ -44,7 +43,7 @@ if($_SESSION["muestra_vender"] == NULL){
 	} else {
 
 		// verificamos primero el tipo cuenta
-		if(Corte::UltimaFecha() == date("d-m-Y")){
+		if($corte->UltimaFecha() == date("d-m-Y")){
 			Alerts::CorteEcho("ventas");
 		} else {
 		// aqui para cobrar
@@ -61,7 +60,7 @@ if($_SESSION["muestra_vender"] == NULL){
 
 } else {
 			// verificamos primero el tipo cuenta
-	if(Corte::UltimaFecha() == date("d-m-Y")){
+	if($corte->UltimaFecha() == date("d-m-Y")){
 		Alerts::CorteEcho("ventas");
 		} else {
 		// aqui para cobrar

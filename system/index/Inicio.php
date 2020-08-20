@@ -355,7 +355,7 @@ if($_SESSION["caduca"] == 3){
 
 
 	public function Root(){
-
+	$corte = new Corte();
 	echo '<div class="row mb-3">';
 
 	echo '<div class="col-xl-3 col-md-6 mb-4 col-sm-6">
@@ -380,7 +380,7 @@ if($_SESSION["caduca"] == 3){
 		        <a type="button" class="btn-floating btn-lg info-color ml-4 waves-effect waves-light"><i class="fas fa-credit-card" aria-hidden="true"></i></a>
 		      </div>
 		      <div class="col-md-9 col-9 text-right pr-4">
-		        <h5 class="ml-4 mt-4 mb-2 font-weight-bold">'.Helpers::Dinero(Corte::VentaHoy(date("d-m-Y"))).'</h5>
+		        <h5 class="ml-4 mt-4 mb-2 font-weight-bold">'.Helpers::Dinero($corte->VentaHoy(date("d-m-Y"))).'</h5>
 		        <p class="font-small grey-text">Venta Hoy</p>
 		      </div>
 		    </div>
@@ -395,7 +395,7 @@ if($_SESSION["caduca"] == 3){
 		        <a type="button" class="btn-floating btn-lg success-color lighten-1 ml-4 waves-effect waves-light"><i class="fas fa-dollar-sign" aria-hidden="true"></i></a>
 		      </div>
 		      <div class="col-md-9 col-9 text-right pr-4">
-		        <h5 class="ml-4 mt-4 mb-2 font-weight-bold">'. Helpers::Dinero(Corte::GastoHoy(date("d-m-Y"))) .'</h5>
+		        <h5 class="ml-4 mt-4 mb-2 font-weight-bold">'. Helpers::Dinero($corte->GastoHoy(date("d-m-Y"))) .'</h5>
 		        <p class="font-small grey-text">Gasto Hoy</p>
 		      </div>
 		    </div>
@@ -437,7 +437,7 @@ echo '<hr>';
 
 
 		public function Admin(){
-
+		$corte = new Corte();
 echo '<div class="row mt-3">';
 
 	echo '<div class="col-xl-3 col-md-6 mb-4 col-sm-6">
@@ -462,7 +462,7 @@ echo '<div class="row mt-3">';
 		        <a type="button" class="btn-floating btn-lg success-color ml-4 waves-effect waves-light"><i class="fas fa-chart-line" aria-hidden="true"></i></a>
 		      </div>
 		      <div class="col-md-9 col-9 text-right pr-4">
-		        <h5 class="ml-4 mt-4 mb-2 font-weight-bold">'. Helpers::Dinero(Corte::TotalTx(date("d-m-Y"))) .'</h5>
+		        <h5 class="ml-4 mt-4 mb-2 font-weight-bold">'. Helpers::Dinero($corte->TotalTx(date("d-m-Y"))) .'</h5>
 		        <p class="font-small grey-text">Total Tx</p>
 		      </div>
 		    </div>
@@ -477,7 +477,7 @@ echo '<div class="row mt-3">';
 		        <a type="button" class="btn-floating btn-lg light-blue lighten-1 ml-4 waves-effect waves-light"><i class="fas fa-grin-beam" aria-hidden="true"></i></a>
 		      </div>
 		      <div class="col-md-9 col-9 text-right pr-4">
-		        <h5 class="ml-4 mt-4 mb-2 font-weight-bold">'. Helpers::Dinero(Corte::TotalNoTx(date("d-m-Y"))) .'</h5>
+		        <h5 class="ml-4 mt-4 mb-2 font-weight-bold">'. Helpers::Dinero($corte->TotalNoTx(date("d-m-Y"))) .'</h5>
 		        <p class="font-small grey-text">Total No Tx</p>
 		      </div>
 		    </div>
@@ -492,7 +492,7 @@ echo '<div class="row mt-3">';
 		        <a type="button" class="btn-floating btn-lg red accent-2 ml-4 waves-effect waves-light"><i class="fas fa-sliders-h" aria-hidden="true"></i></a>
 		      </div>
 		      <div class="col-md-9 col-9 text-right pr-4">
-		        <h5 class="ml-4 mt-4 mb-2 font-weight-bold">'.Helpers::Entero(Corte::ClientesHoy(date("d-m-Y"))).'</h5>
+		        <h5 class="ml-4 mt-4 mb-2 font-weight-bold">'.Helpers::Entero($corte->ClientesHoy(date("d-m-Y"))).'</h5>
 		        <p class="font-small grey-text">Clientes</p>
 		      </div>
 		    </div>

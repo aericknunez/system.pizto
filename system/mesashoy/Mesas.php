@@ -8,7 +8,10 @@ class Mesas{
 
 	public function VerMesas($fecha,$dir) {
 		$db = new dbConn();
+		
 		$a = $db->query("select * from mesa where fecha = '$fecha' and td = ".$_SESSION['td']." order by id desc");
+
+		if($a->num_rows > 0){
 		    
 		echo '<table class="table table-striped table-responsive-sm table-sm">
 
@@ -125,6 +128,10 @@ class Mesas{
 		  echo '</tbody>
 
 		</table>';
+
+	} else {
+		Alerts::Mensajex("No se encontaron registros","info");
+	}
 		  
 	}
 

@@ -356,69 +356,43 @@ if($_SESSION["caduca"] == 3){
 
 	public function Root(){
 	$corte = new Corte();
-	echo '<div class="row mb-3">';
 
-	echo '<div class="col-xl-3 col-md-6 mb-4 col-sm-6">
-		  <div class="card">
-		    <div class="row mt-3">
-		      <div class="col-md-3 col-3 text-left pl-1">
-		        <a type="button" class="btn-floating btn-lg secondary-color ml-4 waves-effect waves-light"><i class="fas fa-barcode" aria-hidden="true"></i></a>
-		      </div>
-		      <div class="col-md-9 col-9 text-right pr-4">
-		        <h5 class="ml-4 mt-4 mb-2 font-weight-bold">'.Inicio::LastUpdate().'</h5>
-		        <p class="font-small grey-text">'.Inicio::SiCorte().'</p>
-		      </div>
-		    </div>
+echo '<div class="row">
 
-		  </div>
-		</div>';
+    <div class="col-xl-3 col-md-6 mb-4  col-sm-6 col-6">
+      <div class="card-counter light">
+        <i class="fas fa-cut"></i>
+        <span class="count-numbers"><h5 class="font-weight-bold">'.Inicio::LastUpdate().'</h5></span>
+        <span class="count-name">'.Inicio::SiCorte().'</span>
+      </div>
+    </div>
 
-	echo '<div class="col-xl-3 col-md-6 mb-4 col-sm-6">
-		  <div class="card">
-		    <div class="row mt-3">
-		      <div class="col-md-3 col-3 text-left pl-1">
-		        <a type="button" class="btn-floating btn-lg info-color ml-4 waves-effect waves-light"><i class="fas fa-credit-card" aria-hidden="true"></i></a>
-		      </div>
-		      <div class="col-md-9 col-9 text-right pr-4">
-		        <h5 class="ml-4 mt-4 mb-2 font-weight-bold">'.Helpers::Dinero($corte->VentaHoy(date("d-m-Y"))).'</h5>
-		        <p class="font-small grey-text">Venta Hoy</p>
-		      </div>
-		    </div>
+    <div class="col-xl-3 col-md-6 mb-4  col-sm-6 col-6">
+      <div class="card-counter light">
+        <i class="fas fa-money-bill-alt"></i>
+        <span class="count-numbers"><h5 class="font-weight-bold">'.Helpers::Dinero($corte->VentaHoy(date("d-m-Y"))).'</h5></span>
+        <span class="count-name">Venta Hoy</span>
+      </div>
+    </div>
 
-		  </div>
-		</div>';
+    <div class="col-xl-3 col-md-6 mb-4  col-sm-6 col-6">
+      <div class="card-counter light">
+        <i class="fas fa-dollar-sign"></i>
+        <span class="count-numbers"><h5 class="font-weight-bold">'. Helpers::Dinero($corte->GastoHoy(date("d-m-Y"))) .'</h5></span>
+        <span class="count-name">Gastos Hoy</span>
+      </div>
+    </div>
 
-	echo '<div class="col-xl-3 col-md-6 mb-4 col-sm-6">
-		  <div class="card">
-		    <div class="row mt-3">
-		      <div class="col-md-3 col-3 text-left pl-1">
-		        <a type="button" class="btn-floating btn-lg success-color lighten-1 ml-4 waves-effect waves-light"><i class="fas fa-dollar-sign" aria-hidden="true"></i></a>
-		      </div>
-		      <div class="col-md-9 col-9 text-right pr-4">
-		        <h5 class="ml-4 mt-4 mb-2 font-weight-bold">'. Helpers::Dinero($corte->GastoHoy(date("d-m-Y"))) .'</h5>
-		        <p class="font-small grey-text">Gasto Hoy</p>
-		      </div>
-		    </div>
+    <div class="col-xl-3 col-md-6 mb-4  col-sm-6 col-6">
+      <div class="card-counter light">
+        <i class="fas fa-money-bill-wave"></i>
+        <span class="count-numbers"><h5 class="font-weight-bold">'. Helpers::Dinero(Inicio::Efectivo()) .'</h5></span>
+        <span class="count-name">Efectivo caja Chica</span>
+      </div>
+    </div>
 
-		  </div>
-		</div>';
 
-	echo '<div class="col-xl-3 col-md-6 mb-4 col-sm-6">
-		  <div class="card">
-		    <div class="row mt-3">
-		      <div class="col-md-3 col-3 text-left pl-1">
-		        <a type="button" class="btn-floating btn-lg red accent-2 ml-4 waves-effect waves-light"><i class="fas fa-money-bill" aria-hidden="true"></i></a>
-		      </div>
-		      <div class="col-md-9 col-9 text-right pr-4">
-		        <h5 class="ml-4 mt-4 mb-2 font-weight-bold">'. Helpers::Dinero(Inicio::Efectivo()) .'</h5>
-		        <p class="font-small grey-text">Efectivo</p>
-		      </div>
-		    </div>
-
-		  </div>
-		</div>';
-
-	echo '</div>';
+  </div>';
 
 
 
@@ -438,69 +412,44 @@ echo '<hr>';
 
 		public function Admin(){
 		$corte = new Corte();
-echo '<div class="row mt-3">';
 
-	echo '<div class="col-xl-3 col-md-6 mb-4 col-sm-6">
-		  <div class="card">
-		    <div class="row mt-3">
-		      <div class="col-md-3 col-3 text-left pl-1">
-		        <a type="button" class="btn-floating btn-lg secondary-color ml-4 waves-effect waves-light"><i class="far fa-chart-bar" aria-hidden="true"></i></a>
-		      </div>
-		      <div class="col-md-9 col-9 text-right pr-4">
-		        <h5 class="ml-4 mt-4 mb-2 font-weight-bold">'.Inicio::Clave().'</h5>
-		        <p class="font-small grey-text">Codigo</p>
-		      </div>
-		    </div>
+echo '    <div class="row">
 
-		  </div>
-		</div>';
+    <div class="col-xl-3 col-md-6 mb-4  col-sm-6 col-6">
+      <div class="card-counter primary">
+        <i class="fas fa-barcode"></i>
+        <span class="count-numbers"><h5 class="font-weight-bold">'.Inicio::Clave().'</h5></span>
+        <span class="count-name">Codigo</span>
+      </div>
+    </div>
 
-	echo '<div class="col-xl-3 col-md-6 mb-4 col-sm-6">
-		  <div class="card">
-		    <div class="row mt-3">
-		      <div class="col-md-3 col-3 text-left pl-1">
-		        <a type="button" class="btn-floating btn-lg success-color ml-4 waves-effect waves-light"><i class="fas fa-chart-line" aria-hidden="true"></i></a>
-		      </div>
-		      <div class="col-md-9 col-9 text-right pr-4">
-		        <h5 class="ml-4 mt-4 mb-2 font-weight-bold">'. Helpers::Dinero($corte->TotalTx(date("d-m-Y"))) .'</h5>
-		        <p class="font-small grey-text">Total Tx</p>
-		      </div>
-		    </div>
+    <div class="col-xl-3 col-md-6 mb-4  col-sm-6 col-6">
+      <div class="card-counter danger">
+        <i class="fas fa-file-invoice-dollar"></i>
+        <span class="count-numbers"><h5 class="font-weight-bold">'. Helpers::Dinero($corte->TotalTx(date("d-m-Y"))) .'</h5></span>
+        <span class="count-name">Total Tx</span>
+      </div>
+    </div>
 
-		  </div>
-		</div>';
+    <div class="col-xl-3 col-md-6 mb-4  col-sm-6 col-6">
+      <div class="card-counter success">
+        <i class="fas fa-file-invoice"></i>
+        <span class="count-numbers"><h5 class="font-weight-bold">'. Helpers::Dinero($corte->TotalNoTx(date("d-m-Y"))) .'</h5></span>
+        <span class="count-name">Total No Tx</span>
+      </div>
+    </div>
 
-	echo '<div class="col-xl-3 col-md-6 mb-4 col-sm-6">
-		  <div class="card">
-		    <div class="row mt-3">
-		      <div class="col-md-3 col-3 text-left pl-1">
-		        <a type="button" class="btn-floating btn-lg light-blue lighten-1 ml-4 waves-effect waves-light"><i class="fas fa-grin-beam" aria-hidden="true"></i></a>
-		      </div>
-		      <div class="col-md-9 col-9 text-right pr-4">
-		        <h5 class="ml-4 mt-4 mb-2 font-weight-bold">'. Helpers::Dinero($corte->TotalNoTx(date("d-m-Y"))) .'</h5>
-		        <p class="font-small grey-text">Total No Tx</p>
-		      </div>
-		    </div>
+    <div class="col-xl-3 col-md-6 mb-4  col-sm-6 col-6">
+      <div class="card-counter info">
+        <i class="fa fa-users"></i>
+        <span class="count-numbers"><h5 class="font-weight-bold">'.Helpers::Entero($corte->ClientesHoy(date("d-m-Y"))).'</h5></span>
+        <span class="count-name">Clientes</span>
+      </div>
+    </div>
 
-		  </div>
-		</div>';
 
-	echo '<div class="col-xl-3 col-md-6 mb-4 col-sm-6">
-		  <div class="card">
-		    <div class="row mt-3">
-		      <div class="col-md-3 col-3 text-left pl-1">
-		        <a type="button" class="btn-floating btn-lg red accent-2 ml-4 waves-effect waves-light"><i class="fas fa-sliders-h" aria-hidden="true"></i></a>
-		      </div>
-		      <div class="col-md-9 col-9 text-right pr-4">
-		        <h5 class="ml-4 mt-4 mb-2 font-weight-bold">'.Helpers::Entero($corte->ClientesHoy(date("d-m-Y"))).'</h5>
-		        <p class="font-small grey-text">Clientes</p>
-		      </div>
-		    </div>
+  </div>';
 
-		  </div>
-		</div>';
-
-	echo '</div>';
 
 if(Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0){
 echo '<div class="text-center"><a id="cambiar-pantalla-inicio" op="27x" class="btn btn-success">Ir a Facturar</a></div>';

@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // }
 // $numero = 1;
 
-$numero = rand(1,9999999999);
+$numero = rand(1,9999);
 
 if(isset($_GET["modal"])) { 
 echo '

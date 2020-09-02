@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 include_once 'application/common/Alerts.php';
 
 include_once 'system/search/Busqueda.php';
-
+$search = new Busqueda();
 
 $a = $db->query("SELECT * FROM ticket WHERE num_fac='".$_POST["search"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
 $registros = $a->num_rows;
@@ -59,7 +59,7 @@ echo '<a id="mensaje-borrar" op="80" iden="'.$_POST["search"].'" class="btn-floa
  <h3>Detalles de la factura # <?php echo $_POST["search"] ?></h3>
 <hr>
 <?php 
-Busqueda::VerProductosFactura($_POST["search"]);
+$search->VerProductosFactura($_POST["search"]);
 ?>
 <!-- <a href="" class="btn btn-danger">Cancelar</a> -->
 

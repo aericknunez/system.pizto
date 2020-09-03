@@ -621,8 +621,7 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 		    $cambio["num_fac"] = $ultimon;
 		    // para actualizar los datos a pago con tarjeta
 		    if($_SESSION['tcredito'] == "on"){
-		    $cambio["tipo_pago"] = 2;
-		    unset($_SESSION['tcredito']);	
+		    $cambio["tipo_pago"] = 2;	
 		    }		    
 		    if (Helpers::UpdateId("ticket_temp", $cambio, "td = ".$_SESSION["td"]." and tx = ".$_SESSION["tx"]." and mesa = $mesa and num_fac = 0")) {
 		

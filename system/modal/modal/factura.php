@@ -48,12 +48,22 @@ echo '<p class="text-center">Sub Total: '. Helpers::Dinero($stotal) .' ||  Impue
 echo '<p class="text-center font-weight-bold">TOTAL:</p>';
 echo '<div class="display-4 text-center font-weight-bold">'. Helpers::Dinero($total) .'</div> <hr>';
 
+if($_SESSION['tcredito'] == "on"){
+
+echo '<p class="text-center font-weight-bold">PAGO CON TARJETA DE CREDITO:</p>';
+echo '<div class="display-4 text-center font-weight-bold">'. Helpers::Dinero($total) .'</div> <hr>';
+
+echo '<p class="text-center text-danger font-weight-bold">CAMBIO:</p>'; 
+echo '<div class="display-4 text-danger text-center font-weight-bold">'. Helpers::Dinero(0) . '</div>'; 
+ 
+} else {
 echo '<p class="text-center font-weight-bold">EFECTIVO:</p>';
 echo '<div class="display-4 text-center font-weight-bold">'. Helpers::Dinero($efectivo) .'</div> <hr>';
 
 echo '<p class="text-center text-danger font-weight-bold">CAMBIO:</p>'; 
 echo '<div class="display-4 text-danger text-center font-weight-bold">'. Helpers::Dinero($cambio) . '</div>'; 
-
+ 
+}
 
 if($_SESSION["noimprimir"] == NULL){ // sino viene null hay que sacar la factura
 
@@ -71,7 +81,10 @@ $fact->ObtenerEstadoFactura($_REQUEST["efectivo"], $factura);
         unset($_SESSION["cliente"]);
         unset($_SESSION["rtn"]); }
 
-
+    // eliminar variabe de tarjeta de credito
+      if($_SESSION['tcredito'] == "on"){
+        unset($_SESSION['tcredito']); 
+      }
 
 
 

@@ -6,13 +6,14 @@ include_once 'system/corte/Corte.php';
 include_once 'system/sync/Sync.php';
 
 
-if($_SESSION["mesa"] != NULL){ // para eliminar la masa que viene de index
- include_once 'system/ventas/Venta.php'; 
-    if(Venta::VerProductosMesa($_SESSION["mesa"]) == NULL){
-      Helpers::DeleteId("mesa", "estado = 1 and mesa = ". $_SESSION["mesa"] ." and tx = ". $_SESSION["tx"] ." and td = " . $_SESSION["td"]);
-      unset ($_SESSION["mesa"]);
-    }
-}
+  if($_SESSION["mesa"] != NULL){ // para eliminar la masa que viene de index
+   include_once 'system/ventas/Venta.php'; 
+   $ve = new Venta();
+      if($ve->VerProductosMesa($_SESSION["mesa"]) == NULL){
+        Helpers::DeleteId("mesa", "estado = 1 and mesa = ". $_SESSION["mesa"] ." and tx = ". $_SESSION["tx"] ." and td = " . $_SESSION["td"]);
+        unset ($_SESSION["mesa"]);
+      }
+  }
 ?>
 <div id="corte"></div>
 

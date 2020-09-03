@@ -5,14 +5,16 @@ include_once 'application/common/Alerts.php';
 include_once 'system/mesashoy/Mesas.php';
 
 
-if($_SESSION["mesa"] != NULL){ // para eliminar la masa que viene de index
- include_once 'system/ventas/Venta.php'; 
-    if(Venta::VerProductosMesa($_SESSION["mesa"]) == NULL){
-      Helpers::DeleteId("mesa", "estado = 1 and mesa = ". $_SESSION["mesa"] ." and tx = ". $_SESSION["tx"] ." and td = " . $_SESSION["td"]);
-      unset ($_SESSION["mesa"]);
-    }
-}
 
+
+  if($_SESSION["mesa"] != NULL){ // para eliminar la masa que viene de index
+   include_once 'system/ventas/Venta.php'; 
+   $ve = new Venta();
+      if($ve->VerProductosMesa($_SESSION["mesa"]) == NULL){
+        Helpers::DeleteId("mesa", "estado = 1 and mesa = ". $_SESSION["mesa"] ." and tx = ". $_SESSION["tx"] ." and td = " . $_SESSION["td"]);
+        unset ($_SESSION["mesa"]);
+      }
+  }
 ?>
 
 <h2 class="h2-responsive">Mesas registradas</h2>	    

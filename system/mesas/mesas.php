@@ -3,7 +3,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 unset($_SESSION["mesa"]);
 
-    $a = $db->query("SELECT * FROM mesa WHERE estado = 1 and tipo = 2 and tx = ".$_SESSION["tx"]." and td =".$_SESSION["td"]."");
+// pra que muestre nada mas las mesas del usuario mesero unicamente
+if($_SESSION["config_umesas"] == "on" and $_SESSION["tipo_cuenta"] == 3){ 
+$a = $db->query("SELECT * FROM mesa WHERE estado = 1 and tipo = 2 and user = '".$_SESSION["user"]."' and tx = ".$_SESSION["tx"]." and td =".$_SESSION["td"]."");
+} else {
+$a = $db->query("SELECT * FROM mesa WHERE estado = 1 and tipo = 2 and tx = ".$_SESSION["tx"]." and td =".$_SESSION["td"]."");
+}
+    
+
+
     echo '<div class="row justify-content-center">';
     
     foreach ($a as $b) {

@@ -90,7 +90,7 @@ class Especial{
 					        $nombre = $r["nombre"]; } unset($r); 
 					    if ($r = $db->select("img_name", "images", "WHERE cod = ".$b["producto"]." and td = ".$_SESSION["td"]."")) { 
 					        $imagen = $r["img_name"]; } unset($r);
-			        echo '<li><a id="venta-especial" op="20y" cod="'.$b["producto"].'" mesa="'.$_SESSION["mesa"].'" cliente="'.$_SESSION["clientselect"].'" view="'.$_SESSION["view"].'"><em>'.$nombre.'</em><img src="'.$imagen.'" alt="image" class="img-fluid img-responsive wow fadeIn" /></a></li>';
+			        echo '<li><a id="venta-especial" op="20y" cod="'.$b["producto"].'" mesa="'.$_SESSION["mesa"].'" cliente="'.$_SESSION["clientselect"].'" ><em>'.$nombre.'</em><img src="'.$imagen.'" alt="image" class="img-fluid img-responsive wow fadeIn" /></a></li>';
 			    } $a->close();
 			    echo '</ul> 
  					</div>';
@@ -131,7 +131,6 @@ class Especial{
 				echo '<form class="text-center border border-light p-2" method="post" action="application/src/routes.php?op=20u">
 				   <input type="text" id="producto" name="producto" class="form-control mb-1" placeholder="Detalles">
 				   <input type="number" step="any" id="cantidad" name="cantidad" class="form-control mb-1" placeholder="Cantidad">
-				   <input type="hidden" id="view" name="view" value="'.$_REQUEST["view"].'">
 				    <button class="btn btn-success" type="submit">Agregar</button>
 				</form>';		   
 		    } $a->close();

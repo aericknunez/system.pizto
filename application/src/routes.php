@@ -229,7 +229,7 @@ if($_REQUEST["opcion"] != NULL){
 		echo '<script>
 		window.location.href="?delivery&mesa='.$_SESSION["mesa"].'"
 		</script>';
-	} elseif($_SESSION['view'] != NULL){
+	} elseif($_SESSION['tipo_inicio'] == 2){
 		echo '<script>
 		window.location.href="?view&mesa='.$_SESSION["mesa"].'"
 		</script>';
@@ -261,7 +261,7 @@ $ventas->OtrasVentas(8888,
 		echo '<script>
 		window.location.href="../../?delivery&mesa='.$_SESSION["mesa"].'"
 		</script>';
-	} elseif($_SESSION['view'] != NULL){
+	} elseif($_SESSION['tipo_inicio'] == 2){
 		echo '<script>
 		window.location.href="../../?view&mesa='.$_SESSION["mesa"].'"
 		</script>';
@@ -331,7 +331,7 @@ $ventas->OtrasVentas(8889,
 		echo '<script>
 		window.location.href="?delivery&mesa='.$_SESSION["mesa"].'"
 		</script>';
-	} elseif($_SESSION['view'] != NULL){
+	} elseif($_SESSION['tipo_inicio'] == 2){
 		echo '<script>
 		window.location.href="?view&mesa='.$_SESSION["mesa"].'"
 		</script>';
@@ -412,18 +412,15 @@ case "26": // cambiar tipo de pantalla de inicio mesa o rapida
 
 	if($_SESSION["mesa"] == NULL){
 			if($_SESSION["tipo_inicio"] == 1) {
-				$_SESSION["view"] = "1"; // esta hace que la mesa este activada para saber que biene de view
 				$_SESSION["tipo_inicio"] = 2;
 			} else {
 				unset($_SESSION['client-asign']);	
 				unset($_SESSION['clientselect']);
-				unset($_SESSION['view']);
 				$_SESSION["tipo_inicio"] = 1;
 			}
 		
-			$_SESSION["delivery_on"] = FALSE;
-			}
-
+		$_SESSION["delivery_on"] = FALSE;
+	}
 break; 
 
 
@@ -508,13 +505,11 @@ case "29": // Ir a mesa seleccionada segun mesa y tx
 		$_SESSION["tipo_inicio"] = 1;
 		unset($_SESSION['client-asign']);	
 		unset($_SESSION['clientselect']);
-		unset($_SESSION['view']);
 		$_SESSION["delivery_on"] = FALSE;
 
 	} elseif($_REQUEST["tipo"] == 2){
 
 		$_SESSION["tipo_inicio"] = 2;
-		$_SESSION["view"] = "1";
 		$_SESSION["delivery_on"] = FALSE;
 
 	} else{

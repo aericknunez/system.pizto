@@ -11,7 +11,6 @@
 <form class="text-center border border-light p-2" method="post" action="application/src/routes.php?op=20x">
     <input type="text" id="producto" name="producto"class="form-control mb-1" placeholder="Producto">
     <input type="number" step="any" id="cantidad" name="cantidad" class="form-control mb-1" placeholder="Cantidad">
-    <input type="hidden" id="view" name="view" value="<? echo $_REQUEST["view"]; ?>">
     <button class="btn btn-success" type="submit">Agregar</button>
 </form>
 

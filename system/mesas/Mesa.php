@@ -88,7 +88,7 @@ class Mesa{
 
 			if($productos > 0){
 				if($_SESSION['opcionesactivas'] == TRUE){
-			echo '<a href="?modal=modificar&mesa='.$mesa.'&view=1" class="btn btn-brown">Modificar Opciones</a>';
+			echo '<a href="?modal=modificar&mesa='.$mesa.'" class="btn btn-brown">Modificar Opciones</a>';
 				}
 
 			if ($r = $db->select("clientes", "mesa", "WHERE mesa = '$mesa' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 

@@ -25,7 +25,7 @@
                $imagen = $r["img_name"];
             } unset($r);
       
-      echo '<li><a id="ventaopcion" op="20" cod="'.$_REQUEST["cod"].'" mesa="'.$_REQUEST["mesa"].'" cliente="'.$_REQUEST["cliente"].'" opcion="'.$b["cod"] .'" panel="'.$_REQUEST["panel"].'" view="'.$_REQUEST["view"].'"><em>'.$b["nombre"].'</em><img src="'.$imagen.'" alt="image" class="img-fluid img-responsive wow fadeIn" /></a></li>';
+      echo '<li><a id="ventaopcion" op="20" cod="'.$_REQUEST["cod"].'" mesa="'.$_REQUEST["mesa"].'" cliente="'.$_REQUEST["cliente"].'" opcion="'.$b["cod"] .'" panel="'.$_REQUEST["panel"].'" ><em>'.$b["nombre"].'</em><img src="'.$imagen.'" alt="image" class="img-fluid img-responsive wow fadeIn" /></a></li>';
     } $a->close();
 
 ?>
@@ -45,7 +45,7 @@
 
           if($_SESSION["delivery_on"] == TRUE){
             $url="?delivery&mesa=" . $_REQUEST["mesa"];
-          } elseif($_SESSION['view'] != NULL){
+          } elseif($_SESSION['tipo_inicio'] == 2){
             $url="?view&mesa=" . $_REQUEST["mesa"];
           } else {
             $url="?";

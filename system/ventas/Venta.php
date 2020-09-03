@@ -790,7 +790,8 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 
 		   			 /////////////////////////// borrar si es venta especial
 		   			 if($codigos == 8889){ // si es pollo especial
-						Especial::BorrarTodo(NULL);
+						$esp = new Especial();
+						$esp->BorrarTodo(NULL);
 					}
 					////////
 				}

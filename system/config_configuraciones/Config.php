@@ -217,12 +217,12 @@ $return.= " \n \n";
 
 
 if($_SESSION['config_otras_ventas'] == 1){
-$return.= '<li><a href="?modal=otras_ventas&mesa=<? echo $_SESSION["mesa"]; ?>&cliente=<? echo $_SESSION["clientselect"] ?>&view=<? echo $_SESSION["view"]; ?>"><em>Otras Ventas</em><img src="assets/img/ico/dfs.png" alt="image" class="img-fluid img-responsive wow fadeIn" /></a></li>';
+$return.= '<li><a href="?modal=otras_ventas&mesa=<? echo $_SESSION["mesa"]; ?>&cliente=<? echo $_SESSION["clientselect"] ?>"><em>Otras Ventas</em><img src="assets/img/ico/dfs.png" alt="image" class="img-fluid img-responsive wow fadeIn" /></a></li>';
 $return.= " \n \n";	
 }
 
 if($_SESSION['config_venta_especial'] == 1){
-$return.= '<li><a href="?modal=venta_especial&mesa=<? echo $_SESSION["mesa"]; ?>&cliente=<? echo $_SESSION["clientselect"] ?>&view=<? echo $_SESSION["view"]; ?>"><em>Venta Especial</em><img src="assets/img/ico/as.png" alt="image" class="img-fluid img-responsive wow fadeIn" /></a></li>';	
+$return.= '<li><a href="?modal=venta_especial&mesa=<? echo $_SESSION["mesa"]; ?>&cliente=<? echo $_SESSION["clientselect"] ?>"><em>Venta Especial</em><img src="assets/img/ico/as.png" alt="image" class="img-fluid img-responsive wow fadeIn" /></a></li>';	
 }
 
 

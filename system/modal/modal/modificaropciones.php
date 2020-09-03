@@ -39,7 +39,7 @@ $clientes = $r["clientes"];
 
           if($_SESSION["delivery_on"] == TRUE){
             $url="?delivery&mesa=" . $_REQUEST["mesa"];
-          } elseif($_SESSION['view'] != NULL){
+          } elseif($_SESSION['tipo_inicio'] == 2){
             $url="?view&mesa=" . $_REQUEST["mesa"];
           } else {
             $url="?";

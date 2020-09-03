@@ -132,11 +132,22 @@ $r = $db->select("*", "config_master", "where td = ".$_SESSION['td']."")
 <?php if(Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0){
   ?>
      <tr>
-       <td>Permitir CLave Simple</td>
+       <td>Permitir Clave Simple</td>
        <td><? if($r["clave_simple"] == "on") echo "Activado"; else echo "Inactivo"; ?></td>    
      </tr>
   <?
 } ?>
+
+     <tr>
+       <td>Usar Tarjeta de Credito</td>
+       <td><? if($r["tcredito"] == "on") echo "Activado"; else echo "Inactivo"; ?></td>    
+     </tr>
+
+
+     <tr>
+       <td>Restringir Mesas</td>
+       <td><? if($r["umesas"] == "on") echo "Activado"; else echo "Inactivo"; ?></td>    
+     </tr>
 
 <?
  unset($r);  

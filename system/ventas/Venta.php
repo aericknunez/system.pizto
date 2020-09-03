@@ -338,12 +338,22 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 				    	    
 				    
 				     echo '<form action="application/src/routes.php?op=21" method="post" name="form-vender" id="form-vender" >
-		        	<input type="number" id="total" name="total" class="form-control mb-1" placeholder="100.00" autofocus>
+		        	<input type="number" id="total" name="total" class="form-control mb-1" placeholder="100.00" autofocus ';
+					   if($_SESSION['tcredito'] == "on"){
+					   		echo 'readonly="readonly"';
+					   }
+					   echo '>
 					<div align="center">';
 
 				
 
-				echo '<button class="white" type="submit" name="btn-vender" id="btn-vender"><img src="assets/img/imagenes/print.png"></button>';
+				echo '<button class="white" type="submit" name="btn-vender" id="btn-vender"><img id="img-btn" src="assets/img/imagenes/';
+					   if($_SESSION['tcredito'] == "on"){
+					   		echo 'visa.png';
+					   } else {
+					   		echo 'print.png';
+					   }
+					   echo '"></button>';
 					
 					echo '</div>
 					</form>';
@@ -437,12 +447,22 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 				    	    
 				    
 				     echo '<form action="application/src/routes.php?op=21" method="post" name="form-vender" id="form-vender" >
-		        	<input type="number" id="total" name="total" class="form-control mb-1" placeholder="100.00" autofocus>
+		        	<input type="number" id="total" name="total" class="form-control mb-1" placeholder="100.00" autofocus ';
+					   if($_SESSION['tcredito'] == "on"){
+					   		echo 'readonly="readonly"';
+					   }
+					   echo '>
 					<div align="center">';
 
 				
 
-				echo '<button class="white" type="submit" name="btn-vender" id="btn-vender"><img src="assets/img/imagenes/print.png"></button>';
+				echo '<button class="white" type="submit" name="btn-vender" id="btn-vender"><img id="img-btn" src="assets/img/imagenes/';
+					   if($_SESSION['tcredito'] == "on"){
+					   		echo 'visa.png';
+					   } else {
+					   		echo 'print.png';
+					   }
+					   echo '"></button>';
 					
 					echo '</div>
 					</form>';
@@ -516,12 +536,22 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 
 				     echo '<form action="application/src/routes.php?op=25" method="post"  name="form-vender" id="form-vender" >
 		        	
-					<input type="number" id="total" name="total" class="form-control mb-1" placeholder="100.00" autofocus>
+					<input type="number" id="total" name="total" class="form-control mb-1" placeholder="100.00" autofocus ';
+					   if($_SESSION['tcredito'] == "on"){
+					   		echo 'readonly="readonly"';
+					   }
+					   echo '>
 
 					<input type="hidden" id="cancela" name="cancela" value="'.$cancela.'">
 
 					<div align="center">
-					   <button class="white" type="submit" name="btn-vender" id="btn-vender"><img src="assets/img/imagenes/print.png"></button>
+					   <button class="white" type="submit" name="btn-vender" id="btn-vender"><img id="img-btn" src="assets/img/imagenes/';
+					   if($_SESSION['tcredito'] == "on"){
+					   		echo 'visa.png';
+					   } else {
+					   		echo 'print.png';
+					   }
+					   echo '"></button>
 					</div>
 					</form>';
 
@@ -589,8 +619,13 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 	    // actualizar ticket
 	        $cambio = array();
 		    $cambio["num_fac"] = $ultimon;
-		    
+		    // para actualizar los datos a pago con tarjeta
+		    if($_SESSION['tcredito'] == "on"){
+		    $cambio["tipo_pago"] = 2;
+		    unset($_SESSION['tcredito']);	
+		    }		    
 		    if (Helpers::UpdateId("ticket_temp", $cambio, "td = ".$_SESSION["td"]." and tx = ".$_SESSION["tx"]." and mesa = $mesa and num_fac = 0")) {
+		
 		// agregar ticket num
 		    $datos = array();
 		    $datos["fecha"] = date("d-m-Y");
@@ -808,21 +843,35 @@ echo '<div class="row d-flex justify-content-center">';
 /// si es en delivery
 
 	if($_SESSION["delivery_on"] == TRUE){
-		echo '<a id="deliveryedo" class="btn-floating red"><i class="fas fa-user" aria-hidden="true"></i></a>';
-		if($_SESSION['opcionesactivas'] == TRUE){
-		echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'" class="btn-floating btn-success"><i class="fas fa-hamburger"></i></a>'; }
+		echo '<a id="deliveryedo" class="btn-floating red"><i class="fas fa-user" aria-hidden="true" title="Opciones"></i></a>';
 		
-	} elseif($_SESSION['view']){ // si esta en view.
+		if($_SESSION['opcionesactivas'] == TRUE){
+		echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'" class="btn-floating btn-success"><i class="fas fa-hamburger" title="Cambios al platillo"></i></a>'; }
+
 		if($_SESSION['config_imprimir_antes'] != NULL){
-		 	echo '<a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&efectivo=&cancela='.$cancela.'" class="btn-floating blue"><i class="fas fa-print"></i></a>'; }		 	
+		 	echo '<a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&efectivo=&cancela='.$cancela.'" class="btn-floating blue" title="Imprimir Ticket"><i class="fas fa-print"></i></a>'; }
 		
-	} else { // si esta en root
+	} 
+
+
+	if($_SESSION['tipo_inicio'] == 2){ // si esta en mesas.
+		
+		if($_SESSION['config_imprimir_antes'] != NULL){
+		 	echo '<a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&efectivo=&cancela='.$cancela.'" class="btn-floating blue" title="Imprimir Ticket"><i class="fas fa-print"></i></a>'; }	
+	
+	} 
+
+
+	if($_SESSION['tipo_inicio'] == 1) { // si esta en venta rapida
 		
 		if($_SESSION['opcionesactivas'] == TRUE){
-		echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'" class="btn-floating btn-success"><i class="fas fa-hamburger"></i></a>'; }
+		echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'" class="btn-floating btn-success" title="Cambios al platillo"><i class="fas fa-hamburger"></i></a>'; }
+
 	}
 	/// si es para todos
 
+	if($_SESSION['config_tcredito'] == "on"){
+		 	echo '<a id="tcredito" class="btn-floating indigo"><i class="fas fa-credit-card" title="Pagar con tarjeta de Crédito"></i></a>'; }
 
 
 	// if($_SESSION['config_imprimir_antes'] != NULL){

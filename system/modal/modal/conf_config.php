@@ -181,6 +181,23 @@ $r = $db->select("*", "config_master", "where td = ".$_SESSION['td']."")
 </td>
   </tr>
 
+  <tr>
+    <td><div class="switch">
+            <label>
+             Permitir Tajeta de Crédito ||  Off
+              <input type="checkbox" <?php if($r["tcredito"] == "on") echo "checked"; ?> id="tcredito" name="tcredito" >
+              <span class="lever"></span> On 
+            </label>
+          </div></td>
+    <td><div class="switch">
+            <label>
+             Restringir Mesas ||  Off
+              <input type="checkbox" <?php if($r["umesas"] == "on") echo "checked"; ?> id="umesas" name="umesas" >
+              <span class="lever"></span> On 
+            </label>
+          </div></td>
+  </tr>
+
 
 <?
  unset($r);  

@@ -1866,6 +1866,17 @@ break;
 
 
 
+case  "370": // activa cobrar con tarjeta de credito
+if($_SESSION["tcredito"] == "on"){
+	unset($_SESSION["tcredito"]);
+} else {
+	$_SESSION["tcredito"] = "on";
+	echo "on";
+}
+break; 
+
+
+
 case "400": // agregar cliente
 include_once '../../system/cliente/Cliente.php';
 	$cliente = new Clientes;

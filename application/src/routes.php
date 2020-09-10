@@ -1871,6 +1871,27 @@ if($_SESSION["tcredito"] == "on"){
 break; 
 
 
+case  "371": // Aqui o para llevar
+if($_SESSION["aquiLlevar"] == "on"){
+	unset($_SESSION["aquiLlevar"]);
+} else {
+	$_SESSION["aquiLlevar"] = "on";
+	echo "on";
+}
+include_once '../../system/ventas/Venta.php';
+$ventas = new Venta;
+$ventas->CambiarEdoMesa();
+break; 
+
+
+case  "372": // Imprimir Comanda
+include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
+$imprimir = new Impresiones();
+$imprimir->Comanda();
+Alerts::Alerta("success","Imprimiendo","Imprimiendo comanda para cocina");
+break; 
+
+
 
 case "400": // agregar cliente
 include_once '../../system/cliente/Cliente.php';

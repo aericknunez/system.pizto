@@ -232,12 +232,49 @@ $(document).ready(function()
                 if(data === "on"){
                     $("#total").attr("readonly", true);
                     $("#img-btn").attr("src", "assets/img/imagenes/visa.png");
-                    console.log("Se Activo la tarjeta");
                 } else {
                     $("#total").attr("readonly", false);
                     $("#img-btn").attr("src", "assets/img/imagenes/print.png");
-                    console.log("Tarjeta desactivada");
                 }
+            }
+        });       
+    });
+
+
+
+// activa llevar y comer aqui
+    $("body").on("click","#aqui",function(){ 
+
+        var dataString = 'op=371';
+
+        $.ajax({
+            type: "POST",
+            url: "application/src/routes.php",
+            data: dataString,
+            success: function(data) {            
+                if(data === "on"){
+                    $("#aquillevar").html("Comer Aqui");
+                } else {
+                    $("#aquillevar").html("Para LLevar");
+                }
+            }
+        });       
+    });
+
+
+
+
+// imprime la comanda
+    $("body").on("click","#imprimir_comanda",function(){ 
+
+        var dataString = 'op=372';
+
+        $.ajax({
+            type: "POST",
+            url: "application/src/routes.php",
+            data: dataString,
+            success: function(data) {            
+                $("#ventana").html(data);
             }
         });       
     });

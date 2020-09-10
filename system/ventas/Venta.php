@@ -25,6 +25,8 @@ class Venta{
 	        $ultimamesa = $r["mesa"];
 	    } unset($r);  
 
+
+
 			$datos = array();
 		    $datos["clientes"] = $clientes;
 		    $datos["mesa"] = $ultimamesa + 1;
@@ -34,6 +36,7 @@ class Venta{
 		    $datos["fecha"] = date("d-m-Y");
 		    $datos["hora"] = date("H:i:s");
 		    $datos["estado"] = 1;
+		    $datos["llevar"] = $this->LlevarMesa();
 		    $datos["tx"] = $_SESSION["tx"];
 		    $datos["td"] = $_SESSION["td"];
 		    $datos["hash"] = Helpers::HashId();
@@ -41,6 +44,25 @@ class Venta{
 		    $db->insert("mesa", $datos); 
 		
 		$_SESSION["mesa"] = $ultimamesa + 1;    
+	}
+
+
+	public function LlevarMesa() {
+		if($_SESSION["delivery_on"] == TRUE){
+			return 3;
+		} elseif($_SESSION["aquiLlevar"] == "on"){
+			return 1;
+		} else {
+			return 2;
+		}
+	}
+
+	public function CambiarEdoMesa() {
+		$db = new dbConn();
+    	    $cambio = array();
+		    $cambio["llevar"] = $this->LlevarMesa();
+		    Helpers::UpdateId("mesa", $cambio, "mesa = '".$_SESSION["mesa"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"].""); 
+
 	}
 
 
@@ -360,6 +382,11 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 
 
 					$this->BotonesFactura();
+
+			if($_SESSION['config_aqui'] == "on"){
+					echo '<div id="aquillevar" class="text-center text-uppercase text-muted">'; if($_SESSION["aquiLlevar"] == "on"){ echo "Comer Aqui"; } else { echo "Para LLevar"; } echo'</div>';
+			}
+
 
 		    } $a->close();
 		   
@@ -844,13 +871,15 @@ echo '<div class="row d-flex justify-content-center">';
 
 	if($_SESSION["delivery_on"] == TRUE){
 		echo '<a id="deliveryedo" class="btn-floating red"><i class="fas fa-user" aria-hidden="true" title="Opciones"></i></a>';
-		
-		if($_SESSION['opcionesactivas'] == TRUE){
-		echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'" class="btn-floating btn-success"><i class="fas fa-hamburger" title="Cambios al platillo"></i></a>'; }
 
-		if($_SESSION['config_imprimir_antes'] != NULL){
-		 	echo '<a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&efectivo=&cancela='.$cancela.'" class="btn-floating blue" title="Imprimir Ticket"><i class="fas fa-print"></i></a>'; }
-		
+		if($_SESSION['opcionesactivas'] == TRUE){
+		echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'" class="btn-floating btn-success" title="Cambios al platillo"><i class="fas fa-hamburger"></i></a>'; }
+			
+		// if($_SESSION['config_imprimir_antes'] != NULL){
+		//  	echo '<a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&efectivo=&cancela='.$cancela.'" class="btn-floating blue" title="Imprimir Ticket"><i class="fas fa-print"></i></a>'; }
+
+		// if($_SESSION['config_imprimir_comanda'] != NULL){
+		//  	echo '<a id="imprimir_comanda" class="btn-floating cyan" title="Imprimir Comanda"><i class="fas fa-print"></i></a>'; }
 	} 
 
 
@@ -859,6 +888,12 @@ echo '<div class="row d-flex justify-content-center">';
 		if($_SESSION['config_imprimir_antes'] != NULL){
 		 	echo '<a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&efectivo=&cancela='.$cancela.'" class="btn-floating blue" title="Imprimir Ticket"><i class="fas fa-print"></i></a>'; }	
 	
+	if($_SESSION['config_aqui'] != NULL){
+		 	echo '<a id="aqui" class="btn-floating blue" title="Aqui o Para llevar"><i class="fas fa-utensils"></i></a>'; }
+
+		if($_SESSION['config_imprimir_comanda'] != NULL){
+		 	echo '<a id="imprimir_comanda" class="btn-floating cyan" title="Imprimir Comanda"><i class="fas fa-print"></i></a>'; }
+
 	} 
 
 
@@ -867,11 +902,14 @@ echo '<div class="row d-flex justify-content-center">';
 		if($_SESSION['opcionesactivas'] == TRUE){
 		echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'" class="btn-floating btn-success" title="Cambios al platillo"><i class="fas fa-hamburger"></i></a>'; }
 
+	if($_SESSION['config_aqui'] != NULL){
+		 	echo '<a id="aqui" class="btn-floating blue" title="Aqui o Para llevar"><i class="fas fa-utensils"></i></a>'; }
 	}
 	/// si es para todos
 
 	if($_SESSION['config_tcredito'] == "on"){
 		 	echo '<a id="tcredito" class="btn-floating indigo"><i class="fas fa-credit-card" title="Pagar con tarjeta de Crédito"></i></a>'; }
+
 
 
 	// if($_SESSION['config_imprimir_antes'] != NULL){

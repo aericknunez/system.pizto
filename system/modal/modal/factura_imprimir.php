@@ -1,6 +1,12 @@
 <?php
 $mesa = $_REQUEST["mesa"];
 $cancela = $_REQUEST["cancela"];
+
+if($cancela != NULL){
+ $cancelar = " and cancela = '$cancela'";
+} else {
+ $cancelar = "";
+}
 ?>
 <div class="modal" id="<? echo $_GET["modal"]; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-backdrop="false">
   <div class="modal-dialog" role="document">
@@ -13,7 +19,7 @@ $cancela = $_REQUEST["cancela"];
       <div class="modal-body">
 <!-- ./  content -->
 <?php 
- $a = $db->query("SELECT sum(stotal) , sum(imp), sum(total) FROM ticket_temp WHERE mesa = '$mesa' and cancela = '$cancela'and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"].""); 
+ $a = $db->query("SELECT sum(stotal) , sum(imp), sum(total) FROM ticket_temp WHERE mesa = '$mesa' $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"].""); 
 
     foreach ($a as $b) {
         $stotal=$b["sum(stotal)"];

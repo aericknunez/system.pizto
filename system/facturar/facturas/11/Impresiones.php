@@ -620,8 +620,106 @@ printer_close($handle);
 
 
 
- public function Comanda($data){
+ public function Comanda(){
   $db = new dbConn();
+
+$img  = "logo.bmp";
+$txt1   = "40"; 
+$txt2   = "18";
+$txt3   = "30";
+$txt4   = "18";
+$n1   = "50";
+$n2   = "100";
+$n3   = "150";
+$n4   = "0";
+
+// $print
+$print = "EPSON TM-T20II Receipt";
+
+
+$handle = printer_open($print);
+printer_set_option($handle, PRINTER_MODE, "RAW");
+
+printer_start_doc($handle, "Mi Documento");
+printer_start_page($handle);
+
+
+$font = printer_create_font("Arial", $txt1, $txt2, PRINTER_FW_NORMAL, false, false, false, 0);
+printer_select_font($handle, $font);
+
+
+$oi="140";
+printer_draw_text($handle, "COMANDA DE COCINA", 100, $oi);
+
+
+$a = $db->query("select hash, cant, producto from ticket_temp where mesa = '".$_SESSION["mesa"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
+ 
+    foreach ($a as $b) {
+//////
+
+ 
+
+      $oi=$oi+$n1;
+        printer_draw_text($handle, $b["cant"], 0, $oi);
+        printer_draw_text($handle, $b["producto"], 40, $oi);
+
+    $ar = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]."");
+    foreach ($ar as $br) {
+
+if ($r = $db->select("nombre", "opciones_name", "WHERE cod = '".$br["opcion"]."' and td = ".$_SESSION["td"]."")) { 
+      $oi=$oi+$n1;
+      printer_draw_text($handle, "* " . $r["nombre"], 50, $oi);  
+} unset($r); 
+
+    } $ar->close();
+
+    }    $a->close();
+
+
+
+
+
+    if ($r = $db->select("llevar", "mesa", "WHERE mesa = '".$_SESSION["mesa"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+        $llevar = $r["llevar"];
+    } unset($r);  
+
+if($llevar == 1){
+  $lleva = "COMER AQUI";
+}
+if($llevar == 2){
+  $lleva = "PARA LLEVAR";
+}
+if($llevar == 3){
+  $lleva = "DELIVERY";
+}
+
+
+
+$oi=$oi+$n2;
+printer_draw_text($handle, $lleva, 25, $oi);
+
+
+$font = printer_create_font("Arial", $txt3, $txt4, PRINTER_FW_NORMAL, false, false, false, 0);
+printer_select_font($handle, $font);
+
+$oi=$oi+$n2;
+printer_draw_text($handle, date("d-m-Y"), 0, $oi);
+printer_draw_text($handle, date("H:i:s"), 400, $oi);
+
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "Cajero: " . $_SESSION['nombre'], 25, $oi);
+
+
+printer_write($handle, chr(27).chr(112).chr(48).chr(55).chr(121)); //enviar pulso
+
+
+printer_end_page($handle);
+printer_end_doc($handle);
+printer_close($handle);
+
+
+
 
 }
 

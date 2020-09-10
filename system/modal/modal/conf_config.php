@@ -198,6 +198,23 @@ $r = $db->select("*", "config_master", "where td = ".$_SESSION['td']."")
           </div></td>
   </tr>
 
+  <tr>
+    <td><div class="switch">
+            <label>
+             Aqui y para LLevar ||  Off
+              <input type="checkbox" <?php if($r["aqui"] == "on") echo "checked"; ?> id="aqui" name="aqui" >
+              <span class="lever"></span> On 
+            </label>
+          </div></td>
+    <td><div class="switch">
+            <label>
+             Imprimir Comanda ||  Off
+              <input type="checkbox" <?php if($r["imprimir_comanda"] == "on") echo "checked"; ?> id="imprimir_comanda" name="imprimir_comanda" >
+              <span class="lever"></span> On 
+            </label>
+          </div></td>
+  </tr>
+
 
 <?
  unset($r);  

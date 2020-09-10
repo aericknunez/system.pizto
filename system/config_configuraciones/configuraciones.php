@@ -119,6 +119,12 @@ $r = $db->select("*", "config_master", "where td = ".$_SESSION['td']."")
        <td>Imprimir Antes</td>
        <td><? if($r["imprimir_antes"] == "on") echo "Activado"; else echo "Inactivo"; ?></td>    
      </tr>
+
+     <tr>
+       <td>Imprimir Comanda</td>
+       <td><? if($r["imprimir_comanda"] == "on") echo "Activado"; else echo "Inactivo"; ?></td>    
+     </tr>
+
      <tr>
        <td>Permitir cambiar Tx</td>
        <td><? if($r["cambio_tx"] == "on") echo "Activado"; else echo "Inactivo"; ?></td>    
@@ -128,6 +134,7 @@ $r = $db->select("*", "config_master", "where td = ".$_SESSION['td']."")
        <td>Permitir Sonido</td>
        <td><? if($r["sonido"] == "on") echo "Activado"; else echo "Inactivo"; ?></td>    
      </tr>
+
 
 <?php if(Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0){
   ?>
@@ -147,6 +154,11 @@ $r = $db->select("*", "config_master", "where td = ".$_SESSION['td']."")
      <tr>
        <td>Restringir Mesas</td>
        <td><? if($r["umesas"] == "on") echo "Activado"; else echo "Inactivo"; ?></td>    
+     </tr>
+
+     <tr>
+       <td>Aqui y LLevar</td>
+       <td><? if($r["aqui"] == "on") echo "Activado"; else echo "Inactivo"; ?></td>    
      </tr>
 
 <?

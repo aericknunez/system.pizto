@@ -38,11 +38,13 @@ class Config{
 	    $cambio["otras_ventas"] = $data["otras_ventas"];
 	    $cambio["venta_especial"] = $data["venta_especial"];
 	    $cambio["imprimir_antes"] = $data["imprimir_antes"];
+	    $cambio["imprimir_comanda"] = $data["imprimir_comanda"];
 	    $cambio["cambio_tx"] = $data["cambio_tx"];
 	    $cambio["sonido"] = $data["sonido"];
 	    $cambio["clave_simple"] = $data["clave_simple"];
 	    $cambio["tcredito"] = $data["tcredito"];
 	    $cambio["umesas"] = $data["umesas"];
+	    $cambio["aqui"] = $data["aqui"];
 	    if (Helpers::UpdateId("config_master", $cambio, "td = ".$_SESSION["td"]."")) {
 	    	$this->CrearVariables();
 	        Alerts::Alerta("success","Echo!","Registros actualizados correctamente");
@@ -451,11 +453,13 @@ $return.= ' ?>';
 			$_SESSION['config_venta_especial'] = $r["venta_especial"];
 			
 			$_SESSION['config_imprimir_antes'] = $r["imprimir_antes"];
+			$_SESSION['config_imprimir_comanda'] = $r["imprimir_comanda"];
 			$_SESSION['config_cambio_tx'] = $r["cambio_tx"];
 			$_SESSION['config_sonido'] = $r["sonido"];
 			$_SESSION['config_clave_simple'] = $r["clave_simple"];
 			$_SESSION['config_tcredito'] = $r["tcredito"];
 			$_SESSION['config_umesas'] = $r["umesas"];
+			$_SESSION['config_aqui'] = $r["aqui"];
 
 			if($_SESSION['config_skin'] == NULL) $_SESSION['config_skin'] = "mdb-skin";
 			// white-skin , mdb-skin , grey-skin , pink-skin ,  light-blue-skin , black-skin  cyan-skin, navy-blue-skin

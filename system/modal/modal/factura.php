@@ -86,8 +86,6 @@ $fact->ObtenerEstadoFactura($_REQUEST["efectivo"], $factura);
         unset($_SESSION['tcredito']); 
       }
 
-
-
 ///////////// termina factura
 } else {
  Alerts::Error404("Este pedido ya no existe, posiblemente ha sido cobrado o eliminado!");

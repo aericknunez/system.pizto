@@ -874,7 +874,7 @@ echo '<div class="row d-flex justify-content-center">';
 
 		if($_SESSION['opcionesactivas'] == TRUE){
 		echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'" class="btn-floating btn-success" title="Cambios al platillo"><i class="fas fa-hamburger"></i></a>'; }
-			
+
 		// if($_SESSION['config_imprimir_antes'] != NULL){
 		//  	echo '<a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&efectivo=&cancela='.$cancela.'" class="btn-floating blue" title="Imprimir Ticket"><i class="fas fa-print"></i></a>'; }
 
@@ -902,7 +902,7 @@ echo '<div class="row d-flex justify-content-center">';
 		if($_SESSION['opcionesactivas'] == TRUE){
 		echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'" class="btn-floating btn-success" title="Cambios al platillo"><i class="fas fa-hamburger"></i></a>'; }
 
-	if($_SESSION['config_aqui'] != NULL){
+		if($_SESSION['config_aqui'] != NULL){
 		 	echo '<a id="aqui" class="btn-floating blue" title="Aqui o Para llevar"><i class="fas fa-utensils"></i></a>'; }
 	}
 	/// si es para todos
@@ -914,13 +914,6 @@ echo '<div class="row d-flex justify-content-center">';
 
 	// if($_SESSION['config_imprimir_antes'] != NULL){
 	// 	 	echo '<div align="center"><a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&cancela='.$cancela.'" class="btn-floating blue"><i class="fas fa-print" aria-hidden="true"></i></a></div>'; }
-
- // echo '<a class="btn-floating blue"><i class="fas fa-print" aria-hidden="true"></i></a>';
- // echo '<a class="btn-floating green"><i class="fas fa-cogs" aria-hidden="true"></i></a>';
- // echo '<a class="btn-floating red"><i class="fas fa-user" aria-hidden="true"></i></a>';
- // echo '<a class="btn-floating blue"><i class="fas fa-print" aria-hidden="true"></i></a>';
- // echo '<a class="btn-floating green"><i class="fas fa-cogs" aria-hidden="true"></i></a>';
- // echo '<a class="btn-floating red"><i class="fas fa-minus-circle" aria-hidden="true"></i></a>';
 
 echo '</div>';
  }

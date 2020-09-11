@@ -870,10 +870,10 @@ echo '<div class="row d-flex justify-content-center">';
 /// si es en delivery
 
 	if($_SESSION["delivery_on"] == TRUE){
-		echo '<a id="deliveryedo" class="btn-floating red"><i class="fas fa-user" aria-hidden="true" title="Opciones"></i></a>';
+		echo '<a id="deliveryedo" class="btn-floating red"><i class="fas fa-user" aria-hidden="true" title="Opciones" data-toggle="tooltip" data-placement="bottom"></i></a>';
 
 		if($_SESSION['opcionesactivas'] == TRUE){
-		echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'" class="btn-floating btn-success" title="Cambios al platillo"><i class="fas fa-hamburger"></i></a>'; }
+		echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'" class="btn-floating btn-success" title="Cambios al platillo" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-hamburger"></i></a>'; }
 
 		// if($_SESSION['config_imprimir_antes'] != NULL){
 		//  	echo '<a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&efectivo=&cancela='.$cancela.'" class="btn-floating blue" title="Imprimir Ticket"><i class="fas fa-print"></i></a>'; }
@@ -883,34 +883,34 @@ echo '<div class="row d-flex justify-content-center">';
 	} 
 
 
-	if($_SESSION['tipo_inicio'] == 2){ // si esta en mesas.
-		
-		if($_SESSION['config_imprimir_antes'] != NULL){
-		 	echo '<a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&efectivo=&cancela='.$cancela.'" class="btn-floating blue" title="Imprimir Ticket"><i class="fas fa-print"></i></a>'; }	
+	if($_SESSION['tipo_inicio'] == 2 and $_SESSION["delivery_on"] != TRUE){ // si esta en mesas.
+
+
+	if($_SESSION['config_imprimir_antes'] != NULL){
+		 	echo '<a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&efectivo=&cancela='.$cancela.'" class="btn-floating blue" title="Imprimir Ticket" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-print"></i></a>'; }	
 	
 	if($_SESSION['config_aqui'] != NULL){
-		 	echo '<a id="aqui" class="btn-floating blue" title="Aqui o Para llevar"><i class="fas fa-utensils"></i></a>'; }
-
-		if($_SESSION['config_imprimir_comanda'] != NULL){
-		 	echo '<a id="imprimir_comanda" class="btn-floating cyan" title="Imprimir Comanda"><i class="fas fa-print"></i></a>'; }
+		 	echo '<a id="aqui" class="btn-floating blue" title="Aqui o Para llevar" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-utensils"></i></a>'; }
 
 	} 
 
 
-	if($_SESSION['tipo_inicio'] == 1) { // si esta en venta rapida
+	if($_SESSION['tipo_inicio'] == 1 and $_SESSION["delivery_on"] != TRUE) { // si esta en venta rapida
 		
 		if($_SESSION['opcionesactivas'] == TRUE){
-		echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'" class="btn-floating btn-success" title="Cambios al platillo"><i class="fas fa-hamburger"></i></a>'; }
+		echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'" class="btn-floating btn-success" title="Cambios al platillo" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-hamburger"></i></a>'; }
 
 		if($_SESSION['config_aqui'] != NULL){
-		 	echo '<a id="aqui" class="btn-floating blue" title="Aqui o Para llevar"><i class="fas fa-utensils"></i></a>'; }
+		 	echo '<a id="aqui" class="btn-floating blue" title="Aqui o Para llevar" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-utensils"></i></a>'; }
 	}
 	/// si es para todos
 
 	if($_SESSION['config_tcredito'] == "on"){
-		 	echo '<a id="tcredito" class="btn-floating indigo"><i class="fas fa-credit-card" title="Pagar con tarjeta de Crédito"></i></a>'; }
+		 	echo '<a id="tcredito" class="btn-floating indigo"><i class="fas fa-credit-card" title="Tipo de Pago" data-toggle="tooltip" data-placement="bottom"></i></a>'; }
 
 
+	if($_SESSION['config_imprimir_comanda'] != NULL){
+		 	echo '<a id="imprimir_comanda" class="btn-floating cyan" title="Imprimir Comanda" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-print"></i></a>'; }
 
 	// if($_SESSION['config_imprimir_antes'] != NULL){
 	// 	 	echo '<div align="center"><a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&cancela='.$cancela.'" class="btn-floating blue"><i class="fas fa-print" aria-hidden="true"></i></a></div>'; }

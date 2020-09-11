@@ -1,6 +1,10 @@
 $(document).ready(function()
 {
 
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
 
     $("body").on("click","#venta",function(){ 
         

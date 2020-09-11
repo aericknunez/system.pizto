@@ -60,11 +60,10 @@ if($cx0 == 1){
     $imprimir = new Impresiones; 
 
       if($cx0 == 1){
-        $imprimir->ImprimirAntes($_REQUEST["efectivo"], $mesa, $cancela);
+        $imprimir->ImprimirAntes($_REQUEST["efectivo"], $mesa, $cancelar);
       }
-
 }
-
+echo $_REQUEST["efectivo"] . " | ".$mesa . " | ".$cancelar;
 
 } else {
     
@@ -77,7 +76,7 @@ if($cx0 == 1){
         $imprimir = new Impresiones; 
 
         if($cx1 == 1){
-           $imprimir->ImprimirAntes($_REQUEST["efectivo"], $mesa, $cancela);
+           $imprimir->ImprimirAntes($_REQUEST["efectivo"], $mesa, $cancelar);
         }
 
     } 

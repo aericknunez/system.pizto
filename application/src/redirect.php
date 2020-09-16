@@ -98,6 +98,16 @@ elseif(isset($_GET["clienteadd"])) include_once 'system/cliente/clientes.php'; /
 elseif(isset($_GET["clientever"])) include_once 'system/cliente/clientever.php'; // ver clientes
 
 
+// proveedores
+elseif(isset($_GET["proveedoradd"])) include_once 'system/proveedor/proveedores.php'; // agregar proveedores
+elseif(isset($_GET["proveedorver"])) include_once 'system/proveedor/proveedorver.php'; // proveedores
+
+// Cuentas por pagar
+elseif(isset($_GET["cuentas"])) include_once 'system/cuentas/cuentasver.php'; // ver todos las cuentas
+elseif(isset($_GET["cuentaspendientes"])) include_once 'system/cuenta/cuentaspendientes.php'; // pendientes
+
+
+
 // planilla
 elseif(isset($_GET["addempleado"])) include_once 'system/planilla/empleados.php'; // agregar planilla
 elseif(isset($_GET["verempleado"])) include_once 'system/planilla/empleadover.php'; // ver empleados

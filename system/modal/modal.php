@@ -56,6 +56,10 @@ if($_REQUEST["modal"]=="newcut") include_once 'system/modal/modal/newcut.php';
 
 if($_REQUEST["modal"]=="editcliente") include_once 'system/modal/modal/editar-cliente.php';
 
+if($_REQUEST["modal"]=="editproveedor") include_once 'system/modal/modal/editar-proveedor.php';
+
+// cuentas abonos
+if($_REQUEST["modal"]=="abonos_cuentas") include_once 'system/modal/modal/cuentas_abonos.php';
 
 
 /// planilla

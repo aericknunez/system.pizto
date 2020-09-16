@@ -76,6 +76,16 @@ echo '
 	echo '<script type="text/javascript" src="assets/js/query/planilla.js?v='.$numero.'"></script>';
 	}
 
+	/// proveedor
+	if($_GET["modal"] == "editproveedor"){
+	echo '<script type="text/javascript" src="assets/js/query/proveedor.js?v='.$numero.'"></script>';
+	}
+
+// abonos cuentas
+	if($_GET["modal"] == "abonos_cuentas"){
+	echo '<script type="text/javascript" src="assets/js/query/cuentas.js?v='.$numero.'"></script>';
+	}
+
 
 	if($_GET["modal"] == "respaldar"){
 			$url = "sync/push.php?corte=1";
@@ -234,6 +244,32 @@ echo '<script type="text/javascript" src="assets/js/printThis.js?v='.$numero.'">
 echo '<script type="text/javascript" src="assets/js/query/paginador.js?v='.$numero.'"></script>';
 echo '<script type="text/javascript" src="assets/js/query/planilla.js?v='.$numero.'"></script>';
 } 
+
+
+
+//////////////// proveedor
+elseif(isset($_GET["proveedoradd"])) {
+echo '<script type="text/javascript" src="assets/js/query/proveedor.js?v='.$numero.'"></script>';
+} 
+elseif(isset($_GET["proveedorver"])) {
+echo '
+<script type="text/javascript" src="assets/js/addons/datatables.min.js?v='.$numero.'"></script>
+<script type="text/javascript" src="assets/js/query/proveedordatatable.js?v='.$numero.'"></script>
+<script type="text/javascript" src="assets/js/query/proveedor.js?v='.$numero.'"></script>';
+} 
+
+//////////////// cuentas
+elseif(isset($_GET["cuentas"])) {
+echo '<script type="text/javascript" src="assets/js/query/paginador.js?v='.$numero.'"></script>';
+echo '<script type="text/javascript" src="assets/js/query/cuentas.js?v='.$numero.'"></script>';
+} 
+
+elseif(isset($_GET["ccuentaspendientes"])) {
+echo '<script type="text/javascript" src="assets/js/query/paginador.js?v='.$numero.'"></script>';
+echo '<script type="text/javascript" src="assets/js/query/cuentas.js?v='.$numero.'"></script>';
+} 
+
+
 
 
 //////////////// BackUp

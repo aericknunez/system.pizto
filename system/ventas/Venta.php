@@ -101,11 +101,7 @@ class Venta{
 	    $datos["td"] = $_SESSION["td"];
 	    $datos["hash"] = Helpers::HashId();
 		$datos["time"] = Helpers::TimeId();
-	    if ($db->insert("ticket_temp", $datos)) {
-	        // Agregamos la factura
-	    }  else {
-	    	echo "Error!!";
-	    }
+	    $db->insert("ticket_temp", $datos);
 
 	}
 
@@ -131,12 +127,9 @@ class Venta{
 		    $cambio["imp"] = $im;
 		    $cambio["total"] = $stot + $im;
 		    
-		    if (Helpers::UpdateId("ticket_temp", $cambio, "cod = '$cod' and mesa = '$mesa' and cliente = '$cliente' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) {
-		        
-		    } 
-
-
+		    Helpers::UpdateId("ticket_temp", $cambio, "cod = '$cod' and mesa = '$mesa' and cliente = '$cliente' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
 	}
+
 
 
 	public function Execute($cod,$mesa,$cliente,$imp) {

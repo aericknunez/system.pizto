@@ -53,6 +53,12 @@ class Helpers{
     }
 
 
+    static public function EstadoCredito($string) {
+    if($string == "1") return '<div class="text-success font-weight-bold">Activo</div>';
+    if($string == "2") return '<div class="text-info font-weight-bold">Pagado</div>';
+    if($string == "0") return '<div class="text-danger font-weight-bold">Eliminado</div>';
+    }
+
 
     static public function VerTipoSync($tipo) {
     if($tipo == "1") return '<p class="text-danger font-weight-bold">Corte</p>';

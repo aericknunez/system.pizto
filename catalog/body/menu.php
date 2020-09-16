@@ -102,14 +102,14 @@ echo '<li><a href="?eliminar_facturas" class="waves-effect"> Eliminar Facturas</
 
 
 
-
+<!-- 
 <?php if($_SESSION["tipo_cuenta"] != 4) { 
 
 if(Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) {
 ?>
 <li><a href="?respaldos" class="collapsible-header waves-effect arrow-r"><i class="fas fa-download"></i> RESPALDOS </a></li>
 <?php } } ?>
-
+ -->
 
 
 
@@ -230,7 +230,35 @@ echo '<li><a id="cambiar-pantalla-inicio" op="27x" class="collapsible-header wav
 
 
 
+<?php if($_SESSION["tipo_cuenta"] != 4) {  ?>
 
+<li><a class="collapsible-header waves-effect arrow-r"><i class="fas fa-user-alt"></i> PROVEEDORES<i class="fa fa-angle-down rotate-icon"></i></a>
+<div class="collapsible-body">
+<ul class="list-unstyled">
+
+<li><a href="?proveedoradd" class="waves-effect"><i class="fas fa-user"></i> Agrega Proveedor</a></li>
+<li><a href="?proveedorver" class="waves-effect"><i class="fas fa-barcode"></i> Ver Proveedores</a></li>
+
+</ul>
+</div>
+</li>
+
+<?php } ?>
+
+
+<?php if($_SESSION["tipo_cuenta"] != 4) { 
+
+if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (Helpers::ServerDomain() == TRUE and $_SESSION["root_plataforma"] == 1)) {
+?>
+<li><a class="collapsible-header waves-effect arrow-r"><i class="fas fa-money-bill-alt"></i> CUENTAS POR PAGAR<i class="fa fa-angle-down rotate-icon"></i></a>
+<div class="collapsible-body">
+<ul class="list-unstyled">
+
+<li><a href="?cuentas" class="waves-effect"><i class="fas fa-money-bill-alt"></i> Ver todas las cuentas</a></li>
+</ul>
+</div>
+</li>
+<?php } } ?>
 
 
 

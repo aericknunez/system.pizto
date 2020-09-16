@@ -301,7 +301,7 @@ class Historial{
 			  <tbody>';
 		    foreach ($a as $b) {
 
-		    	if($b["edo"] == 1){
+		    	if($b["edo"] != 0){
 				$total = $total + $b["cantidad"];
 				$colores='class="text-black"';
 				} else {
@@ -338,12 +338,12 @@ class Historial{
 		    </table>';
 			echo "El numero de registros es: ". $a->num_rows . "<br>";
 
-			$ag = $db->query("SELECT sum(cantidad) FROM gastos where tipo != 5 and edo = 1 and  fecha = '$fecha' and td = ".$_SESSION['td']."");
+			$ag = $db->query("SELECT sum(cantidad) FROM gastos where tipo != 5 and (edo = 1 or edo = 2) and  fecha = '$fecha' and td = ".$_SESSION['td']."");
 		    foreach ($ag as $bg) {
 		        echo "Efectivo afectado: ". Helpers::Dinero($bg["sum(cantidad)"]) . "<br>";
 		    } $ag->close();
 
-		   $as = $db->query("SELECT sum(cantidad) FROM gastos where tipo = 5 and edo = 1 and  fecha = '$fecha' and td = ".$_SESSION['td']."");
+		   $as = $db->query("SELECT sum(cantidad) FROM gastos where tipo = 5 and (edo = 1 or edo = 2) and  fecha = '$fecha' and td = ".$_SESSION['td']."");
 		    foreach ($as as $bs) {
 		        echo "Cheques emitidos: ". Helpers::Dinero($bs["sum(cantidad)"]) . "<br>";
 		    } $as->close();
@@ -380,7 +380,7 @@ class Historial{
 			  <tbody>';
 		    foreach ($a as $b) {
 		    	
-		    	if($b["edo"] == 1){
+		    	if($b["edo"] != 0){
 				$total = $total + $b["cantidad"];
 				$colores='class="text-black"';
 				} else {
@@ -418,12 +418,12 @@ class Historial{
 		    </table>';
 			echo "El numero de registros es: ". $a->num_rows . "<br>";
 			
-			$ag = $db->query("SELECT sum(cantidad) FROM gastos where tipo != 5 and edo = 1 and  fecha like '%$fechax' and td = ".$_SESSION['td']."");
+			$ag = $db->query("SELECT sum(cantidad) FROM gastos where tipo != 5 and (edo = 1 or edo = 2) and  fecha like '%$fechax' and td = ".$_SESSION['td']."");
 		    foreach ($ag as $bg) {
 		        echo "Efectivo afectado: ". Helpers::Dinero($bg["sum(cantidad)"]) . "<br>";
 		    } $ag->close();
 
-		   $as = $db->query("SELECT sum(cantidad) FROM gastos where tipo = 5 and edo = 1 and  fecha like '%$fechax' and td = ".$_SESSION['td']."");
+		   $as = $db->query("SELECT sum(cantidad) FROM gastos where tipo = 5 and (edo = 1 or edo = 2) and  fecha like '%$fechax' and td = ".$_SESSION['td']."");
 		    foreach ($as as $bs) {
 		        echo "Cheques emitidos: ". Helpers::Dinero($bs["sum(cantidad)"]) . "<br>";
 		    } $as->close();

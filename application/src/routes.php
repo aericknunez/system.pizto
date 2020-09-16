@@ -38,6 +38,17 @@ exit();
 switch ($_REQUEST["op"]) {
 
 
+case "2": //venta normal veloz
+		include_once '../../system/ventas/Venta.php';
+		$ventas = new Venta;
+		if($_REQUEST["cliente"] == NULL) { $clientes = 1; }
+		else { $clientes = $_REQUEST["cliente"]; } 			
+
+		$ventas->Execute($_REQUEST["cod"], $_SESSION["mesa"], $clientes, $_SESSION['config_imp']);
+break; 
+
+
+
 case "3":
 	include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
@@ -1658,6 +1669,109 @@ include("../common/ImagenesSuccess.php");
 	$imgs->VerImagenGasto($_REQUEST['gasto'], $_REQUEST['iden']);
 	$imgs->ImagenesGasto($_REQUEST['gasto']);
 break; 
+
+
+
+case "189": // ver detalles del proveedor modal
+include_once '../../system/proveedor/Proveedor.php';
+	$proveedor = new Proveedores;
+	$proveedor->VistaProveedor($_POST);
+break;
+
+
+
+case "190": // agregar proveedor
+include_once '../../system/proveedor/Proveedor.php';
+	$proveedor = new Proveedores;
+	$proveedor->AddProveedor($_POST);
+break;
+
+
+
+case "191": // elimina proveedor
+include_once '../../system/proveedor/Proveedor.php';
+	$proveedor = new Proveedores;
+	$proveedor->DelProveedor($_REQUEST["hash"]);
+break;
+
+
+
+case "192": // elimina proveedor desde liasta completa
+include_once '../../system/proveedor/Proveedor.php';
+	$proveedor = new Proveedores;
+	$proveedor->DelProveedorx($_REQUEST["hash"]);
+break;
+
+
+
+case "193": // actualizar proveedor
+include_once '../../system/proveedor/Proveedor.php';
+	$proveedor = new Proveedores;
+	$proveedor->UpProveedor($_POST);
+break;
+
+
+case "200": // busqueda de proveedores
+include_once '../../system/cuentas/Cuentas.php';
+	$cuenta = new Cuentas();
+	$cuenta->AddCuenta($_POST);
+break;
+
+
+
+case "201": // ver todass las cuentas
+include_once '../../system/cuentas/Cuentas.php';
+	$cuenta = new Cuentas();
+	$cuenta->VerCuentas($_POST["iden"], $_POST["orden"], $_POST["dir"]);
+break;
+
+
+
+case "202": // modal ver
+include_once '../../system/cuentas/Cuentas.php';
+	$cuenta = new Cuentas(); 
+	$cuenta->VistaCuenta($_POST["cuenta"]);
+break;
+
+
+
+case "203": // cargar abonos
+include_once '../../system/cuentas/Cuentas.php';
+	$cuenta = new Cuentas(); 
+	echo Helpers::Dinero($cuenta->TotalAbono($_REQUEST["cuenta"]));
+break;
+
+
+
+case "204": // cargar total
+include_once '../../system/cuentas/Cuentas.php';
+	$cuenta = new Cuentas(); 
+	echo Helpers::Dinero($cuenta->ObtenerTotal($_REQUEST["cuenta"]) - $cuenta->TotalAbono($_REQUEST["cuenta"]));
+break;
+
+
+
+case "205": // agragar Abono
+include_once '../../system/cuentas/Cuentas.php';
+	$cuenta = new Cuentas(); 
+	$cuenta->AddAbono($_POST);
+break;
+
+
+
+case "206": // Borrar Abono
+include_once '../../system/cuentas/Cuentas.php';
+	$cuenta = new Cuentas(); 
+	$cuenta->DelAbono($_POST["hash"], $_POST["cuenta"]);
+break;
+
+
+
+case "208": // Borrar cuenta
+include_once '../../system/cuentas/Cuentas.php';
+	$cuenta = new Cuentas(); 
+	$cuenta->DelCuenta($_POST["iden"]);
+break;
 
 
 

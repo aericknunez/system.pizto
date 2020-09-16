@@ -19,6 +19,8 @@ class Reporte{
 		$gas->VerEntradas($fecha);
 		$this->VentaEspecial($fecha);
 		$this->OtrasVentas($fecha);
+		echo '<br>';
+		$this->VerAbonosCuentas($fecha);
 
 	}
 
@@ -552,6 +554,75 @@ class Reporte{
 
 
 
+//// ver abonos de cuentas por pagar
+
+public function VerAbonosCuentas($fecha) { //leva el control del autoincremento de los clientes
+    $db = new dbConn();
+        
+        $a = $db->query("SELECT * FROM cuentas_abonos WHERE fecha = '$fecha' and td = ".$_SESSION["td"]." order by id desc");
+
+        if($a->num_rows > 0){
+        	echo ' <h3 class="h3-responsive">ABONOS REALIZADOS DE CUENTAS POR PAGAR</h3>'; 
+
+            echo '<div class="table-responsive">
+            <table class="table table-striped table-sm">
+            <thead>
+              <tr>
+                <th scope="col">Cuenta</th>
+                <th scope="col">Abono</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Hora</th>
+              </tr>
+            </thead>
+            <tbody>';
+            $n = 1;
+            foreach ($a as $b) {
+
+            	if ($r = $db->select("nombre", "cuentas", "WHERE hash = '".$b["cuenta"]."' and td = ". $_SESSION["td"] ."")) {   $nombre = $r["nombre"]; } unset($r); 
+
+            	if($b["edo"] == 1){
+		            echo '<tr>
+		                  <th scope="row">'.$nombre.'</th>
+		                  <td>'.Helpers::Dinero($b["abono"]).'</td>
+		                  <td>'.$b["fecha"].'</td>
+		                  <td>'.$b["hora"].'</td>';
+		              echo '</tr>';
+		            $n ++;
+        		} else {
+        			echo '<tr class="text-danger">
+		                  <th scope="row">'.$nombre.'</th>
+		                  <td>'.Helpers::Dinero($b["abono"]).'</td>
+		                  <td>'.$b["fecha"].'</td>
+		                  <td>'.$b["hora"].'</td>
+		                  </tr>';
+		            $n ++;
+		                
+		                if($r = $db->select("nombre", "login_userdata", "WHERE user = '".$b["user_del"]."' and td = ".$_SESSION["td"]."")) { 
+					        $nombre = $r["nombre"]; }  unset($r); 
+
+		            echo '<tr class="text-info">
+		                  <th colspan="4">Eliminado por: '.$nombre.'</th>
+						</tr>';
+        		}
+            }
+              echo '</tbody>
+              </table></div>';
+
+			echo "El numero de registros es: ". $a->num_rows . "<br>";
+			$a->close();
+			$ag = $db->query("SELECT sum(abono) FROM cuentas_abonos where edo = 1 and fecha = '$fecha' and td = ".$_SESSION['td']."");
+		    foreach ($ag as $bg) {
+		        echo "Efectivo abonado: ". Helpers::Dinero($bg["sum(abono)"]) . "<br>";
+		    } $ag->close();
+
+
+        } else {
+			Alerts::Mensajex("No se encontraron registros de abonos","danger",$boton,$boton2);
+			}
+
+
+   
+  }
 
 
 

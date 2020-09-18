@@ -276,6 +276,8 @@ class Icono{
 	}
 
 
+
+
 	public function VerOpciones(){
    	$db = new dbConn();
 	   	$a = $db->query("SELECT * FROM opciones WHERE td = ".$_SESSION["td"]."");
@@ -308,6 +310,8 @@ class Icono{
 
 	}
 
+
+
 	public function VerOpcionesName($cod){
    	$db = new dbConn();
 	   	$a = $db->query("SELECT * FROM opciones_name where opcion='$cod' and td = ".$_SESSION["td"]."");
@@ -333,7 +337,6 @@ class Icono{
             </table>
           </div>';
 
-    echo "El numero de registros es: ". $a->num_rows . "<br>";
     $a->close();
 
 	}
@@ -408,6 +411,44 @@ class Icono{
 	        echo '<li><a ' . $opciones .' imagen="assets/img/ico/' . $b["imagen"] .'"><em>Seleccionar</em><img src="assets/img/ico/' . $b["imagen"] .'" alt="image" class="img-fluid img-responsive wow fadeIn" /></a></li>';
 	    } $a->close();
    	}
+
+
+
+   	public function IconosOpcionesVenta($data){
+   		$db = new dbConn();
+
+    if ($r = $db->select("opcion", "opciones_ticket", "WHERE identificador = '".$data["identificador"]."' and td = ".$_SESSION["td"]." and edo = 1 limit 1")) { 
+        $option = $r["opcion"];
+    } unset($r);  
+
+if($option != NULL){
+	echo '<div class="row text-center portfolio"> 
+	   <ul class="gallery">';
+
+    $a = $db->query("SELECT * FROM opciones_name WHERE opcion = '".$option."' and td = ".$_SESSION["td"]."");
+    foreach ($a as $b) {
+
+	if ($r = $db->select("img_name", "images", "WHERE cod = ".$b["cod"]." and td = ".$_SESSION["td"]."")) {
+	   $imagen = $r["img_name"];
+	} unset($r);
+
+	      
+	  echo '<li><a id="addopcion" op="19x" codigo="'.$data["codigo"].'" identificador="'.$data["identificador"].'" opcion="'.$b["cod"] .'" producto="'.$data["producto"].'"><em>'.$b["nombre"].'</em><img src="'.$imagen.'" alt="image" class="img-fluid img-responsive wow fadeIn" /></a></li>';
+	} $a->close();
+
+
+	echo '</ul> 
+	 </div>';
+
+
+	}
+
+
+}
+
+
+
+
 
 
 

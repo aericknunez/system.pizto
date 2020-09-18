@@ -38,7 +38,7 @@ exit();
 switch ($_REQUEST["op"]) {
 
 
-case "2": //venta normal veloz
+case "2": //venta normal veloz sin uso aun
 		include_once '../../system/ventas/Venta.php';
 		$ventas = new Venta;
 		if($_REQUEST["cliente"] == NULL) { $clientes = 1; }
@@ -209,47 +209,81 @@ case "16":
 break;
 
 
-/////////////////////// comienza las ventas
+
+
+case "17": // carga las opciones de los platillos en el menu
+	include_once '../../system/facturar/Facturar.php';
+	$fact = new Facturar();
+	$fact->ModFactura($_POST);
+break;
+
+
+
+case "18": // opciones a agregar
+include_once '../../system/config_iconos/Icono.php';
+$iconos = new Icono;
+$iconos->IconosOpcionesVenta($_POST);
+break;
+
+
+
+case "19x": // opciones a agregar
+	include_once '../../system/ventas/Venta.php';
+	$ventas = new Venta;
+	echo $ventas->ChangeOp($_POST);
+
+include_once '../../system/tv/Pantallas.php';
+	$pantalla = new Pantallas;
+	$pantalla->Cambia(1);
+break;
+
+
+
+case "19": // venta con opciones
+	include_once '../../system/ventas/Venta.php';
+	$ventas = new Venta;
+	if($_REQUEST["cliente"] == NULL) { $clientes = 1; }
+	else { $clientes = $_REQUEST["cliente"]; } 			
+
+	$id = $ventas->Execute($_REQUEST["cod"], $_SESSION["mesa"], $clientes, $_SESSION['config_imp']);
+
+	$datos = $ventas->AddOpcion($id, $_REQUEST["cod"], $clientes);	
+
+	$data = json_decode($datos, true);
+
+	$identificador = $data["identificador"];
+
+	// para pantallas
+	include_once '../../system/tv/Pantallas.php';
+	$pantalla = new Pantallas;
+	if($_REQUEST["opcion"] != NULL){ $option = "1"; } else { $option = "0";}
+	if($_REQUEST["panel"] != NULL and $_REQUEST["panel"] != 0){
+	$pantalla->AgregarControl($identificador, $_SESSION["mesa"],$clientes,$option,$_REQUEST["panel"]);
+	}
+	$pantalla->Cambia(1);
+
+	echo $datos;
+break; 
+
+
 
 case "20": //venta normal
+	include_once '../../system/ventas/Venta.php';
+	$ventas = new Venta;
+	if($_REQUEST["cliente"] == NULL) { $clientes = 1; }
+	else { $clientes = $_REQUEST["cliente"]; } 			
 
+	$ventas->Execute($_REQUEST["cod"], $_SESSION["mesa"], $clientes, $_SESSION['config_imp']);
 
-		include_once '../../system/ventas/Venta.php';
-		$ventas = new Venta;
-		if($_REQUEST["cliente"] == NULL) { $clientes = 1; }
-		else { $clientes = $_REQUEST["cliente"]; } 			
-
-		$ventas->Execute($_REQUEST["cod"], $_SESSION["mesa"], $clientes, $_SESSION['config_imp']);
-
-		if($_REQUEST["opcion"] != NULL){
-		$identificador = $ventas->AgregarOpcion(NULL,$_REQUEST["opcion"],$_SESSION["mesa"],$clientes,NULL);	
-		} 
-
-		// para pantallas
-		include_once '../../system/tv/Pantallas.php';
-		$pantalla = new Pantallas;
-		if($_REQUEST["opcion"] != NULL){ $option = "1"; } else { $option = "0";}
-		if($_REQUEST["panel"] != NULL and $_REQUEST["panel"] != 0){
-		$pantalla->AgregarControl($identificador, $_SESSION["mesa"],$clientes,$option,$_REQUEST["panel"]);
-		}
-		$pantalla->Cambia(1);
-
-// redireccionar
-if($_REQUEST["opcion"] != NULL){
-	if($_SESSION["delivery_on"] == TRUE){
-		echo '<script>
-		window.location.href="?delivery&mesa='.$_SESSION["mesa"].'"
-		</script>';
-	} elseif($_SESSION['tipo_inicio'] == 2){
-		echo '<script>
-		window.location.href="?view&mesa='.$_SESSION["mesa"].'"
-		</script>';
-	} else {
-		echo '<script>
-		window.location.href="?"
-		</script>';
+	// para pantallas
+	include_once '../../system/tv/Pantallas.php';
+	$pantalla = new Pantallas;
+	if($_REQUEST["opcion"] != NULL){ $option = "1"; } else { $option = "0";}
+	if($_REQUEST["panel"] != NULL and $_REQUEST["panel"] != 0){
+	$pantalla->AgregarControl($identificador, $_SESSION["mesa"],$clientes,$option,$_REQUEST["panel"]);
 	}
-}
+	$pantalla->Cambia(1);
+
 break; 
 
 

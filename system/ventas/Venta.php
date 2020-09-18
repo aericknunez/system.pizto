@@ -77,6 +77,7 @@ class Venta{
     	$stot=Helpers::STotal($pv, $imp);
     	$im=Helpers::Impuesto($stot, $imp);
 
+		$hash= Helpers::HashId();
 		$datos = array();
 	    $datos["cod"] = $cod;
 	    $datos["cant"] = 1;
@@ -99,10 +100,11 @@ class Venta{
 	    $datos["fechaF"] = Fechas::Format(date("d-m-Y"));
 	    $datos["edo"] = 1;
 	    $datos["td"] = $_SESSION["td"];
-	    $datos["hash"] = Helpers::HashId();
+	    $datos["hash"] = $hash;
 		$datos["time"] = Helpers::TimeId();
 	    $db->insert("ticket_temp", $datos);
 
+	    return $hash;
 	}
 
 
@@ -110,9 +112,10 @@ class Venta{
 	public function Actualizar($cod,$mesa,$cliente,$imp) {
 		$db = new dbConn();
 
-		if ($r = $db->select("cant, pv", "ticket_temp", "WHERE cod = '$cod' and mesa = '$mesa' and cliente = '$cliente' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+		if ($r = $db->select("cant, pv, hash", "ticket_temp", "WHERE cod = '$cod' and mesa = '$mesa' and cliente = '$cliente' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
         $cantx=$r["cant"];
-        $pv=$r["pv"];        
+        $pv=$r["pv"];   
+        $hash=$r["hash"];     
     	} unset($r); 
 
     	$cant = $cantx + 1;
@@ -128,6 +131,8 @@ class Venta{
 		    $cambio["total"] = $stot + $im;
 		    
 		    Helpers::UpdateId("ticket_temp", $cambio, "cod = '$cod' and mesa = '$mesa' and cliente = '$cliente' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
+
+		   return $hash;
 	}
 
 
@@ -136,11 +141,11 @@ class Venta{
 		$db = new dbConn();
 
 		if($this->ComprobarProducto($cod,$mesa,$cliente) == FALSE){
-			$this->Agregar($cod,$mesa,$cliente,$imp);
+			$id = $this->Agregar($cod,$mesa,$cliente,$imp);
 		} else {
-			$this->Actualizar($cod,$mesa,$cliente,$imp);
+			$id = $this->Actualizar($cod,$mesa,$cliente,$imp);
 		}
-
+		return $id;
 	}
 
 
@@ -183,8 +188,7 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 
 
 ///////////////////////////////////////////////////////////
-
-
+/// la vieja se dejo por si de problema sen cambiar opcones ya agregadas
 	public function AgregarOpcion($cod,$opcion,$mesa,$cliente,$identificador) {
 		$db = new dbConn();
 
@@ -215,6 +219,75 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 
 	    return $identificador;
 	}
+
+
+
+	public function AddOpcion($identificador, $codproducto, $cliente) { // al insertar el producto
+		$db = new dbConn();
+
+
+	    if ($r = $db->select("cant", "ticket_temp", "WHERE hash = '".$identificador."' and mesa='".$_SESSION["mesa"]."' and td=".$_SESSION["td"]."")) { 
+	        $cod=$r["cant"];
+	    } unset($r); 
+
+
+//opciones asign del producto
+    $a = $db->query("SELECT * FROM opciones_asig WHERE producto = '".$codproducto."' and td=".$_SESSION["td"]."");
+    foreach ($a as $b) {
+
+// inserto un registro por cada opcion asign
+		$datos = array();
+	    $datos["cod"] = $cod;
+	    $datos["identificador"] = $identificador;
+	    $datos["opcion"] = $b["opcion"];
+	    $datos["mesa"] = $_SESSION["mesa"];
+	    $datos["cliente"] = $cliente;
+	    $datos["edo"] = 1;
+	    $datos["td"] = $_SESSION["td"];
+	    $datos["hash"] = Helpers::HashId();
+		$datos["time"] = Helpers::TimeId();
+	    $db->insert("opciones_ticket", $datos);
+
+    } $a->close();
+
+    	$data = array();
+    	$data["identificador"] = $identificador;
+    	$data["codigo"] = $cod;
+    	$data["producto"] = $codproducto;
+    	$data["mensaje"] = "Activo";
+
+	    return json_encode($data);
+	}
+
+
+	public function ChangeOp($data) { // actualiza la opcion que se selecciona en la venta
+		$db = new dbConn();
+
+    $cambio = array();
+    $cambio["opcion"] = $data["opcion"]; 
+    $cambio["edo"] = 2;  
+    Helpers::UpdateId("opciones_ticket", $cambio, "cod='".$data["codigo"]."' and identificador = '".$data["identificador"]."' and edo=1 and td = ".$_SESSION["td"]." limit 1");
+
+		$a = $db->query("SELECT * FROM opciones_ticket WHERE cod='".$data["codigo"]."' and identificador = '".$data["identificador"]."' and edo=1 and td = ".$_SESSION["td"]."");
+		$cant = $a->num_rows; 
+		$a->close();
+
+		if($cant > 0){
+			return json_encode($data);	
+		} else {
+			$msj = array();
+    		$msj["mensaje"] = "Vacio";
+			return json_encode($msj);
+		}
+	    
+	}
+
+
+
+
+
+
+
 
 	public function BorrarOpcion($cod, $identificador, $activo) {
 		$db = new dbConn();
@@ -785,8 +858,8 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 				$comprobacion = $a->num_rows; $a->close();
    			 
    			 if($comprobacion > 0){ // si tiene opciones activado. borro todo
-   			 	Helpers::DeleteId("ticket_temp", "hash='".$iden."' limit 1");
-   			 	Helpers::DeleteId("opciones_ticket", "identificador='".$iden."' and td = ".$_SESSION["td"]."");
+		 	Helpers::DeleteId("ticket_temp", "hash='".$iden."' limit 1");
+		 	Helpers::DeleteId("opciones_ticket", "identificador='".$iden."' and td = ".$_SESSION["td"]."");
 
    			 } else { // sino borro o actualizo
 
@@ -808,7 +881,7 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 		   			 }
 
 		   			 /////////////////////////// borrar si es venta especial
-		   			 if($codigos == 8889){ // si es pollo especial
+		   			 if($codigos == 8889){ // otras ventas
 						$esp = new Especial();
 						$esp->BorrarTodo(NULL);
 					}

@@ -202,6 +202,21 @@
     color: #FFFFFF;
 }
 
+.menu-titleC {
+    padding: 1px;
+    text-align: center;
+    font-size: 80%;
+    background: #5A0101;
+    color: #FFFFFF;
+}
+
+.menu-titleO {
+    padding: 1px;
+    text-align: center;
+    font-size: 80%;
+    background: #013E5A;
+    color: #FFFFFF;
+}
 
 .newmenu a {
     text-decoration: none;
@@ -211,4 +226,14 @@
   position: relative;
   opacity: 0.5;
   top: 10px;
+}
+
+
+
+/*tabla de lateral venta*/
+.headt td {
+  padding: .1rem!important;
+  height: 5px!important;
+  background-color: #BEE7FF;
+  color: #000000;
 }

@@ -335,6 +335,7 @@ function MuestraOpciones(datos){
                     MuestraOpciones(data); // lo que regresa de la busquea         
                 } else {
                    $("#vista_opcion").html(data);
+                   $("#lateral").load('application/src/routes.php?op=22'); 
                 }      
             }
         });       

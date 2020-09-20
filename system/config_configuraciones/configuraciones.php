@@ -81,7 +81,6 @@ $r = $db->select("*", "config_master", "where td = ".$_SESSION['td']."")
        <td>Tipo Inicio Venta</td>
        <td><? if($r["tipo_inicio"] == 1) echo "Venta Rapida"; else echo "Venta por Mesa"; ?></td>    
      </tr>
-
      <tr>
        <td>Pais</td>
        <td><? echo Helpers::Pais($r["pais"]); ?></td>    
@@ -114,6 +113,10 @@ $r = $db->select("*", "config_master", "where td = ".$_SESSION['td']."")
      <tr>
        <td>Venta Especial</td>
        <td><? if($r["venta_especial"] == 1) echo "Activado"; else echo "Inactivo"; ?></td>    
+     </tr>
+      <tr>
+       <td>Estilo Iconos</td>
+       <td><? if($r["tipo_menu"] == 1) echo "Default"; else echo "Responsivos"; ?></td>    
      </tr>
      <tr>
        <td>Imprimir Antes</td>

@@ -415,6 +415,16 @@ class Icono{
 
 
    	public function IconosOpcionesVenta($data){
+
+		if($_SESSION["config_tipo_menu"] == 2){
+			$this->IconosOpcionesVentaResponsivo($data);
+		} else {
+			$this->IconosOpcionesVentaDefault($data);
+		}
+
+   	}
+
+   	public function IconosOpcionesVentaDefault($data){
    		$db = new dbConn();
 
     if ($r = $db->select("opcion", "opciones_ticket", "WHERE identificador = '".$data["identificador"]."' and td = ".$_SESSION["td"]." and edo = 1 limit 1")) { 
@@ -436,16 +446,64 @@ if($option != NULL){
 	  echo '<li><a id="addopcion" op="19x" codigo="'.$data["codigo"].'" identificador="'.$data["identificador"].'" opcion="'.$b["cod"] .'" producto="'.$data["producto"].'"><em>'.$b["nombre"].'</em><img src="'.$imagen.'" alt="image" class="img-fluid img-responsive wow fadeIn" /></a></li>';
 	} $a->close();
 
-
 	echo '</ul> 
 	 </div>';
-
-
 	}
-
-
 }
 
+
+
+   	public function IconosOpcionesVentaResponsivo($data){
+   		$db = new dbConn();
+
+    if ($r = $db->select("opcion", "opciones_ticket", "WHERE identificador = '".$data["identificador"]."' and td = ".$_SESSION["td"]." and edo = 1 limit 1")) { 
+        $option = $r["opcion"];
+    } unset($r);  
+
+if($option != NULL){
+	echo '<div class="container-fluid">';
+$row = 0;
+$col = 0;
+$count = 0;
+
+    $a = $db->query("SELECT * FROM opciones_name WHERE opcion = '".$option."' and td = ".$_SESSION["td"]."");
+    $rec = $a->num_rows;
+    foreach ($a as $b) {
+
+	if ($r = $db->select("img_name", "images", "WHERE cod = ".$b["cod"]." and td = ".$_SESSION["td"]."")) {
+	   $imagen = $r["img_name"];
+	} unset($r); 
+
+$row++;
+$col++;
+$count++;
+/// condicionales para row and col
+if($row == 1){
+	echo '<div class="row">';
+}
+
+
+echo '<div class="col-3 col-md-3">
+        <div class="newmenu text-center">
+            <a id="addopcion" op="19x" codigo="'.$data["codigo"].'" identificador="'.$data["identificador"].'" opcion="'.$b["cod"] .'" producto="'.$data["producto"].'">
+            <img src="'.$imagen.'" class="img-fluid wow fadeIn">
+            <div class="menu-titleO text-truncate">'.ucwords(strtolower($b["nombre"])).'</div> 
+            </a>
+        </div>
+    </div>';	  
+
+// condicionales para row and col
+if($row == 8 or $rec == $count){
+	echo "</div>";
+   $row = 0;
+}
+
+	} $a->close();
+
+	echo '</div>';
+	}
+
+}
 
 
 

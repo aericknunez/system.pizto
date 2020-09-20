@@ -214,6 +214,17 @@ $r = $db->select("*", "config_master", "where td = ".$_SESSION['td']."")
             </label>
           </div></td>
   </tr>
+  <tr>
+           <td><small id="tipo_inicio" class="form-text text-muted mb-1">
+        Estilo Iconos
+    </small>
+    <select class="browser-default custom-select" id="tipo_menu" name="tipo_menu">
+  <option <? if($r["tipo_menu"] == 1) echo "selected"; ?> value="1">Default</option>
+  <option <? if($r["tipo_menu"] == 2) echo "selected"; ?> value="2">Responsivos</option>
+    </select></td>
+
+    <td></td>
+  </tr>
 
 
 <?

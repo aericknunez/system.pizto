@@ -389,14 +389,34 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 				      </td>
 				    </tr>';
 
+				    // opciones activas
+				    if($_SESSION['opcionesactivas'] == TRUE){
+				    
+				    for ($i=1; $i <= $b["cant"]; $i++) { 
 
-			 // echo '<tr>
-				//       <th scope="row">gf</th>
-				//       <td>fg</td>
-				//       <td>fg</td>
-				//       <td>fg</td>
-				//       <td>fg </td>
-				//     </tr>';
+				    $aop = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = '".$b["hash"]."' and cod = '".$i."' and td = ".$_SESSION["td"]."");
+				    if($aop->num_rows > 0){
+				    echo '<tr class="headt">
+							<td colspan="5">';
+				    foreach ($aop as $bop) {
+
+				    	    if ($r = $db->select("nombre", "opciones_name", "WHERE cod = '".$bop["opcion"]."' and td = ".$_SESSION["td"]."")) { 
+				    	    	echo '<small>';
+						        echo " * " . $r["nombre"];
+						        echo '</small>';
+						    } unset($r);  
+				   
+				    } $aop->close();
+
+				    echo '</td>
+							</tr>';
+					} // num
+
+					} // for
+
+				    }
+				   // termina opciones activas
+
 		    	}
 		    	echo '</tbody>
 					</table>';
@@ -511,6 +531,35 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 				      <td>'. $b["pv"] .'</td>
 				      <td>'. $b["total"] .'</td>
 				    </tr>';
+
+				    // opciones activas
+				    if($_SESSION['opcionesactivas'] == TRUE){
+				    
+				    for ($i=1; $i <= $b["cant"]; $i++) { 
+
+				    $aop = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = '".$b["hash"]."' and cod = '".$i."' and td = ".$_SESSION["td"]."");
+				    if($aop->num_rows > 0){
+				    echo '<tr class="headt">
+							<td colspan="5">';
+				    foreach ($aop as $bop) {
+
+				    	    if ($r = $db->select("nombre", "opciones_name", "WHERE cod = '".$bop["opcion"]."' and td = ".$_SESSION["td"]."")) { 
+				    	    	echo '<small>';
+						        echo " * " . $r["nombre"];
+						        echo '</small>';
+						    } unset($r);  
+				   
+				    } $aop->close();
+
+				    echo '</td>
+							</tr>';
+					} // num
+
+					} // for
+
+				    }
+				   // termina opciones activas
+
 		    	}
 		    	echo '</tbody>
 					</table>';
@@ -612,6 +661,36 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 				      <td>'. $b["pv"] .'</td>
 				      <td>'. $b["total"] .'</td>
 				    </tr>';
+				    
+
+
+				    // opciones activas
+				    if($_SESSION['opcionesactivas'] == TRUE){
+				    
+				    for ($i=1; $i <= $b["cant"]; $i++) { 
+
+				    $aop = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = '".$b["hash"]."' and cod = '".$i."' and td = ".$_SESSION["td"]."");
+				    if($aop->num_rows > 0){
+				    echo '<tr class="headt">
+							<td colspan="5">';
+				    foreach ($aop as $bop) {
+
+				    	    if ($r = $db->select("nombre", "opciones_name", "WHERE cod = '".$bop["opcion"]."' and td = ".$_SESSION["td"]."")) { 
+				    	    	echo '<small>';
+						        echo " * " . $r["nombre"];
+						        echo '</small>';
+						    } unset($r);  
+				   
+				    } $aop->close();
+
+				    echo '</td>
+							</tr>';
+					} // num
+
+					} // for
+
+				    }
+				   // termina opciones activas
 		    	}
 		    	echo '</tbody>
 					</table>';

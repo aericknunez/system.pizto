@@ -33,6 +33,7 @@ class Config{
 	    $cambio["moneda"] = $moneda;
 	    $cambio["moneda_simbolo"] = $simbolo;
 	    $cambio["tipo_inicio"] = $data["tipo_inicio"];
+	    $cambio["tipo_menu"] = $data["tipo_menu"];
 	    $cambio["skin"] = $data["skin"];
 	    $cambio["inicio_tx"] = $data["inicio_tx"];
 	    $cambio["otras_ventas"] = $data["otras_ventas"];
@@ -103,6 +104,14 @@ class Config{
 
 
 
+public function CrearIconos($url, $msj){
+
+	if($_SESSION["config_tipo_menu"] == 2){
+		$this->CrearIconosResponsivos($url, $msj);
+	} else {
+		$this->CrearIconosDefault($url, $msj);
+	}
+}
 
 
 
@@ -110,7 +119,7 @@ class Config{
 
 
 
-public function CrearIconosX($url, $msj){
+public function CrearIconosDefault($url, $msj){
 	$db = new dbConn();
 
 //total de registros
@@ -278,10 +287,7 @@ $return.= "\n \n";
 		<div id="vista_opcion"></div>
 
 		</div>
-		<div class="modal-footer">
-		<a class="btn btn-primary btn-rounded" data-dismiss="modal">Regresar</a>
 
-    </div>
   </div>
 </div>
 </div>'; 
@@ -323,7 +329,7 @@ fclose($handle);
 
 
 
-public function CrearIconos($url, $msj){
+public function CrearIconosResponsivos($url, $msj){
 	$db = new dbConn();
 
 //total de registros
@@ -547,7 +553,7 @@ $return .= '<div class="'.$ancho.'">
                 <div class="newmenu text-center">
                     <a id="ventaopcion" op="19" cod="'.$bx["cod"].'" mesa="<? echo $_SESSION["mesa"] ?>" cliente="<? echo $_SESSION["clientselect"] ?>" panel="'.$panel.'" title="'.ucwords(strtolower($nombre)).'">
                     <img src="'.$bx["img_name"].'" class="img-fluid wow fadeIn">
-                    <div class="menu-title text-truncate">'.ucwords(strtolower($nombre)).'</div> 
+                    <div class="menu-titleC text-truncate">'.ucwords(strtolower($nombre)).'</div> 
                     </a>
                 </div>
             </div>';		
@@ -559,7 +565,7 @@ $return .= '<div class="'.$ancho.'">
                 <div class="newmenu text-center">
                     <a id="venta" op="20" cod="'.$bx["cod"].'" mesa="<? echo $_SESSION["mesa"] ?>" cliente="<? echo $_SESSION["clientselect"] ?>" panel="'.$panel.'" title="'.ucwords(strtolower($nombre)).'">
                     <img src="'.$bx["img_name"].'" class="img-fluid wow fadeIn">
-                    <div class="menu-title text-truncate">'.ucwords(strtolower($nombre)).'</div> 
+                    <div class="menu-titleC text-truncate">'.ucwords(strtolower($nombre)).'</div> 
                     </a>
                 </div>
             </div>';	
@@ -619,10 +625,6 @@ $return.= "\n \n";
 		<div id="vista_opcion"></div>
 
 		</div>
-		<div class="modal-footer">
-		<a class="btn btn-primary btn-rounded" data-dismiss="modal">Regresar</a>
-
-    </div>
   </div>
 </div>
 </div>'; 
@@ -691,6 +693,7 @@ fclose($handle);
 			$_SESSION['config_logo'] = $r["logo"];
 			$_SESSION['config_skin'] = $r["skin"];
 			$_SESSION['tipo_inicio'] = $r["tipo_inicio"];
+			$_SESSION['config_tipo_menu'] = $r["tipo_menu"];
 
 			$_SESSION['config_pais'] = $r["pais"];
 			$_SESSION['config_moneda'] = $r["moneda"];

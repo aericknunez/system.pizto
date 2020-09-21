@@ -1192,6 +1192,14 @@ break;
 
 
 
+case  "93":  // Obtener el total de imagenes que hay 
+include_once '../../system/config_iconos/Icono.php';
+	$conf = new Icono;
+	echo $conf->ContarIconos();
+break; 
+
+
+
 case  "95": 
 include_once '../../system/tv/Pantallas.php';
 	$pantalla = new Pantallas;

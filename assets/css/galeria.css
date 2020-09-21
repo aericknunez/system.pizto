@@ -200,6 +200,7 @@
     font-size: 80%;
     background: #004AA7;
     color: #FFFFFF;
+    border-radius: 0.2rem !important;
 }
 
 .menu-titleC {
@@ -208,6 +209,7 @@
     font-size: 80%;
     background: #5A0101;
     color: #FFFFFF;
+    border-radius: 0.2rem !important;
 }
 
 .menu-titleO {
@@ -216,6 +218,7 @@
     font-size: 80%;
     background: #013E5A;
     color: #FFFFFF;
+    border-radius: 0.2rem !important;
 }
 
 .newmenu a {
@@ -236,4 +239,20 @@
   height: 5px!important;
   background-color: #BEE7FF;
   color: #000000;
+}
+
+
+
+
+/*/// bordeados*/
+.bordeado{
+  border-radius: 4rem !important;
+}
+
+.bordeado2{
+  border-radius: 2rem !important;
+}
+
+.bordeado3{
+  border-radius: 1rem !important;
 }

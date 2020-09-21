@@ -1,6 +1,11 @@
-<a href="?modal=addproducto" class="btn btn-primary">Agregar Producto</a>
+<div class="d-inline">
+  <a href="?modal=addproducto" class="btn btn-primary">Agregar Producto</a>
 <a href="?modal=reordenar&popup=0" class="btn btn-secondary">Reordenar Iconos</a>
 <a id="crear-iconos" op="92" class="btn btn-success">Crear Iconos</a>
+<button id="obtenericonos" class="btn btn-primary"><i class="fas fa-sync"></i> Cargar Iconos</button>
+<a id="cantidadiconos" class="btn btn-info"> <?php echo $iconos->ContarIconos(); ?></a>
+</div>
+
 <div id="ventana"></div>
 <div class="row text-center portfolio"> 
    <ul class="gallery">

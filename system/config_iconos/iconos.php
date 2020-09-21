@@ -1,6 +1,8 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+include_once 'system/config_iconos/Icono.php';
+$iconos = new Icono;
 ?>
 
 
@@ -52,8 +54,6 @@ include_once 'system/config_iconos/verproductos.php';
 <!-- //// -->
 <div  class="col-sm-6" id="veropcion">
 <?php  
-include_once 'system/config_iconos/Icono.php';
-$iconos = new Icono;
 $iconos->VerOpciones();
 ?>
 </div> 

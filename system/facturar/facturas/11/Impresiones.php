@@ -886,7 +886,7 @@ $oi=$oi+$n2;
 
  public function AbrirCaja(){
  // $print
-	$print = "EPSON TM-T20II Receipt";
+	$print = "LR2000";
 	
     $handle = printer_open($print);
     printer_set_option($handle, PRINTER_MODE, "RAW");

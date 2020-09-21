@@ -512,5 +512,30 @@ if($row == 8 or $rec == $count){
 
 
 
+
+
+
+
+
+
+
+   	public function ContarIconos(){
+   		$db = new dbConn();
+
+		$a = $db->query("SELECT * FROM login_imagenes");
+		return $a->num_rows;
+		$a->close();
+	}
+
+
+
+
+
+
+
+
+
+
+
 } /// termina clase
 ?>

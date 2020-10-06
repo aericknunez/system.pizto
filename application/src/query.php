@@ -118,7 +118,7 @@ elseif(isset($_GET["conf_factura"])) {
 echo '<script type="text/javascript" src="assets/js/query/conf_factura.js?v='.$numero.'"></script>';
 }  
 elseif(isset($_GET["precios"])) {
-echo '<script type="text/javascript" src="assets/js/query/conf_config.js?v='.$numero.'"></script>';
+echo '<script type="text/javascript" src="assets/js/query/conf_precios.js?v='.$numero.'"></script>';
 }   
 elseif(isset($_GET["codigos"])) {
 echo '<script type="text/javascript" src="assets/js/query/noacceso.js?v='.$numero.'"></script>';

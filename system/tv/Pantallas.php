@@ -30,7 +30,7 @@ class Pantallas{
 
 		if($_SESSION["panel_mostrar"] == NULL){ 
 		$panel_mostrar = "";} else{ 
-		$panel_mostrar = "panel = " . $_SESSION["panel_mostrar"] . " and";}
+		$panel_mostrar = "panel = '" . $_SESSION["panel_mostrar"] . "' and";}
 
 	echo '<div class="row">';
 
@@ -47,7 +47,7 @@ class Pantallas{
 		  <div class="card-body">';
 
 
-		if ($r = $db->select("cajero, producto", "ticket_temp", "WHERE id = ".$b["identificador"]."")) { 
+		if ($r = $db->select("cajero, producto", "ticket_temp", "WHERE hash = '".$b["identificador"]."'")) { 
         $nombre_mesero = $r["cajero"];
         $producto = $r["producto"];
     	} unset($r); 
@@ -55,7 +55,7 @@ class Pantallas{
 		echo '<h4>'.$producto.'</h4>';
 
 		// busco las opciones del producto
-		$x = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = ".$b["identificador"]." and cod = ".$b["cod"]." and td = ".$_SESSION['td']."");
+		$x = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = '".$b["identificador"]."' and cod = '".$b["cod"]."' and td = ".$_SESSION['td']."");
 	    foreach ($x as $y) {
 	    	
 	    	if ($s = $db->select("nombre", "opciones_name", "WHERE cod = ".$y["opcion"]." and td = ".$_SESSION['td']."")) { 
@@ -89,7 +89,7 @@ class Pantallas{
 		echo '<div class="card '. Helpers::Color($b["mesa"]).' mb-2">
 		  <div class="card-body">';
 
-		if ($r = $db->select("cajero, producto", "ticket_temp", "WHERE id = ".$b["identificador"]."")) { 
+		if ($r = $db->select("cajero, producto", "ticket_temp", "WHERE hash = '".$b["identificador"]."'")) { 
         $nombre_mesero = $r["cajero"];
         $producto = $r["producto"];
     	} unset($r); 
@@ -139,12 +139,21 @@ class Pantallas{
 
 	}
 
+
+
+
+
 		public function Sonar(){
 			echo '<audio id="audioplayer" autoplay=true>
 					  <source src="assets/sound/Bing_1.mp3" type="audio/mpeg">
 					  <source src="assets/sound/Bing_1.ogg" type="audio/ogg">
 					</audio>';
 		}
+
+
+
+
+
 
 		public function MostarLateral() {
 		$db = new dbConn();
@@ -189,6 +198,9 @@ class Pantallas{
 
 
 
+
+
+
 	public function AgregarControl($identificador,$mesa,$cliente,$opciones,$panel) {
 		$db = new dbConn();
 
@@ -200,7 +212,7 @@ class Pantallas{
 
     }
 
-    	if ($r = $db->select("cant, cod", "ticket_temp", "WHERE id = '$identificador' and mesa=$mesa and cliente=$cliente and td=".$_SESSION["td"]."")) { 
+    	if ($r = $db->select("cant, cod", "ticket_temp", "WHERE hash = '".$identificador."' and mesa='$mesa' and cliente='$cliente' and td=".$_SESSION["td"]."")) { 
 		        $cod=$r["cant"]; $producto=$r["cod"];
 		    } unset($r); 
 		

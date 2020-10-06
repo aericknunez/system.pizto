@@ -136,7 +136,7 @@ $return.= "<div class=\"row text-center \">
  $a = $db->query("Select * from images where popup='0' and td = ".$_SESSION["td"]." order by img_order asc");
     foreach ($a as $b) {
 
-if($r = $db->select("panel", "control_panel_mostrar", "WHERE producto = '$cod' and td = ".$_SESSION["td"]."")){ $panel = $r["panel"]; } unset($r); 
+if($r = $db->select("panel", "control_panel_mostrar", "WHERE producto = '".$b["cod"]."' and td = ".$_SESSION["td"]."")){ $panel = $r["panel"]; } unset($r); 
 
 if($r = $db->select("nombre, categoria", "producto", "WHERE cod = '".$b["cod"]."' and td = ".$_SESSION["td"]."")){ $nombre = $r["nombre"]; $categoria = $r["categoria"]; } unset($r); 
 
@@ -400,7 +400,7 @@ if($count == 1){
 }
 
 
-if($r = $db->select("panel", "control_panel_mostrar", "WHERE producto = '$cod' and td = ".$_SESSION["td"]."")){ $panel = $r["panel"]; } unset($r); 
+if($r = $db->select("panel", "control_panel_mostrar", "WHERE producto = '".$b["cod"]."' and td = ".$_SESSION["td"]."")){ $panel = $r["panel"]; } unset($r); 
 
 if($r = $db->select("nombre, categoria", "producto", "WHERE cod = '".$b["cod"]."' and td = ".$_SESSION["td"]."")){ $nombre = $r["nombre"]; $categoria = $r["categoria"]; } unset($r); 
 
@@ -942,76 +942,6 @@ fclose($handle);
 	$this->VerTablas();
 
 	}
-
-
-
-
-
-
-///////////////cambiar precios
-	public function VerTodosPrecio(){
-		$db = new dbConn();
-
-	$a = $db->query("SELECT id, cod, nombre, cat, precio FROM precios WHERE td = ".$_SESSION['td']."");
-
-	if($a->num_rows > 0){
-	echo '<h1 class="h1-responsive">Configuraci&oacuten de precios</h1>
-	    <table class="table table-sm table-striped">
-
-	   <thead>
-	     <tr>
-	       <th scope="col">Codigo</th>
-	       <th scope="col">Producto</th>
-	       <th scope="col">Categoria</th>
-	       <th scope="col">Precio</th>
-	      <th scope="col">Editar</th>
-	     </tr>
-	   </thead>
-
-	   <tbody>';
-
-		   foreach ($a as $b) {
-
-		// BUSCO LA CATEGORIA
-		if($b["cat"] != 0){
-		$r = $db->select("categoria", "categorias", "where cod = ". $b["cat"] ." and td = ".$_SESSION['td'].""); $cate=$r["categoria"]; unset($r); /////
-		} else { $cate = "Ninguna"; }
-
-
-			echo '<tr>
-		       <th scope="row">'. $b["cod"] . '</th>
-		       <td>'. $b["nombre"] . '</td>
-		       <td>'. $cate . '</td>
-		       <td>'. $b["precio"] . '</td>
-		       <td><a id="c_precio" cod="'.$b["cod"].'" pre="'.$b["precio"].'" pro="'.$b["nombre"].'"><i class="fa fa-cogs red-text fa-lg"></i></a></td>
-		     </tr>';
-		 
-
-		    }
-		   $a->close();
-
-		echo '</tbody>
-		</table>';
-		} else {
-			Alerts::Mensajex("No se encontraron registros","danger");
-		}
-	}
-
-		public function CambiarPrecio($data){
-		$db = new dbConn();
-
-		$cambio = array();
-	    $cambio["precio"] = $data["precio"];	    
-	    if (Helpers::UpdateId("precios", $cambio, "cod = '".$data["cod"]."' and td = ".$_SESSION["td"]."")) {
-	        Alerts::Alerta("success","Echo!","Registros actualizados correctamente");
-	    } else {
-	       Alerts::Alerta("error","Error!","Ocurrio un error desconocido!");   
-	    }
-	    $this->VerTodosPrecio();
-
-	}
-
-
 
 
 

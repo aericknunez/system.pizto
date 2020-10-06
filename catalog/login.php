@@ -79,7 +79,7 @@ body { overflow-x: hidden; padding-left: 5px; padding-right: 5px; }</style>
 <header>
 
   <!-- Full Page Intro -->
-  <div class="view" style="background-image: url('assets/img/Photos/backgroundDefault.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+  <div class="view" style="background-image: url('assets/img/Photos/324102.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
     <!-- Mask & flexbox options-->
     <div class="mask rgba-gradient d-flex justify-content-center">
       <!-- Content -->

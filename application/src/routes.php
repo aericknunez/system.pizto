@@ -50,8 +50,8 @@ break;
 
 
 case "3":
-	include_once '../../system/config_configuraciones/Config.php';
-	$configuracion = new Config;
+	include_once '../../system/config_precios/Config.php';
+	$configuracion = new ConfigP;
 	$configuracion->CambiarPrecio($_POST);
 break;
 
@@ -256,9 +256,8 @@ case "19": // venta con opciones
 	// para pantallas
 	include_once '../../system/tv/Pantallas.php';
 	$pantalla = new Pantallas;
-	if($_REQUEST["opcion"] != NULL){ $option = "1"; } else { $option = "0";}
 	if($_REQUEST["panel"] != NULL and $_REQUEST["panel"] != 0){
-	$pantalla->AgregarControl($identificador, $_SESSION["mesa"],$clientes,$option,$_REQUEST["panel"]);
+	$pantalla->AgregarControl($identificador, $_SESSION["mesa"],$clientes,1,$_REQUEST["panel"]);
 	}
 	$pantalla->Cambia(1);
 
@@ -273,14 +272,13 @@ case "20": //venta normal
 	if($_REQUEST["cliente"] == NULL) { $clientes = 1; }
 	else { $clientes = $_REQUEST["cliente"]; } 			
 
-	$ventas->Execute($_REQUEST["cod"], $_SESSION["mesa"], $clientes, $_SESSION['config_imp']);
+$identificador = $ventas->Execute($_REQUEST["cod"], $_SESSION["mesa"], $clientes, $_SESSION['config_imp']);
 
 	// para pantallas
 	include_once '../../system/tv/Pantallas.php';
 	$pantalla = new Pantallas;
-	if($_REQUEST["opcion"] != NULL){ $option = "1"; } else { $option = "0";}
 	if($_REQUEST["panel"] != NULL and $_REQUEST["panel"] != 0){
-	$pantalla->AgregarControl($identificador, $_SESSION["mesa"],$clientes,$option,$_REQUEST["panel"]);
+	$pantalla->AgregarControl($identificador, $_SESSION["mesa"],$clientes,0,$_REQUEST["panel"]);
 	}
 	$pantalla->Cambia(1);
 
@@ -1144,9 +1142,8 @@ break;
 
 
 case  "88": // Abrir Caja
-
     include_once 'system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
-    $imprimir = new Impresiones; 
+    $imprimir = new Impresiones(); 
     $imprimir->AbrirCaja();
 break; 
 
@@ -1318,6 +1315,22 @@ case  "117": // paginador averias
 include_once '../../system/productos/Product.php';
 $producto = new Product;
 $producto->VerProducto($_REQUEST["iden"]);
+break; 
+
+
+
+case  "118": // paginador averias
+include_once '../../system/config_precios/Config.php';
+$conf = new ConfigP();
+$conf->VerOpcionesActivas($_POST["cod"]);
+break; 
+
+
+
+case  "119": // paginador averias
+include_once '../../system/config_precios/Config.php';
+$conf = new ConfigP();
+$conf->CambiarOpcion($_POST);
 break; 
 
 

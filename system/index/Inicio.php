@@ -451,7 +451,7 @@ echo '    <div class="row">
   </div>';
 
 
-if(Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0){
+if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (Helpers::ServerDomain() == TRUE and $_SESSION["root_plataforma"] == 1)){
 echo '<div class="text-center"><a id="cambiar-pantalla-inicio" op="27x" class="btn btn-success">Ir a Facturar</a></div>';
 }
 

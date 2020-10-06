@@ -341,20 +341,20 @@ public function ListarOpciones($cod,$identificador,$cliente){
 	public function VerificaOpcionesActivas($mesa,$identificador,$codigo){ // es el que elimina o agrega el 1 o 0 al panel para que se muestre o no opciones
 			$db = new dbConn();
 
-		$a = $db->query("SELECT * FROM opciones_ticket WHERE identificador = $identificador and mesa=$mesa and cod = $codigo and td = ".$_SESSION["td"]."");
+		$a = $db->query("SELECT * FROM opciones_ticket WHERE identificador = '".$identificador."' and mesa='$mesa' and cod = '$codigo' and td = ".$_SESSION["td"]."");
     		if($a->num_rows == 0){
 
     			$cambio = array();
 				$cambio["opciones"] = 0;
 				
-				Helpers::UpdateId("control_cocina", $cambio, "mesa = '$mesa' and identificador = '$identificador' and cod = '$codigo' and td = ".$_SESSION["td"]."");
+				Helpers::UpdateId("control_cocina", $cambio, "mesa = '$mesa' and identificador = '".$identificador."' and cod = '$codigo' and td = ".$_SESSION["td"]."");
     			 
     		} else {
 
     			$cambio = array();
 				$cambio["opciones"] = 1;
 				
-				Helpers::UpdateId("control_cocina", $cambio, "mesa = '$mesa' and identificador = '$identificador' and cod = '$codigo' and td = ".$_SESSION["td"]."");
+				Helpers::UpdateId("control_cocina", $cambio, "mesa = '$mesa' and identificador = '".$identificador."' and cod = '$codigo' and td = ".$_SESSION["td"]."");
     		}
 
 	}

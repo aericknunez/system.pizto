@@ -198,6 +198,8 @@ if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (
 <?php if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 5) { 
 ?>
 
+<li><a id="cambiar-pantalla-inicio" op="88" class="collapsible-header waves-effect arrow-r"> Abrir Caja Dinero</a></li>
+
 <li><a href="?ctc" class="collapsible-header waves-effect arrow-r"> Cambiar Cuenta</a></li>
 
 <?php } 
@@ -278,7 +280,7 @@ if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["
  
  ?>
 <li><a href="?iconos" class="waves-effect">Iconos</a></li>
-<li><a href="?precios" class="waves-effect">Precios</a></li>
+<li><a href="?precios" class="waves-effect">Precios y Opciones</a></li>
 <?php if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 5 or $_SESSION["tipo_cuenta"] == 2) { ?>                        
 <li><a href="?configuraciones" class="waves-effect">Configuraciones</a></li>
 <li><a href="?tablas" class="waves-effect">Tablas Sync</a></li>

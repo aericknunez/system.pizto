@@ -310,7 +310,7 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 		    $cambio = array();
 		    $cambio["opcion"] = $cambios;
 		        
-		    if (Helpers::UpdateId("opciones_ticket", $cambio, "cod=$cod and identificador = '$identificador' and opcion = $activo and td = ".$_SESSION["td"]." limit 1")) 
+		    if (Helpers::UpdateId("opciones_ticket", $cambio, "cod=$cod and identificador = '".$identificador."' and opcion = $activo and td = ".$_SESSION["td"]." limit 1")) 
 		    {
 		         Alerts::Alerta("success","Exito!","Opcion Cambiada corectamente!"); 
 		    } else {
@@ -1021,11 +1021,9 @@ echo '<div class="row d-flex justify-content-center">';
 		if($_SESSION['opcionesactivas'] == TRUE){
 		echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'" class="btn-floating btn-success" title="Cambios al platillo" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-hamburger"></i></a>'; }
 
-		// if($_SESSION['config_imprimir_antes'] != NULL){
-		//  	echo '<a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&efectivo=&cancela='.$cancela.'" class="btn-floating blue" title="Imprimir Ticket"><i class="fas fa-print"></i></a>'; }
+	if($_SESSION['config_imprimir_antes'] != NULL){
+		 	echo '<a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&efectivo=&cancela='.$cancela.'" class="btn-floating blue" title="Imprimir Ticket" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-print"></i></a>'; }	
 
-		// if($_SESSION['config_imprimir_comanda'] != NULL){
-		//  	echo '<a id="imprimir_comanda" class="btn-floating cyan" title="Imprimir Comanda"><i class="fas fa-print"></i></a>'; }
 	} 
 
 

@@ -35,6 +35,8 @@ class ConfigP{
 		$r = $db->select("categoria", "categorias", "where cod = ". $b["cat"] ." and td = ".$_SESSION['td'].""); $cate=$r["categoria"]; unset($r); /////
 		} else { $cate = "Ninguna"; }
 
+$r = $db->select("img_name", "images", "where cod = ". $b["cod"] ." and td = ".$_SESSION['td']."");
+ $img=$r["img_name"]; unset($r);
 
 			echo '<tr>
 		       <th scope="row">'. $n++ . '</th>
@@ -46,6 +48,9 @@ class ConfigP{
 		       <a id="c_precio" cod="'.$b["cod"].'" pre="'.$b["precio"].'" pro="'.$b["nombre"].'" title="Cambiar Precio" data-toggle="tooltip" data-placement="top"><i class="fa fa-money-bill-alt red-text fa-lg"></i></a>
 
 		       <a id="c_opciones" cod="'.$b["cod"].'" pro="'.$b["nombre"].'" class="ml-3" title="Modificar Opciones" data-toggle="tooltip" data-placement="top"><i class="fas fa-utensils blue-text fa-lg"></i></a>
+
+
+		       <a id="c_icono" cod="'.$b["cod"].'" pro="'.$b["nombre"].'" img="'.$img.'" class="ml-3" title="Modificar Icono" data-toggle="tooltip" data-placement="top"><i class="fas fa-images green-text fa-lg"></i></a
 
 
 		       </td>
@@ -177,6 +182,15 @@ $this->VerOpcionesActivas($data["producto"]);
 
 
 
+// para mostrar los iconos al cambiarlos
+   	public function MostrarIconos(){
+   		$db = new dbConn();
+    	
+    	$a = $db->query("SELECT * FROM login_imagenes");
+	    foreach ($a as $b) {
+	        echo '<li><a imagen="assets/img/ico/' . $b["imagen"] .'" id="cambioimg"><em>Seleccionar</em><img src="assets/img/ico/' . $b["imagen"] .'" alt="image" class="img-fluid img-responsive wow fadeIn" /></a></li>';
+	    } $a->close();
+   	}
 
 
 

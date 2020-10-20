@@ -38,13 +38,8 @@ exit();
 switch ($_REQUEST["op"]) {
 
 
-case "2": //venta normal veloz sin uso aun
-		include_once '../../system/ventas/Venta.php';
-		$ventas = new Venta;
-		if($_REQUEST["cliente"] == NULL) { $clientes = 1; }
-		else { $clientes = $_REQUEST["cliente"]; } 			
+case "2": //
 
-		$ventas->Execute($_REQUEST["cod"], $_SESSION["mesa"], $clientes, $_SESSION['config_imp']);
 break; 
 
 
@@ -190,10 +185,6 @@ $iconos->UpdateReordenar($idArray);
 break; 
 
 
- // termina iconos////
-
-
-///////////// modifica las tablas del sync
 case "15":
 	include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
@@ -201,13 +192,11 @@ case "15":
 break;
 
 
-///////////// modificar las facturas que se imprimiran
 case "16":
 	include_once '../../system/facturar/Facturar.php';
 	$fact = new Facturar();
 	$fact->ModFactura($_POST);
 break;
-
 
 
 
@@ -372,15 +361,15 @@ $ventas->OtrasVentas(8889,
 // redireccionar
 	if($_SESSION["delivery_on"] == TRUE){
 		echo '<script>
-		window.location.href="?delivery&mesa='.$_SESSION["mesa"].'"
+		window.location.href="../../?delivery&mesa='.$_SESSION["mesa"].'"
 		</script>';
 	} elseif($_SESSION['tipo_inicio'] == 2){
 		echo '<script>
-		window.location.href="?view&mesa='.$_SESSION["mesa"].'"
+		window.location.href="../../?view&mesa='.$_SESSION["mesa"].'"
 		</script>';
 	} else {
 		echo '<script>
-		window.location.href="?"
+		window.location.href="../../?"
 		</script>';
 	}
 
@@ -1948,6 +1937,43 @@ case  "314": // paginar planillas
 include_once '../../system/planilla/Planilla.php';
 	$plan = new planilla;
 	$plan->VerTodosPlanillas($_POST["iden"], $_POST["orden"], $_POST["dir"]);
+break; 
+
+
+
+case  "315": // agrega imagen de producto personalizada
+include("../common/Imagenes.php");
+	$imagen = new upload($_FILES['archivo']);
+include("../../system/config_configuraciones/Config.php");
+include("../../system/config_precios/Config.php"); // para cargar todos los productos
+$imgs = new Config();
+
+	if($imagen->uploaded) {
+		if($imagen->image_src_y > 400 or $imagen->image_src_x > 400){ // si ancho o alto es mayir a 800
+			$imagen->image_resize         		= true; // default is true
+			$imagen->image_ratio        		= true; // para que se ajuste dependiendo del ancho definido
+			$imagen->image_x              		= 400; // para el ancho a cortar
+			$imagen->image_y              		= 400; // para el alto a cortar
+		}
+		$imagen->file_new_name_body   		= Helpers::TimeId(); // agregamos un nuevo nombre
+	
+		$imagen->process('../../assets/img/icoimg/');	
+		$imgs->CambiarIcono('assets/img/icoimg/' . $imagen->file_dst_name, $_POST["codigo"]);
+	} // [file_dst_name] nombre de la imagen
+	else {
+	  Alerts::Alerta("error","Error!","Error: " . $imagen->error);
+	}
+
+break; 
+
+
+case  "316": // agrega imagen de producto personalizada
+include("../../system/config_configuraciones/Config.php");
+include("../../system/config_precios/Config.php"); // para cargar todos los productos
+$imgs = new Config();
+
+$imgs->CambiarIcono($_POST["imagen"], $_POST["codigos"]);
+
 break; 
 
 

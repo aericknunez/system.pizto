@@ -18,9 +18,9 @@
       </div>
 </div> -->
 
-  <div class="md-progress primary-color-dark">
+<!--   <div class="md-progress primary-color-dark">
     <div class="indeterminate"></div>
-  </div>
+  </div> -->
 
 <!-- proloader -->
 

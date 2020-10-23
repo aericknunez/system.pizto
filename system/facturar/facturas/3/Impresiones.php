@@ -116,7 +116,7 @@ $oi=$oi+$n2;
 printer_draw_text($handle, "REF: ". $numero, NULL, $oi);
 
 if($_SESSION["td"] != 3){
-$oi=$oi+$n1;
+$oi=$oi+$n1+$n2;
 printer_draw_text($handle, ".", NULL, $oi);
 }
 

@@ -134,7 +134,7 @@ printer_close($handle);
 
  public function Factura($efectivo, $numero){
 
-  $this->Ticket($efectivo, $numero);
+  // $this->Ticket($efectivo, $numero);
   $this->Facturax($efectivo, $numero);
 
 

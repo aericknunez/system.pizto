@@ -9,8 +9,8 @@ class Impresiones{
   $db = new dbConn();
 
 $img 	= "logo.bmp";
-$txt1 	= "35"; 
-$txt2 	= "15";
+$txt1 	= "32"; 
+$txt2 	= "13";
 $txt3 	= "0";
 $txt4 	= "0";
 $n1 	= "40";
@@ -19,7 +19,7 @@ $n3 	= "0";
 $n4 	= "0";
 
 // $print
-$print = "EPSON TM-T20II Receipt5";
+$print = "LR2000";
 
 $logo_imagen="C:/AppServ/www/pizto/assets/img/logo_factura/". $img;
 
@@ -141,12 +141,14 @@ printer_close($handle);
  public function Factura($efectivo, $numero){
   $db = new dbConn();
 
+$this->Ticket($efectivo, $numero);
+
 $txt1   = "17"; 
 $txt2   = "10";
 $txt3   = "15";
 $txt4   = "8";
-$n1   = "30";
-$n2   = "45";
+$n1   = "18";
+$n2   = "24";
 $n3   = "21";
 $n4   = "10";
 

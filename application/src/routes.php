@@ -1113,7 +1113,7 @@ include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php
 include_once '../../system/facturar/Facturar.php';
       $fact = new Facturar();
 
-$fact->ObtenerEstadoFactura($_REQUEST["efectivo"], $factura);
+$fact->ObtenerEstadoFacturaReimprimir($_REQUEST["efectivo"], $factura);
 break; 
 
 

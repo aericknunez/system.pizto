@@ -661,16 +661,17 @@ fclose($handle);
    public function CambiarIcono($img, $cod, $nodel = NULL){
           $db = new dbConn();
 
-
+if($nodel == NULL){ // borrar
+// obtengo la imagen actual para borrarla
+$r = $db->select("img_name", "images", "where cod = ". $cod ." and td = ".$_SESSION['td']."");
+ $imagen=$r["img_name"]; unset($r);
+}
 
     $cambio = array();
     $cambio["img_name"] = $img;
     if(Helpers::UpdateId("images", $cambio, "cod = '$cod' and td = ".$_SESSION["td"]."")){
 
 if($nodel == NULL){ // borrar
-// obtengo la imagen actual para borrarla
-$r = $db->select("img_name", "images", "where cod = ". $cod ." and td = ".$_SESSION['td']."");
- $imagen=$r["img_name"]; unset($r);
 
        if (file_exists("../../" . $imagen)) {
            @unlink("../../" . $imagen);

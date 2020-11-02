@@ -446,7 +446,7 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 				    	    
 				    
 				     echo '<form action="application/src/routes.php?op=21" method="post" name="form-vender" id="form-vender" >
-		        	<input type="number" id="total" name="total" class="form-control mb-1" placeholder="100.00" autofocus ';
+		        	<input type="number" id="total" name="total" class="form-control mb-1" placeholder="100.00" ';
 					   if($_SESSION['tcredito'] == "on"){
 					   		echo 'readonly="readonly"';
 					   }
@@ -589,7 +589,7 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 				    	    
 				    
 				     echo '<form action="application/src/routes.php?op=21" method="post" name="form-vender" id="form-vender" >
-		        	<input type="number" id="total" name="total" class="form-control mb-1" placeholder="100.00" autofocus ';
+		        	<input type="number" id="total" name="total" class="form-control mb-1" placeholder="100.00" ';
 					   if($_SESSION['tcredito'] == "on"){
 					   		echo 'readonly="readonly"';
 					   }
@@ -708,7 +708,7 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 
 				     echo '<form action="application/src/routes.php?op=25" method="post"  name="form-vender" id="form-vender" >
 		        	
-					<input type="number" id="total" name="total" class="form-control mb-1" placeholder="100.00" autofocus ';
+					<input type="number" id="total" name="total" class="form-control mb-1" placeholder="100.00" ';
 					   if($_SESSION['tcredito'] == "on"){
 					   		echo 'readonly="readonly"';
 					   }

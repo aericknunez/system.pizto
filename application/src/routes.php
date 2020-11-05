@@ -1964,6 +1964,7 @@ $imgs = new Config();
 	  Alerts::Alerta("error","Error!","Error: " . $imagen->error);
 	}
 
+	$imgs->CrearIconos("../iconos/", 1);
 break; 
 
 
@@ -1972,8 +1973,10 @@ include("../../system/config_configuraciones/Config.php");
 include("../../system/config_precios/Config.php"); // para cargar todos los productos
 $imgs = new Config();
 
-$imgs->CambiarIcono($_POST["imagen"], $_POST["codigos"], "NOBORRAR");
+$imgs->CambiarIcono($_POST["imagen"], $_POST["codigos"]);
 
+
+	$imgs->CrearIconos("../iconos/", 1);
 break; 
 
 

@@ -76,7 +76,7 @@ public function CambiarPrecio($data){
 		$cambio = array();
 	    $cambio["precio"] = $data["precio"];	    
 	    if (Helpers::UpdateId("precios", $cambio, "cod = '".$data["cod"]."' and td = ".$_SESSION["td"]."")) {
-	        Alerts::Alerta("success","Echo!","Registros actualizados correctamente");
+	        Alerts::Alerta("success","Realiado!","Registros actualizados correctamente");
 	    } else {
 	       Alerts::Alerta("error","Error!","Ocurrio un error desconocido!");   
 	    }

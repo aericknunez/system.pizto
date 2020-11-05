@@ -48,7 +48,7 @@ class Config{
 	    $cambio["aqui"] = $data["aqui"];
 	    if (Helpers::UpdateId("config_master", $cambio, "td = ".$_SESSION["td"]."")) {
 	    	$this->CrearVariables();
-	        Alerts::Alerta("success","Echo!","Registros actualizados correctamente");
+	        Alerts::Alerta("success","Realizado!","Registros actualizados correctamente");
 	    } else {
 	       Alerts::Alerta("error","Error!","Ocurrio un error desconocido!");   
 	    }
@@ -86,7 +86,7 @@ class Config{
 	    
 	    if (Helpers::UpdateId("config_root", $cambio, "td = ".$_SESSION["td"]."")) {
 	    	$this->CrearVariables();
-	        Alerts::Alerta("success","Echo!","Registros actualizados correctamente");
+	        Alerts::Alerta("success","Realizado!","Registros actualizados correctamente");
 	    } else {
 	       Alerts::Alerta("error","Error!","Ocurrio un error desconocido!");   
 	    }
@@ -306,7 +306,7 @@ if($handle = fopen($url . "iconos_".$_SESSION["td"].".php",'w+')){
 
 	if($msj != NULL){
 		$alert = new Alerts;
-	$alert->Alerta("success","Echo!","Iconos creados correctamente");
+	$alert->Alerta("success","Realizado!","Iconos creados correctamente");
 	}
 	
 }
@@ -643,7 +643,7 @@ if($handle = fopen($url . "iconos_".$_SESSION["td"].".php",'w+')){
 
 	if($msj != NULL){
 		$alert = new Alerts;
-	$alert->Alerta("success","Echo!","Iconos creados correctamente");
+	$alert->Alerta("success","Realizado!","Iconos creados correctamente");
 	}
 	
 }
@@ -658,25 +658,28 @@ fclose($handle);
 
 
 ///cambiar imagen del producto por una personalizada
-   public function CambiarIcono($img, $cod, $nodel = NULL){
+   public function CambiarIcono($img, $cod){
           $db = new dbConn();
 
-if($nodel == NULL){ // borrar
+
 // obtengo la imagen actual para borrarla
 $r = $db->select("img_name", "images", "where cod = ". $cod ." and td = ".$_SESSION['td']."");
  $imagen=$r["img_name"]; unset($r);
-}
+
 
     $cambio = array();
     $cambio["img_name"] = $img;
     if(Helpers::UpdateId("images", $cambio, "cod = '$cod' and td = ".$_SESSION["td"]."")){
 
-if($nodel == NULL){ // borrar
-
+// si es una imagen subida se borrara
+if (strpos($imagen, 'icoimg') !== false) {
        if (file_exists("../../" . $imagen)) {
            @unlink("../../" . $imagen);
        }	
 }
+////
+
+
 
 
     	Alerts::Alerta("success","Realizado!","Imagen cambiada correctamente");
@@ -805,7 +808,7 @@ if($nodel == NULL){ // borrar
 			  </thead>
 			  <tbody>';
 	    foreach ($a as $b) {  
-		    $r = $db->select("cliente, pais", "config_master", "WHERE td = ".$b["sucursal"]."");
+		    $r = $db->select("cliente, pais, td", "config_master", "WHERE td = ".$b["sucursal"]."");
 
 		    // ultima actualizacion
 	    		if ($rx = $db->select("*", "login_sync", "WHERE td = ".$b["sucursal"]." and edo = 1 order by id desc")) {
@@ -818,7 +821,7 @@ if($nodel == NULL){ // borrar
 	    	$x = $db->select("nombre", "login_userdata", "WHERE user = '$userx'");
 		    echo '<tr>
 		    	  <th scope="col">'.$x["nombre"].'</th>
-			      <th scope="col">'.$r["cliente"].'</th>
+			      <th scope="col">'.$r["td"].' - '.$r["cliente"].'</th>
 			      <th scope="col">'.Helpers::Pais($r["pais"]).'</th>			      
 			      <th scope="col">';
 				if($b["sucursal"] == $_SESSION['td']){

@@ -21,7 +21,7 @@ class Facturar{
 					    $datos["hash"] = Helpers::HashId();
 						$datos["time"] = Helpers::TimeId();
 					    if ($db->insert("facturar_rtn", $datos)) {
-					        Alerts::Alerta("success","echo!","RTN agregado correctamente!");
+					        Alerts::Alerta("success","Realizado!","RTN agregado correctamente!");
 
 					    $_SESSION["rtn"] = $rtn;
 						$_SESSION["cliente"] = strtoupper($cliente);
@@ -180,7 +180,7 @@ class Facturar{
 					    $datos["hash"] = Helpers::HashId();
 						$datos["time"] = Helpers::TimeId();
 					    if ($db->insert("facturar_cai", $datos)) {
-					        Alerts::Alerta("success","Echo!","Se agrego un nuevo CAI!");
+					        Alerts::Alerta("success","Realizado!","Se agrego un nuevo CAI!");
 					    } else {
 					    	Alerts::Alerta("error","Error!","Ocurrio un error!");
 					    }
@@ -198,7 +198,7 @@ class Facturar{
 			$db = new dbConn();
 
 		    if ( Helpers::DeleteId("facturar_cai", "id = '$id' and td = ".$_SESSION["td"]."")) {
-		        Alerts::Alerta("success","Echo!","CAI Eliminado correctamente!");
+		        Alerts::Alerta("success","Realizado!","CAI Eliminado correctamente!");
 		        $this->QuitarRtn();
 		    } else {
 		        Alerts::Alerta("error","Error!","El CAI no ha sido eliminado!");
@@ -354,7 +354,7 @@ class Facturar{
 			    $datos["hash"] = Helpers::HashId();
 				$datos["time"] = Helpers::TimeId();
 			    if ($db->insert("facturar_ticket", $datos)) {
-			        Alerts::Alerta("success","Echo!","Se agrego una factura!");
+			        Alerts::Alerta("success","Realizado!","Se agrego una factura!");
 			    } else {
 			    	Alerts::Alerta("error","Error!","Ocurrio un error!");
 			    }
@@ -375,7 +375,7 @@ class Facturar{
 			    $datos["hash"] = Helpers::HashId();
 				$datos["time"] = Helpers::TimeId();
 			    if ($db->insert("facturar_impresora", $datos)) {
-			        Alerts::Alerta("success","Echo!","Se agrego una Impresora!");
+			        Alerts::Alerta("success","Realizado!","Se agrego una Impresora!");
 			    } else {
 			    	Alerts::Alerta("error","Error!","Ocurrio un error!");
 			    }
@@ -398,7 +398,7 @@ class Facturar{
 			    $datos["hash"] = Helpers::HashId();
 				$datos["time"] = Helpers::TimeId();
 			    if ($db->insert("facturar_users", $datos)) {
-			        Alerts::Alerta("success","Echo!","Se agrego un nuevo Usuario!");
+			        Alerts::Alerta("success","Realizado!","Se agrego un nuevo Usuario!");
 			    } else {
 			    	Alerts::Alerta("error","Error!","Ocurrio un error!");
 			    }
@@ -580,14 +580,14 @@ class Facturar{
 		$a = $db->query("SELECT * FROM facturar_opciones WHERE td = ".$_SESSION["td"]."");
 		if($a->num_rows > 0){    
 		    if (Helpers::UpdateId("facturar_opciones", $cambio, "td = ".$_SESSION["td"]."")) {
-		        Alerts::Alerta("success","Echo!","Registros actualizados correctamente");
+		        Alerts::Alerta("success","Realizado!","Registros actualizados correctamente");
 		    }		
 		} else {
 		    $cambio["td"] = $_SESSION["td"];
 			$cambio["hash"] = Helpers::HashId();
 			$cambio["time"] = Helpers::TimeId();
 		    if ($db->insert("facturar_opciones", $cambio)) {
-		    	Alerts::Alerta("success","Echo!","Registros actualizados correctamente");
+		    	Alerts::Alerta("success","Realizado!","Registros actualizados correctamente");
 		    } 			
 		}
 

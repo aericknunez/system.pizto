@@ -42,7 +42,7 @@ $configuracion = new Config;
     <?php 
     $a = $db->query("SELECT * FROM config_master");
     foreach ($a as $b) {
-    	echo '<option value="'. $b["td"].'">'. $b["cliente"].'</option>';
+    	echo '<option value="'. $b["td"].'">'. $b["td"].' - '. $b["cliente"].'</option>';
     } $a->close();
  	?>	
 	</select>

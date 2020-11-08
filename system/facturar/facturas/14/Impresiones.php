@@ -431,12 +431,12 @@ printer_draw_text($handle, "Cajero: " . $_SESSION['nombre'], 25, $oi);
 
 $oi=$oi+$n1+$n4;
 printer_draw_text($handle, "GRACIAS POR SU COMPRA...", 50, $oi);
-printer_delete_font($font);
 
 $oi=$oi+$n1+$n2;
 printer_draw_text($handle, ".", NULL, $oi);
 printer_write($handle, chr(27).chr(112).chr(48).chr(55).chr(121)); //enviar pulso
 
+printer_delete_font($font);
 
 
 ///
@@ -520,7 +520,7 @@ $oi=$oi+$n1;
 printer_draw_text($handle, "CALL CENTER: " . $_SESSION['config_telefono'], 0, $oi);
 
 $oi=$oi+$n1;
-printer_draw_text($handle, "FACTURA NUMERO: ". $num_fac, NULL, $oi);
+printer_draw_text($handle, "ORDEN NUMERO: ". $numero, NULL, $oi);
 
 
 $oi=$oi+$n2;
@@ -644,13 +644,13 @@ printer_draw_text($handle, "Telefono: " . $ctelefono, 10, $oi);
 
 $oi=$oi+$n1+$n4;
 printer_draw_text($handle, "GRACIAS POR SU COMPRA...", 50, $oi);
-printer_delete_font($font);
 
 $oi=$oi+$n1+$n2;
 printer_draw_text($handle, ".", NULL, $oi);
 
 
 // printer_write($handle, chr(27).chr(112).chr(48).chr(55).chr(121)); //enviar pulso
+printer_delete_font($font);
 
 ///
 printer_end_page($handle);
@@ -684,7 +684,7 @@ $n3   = "120";
 $n4   = "0";
 
 // $print
-$print = "LR2000";
+$print = "LR2000-COCINA";
 
 
 $handle = printer_open($print);
@@ -747,6 +747,7 @@ if($llevar == 3){
 
 $oi=$oi+$n2;
 printer_draw_text($handle, $lleva, 25, $oi);
+printer_draw_text($handle, $_SESSION['mesa'], 400, $oi);
 
 
 $font = printer_create_font("Arial", $txt3, $txt4, PRINTER_FW_NORMAL, false, false, false, 0);

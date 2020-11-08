@@ -58,8 +58,8 @@ printer_draw_text($handle, "Locales Esmeralda #6, Sonsonate", 25, $oi);
 $oi=$oi+$n1;
 printer_draw_text($handle, "CALL CENTER: " . $_SESSION['config_telefono'], 0, $oi);
 
-$oi=$oi+$n1
-printer_draw_text($handle, "FACTURA NUMERO: ". $num_fac, NULL, $oi);
+$oi=$oi+$n1;
+printer_draw_text($handle, "FACTURA NUMERO: " . $num_fac, NULL, $oi);
 
 $oi=$oi+$n2;
 printer_draw_text($handle, "____________________________________", 0, $oi);
@@ -519,7 +519,7 @@ printer_draw_text($handle, "Locales Esmeralda #6, Sonsonate", 25, $oi);
 $oi=$oi+$n1;
 printer_draw_text($handle, "CALL CENTER: " . $_SESSION['config_telefono'], 0, $oi);
 
-$oi=$oi+$n1
+$oi=$oi+$n1;
 printer_draw_text($handle, "FACTURA NUMERO: ". $num_fac, NULL, $oi);
 
 
@@ -613,6 +613,33 @@ printer_draw_text($handle, $horaf, 332, $oi);
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "Cajero: " . $_SESSION['nombre'], 25, $oi);
+
+
+//// imprimir datos del cliente delivery
+    if ($r = $db->select("cliente", "clientes_mesa", "WHERE mesa = '".$_SESSION["mesa"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+        $clientex = $r["cliente"];
+    } unset($r);  
+
+    if ($r = $db->select("nombre, direccion, telefono", "clientes", "WHERE hash = '".$clientex."'  and td = ".$_SESSION["td"]."")) { 
+        $cnombre = $r["nombre"];
+        $cdireccion = $r["direccion"];
+        $ctelefono = $r["telefono"];
+    } unset($r);  
+
+if($cnombre != NULL){
+$oi=$oi+$n1;
+printer_draw_text($handle, "Cliente: " . $cnombre, 10, $oi);
+}
+if($cdireccion != NULL){
+$oi=$oi+$n1;
+printer_draw_text($handle, $cdireccion, 10, $oi);
+}
+if($ctelefono != NULL){
+$oi=$oi+$n1;
+printer_draw_text($handle, "Telefono: " . $ctelefono, 10, $oi);
+}
+
+// datos del cliente delivery
 
 
 $oi=$oi+$n1+$n4;

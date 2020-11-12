@@ -11,6 +11,7 @@ class Reporte{
 		
 		$gas = new Gastos;
 		$his = new Historial;
+		$cortes = new Corte();
 
 		$this->Corte($fecha);
 		$this->CalculaMateriaPrima($fecha);

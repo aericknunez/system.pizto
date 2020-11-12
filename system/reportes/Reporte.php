@@ -694,12 +694,10 @@ $ay = $db->query("SELECT sum(total) FROM ticket WHERE fecha = '$fecha' and tx = 
 			    </tr>
 			  </thead>
 			  <tbody>';
-		    	echo '<tr class="text-black>
-			      <th scope="row">'.$fecha.'</th>
-			      <td>'. $totalfinal / $cantidadx .'</td>
-			      <td>'; 
-			    echo '</td>
-			    </tr>';
+		    	echo '<tr>
+			      <td>'.$fecha.'</td>
+			      <td>'. $totalfinal / $cantidadx .'</td>'; 
+			    echo '</tr>';
 		    echo '</tbody>
 		    </table>';
 

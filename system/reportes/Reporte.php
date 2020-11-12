@@ -678,25 +678,20 @@ public function VerAbonosCuentas($fecha) { //leva el control del autoincremento 
 
 // total de venta
 // total
-$ay = $db->query("SELECT sum(total) FROM ticket WHERE fecha = '$fecha' and edo = 1 and td = ".$_SESSION["td"]."");
-    foreach ($ay as $by) {
-        $totalfinal=$by["sum(total)"];
-    } $ay->close();
-
-
+$cortes = new Corte();
 
 	   echo '<h3 class="h3-responsive">Promedio de Pollo</h3>
 				<table class="table table-sm table-striped">
 			  <thead>
 			    <tr>
 			      <th scope="col">Fecha</th>
-			      <th scope="col">Promedio: '.$totalfinal.' cant: '.$cantidadx.'</th>
+			      <th scope="col">Promedio: '.$cortes->VentaHoy($fecha).' cant: '.$cantidadx.'</th>
 			    </tr>
 			  </thead>
 			  <tbody>';
 		    	echo '<tr>
 			      <td>'.$fecha.'</td>
-			      <td>'. Helpers::Dinero($totalfinal / $cantidadx) .'</td>'; 
+			      <td>'. Helpers::Dinero($cortes->VentaHoy($fecha) / $cantidadx) .'</td>'; 
 			    echo '</tr>';
 		    echo '</tbody>
 		    </table>';

@@ -690,7 +690,7 @@ $ay = $db->query("SELECT sum(total) FROM ticket WHERE fecha = '$fecha' and edo =
 			  <thead>
 			    <tr>
 			      <th scope="col">Fecha</th>
-			      <th scope="col">Promedio</th>
+			      <th scope="col">Promedio: '.$totalfinal.' cant: '.$cantidadx.'</th>
 			    </tr>
 			  </thead>
 			  <tbody>';

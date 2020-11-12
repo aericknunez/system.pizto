@@ -5,8 +5,6 @@ include_once 'application/common/Alerts.php';
 include_once 'system/reportes/Reporte.php';
 include_once 'system/historial/Historial.php';
 include_once 'system/gastos/Gasto.php';
-include_once 'system/corte/Corte.php';
-
 
 $reporte = new Reporte;
 

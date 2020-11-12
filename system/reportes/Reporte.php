@@ -696,7 +696,7 @@ public function VerAbonosCuentas($fecha) { //leva el control del autoincremento 
 			  <thead>
 			    <tr>
 			      <th scope="col">Fecha</th>
-			      <th scope="col">Promedio: '.$totalv.' cant: '.$cantidadx.'</th>
+			      <th scope="col">Promedio</th>
 			    </tr>
 			  </thead>
 			  <tbody>';

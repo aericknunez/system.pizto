@@ -13,6 +13,9 @@ class Reporte{
 		$his = new Historial;
 
 		$this->Corte($fecha);
+		if($_SESSION["td"] == 3){
+			$this->PromedioPollo($fecha);
+		}
 		$this->CalculaMateriaPrima($fecha);
 		$this->ProductosEspeciales($fecha);
 		$his->HistorialGDiario($fecha);
@@ -624,6 +627,83 @@ public function VerAbonosCuentas($fecha) { //leva el control del autoincremento 
    
   }
 
+
+
+
+
+
+
+
+
+	public function PromedioPollo($fecha) {
+		$db = new dbConn();
+
+// total entre csntidad de pollo		
+
+		    $a = $db->query("SELECT * FROM alter_materiaprima_reporte WHERE td = ". $_SESSION["td"]. " order by id desc");
+		    if($a->num_rows > 0){
+			    foreach ($a as $b) {
+			    	// obtengo el nombre del producto
+			    	    if ($r = $db->select("nombre", "pro_bruto", "WHERE iden = '". $b["producto"] ."' and td = ". $_SESSION["td"]. "")) { $nombre = $r["nombre"]; } unset($r); 
+			    	// calculo cuanto producto se vendio
+			    	    	$cantidadx = 0;
+			    	   // * cuales son los dependientes y cuanto ocupan del materia prima
+			    	        $adep = $db->query("SELECT * FROM pro_dependiente WHERE producto = '". $b["producto"] ."' and td = ". $_SESSION["td"]. "");
+							    foreach ($adep as $bdep) {
+							        $idend = $bdep["iden"]; $cantd = $bdep["cantidad"];
+					    // * busco los productos que tienen asignado esa dependiente y multiplico cantidad por productos
+							           $ar = $db->query("SELECT * FROM pro_asignado WHERE dependiente = '$idend' and td = ". $_SESSION["td"]. "");
+									    foreach ($ar as $br) {
+									        $productox = $br["cod"];
+									        // busco cuantos productos se vendieron
+									            if ($prod = $db->select("sum(cant)", "ticket", "WHERE fecha = '$fecha' and cod = '$productox' and edo = 1 and td = ". $_SESSION["td"]. "")) { 
+											        $cantidad = $prod["sum(cant)"];
+											        $cantidades = $cantd * $cantidad;
+											        $cantidadx = $cantidadx + $cantidades;	
+											        unset($cantidades);
+											    }  unset($prod);  
+									    } $ar->close();
+
+
+
+							} $adep->close();
+
+			        $producto = $b["producto"];
+	
+			    
+			    } 
+			} $a->close();
+
+
+
+// total de venta
+// total
+$ay = $db->query("SELECT sum(total) FROM ticket WHERE fecha = '$fecha' and tx = 1 and edo = 1 and td = ".$_SESSION["td"]."");
+    foreach ($ay as $by) {
+        $totalfinal=$by["sum(total)"];
+    } $ay->close();
+
+
+
+	   echo '<h3 class="h3-responsive">Promedio de Pollo</h3>
+				<table class="table table-sm table-striped">
+			  <thead>
+			    <tr>
+			      <th scope="col">Fecha</th>
+			      <th scope="col">Promedio</th>
+			    </tr>
+			  </thead>
+			  <tbody>';
+		    	echo '<tr class="text-black>
+			      <th scope="row">'.$fecha.'</th>
+			      <td>'. $totalfinal / $cantidadx .'</td>
+			      <td>'; 
+			    echo '</td>
+			    </tr>';
+		    echo '</tbody>
+		    </table>';
+
+	}
 
 
 

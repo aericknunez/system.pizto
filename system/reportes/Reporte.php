@@ -11,7 +11,6 @@ class Reporte{
 		
 		$gas = new Gastos;
 		$his = new Historial;
-		$cortes = new Corte();
 
 		$this->Corte($fecha);
 		$this->CalculaMateriaPrima($fecha);
@@ -638,7 +637,6 @@ public function VerAbonosCuentas($fecha) { //leva el control del autoincremento 
 
 	public function PromedioPollo($fecha) {
 		$db = new dbConn();
-		$cortes = new Corte();
 
 // total entre csntidad de pollo		
 
@@ -680,6 +678,8 @@ public function VerAbonosCuentas($fecha) { //leva el control del autoincremento 
 
 // total de venta
 // total
+		$cortes = new Corte();
+
 
 	   echo '<h3 class="h3-responsive">Promedio de Pollo</h3>
 				<table class="table table-sm table-striped">

@@ -678,7 +678,7 @@ public function VerAbonosCuentas($fecha) { //leva el control del autoincremento 
 
 // total de venta
 // total
-$ay = $db->query("SELECT sum(total) FROM ticket WHERE fecha = '$fecha' and tx = 1 and edo = 1 and td = ".$_SESSION["td"]."");
+$ay = $db->query("SELECT sum(total) FROM ticket WHERE fecha = '$fecha' and edo = 1 and td = ".$_SESSION["td"]."");
     foreach ($ay as $by) {
         $totalfinal=$by["sum(total)"];
     } $ay->close();

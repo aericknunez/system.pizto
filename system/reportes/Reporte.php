@@ -640,7 +640,7 @@ public function VerAbonosCuentas($fecha) { //leva el control del autoincremento 
 
 // total entre csntidad de pollo		
 
-		    $a = $db->query("SELECT * FROM alter_materiaprima_reporte WHERE td = ". $_SESSION["td"]. " order by id desc");
+		    $a = $db->query("SELECT * FROM alter_materiaprima_reporte WHERE producto = 1 and td = ". $_SESSION["td"]. " order by id desc");
 		    if($a->num_rows > 0){
 			    foreach ($a as $b) {
 			    	// obtengo el nombre del producto
@@ -702,6 +702,9 @@ $ay = $db->query("SELECT sum(total) FROM ticket WHERE fecha = '$fecha' and tx = 
 		    </table>';
 
 	}
+
+
+
 
 
 

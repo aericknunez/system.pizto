@@ -677,11 +677,18 @@ public function VerAbonosCuentas($fecha) { //leva el control del autoincremento 
 
 
 // total de venta
-// total
+    if ($r = $db->select("total", "corte_diario", "WHERE fecha = '$fecha' and edo = 1 and td = ".$_SESSION["td"]."")) { 
+       $totalv=$r["total"];
+    } else {
 		$a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and td = ".$_SESSION["td"]." and fecha = '$fecha'");
 		    foreach ($a as $b) {
 		     $totalv=$b["sum(total)"];
 		    } $a->close();
+    }
+    unset($r); 
+
+
+
 
 
 	   echo '<h3 class="h3-responsive">Promedio de Pollo</h3>

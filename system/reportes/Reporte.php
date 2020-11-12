@@ -13,10 +13,10 @@ class Reporte{
 		$his = new Historial;
 
 		$this->Corte($fecha);
+		$this->CalculaMateriaPrima($fecha);
 		if($_SESSION["td"] == 3){
 			$this->PromedioPollo($fecha);
 		}
-		$this->CalculaMateriaPrima($fecha);
 		$this->ProductosEspeciales($fecha);
 		$his->HistorialGDiario($fecha);
 		$gas->VerEntradas($fecha);
@@ -690,13 +690,13 @@ $ay = $db->query("SELECT sum(total) FROM ticket WHERE fecha = '$fecha' and edo =
 			  <thead>
 			    <tr>
 			      <th scope="col">Fecha</th>
-			      <th scope="col">Promedio:: '.$totalfinal.' Cant: '.$cantidadx.'</th>
+			      <th scope="col">Promedio</th>
 			    </tr>
 			  </thead>
 			  <tbody>';
 		    	echo '<tr>
 			      <td>'.$fecha.'</td>
-			      <td>'. $totalfinal / $cantidadx .'</td>'; 
+			      <td>'. Helpers::Dinero($totalfinal / $cantidadx) .'</td>'; 
 			    echo '</tr>';
 		    echo '</tbody>
 		    </table>';

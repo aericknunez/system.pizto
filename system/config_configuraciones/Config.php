@@ -171,6 +171,9 @@ $return.= "\n\n";
 
 }
 
+unset($panel);
+
+
 } $a->close(); // temina recorrido por las imagenes
 
 
@@ -229,7 +232,7 @@ $return.= "<div class=\"row text-center \">
  $ax = $db->query("Select * from images where popup='".$b["cod"]."' and td = ".$_SESSION["td"]." order by img_order asc");
     foreach ($ax as $bx) {
 
-if($r = $db->select("panel", "control_panel_mostrar", "WHERE producto = '".$b["cod"]."' and td = ".$_SESSION["td"]."")){ $panel = $r["panel"]; } unset($r); 
+if($r = $db->select("panel", "control_panel_mostrar", "WHERE producto = '".$bx["cod"]."' and td = ".$_SESSION["td"]."")){ $panel = $r["panel"]; } unset($r); 
 
 if($r = $db->select("nombre, categoria", "producto", "WHERE cod = '".$bx["cod"]."' and td = ".$_SESSION["td"]."")){ $nombre = $r["nombre"]; $categoria = $r["categoria"]; } unset($r); 
 
@@ -251,6 +254,7 @@ $return.= "\n\n";
 
 	}
 
+unset($panel);
 
 
 } $ax->close(); // temina recorrido por las imagenes
@@ -440,6 +444,7 @@ $return .= '
 $return.= "\n\n";
 	}
 
+unset($panel);
 
 } else { // si es categoria
 
@@ -537,7 +542,7 @@ if($numerom > 24) {
 }
 //////////
 
-if($r = $db->select("panel", "control_panel_mostrar", "WHERE producto = '".$b["cod"]."' and td = ".$_SESSION["td"]."")){ $panel = $r["panel"]; } unset($r); 
+if($r = $db->select("panel", "control_panel_mostrar", "WHERE producto = '".$bx["cod"]."' and td = ".$_SESSION["td"]."")){ $panel = $r["panel"]; } unset($r); 
 
 if($r = $db->select("nombre, categoria", "producto", "WHERE cod = '".$bx["cod"]."' and td = ".$_SESSION["td"]."")){ $nombre = $r["nombre"]; $categoria = $r["categoria"]; } unset($r); 
 
@@ -573,6 +578,8 @@ $return.= "\n\n";
 
 
 	}
+
+unset($panel);
 // condicionales para row and col
 if($numerom > 24) {
 	if($col == 4 or $regx == $count){

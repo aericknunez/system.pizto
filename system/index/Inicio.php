@@ -419,7 +419,13 @@ echo '    <div class="row">
       <div class="card-counter primary">
         <i class="fas fa-barcode"></i>
         <span class="count-numbers"><h5 class="font-weight-bold">'.Inicio::Clave().'</h5></span>
-        <span class="count-name">Codigo</span>
+        <span class="count-name">';
+        	if($_SESSION["user"] == "Erick"){
+        		echo Helpers::CodigoValidacionHora();	
+        	} else {
+        		echo "Codigo";
+        	}
+        echo '</span>
       </div>
     </div>
 

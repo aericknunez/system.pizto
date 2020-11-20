@@ -24,6 +24,10 @@ if ($seslog->login_check() == TRUE) {
 $user=$_SESSION['username'];
 $_SESSION["ver_avatar"] = NULL;
 
+// para eliminar las variables de login admin
+unset($_SESSION["session_unluck"], $_SESSION["login_admin"]);
+
+
 	function UserInicio($user){
         $db = new dbConn();
             if ($r = $db->select("*", "login_userdata", "WHERE user = '$user' limit 1")) { 

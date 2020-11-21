@@ -8,18 +8,18 @@ class Impresiones{
  public function Ticket($efectivo, $numero){
   $db = new dbConn();
 
-$img 	= "logo.bmp";
-$txt1 	= "35"; 
-$txt2 	= "15";
-$txt3 	= "0";
-$txt4 	= "0";
-$n1 	= "40";
-$n2 	= "60";
-$n3 	= "0";
-$n4 	= "0";
+$img  = "tiaquiz.bmp";
+$txt1   = "35"; 
+$txt2   = "13";
+$txt3   = "28";
+$txt4   = "16";
+$n1   = "50";
+$n2   = "90";
+$n3   = "120";
+$n4   = "0";
 
 // $print
-$print = "EPSON TM-U220 Receipt";
+$print = "LR2000";
 
 $logo_imagen="C:/AppServ/www/pizto/assets/img/logo_factura/". $img;
 
@@ -426,19 +426,19 @@ printer_close($handle);
   $db = new dbConn();
 
 
-$img  = "logo.bmp";
+
+$img  = "tiaquiz.bmp";
 $txt1   = "35"; 
-$txt2   = "15";
-$txt3   = "0";
-$txt4   = "0";
-$n1   = "40";
-$n2   = "60";
-$n3   = "0";
+$txt2   = "13";
+$txt3   = "28";
+$txt4   = "16";
+$n1   = "50";
+$n2   = "90";
+$n3   = "120";
 $n4   = "0";
 
 // $print
-$print = "EPSON TM-U220 Receipt";
-
+$print = "LR2000";
 
 
 $handle = printer_open($print);
@@ -621,18 +621,18 @@ printer_close($handle);
  public function Comanda(){
   $db = new dbConn();
 
-$img  = "tiaquiz.bmp";
+$img  = "logo.bmp";
 $txt1   = "35"; 
-$txt2   = "13";
-$txt3   = "28";
-$txt4   = "16";
-$n1   = "50";
-$n2   = "90";
-$n3   = "120";
+$txt2   = "15";
+$txt3   = "0";
+$txt4   = "0";
+$n1   = "40";
+$n2   = "60";
+$n3   = "0";
 $n4   = "0";
 
 // $print
-$print = "LR2000-COCINA";
+$print = "EPSON TM-U220 Receipt";
 
 
 $handle = printer_open($print);

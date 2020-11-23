@@ -102,6 +102,7 @@ class Helpers{
         if($tipo == 3) return "Usuario";
         if($tipo == 4) return "Pantalla";
         if($tipo == 5) return "Gerencia";
+        if($tipo == 6) return "Mesero";
     }
 
 

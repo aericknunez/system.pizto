@@ -21,7 +21,18 @@ include_once 'system/sync/Sync.php';
 <?php 
 $cortes = new Corte;
 $cortes->MesasAbiertas(date("d-m-Y")); // mensaje de verificacion de mesas abiertas
+
+// verificar que tipo de corte tiene activado ( si es 0 o null muesto mensaje de corte)
+if($_SESSION["config_o_tipo_corte"] == 0 or $_SESSION["config_o_tipo_corte"] == NULL){
 $cortes->Contenido(date("d-m-Y"));
+} else {
+  if($cortes->VerificaApertura() == 0){
+    $cortes->Content($cortes->UltimaFecha());
+  } else {
+    $cortes->Form();
+  }
+
+}
 
  ?>
 </div>

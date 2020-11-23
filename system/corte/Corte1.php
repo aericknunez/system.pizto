@@ -8,25 +8,24 @@ class Corte{
 // en cero, esta cerrada en uno esta aperturada solo para opcion 1 (una caja pero con tiempo)
 
 
-	public function EjecutarCorte($efectivo,$fecha){
+	public function EjecutarCorte($efectivo){
 		$db = new dbConn();
 
-	if($this->UltimaFecha() == date("d-m-Y")){
-		Alerts::Alerta("error","Error!","Ya existe un corte el dia de hoy");
-	} else {
 	// busco caja chica del ultimo corte
-	// 
 		if ($r = $db->select("efectivo", "corte_diario", "where edo = 1 and td = ".$_SESSION["td"]." order by id DESC LIMIT 1")) { 
 	        $caja_chica=$r["efectivo"];
 	    } unset($r);
 
 
 		   	    $this->EliminarMesasActivas($fecha);
+
+		   	    $inicio = $this->GetInicio();
+		   	    $fin = Helpers::TimeId();
 		   	    
     	// inserto los datos del corte de ahora
     		$datos = array();
-		    $datos["fecha"] = $fecha;
-		    $datos["fecha_format"] = Fechas::Format($fecha);
+		    $datos["fecha"] = date("d-m-Y");
+		    $datos["fecha_format"] = Fechas::Format(date("d-m-Y"));
 		    $datos["hora"] = date("H:i:s");
 		    $datos["mesas"] = $this->MesasHoy($fecha);
 		    $datos["clientes"] = $this->ClientesHoy($fecha);
@@ -41,16 +40,17 @@ class Corte{
 		    $datos["edo"] = 1;
 		    $datos["td"] = $_SESSION["td"];
 		    $datos["hash"] = Helpers::HashId();
-			$datos["time"] = Helpers::TimeId();
+			$datos["time"] = $fin;
 		   if($db->insert("corte_diario", $datos)){
 
-		   	// pongo inactivo 
+		     // pongo inactivo 
 		   	$cambio = array();
 			$cambio["actualizar"] = 0;
 		   	Helpers::UpdateId("alter_opciones", $cambio, "td = ".$_SESSION["td"]."");
 		   	//
+		   	
 		   //	Alerts::Alerta("success","Exito!","Se ha ejecutado el corte correctamente!");
-		   	$this->CalcularGastoProductos($fecha);
+		   	$this->CalcularGastoProductos($inicio, $fin);
 
 		   	  	if(Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0 and $_SESSION["root_tipo_sistema"] != 0){
 			 		
@@ -69,50 +69,25 @@ class Corte{
 		   }
 
 		  
-		}// de la comprobacion de fechas
-	}
 
-
-/// verifica si esta aperturada la caja
-
-	public function VerificaApertura(){ /// 0 cerrada, 1 abierta
-		$db = new dbConn();
-	    if ($r = $db->select("actualizar", "alter_opciones", "where td = ".$_SESSION["td"]."")) { 
-	        $apertura=$r["actualizar"];
-	    } unset($r); 
-		return $apertura;
 	}
 
 
 
-	public function UltimoEfectivo(){ //verifica cuento fue el ultimo efectivo para aperturar caja
+
+
+
+// tiempo del corte anterior
+	public function GetInicio(){ // obtiene el tiempo de inicio de la aparteura
 		$db = new dbConn();
-	    if ($r = $db->select("efectivo", "corte_diario", "where edo=1 and td = ".$_SESSION["td"]." order by id DESC LIMIT 1")) { 
-	        $efectivo=$r["efectivo"];
+	    if ($r = $db->select("time", "corte_diario", "WHERE edo=1 and td = ".$_SESSION["td"]."")) { 
+	        $inicio = $r["time"];
 	    } 
 	    unset($r); 
-		return $efectivo;
+		return $inicio;
 	}
 
 
-
-// aperturar caja para opcion uno
-	public function AperturarCaja(){
-		$db = new dbConn();
-		   	// pongo activo 
-		   	$cambio = array();
-			$cambio["actualizar"] = 1;
-		   	if(Helpers::UpdateId("alter_opciones", $cambio, "td = ".$_SESSION["td"]."")){
-		   		echo '<script>
-						window.location.href="?"
-					</script>';
-				} else {
-				echo '<script>
-						window.location.href="?apertura"
-					</script>';	
-		    }
-		   	
-	}
 
 
 
@@ -134,6 +109,15 @@ class Corte{
 		return $fechaultima;
 	}
 
+
+	public function EliminarMesasActivas($fecha){
+		$db = new dbConn();
+	    	    
+	    	    Helpers::DeleteId("mesa", "estado = 1 and fecha = '$fecha' and td = " . $_SESSION["td"]);
+
+		}
+
+
 	public function GetEfectivo($fecha){ //para reporte nada mas
 		$db = new dbConn();
 	    if ($r = $db->select("efectivo", "corte_diario", "where fecha = '$fecha' and td = ".$_SESSION["td"]." order by id DESC LIMIT 1")) { 
@@ -153,37 +137,18 @@ class Corte{
 	}
 ////////////////////////////
 
-	public function MesasHoy($fecha){
+	public function MesasHoy(){
 		$db = new dbConn();
-	    	$a = $db->query("SELECT * FROM mesa WHERE td = ".$_SESSION["td"]." and fecha = '$fecha'"); $total = $a->num_rows; $a->close();
+	    	$a = $db->query("SELECT * FROM mesa WHERE td = ".$_SESSION["td"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."'"); $total = $a->num_rows; $a->close();
 		return $total;
 	}
 
 
-//////////// 
 
-	public function MesasAbiertas($fecha){
+
+	public function ClientesHoy(){
 		$db = new dbConn();
-	    	$abi = $db->query("SELECT * FROM mesa WHERE estado = 1 and td = ".$_SESSION["td"]." and fecha = '$fecha'"); 
-	    	$total = $abi->num_rows; $abi->close();
-		
-		if($total > 0){
-			Alerts::Mensaje("Aun hay mesas sin cancelar, estas pueden afectar el total. No olvide cancelarlas. Si continua con el corte todos los datos de las mesas creadas y no canceladas se eliminaran","danger",NULL,NULL);
-		}
-	}
-
-	public function EliminarMesasActivas($fecha){
-		$db = new dbConn();
-	    	    
-	    	    Helpers::DeleteId("mesa", "estado = 1 and fecha = '$fecha' and td = " . $_SESSION["td"]);
-
-		}
-//////////
-
-
-	public function ClientesHoy($fecha){
-		$db = new dbConn();
-	        $a = $db->query("SELECT sum(clientes) FROM mesa WHERE td = ".$_SESSION["td"]." and fecha = '$fecha'");
+	        $a = $db->query("SELECT sum(clientes) FROM mesa WHERE td = ".$_SESSION["td"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."'");
 		    foreach ($a as $b) {
 		        $clientes=$b["sum(clientes)"];
 		    } $a->close();
@@ -192,9 +157,9 @@ class Corte{
 	}
 
 
-	public function VentaHoy($fecha){
+	public function VentaHoy(){
 		$db = new dbConn();
-	    $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and td = ".$_SESSION["td"]." and fecha = '$fecha'");
+	    $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and td = ".$_SESSION["td"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."'");
 		    foreach ($a as $b) {
 		     $total=$b["sum(total)"];
 		    } $a->close();
@@ -202,18 +167,10 @@ class Corte{
 	}
 
 
-	public function VentaMes($fecha){ /// solo para reporte de semestre
-		$db = new dbConn();
-	    $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and td = ".$_SESSION["td"]." and fecha like '%-$fecha'");
-		    foreach ($a as $b) {
-		     $total=$b["sum(total)"];
-		    } $a->close();
-		    return $total;
-	}
 
-	public function PropinaHoy($fecha){
+	public function PropinaHoy(){
 		$db = new dbConn();
-	    $a = $db->query("SELECT sum(total) FROM ticket_propina WHERE td = ".$_SESSION["td"]." and fecha = '$fecha'");
+	    $a = $db->query("SELECT sum(total) FROM ticket_propina WHERE td = ".$_SESSION["td"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."'");
 		    foreach ($a as $b) {
 		     $total=$b["sum(total)"];
 		    } $a->close();
@@ -221,18 +178,18 @@ class Corte{
 	}
 
 
-	public function TotalTx($fecha){
+	public function TotalTx(){
 		$db = new dbConn();
-	    $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and td = ".$_SESSION["td"]." and fecha = '$fecha' and tx = 1");
+	    $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and td = ".$_SESSION["td"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."' and tx = 1");
 		    foreach ($a as $b) {
 		     $total=$b["sum(total)"];
 		    } $a->close();
 		    return $total;
 	}
 
-	public function TotalNoTx($fecha){
+	public function TotalNoTx(){
 		$db = new dbConn();
-	    $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and td = ".$_SESSION["td"]." and fecha = '$fecha' and tx = 0");
+	    $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and td = ".$_SESSION["td"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."' and tx = 0");
 		    foreach ($a as $b) {
 		     $total=$b["sum(total)"];
 		    } $a->close();
@@ -240,29 +197,10 @@ class Corte{
 	}
 
 
-public function Porcentaje(){
-	$db = new dbConn();
 
-	$cant_g = Corte::TotalTx(date("d-m-Y"));
-	$cant_e = Corte::TotalNoTx(date("d-m-Y"));
-
-	$topor=$cant_g+$cant_e;
-	$por1=$cant_g*100;
-	@$por1=$por1/$topor;
-
-	$por2=$cant_e*100;
-	@$por2=$por2/$topor;
-	$por1=number_format($por1,0,'.','.');
-	$por2=number_format($por2,0,'.','.');
-
-	return "$por1/$por2";
-
-}
-
-
-	public function GastoHoy($fecha){
+	public function GastoHoy(){
 		$db = new dbConn();
-	    $a = $db->query("SELECT sum(cantidad) FROM gastos WHERE (edo = 1 or edo = 2) and tipo != 5 and td = ".$_SESSION["td"]." and fecha = '$fecha'");
+	    $a = $db->query("SELECT sum(cantidad) FROM gastos WHERE (edo = 1 or edo = 2) and tipo != 5 and td = ".$_SESSION["td"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."'");
 		    foreach ($a as $b) {
 		     $total=$b["sum(cantidad)"];
 		    } $a->close();
@@ -271,20 +209,12 @@ public function Porcentaje(){
 
 
 
-	public function GastoMes($fecha){
+
+
+
+	public function EntradasEfectivo(){
 		$db = new dbConn();
-	    $a = $db->query("SELECT sum(cantidad) FROM gastos WHERE (edo = 1 or edo = 2) and tipo != 5 and td = ".$_SESSION["td"]." and fecha like '%-$fecha'");
-		    foreach ($a as $b) {
-		     $total=$b["sum(cantidad)"];
-		    } $a->close();
-		    return $total;
-	}
-
-
-
-	public function EntradasEfectivo($fecha){
-		$db = new dbConn();
-	        $a = $db->query("SELECT sum(cantidad) FROM entradas_efectivo WHERE edo = 1 and td = ".$_SESSION["td"]." and fecha = '$fecha'");
+	        $a = $db->query("SELECT sum(cantidad) FROM entradas_efectivo WHERE edo = 1 and td = ".$_SESSION["td"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."'");
 		    foreach ($a as $b) {
 		        $efectivo=$b["sum(cantidad)"];
 		    } $a->close();
@@ -293,13 +223,18 @@ public function Porcentaje(){
 	}
 
 
-	public function DiferenciaDinero($caja_chica, $efectivo, $fecha){
+	public function DiferenciaDinero($caja_chica, $efectivo){
 		/// conversiones para el dinero
-			$total_cc = $this->VentaHoy($fecha)+$caja_chica+$this->PropinaHoy($fecha)+$this->EntradasEfectivo($fecha); //total ventas  mas caja chica de ayer
-				$total_debido = $total_cc-$this->GastoHoy($fecha); //dinero que deberia haber ()
+			$total_cc = $this->VentaHoy()+$caja_chica+$this->PropinaHoy()+$this->EntradasEfectivo(); //total ventas  mas caja chica de ayer
+				$total_debido = $total_cc-$this->GastoHoy(); //dinero que deberia haber ()
 				$diferencia = $efectivo - $total_debido;
 				return $diferencia;
 	}
+
+
+
+
+
 
 
 
@@ -312,6 +247,10 @@ public function CancelarCorte($ramdom,$fecha){
 
 			$db = new dbConn();
 
+				$inicio = $this->GetInicio();
+		   	    $fin = Helpers::TimeId();
+
+
 				$cambio = array();
 			    $cambio["edo"] = "2";
 			    
@@ -323,7 +262,7 @@ public function CancelarCorte($ramdom,$fecha){
 		   	Helpers::UpdateId("alter_opciones", $cambiox, "td = ".$_SESSION["td"]."");
 		   	//
 
-			        $this->RevertirCalcularGastoProductos($fecha);
+			        $this->RevertirCalcularGastoProductos($inicio, $fin);
 					Alerts::Alerta("success","Exito!","Corte Anulado Correctamente");
 			    } else {
 			Alerts::Alerta("error","Error!","Codigo Invalido!!");
@@ -335,92 +274,12 @@ public function CancelarCorte($ramdom,$fecha){
 
 
 
-
-
-
-////////////////////////////////// contenido //////////////////////////
-	public function Contenido($fecha){
-		if(Corte::UltimaFecha() == $fecha){
-				$this->Content($fecha);
-			} else {
-				$this->Form();
-			}
-	}
-	
-
-
-
-
-	public function Content($fecha){
-		$sync = new Sync;
-
-
-		 echo '<div class="card-deck">
-			    <!--Panel-->
-			    <div class="card">
-			        <div class="card-body">
-			            <h4 class="card-title">Efectivo</h4>
-			            <p class="black-text display-4">' . Helpers::Dinero($this->GetEfectivo($fecha)) . '</p>
-			        </div>
-			    </div>
-			    <!--/.Panel-->
-
-			    <!--Panel-->
-			    <div class="card">
-			        <div class="card-body">
-			            <h4 class="card-title">Total de venta</h4>
-			            <p class="black-text display-4">' . Helpers::Dinero($this->VentaHoy($fecha)) . '</p>
-			        </div>
-			    </div>
-			    <!--/.Panel-->
-
-			    <!--Panel-->
-			    <div class="card">
-			        <div class="card-body">
-			            <h4 class="card-title">Diferencia</h4>
-			            <p class="black-text display-4">' . Helpers::Dinero($this->GetDiferencia($fecha)) . '</p>
-			        </div>
-			    </div>
-			    <!--/.Panel-->
-
-			    <!--Panel-->
-			    <div class="card">
-			        <div class="card-body">
-			            <h4 class="card-title">Gastos</h4>
-			            <p class="black-text display-4">' . Helpers::Dinero($this->GastoHoy($fecha)) . '</p>
-			        </div>
-			    </div>
-			    <!--/.Panel-->
-
-			</div>
-
-			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalConfirmDelete">Eliminar Corte</button>';
-		
-	}
-
-	public function Form(){
-	echo '<p>Aun no se ha realizado el corte de este dia. <br />Ingrese la cantidad de su efectivo para poder continuar
-		</p>
-		<br />
-		<form id="form-corte" name="form-corte">
-		 
-		 <div class="form-group row justify-content-center align-items-center">
-		  <div class="col-xs-2">
-		    <label for="ex1">Efectivo</label>
-		    <input name="efectivo" type="number" id="efectivo" size="8" maxlength="8" class="form-control" placeholder="0.00" step="any" required autofocus />
-		  </div>
-		</div>
-		<input type="image" src="assets/img/imagenes/print.png"  id="btn-corte" name="btn-corte" >
-		</form>';
-				
-	}
-
 ///////////////////////////////////////// descuentos 
 
-	public function CalcularGastoProductos($fecha){
+	public function CalcularGastoProductos($inicio, $fin){
 		$db = new dbConn();
 		// paso 1 recorro todos los productos vendidos ahora
-		$a = $db->query("SELECT cod, cant FROM ticket WHERE fecha = '$fecha' and edo=1 and td = ".$_SESSION["td"]."");
+		$a = $db->query("SELECT cod, cant FROM ticket WHERE edo=1 and time BETWEEN '".$inicio."' and '".$fin."' and td = ".$_SESSION["td"]."");
 	    foreach ($a as $b) {
 	    	//  paso 2corroborar las guarniciones que lleva cada uno
 	    	$ax = $db->query("SELECT dependiente FROM pro_asignado WHERE cod = ".$b["cod"]." and td = ".$_SESSION["td"]."");
@@ -457,10 +316,10 @@ public function CancelarCorte($ramdom,$fecha){
 
 
 
-	public function RevertirCalcularGastoProductos($fecha){
+	public function RevertirCalcularGastoProductos($inicio, $fin){
 		$db = new dbConn();
 		// paso 1 recorro todos los productos vendidos ahora
-		$a = $db->query("SELECT cod, cant FROM ticket WHERE fecha = '$fecha'  and edo=1 and td = ".$_SESSION["td"]."");
+		$a = $db->query("SELECT cod, cant FROM ticket WHERE edo=1 and time BETWEEN '".$inicio."' and '".$fin."' and td = ".$_SESSION["td"]."");
 	    foreach ($a as $b) {
 	    	//  paso 2corroborar las guarniciones que lleva cada uno
 	    	$ax = $db->query("SELECT dependiente FROM pro_asignado WHERE cod = ".$b["cod"]." and td = ".$_SESSION["td"]."");
@@ -486,6 +345,14 @@ public function CancelarCorte($ramdom,$fecha){
 // Elimino el registro de que se hizo la reversion
 	Helpers::DeleteId("pro_registro_up", "fecha = '$fecha' and td = ".$_SESSION["td"]."");
 	}
+
+
+
+
+
+
+
+
 
 
 

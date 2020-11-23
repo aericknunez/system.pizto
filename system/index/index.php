@@ -24,7 +24,7 @@ if($_SESSION["muestra_vender"] == NULL){
 
 } else {
 
-	if($corte->UltimaFecha() == date("d-m-Y")){
+	if($corte->VerificaApertura() == 0){
 		Alerts::CorteEcho("ventas");
 	} else {
 		// aqui para cobrar
@@ -43,7 +43,7 @@ if($_SESSION["muestra_vender"] == NULL){
 	} else {
 
 		// verificamos primero el tipo cuenta
-		if($corte->UltimaFecha() == date("d-m-Y")){
+		if($corte->VerificaApertura() == 0){
 			Alerts::CorteEcho("ventas");
 		} else {
 		// aqui para cobrar
@@ -60,7 +60,7 @@ if($_SESSION["muestra_vender"] == NULL){
 
 } else {
 			// verificamos primero el tipo cuenta
-	if($corte->UltimaFecha() == date("d-m-Y")){
+	if($corte->VerificaApertura() == 0){
 		Alerts::CorteEcho("ventas");
 		} else {
 		// aqui para cobrar
@@ -95,7 +95,13 @@ function ActivarMenu(){
 	}
 }
 
-// print_r($_SESSION);
+print_r($_SESSION);
 	
 echo '<div id="ventana"></div>';
+
+
+
+echo Fechas::Format("00:58:00");
+echo "<br>";
+echo Fechas::Format(date("H:i:s"));
 ?>

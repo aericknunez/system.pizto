@@ -129,12 +129,30 @@ class Alerts{
 
     static public function CorteEcho($tipo){
       $num = rand(1,4);
-      echo '<div class="alert alert-danger alert-dismissible">
-<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-Existe un corte realizado este dia, ya no se puede seguir agregando '.$tipo.' a menos que elimine el corte realizado
-<br>
-<a href="?corte" class="btn btn-danger waves-effect waves-light">Eliminar Corte</a>
-</div><div align="center"><img src="assets/img/imagenes/error'.$num.'.png" class="img-fluid" alt="Responsive image"></div>';
+      $corte = new Corte();
+    echo '<div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
+
+// verificar que tipo de corte tiene activado ( si es 0 o null muesto mensaje de corte)
+if($_SESSION["config_o_tipo_corte"] == 0 or $_SESSION["config_o_tipo_corte"] == NULL){
+      echo 'Existe un corte realizado este dia, ya no se puede seguir agregando '.$tipo.' a menos que elimine el corte realizado';
+      echo '<br>';
+      echo '<a href="?corte" class="btn btn-danger waves-effect waves-light">Eliminar Corte</a>';
+
+} else {
+    if($corte->UltimaFecha() == date("d-m-Y")){
+      echo 'Existe un corte realizado este dia, ya no se puede seguir agregando '.$tipo.' a menos que elimine el corte realizado o aperture la caja nuevamente para iniciar otro turno';
+      echo '<br>';
+      echo '<a href="?corte" class="btn btn-danger waves-effect waves-light">Eliminar Corte</a>';
+      echo '<a href="?apertura" class="btn btn-success waves-effect waves-light">Aperturar Caja</a>';
+    } else {
+      echo 'Para poder realizar '.$tipo.' debe aperturar la caja.';
+      echo '<br>';
+      echo '<a href="?apertura" class="btn btn-success waves-effect waves-light">Aperturar Caja</a>';
+    }
+}
+
+    echo '</div><div align="center"><img src="assets/img/imagenes/error'.$num.'.png" class="img-fluid" alt="Responsive image"></div>';
     }
 
 

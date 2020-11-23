@@ -351,6 +351,10 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 	}
 
 
+
+
+
+
 	public function VerFacturaNormal($mesa) {
 		$db = new dbConn();
 
@@ -367,27 +371,27 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 					      <th scope="col">#</th>
 					      <th scope="col">Producto</th>
 					      <th scope="col">Precio</th>
-					      <th scope="col">Total</th>
-					      <th scope="col">
+					      <th scope="col">Total</th>';
+					 echo '<th scope="col">
 					      <a id="borrar-factura" op="24" mesa="'. $mesa .'">
 					      <span><i class="fas fa-trash-alt red-text fa-lg" aria-hidden="true"></i></span>
 					      </a>
-					      </th>
-					    </tr>
+					      </th>';
+					 echo '</tr>
 					  </thead>
 					  <tbody>';
 
 		    	 foreach ($a as $b) {
-		    	     echo '<tr>
+		    	    echo '<tr>
 				      <th scope="row">'. $b["cant"] .'</th>
 				      <td>'. $b["producto"] .'</td>
 				      <td>'. $b["pv"] .'</td>
-				      <td>'. $b["total"] .'</td>
-				      <td><a id="borrar-producto" op="23" iden="'. $b["hash"] .'" mesa="'. $mesa .'">
+				      <td>'. $b["total"] .'</td>';
+				    echo '<td><a id="borrar-producto" op="23" iden="'. $b["hash"] .'" mesa="'. $mesa .'">
 				      <span><i class="fas fa-minus-circle red-text fa-lg" aria-hidden="true"></i></span>
 				      </a>
-				      </td>
-				    </tr>';
+				      </td>';
+				    echo '</tr>';
 
 				    // opciones activas
 				    if($_SESSION['opcionesactivas'] == TRUE){
@@ -444,7 +448,10 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 				    		echo '<h1 class="h1-responsive">Total: '. Helpers::Dinero(Helpers::PropinaTotal($max)) .'</h1>';
 				    }
 				    	    
-				    
+				   
+/// form de venta bloqueado a mesero
+if($_SESSION["tipo_cuenta"] != 6){
+
 				     echo '<form action="application/src/routes.php?op=21" method="post" name="form-vender" id="form-vender" >
 		        	<input type="number" id="total" name="total" class="form-control mb-1" placeholder="100.00" ';
 					   if($_SESSION['tcredito'] == "on"){
@@ -466,6 +473,8 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 					echo '</div>
 					</form>';
 
+}
+// form de venta
 
 					$this->BotonesFactura();
 
@@ -587,7 +596,12 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 				    		echo '<h1 class="h1-responsive">Total: '. Helpers::Dinero(Helpers::PropinaTotal($max)) .'</h1>';
 				    }
 				    	    
-				    
+
+
+/// form de venta bloqueado a mesero
+if($_SESSION["tipo_cuenta"] != 6){
+
+
 				     echo '<form action="application/src/routes.php?op=21" method="post" name="form-vender" id="form-vender" >
 		        	<input type="number" id="total" name="total" class="form-control mb-1" placeholder="100.00" ';
 					   if($_SESSION['tcredito'] == "on"){
@@ -608,6 +622,9 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 					
 					echo '</div>
 					</form>';
+
+}
+/// form de venta
 
 
 					$this->BotonesFactura();
@@ -897,6 +914,8 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 		}	
 
 
+
+
 	public function AgregarPropina($factura){
 		$db = new dbConn();
 		//obtener total y propina
@@ -921,10 +940,28 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 		    $db->insert("ticket_propina", $datos);
 
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
 ///////////////////////////////////////////////////////////////////
 	public function BorrarProducto($iden,$imp) {
 		$db = new dbConn();
-		    
+	
+		    if ($r = $db->select("time", "ticket_temp", "WHERE hash = '".$iden."'")) { 
+		        $time = $r["time"];
+		    } unset($r);  
+
+if($this->ValidarTiempo($time) == TRUE){
 		    // obtengo los datos para poder determinar si actualizo o borro
 		    if ($r = $db->select("cant, pv, cod", "ticket_temp", "WHERE hash = '".$iden."'")) { 
         	$cantidad = $r["cant"];
@@ -981,29 +1018,72 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 	        	</script>';
 		} $x->close();
  
-	} 
+} else {
+	Alerts::Alerta("error","Error!","No tiene permisos para borrar esta orden!");
+}
+
+
+	} // termina funcion
 
 
 
 	public function BorrarFactura($mesa) {
 		$db = new dbConn();
+
+		    if ($r = $db->select("time", "mesa", "WHERE mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+		        $time = $r["time"];
+		    } unset($r);  
 		    
-Helpers::DeleteId("ticket_temp", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
-Helpers::DeleteId("mesa", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");
-Helpers::DeleteId("mesa_nombre", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
-Helpers::DeleteId("opciones_ticket", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
+		if($this->ValidarTiempo($time) == TRUE){
 
-	if($_SESSION["delivery_on"] == TRUE){ // accion si es en delivery que borre el cliente tambien
-		Helpers::DeleteId("clientes_mesa", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
-	}
+		Helpers::DeleteId("ticket_temp", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
+		Helpers::DeleteId("mesa", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");
+		Helpers::DeleteId("mesa_nombre", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
+		Helpers::DeleteId("opciones_ticket", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
 
-	unset($_SESSION["mesa"]);
-	echo '<script>
-			window.location.href="?"
-		</script>';
+			if($_SESSION["delivery_on"] == TRUE){ // accion si es en delivery que borre el cliente tambien
+				Helpers::DeleteId("clientes_mesa", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
+			}
+
+		unset($_SESSION["mesa"]);
+		echo '<script>
+				window.location.href="?"
+			</script>';
+
+		} else {
+			 Alerts::Alerta("error","Error!","No tiene permisos para borrar esta orden!");
+		}
 
 
    	}
+
+
+
+
+
+
+
+// validar el tiempo de borrado de productos
+	public function ValidarTiempo($timex){ // puede pasar, false no pasa
+	
+	   if($_SESSION["tipo_cuenta"] == 3 or $_SESSION["tipo_cuenta"] == 6){
+
+	   		if($_SESSION["config_o_tiempo_del_mesero"] != 0 or $_SESSION["config_o_tiempo_del_mesero"] != NULL){
+				if($timex + $_SESSION["config_o_tiempo_del_mesero"] > time("H:i:s")){
+					return TRUE;
+				} else {
+					return FALSE;
+				}
+			} else {
+				return TRUE;
+			}
+
+	   } else {
+	   	   return TRUE;
+	   }
+
+	}
+
 
 
 

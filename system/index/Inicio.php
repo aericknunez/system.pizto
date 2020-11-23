@@ -346,7 +346,7 @@ if($_SESSION["caduca"] == 3){
 
 
 		public function SiCorte(){
-			if(Corte::UltimaFecha() == date("d-m-Y")){
+			if(Corte::VerificaApertura() == 0){
 				return "Corte: " . Helpers::Dinero(Corte::GetDiferencia(date("d-m-Y")));
 			} else {
 				return 'Sin Corte';

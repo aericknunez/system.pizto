@@ -16,7 +16,7 @@ $cuenta = new Cuentas();
 <?php  
 include_once 'system/corte/Corte.php';
 $cut = new Corte();
-  if($cut->UltimaFecha() != date("d-m-Y")){
+  if($cut->VerificaApertura() == 1){
 
 ?>
 

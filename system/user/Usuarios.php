@@ -120,7 +120,11 @@ echo '<label>Tipo de Cuenta</label>
     <option ';
     if($type == 4) echo "selected";
     if($_SESSION['tipo_cuenta'] == 4) echo 'disabled '; echo 'value="4">';echo Helpers::UserName(4) . '</option>
-    
+
+    <option ';
+    if($type == 6) echo "selected";
+    if($_SESSION['tipo_cuenta'] == 6) echo 'disabled '; echo 'value="6">';echo Helpers::UserName(6) . '</option>
+
     <option '; 
     if($type == 5) echo "selected";
     if($_SESSION['tipo_cuenta'] == 5 or $_SESSION['tipo_cuenta'] != 1) echo 'disabled '; echo 'value="5">';echo Helpers::UserName(5) . '</option>

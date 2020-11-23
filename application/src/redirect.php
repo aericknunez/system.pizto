@@ -40,6 +40,8 @@ elseif(isset($_GET["delivery"])) include_once 'system/delivery/view.php';
 
 elseif(isset($_GET["corte"])) include_once 'system/corte/cortes.php';
 
+elseif(isset($_GET["apertura"])) include_once 'system/corte/apertura.php';
+
 elseif(isset($_GET["diario"])) include_once 'system/historial/diario.php';
 
 elseif(isset($_GET["mensual"])) include_once 'system/historial/mensual.php';

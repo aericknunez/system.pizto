@@ -437,7 +437,7 @@ $return .= '
                 <div class="newmenu text-center">
                     <a id="venta" op="20" cod="'.$b["cod"].'" mesa="<? echo $_SESSION["mesa"] ?>" cliente="<? echo $_SESSION["clientselect"] ?>" panel="'.$panel.'" title="'.ucwords(strtolower($nombre)).'">
                     <img src="'.$b["img_name"].'" class="img-fluid wow fadeIn">
-                    <div class="menu-title text-truncate">'.ucwords(strtolower($nombre)).'</div> 
+                    <div class="menu-title2 text-truncate">'.ucwords(strtolower($nombre)).'</div> 
                     </a>
                 </div>
             </div>';	
@@ -773,6 +773,18 @@ if (strpos($imagen, 'icoimg') !== false) {
 
 			$_SESSION['root_plataforma'] = $encrypt->Decrypt(
 			$_SESSION['root_plataforma'],$_SESSION['secret_key']);
+
+
+		if ($r = $db->select("*", "config_opciones", "WHERE td = ".$_SESSION['td']."")) { 
+
+			$_SESSION['config_o_tipo_corte'] = $r["tipo_corte"];
+			$_SESSION['config_o_tiempo_del_mesero'] = $r["tiempo_del_mesero"];
+			$_SESSION['config_o_ticket_pantalla'] = $r["ticket_pantalla"];
+			$_SESSION['config_o_no_caja'] = $r["no_caja"];
+
+			} unset($r);
+
+
 
 	}
 

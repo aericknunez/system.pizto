@@ -907,6 +907,15 @@ include_once '../../system/tv/Pantallas.php';
 break; 
 
 
+
+case "64": // aperturar caja
+	include_once '../../system/corte/Corte.php';
+	$cortes = new Corte;
+	$cortes->AperturarCaja();
+break; 
+
+
+
 case "65": // corte preguntar
 	if($_POST["efectivo"] ==  NULL){
 		Alerts::Alerta("error","Error!","El Formulario esta vacio");
@@ -918,14 +927,23 @@ break;
 
 
 case  "66": // ejecuta corte
-include_once '../../system/corte/Corte.php';
 include_once '../../system/sync/Sync.php';
-$cortes = new Corte;
-if($_POST["fecha"] == NULL){ $fecha = date("d-m-Y"); 
-} else {
-   $fecha = $_POST["fecha"];
+
+if($_SESSION["config_o_tipo_corte"] == 1){
+	include_once '../../system/corte/Corte1.php';
+	$cortes = new Corte;
+	$cortes->EjecutarCorte($_POST["efectivo"]);
 }
-$cortes->EjecutarCorte($_POST["efectivo"], $fecha);
+else{
+	include_once '../../system/corte/Corte.php';
+	$cortes = new Corte;
+	if($_POST["fecha"] == NULL){ $fecha = date("d-m-Y"); 
+	} else {
+	   $fecha = $_POST["fecha"];
+	}
+	$cortes->EjecutarCorte($_POST["efectivo"], $fecha);
+}
+
 break; 
 
 

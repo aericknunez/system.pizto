@@ -143,6 +143,9 @@ echo '<script type="text/javascript" src="assets/js/query/productos.js?v='.$nume
 elseif(isset($_GET["corte"])) {
 echo '<script type="text/javascript" src="assets/js/query/corte.js?v='.$numero.'"></script>';
 }
+elseif(isset($_GET["apertura"])) {
+echo '<script type="text/javascript" src="assets/js/query/corte.js?v='.$numero.'"></script>';
+}
 elseif(isset($_GET["diario"])) {
 echo '<script type="text/javascript" src="assets/js/query/historial.js?v='.$numero.'"></script>';
 }

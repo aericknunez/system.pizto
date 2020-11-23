@@ -17,7 +17,7 @@ include_once 'system/mesashoy/Mesas.php';
   }
 ?>
 
-<h2 class="h2-responsive">Mesas registradas</h2>	    
+<h2 class="h2-responsive">MESAS ATENDIDAS</h2>	    
 <div id="contenido">
 <?php 
 $mesas = new Mesas;

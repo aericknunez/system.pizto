@@ -51,9 +51,13 @@ unset($_SESSION["session_unluck"], $_SESSION["login_admin"]);
         $configuracion = new Config;
         $configuracion->CrearVariables(); // creo el resto de variables del sistema
 
+        // verifica apertura de caja
+        VerificaAperturaCaja();
+
 
         // Aqui revisare si quedo la ultima mesa sin productos (se elimino los sql para meterlos)
             VerificaMesa();
+            VerificaMesaRapida();
         //////////////
         $inicia = new Inicio;
         $inicia->CompruebaIconos("../iconos/", NULL); // creo iconos si no exite el archivo
@@ -132,6 +136,26 @@ unset($_SESSION["session_unluck"], $_SESSION["login_admin"]);
 
 
 
+// verifico y elimino mesas rapidas del usuario y no se completaron
+
+    function VerificaMesaRapida(){
+        $db = new dbConn();
+
+    $a = $db->query("SELECT mesa FROM mesa WHERE tipo = 1 and estado = 1 and user = '".$_SESSION["user"]."' and td = ".$_SESSION["td"]."");
+
+        if($a->num_rows > 0){
+            include_once '../../system/ventas/Venta.php'; 
+            foreach ($a as $b) {    
+
+            Helpers::DeleteId("mesa", "estado = 1 and mesa = '".$b["mesa"]."' and user = '".$_SESSION["user"]."' and td = " . $_SESSION["td"]);
+
+            Helpers::DeleteId("ticket_temp", "num_fac = 0 and tx = '".$b["tx"]."' and mesa = '".$b["mesa"]."' and user = '".$_SESSION["user"]."' and td = " . $_SESSION["td"]);
+            } 
+        } $a->close();
+
+    }
+
+
 
     function VerificaOpciones(){ // determina si el sistema tiene opciones activas para mostrar o no el boton modificar opciones
         $db = new dbConn();
@@ -144,6 +168,25 @@ unset($_SESSION["session_unluck"], $_SESSION["login_admin"]);
             }
             $a->close();
     }
+
+
+
+    function VerificaAperturaCaja(){ // verifica cuando se aperturo la caja
+        $db = new dbConn();
+        $corte = new Corte();
+
+            if($_SESSION["config_o_tipo_corte"] == 0 or $_SESSION["config_o_tipo_corte"] == NULL){
+                if($corte->UltimaFecha() != date("d-m-Y")){
+                        // pongo activa la caja
+                        $cambio = array();
+                        $cambio["actualizar"] = 1;
+                        Helpers::UpdateId("alter_opciones", $cambio, "td = ".$_SESSION["td"]."");
+                        //
+                }
+            }
+    }
+
+
 
 
 

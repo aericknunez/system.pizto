@@ -53,7 +53,10 @@ if($_SESSION['tipo_cuenta'] == 3 or (Helpers::ServerDomain() == TRUE and $_SESSI
 <option <? 
 if($_SESSION['tipo_cuenta'] == 4 or (Helpers::ServerDomain() == TRUE and $_SESSION['tipo_cuenta'] == 5)) echo "disabled"; ?> value="4"><?php echo Helpers::UserName(4) ?></option>
 <option <? 
+if($_SESSION['tipo_cuenta'] == 6 or (Helpers::ServerDomain() == TRUE and $_SESSION['tipo_cuenta'] == 5)) echo "disabled"; ?> value="6"><?php echo Helpers::UserName(6) ?></option>
+<option <? 
 if($_SESSION['tipo_cuenta'] != 1) echo "disabled"; ?> value="5"><?php echo Helpers::UserName(5) ?></option>
+
 </select>
 
 <input type="button" value="Registrar" class="btn btn-outline-info btn-rounded btn-block z-depth-0 my-4 waves-effect" id="btn-registrar" name="btn-registrar"/> 

@@ -9,14 +9,14 @@
 
 
 
-<?php if($_SESSION["tipo_cuenta"] != 4) { 
+<?php if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 3 or $_SESSION["tipo_cuenta"] == 5) {
 
 if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (Helpers::ServerDomain() == TRUE and $_SESSION["root_plataforma"] == 1)) {
 ?>
 
 <li><a href="?corte" class="collapsible-header waves-effect arrow-r"><i class="fas fa-money-bill"></i> CORTE DIARIO</a></li>
 
-<?php } } ?>
+<?php } }  ?>
 
 
 
@@ -47,7 +47,7 @@ if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (
 
 
 
-<?php if($_SESSION["tipo_cuenta"] != 4) { 
+<?php if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 3 or $_SESSION["tipo_cuenta"] == 5) {
 
 if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (Helpers::ServerDomain() == TRUE and $_SESSION["root_plataforma"] == 1)) {
 ?>
@@ -190,7 +190,7 @@ if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (
 
 
 
-<?php if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 3 or $_SESSION["tipo_cuenta"] == 5) { ?>
+<?php if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 3 or $_SESSION["tipo_cuenta"] == 5 or $_SESSION["tipo_cuenta"] == 6) { ?>
 <li><a class="collapsible-header waves-effect arrow-r"><i class="fas fa-compress-arrows-alt"></i> OPCIONES<i class="fas fa-angle-down rotate-icon"></i></a>
 <div class="collapsible-body">
 <ul class="list-unstyled">
@@ -232,7 +232,8 @@ echo '<li><a id="cambiar-pantalla-inicio" op="27x" class="collapsible-header wav
 
 
 
-<?php if($_SESSION["tipo_cuenta"] != 4) {  ?>
+<?php if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 3 or $_SESSION["tipo_cuenta"] == 5) {
+ ?>
 
 <li><a class="collapsible-header waves-effect arrow-r"><i class="fas fa-user-alt"></i> PROVEEDORES<i class="fa fa-angle-down rotate-icon"></i></a>
 <div class="collapsible-body">
@@ -248,7 +249,11 @@ echo '<li><a id="cambiar-pantalla-inicio" op="27x" class="collapsible-header wav
 <?php } ?>
 
 
-<?php if($_SESSION["tipo_cuenta"] != 4) { 
+
+
+
+
+<?php if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 3 or $_SESSION["tipo_cuenta"] == 5) {
 
 if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (Helpers::ServerDomain() == TRUE and $_SESSION["root_plataforma"] == 1)) {
 ?>

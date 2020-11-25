@@ -47,9 +47,15 @@ printer_select_font($handle, $font);
 $oi=350;
 //// comienza la factura
 
+<<<<<<< Updated upstream
 printer_draw_text($handle, "17 Calle Poniente y 4ta av. Sur", 40, $oi);
 $oi=$oi+$n1;
 printer_draw_text($handle, "Atras de colegio Bautista, Santa Ana", 30, $oi);
+=======
+printer_draw_text($handle, "17 Calle Poniente y 4ta av. Sur", 25, $oi);
+$oi=$oi+$n1;
+printer_draw_text($handle, "Atras de colegio Bautista, Santa Ana", 15, $oi);
+>>>>>>> Stashed changes
 // $oi=$oi+$n1;
 // printer_draw_text($handle, Helpers::Pais($_SESSION['config_pais']), 0, $oi);
 // $oi=$oi+$n1;
@@ -508,9 +514,15 @@ printer_select_font($handle, $font);
 $oi=350;
 //// comienza la factura
 
+<<<<<<< Updated upstream
 printer_draw_text($handle, "17 Calle Poniente y 4ta av. Sur", 40, $oi);
 $oi=$oi+$n1;
 printer_draw_text($handle, "Atras de colegio Bautista, Santa Ana", 30, $oi);
+=======
+printer_draw_text($handle, "17 Calle Poniente y 4ta av. Sur", 25, $oi);
+$oi=$oi+$n1;
+printer_draw_text($handle, "Atras de colegio Bautista, Santa Ana", 15, $oi);
+>>>>>>> Stashed changes
 // $oi=$oi+$n1;
 // printer_draw_text($handle, Helpers::Pais($_SESSION['config_pais']), 0, $oi);
 // $oi=$oi+$n1;
@@ -697,6 +709,7 @@ $print = "PRINTER-COMANDAS";
 
 
 $a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket_temp.cant as cant, ticket_temp.producto as producto from ticket_temp, control_panel_mostrar WHERE ticket_temp.mesa = '".$_SESSION["mesa"]."' and ticket_temp.tx = ".$_SESSION["tx"]." and ticket_temp.td = ".$_SESSION["td"]." and control_panel_mostrar.producto = ticket_temp.cod and control_panel_mostrar.panel = 1");
+
  $cantidadproductos = $a->num_rows;
 
  if($cantidadproductos > 0){
@@ -815,6 +828,7 @@ $col3 = 340;
 $col4 = 440;
 $col5 = 500;
 // $print
+
 $print = "PRINTER-BAR";
 
 
@@ -840,6 +854,7 @@ $oi="60";
 printer_draw_text($handle, "COMANDA DE BAR", 80, $oi);
 
 
+
     foreach ($a as $b) {
 //////
 
@@ -849,8 +864,10 @@ printer_draw_text($handle, "COMANDA DE BAR", 80, $oi);
         printer_draw_text($handle, $b["cant"], 0, $oi);
         printer_draw_text($handle, $b["producto"], 40, $oi);
 
+
     $ar = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]."");
     foreach ($ar as $br) {
+
 
 if ($r = $db->select("nombre", "opciones_name", "WHERE cod = '".$br["opcion"]."' and td = ".$_SESSION["td"]."")) { 
       $oi=$oi+$n1;
@@ -870,6 +887,7 @@ if ($r = $db->select("nombre", "opciones_name", "WHERE cod = '".$br["opcion"]."'
     } unset($r);  
 
 if($llevar == 1){
+
   $lleva = "AQUI";
 }
 if($llevar == 2){
@@ -896,6 +914,40 @@ printer_draw_text($handle, date("H:i:s"), 300, $oi);
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "Mesero: " . $_SESSION['nombre'], 25, $oi);
+
+$oi=$oi+$n1;
+printer_draw_text($handle, ".", 25, $oi);
+
+// printer_write($handle, chr(27).chr(112).chr(48).chr(55).chr(121)); //enviar pulso
+
+
+printer_end_page($handle);
+printer_end_doc($handle);
+printer_close($handle);
+
+
+} // cantidad de productos
+
+
+
+}
+
+
+$oi=$oi+$n2;
+printer_draw_text($handle, $lleva, 25, $oi);
+printer_draw_text($handle, $_SESSION['mesa'], 400, $oi);
+
+
+$font = printer_create_font("Arial", $txt3, $txt4, PRINTER_FW_NORMAL, false, false, false, 0);
+printer_select_font($handle, $font);
+
+$oi=$oi+$n2;
+printer_draw_text($handle, date("d-m-Y"), 0, $oi);
+printer_draw_text($handle, date("H:i:s"), 350, $oi);
+
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "Cajero: " . $_SESSION['nombre'], 25, $oi);
 
 $oi=$oi+$n1;
 printer_draw_text($handle, ".", 25, $oi);

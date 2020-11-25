@@ -704,7 +704,9 @@ $col5 = 500;
 $print = "PRINTER-COMANDAS";
 
 
-$a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket_temp.cant as cant, ticket_temp.producto as producto from ticket_temp, control_panel_mostrar WHERE ticket_temp.mesa = '".$_SESSION["mesa"]."' and ticket_temp.tx = ".$_SESSION["tx"]." and ticket_temp.td = ".$_SESSION["td"]." and control_panel_mostrar.producto = ticket_temp.cod and control_panel_mostrar.panel = 1");
+$a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket_temp.cant as cant, ticket_temp.producto as producto 
+  FROM ticket_temp, control_panel_mostrar, control_cocina 
+  WHERE ticket_temp.mesa = '".$_SESSION["mesa"]."' and ticket_temp.tx = ".$_SESSION["tx"]." and ticket_temp.td = ".$_SESSION["td"]." and control_panel_mostrar.producto = ticket_temp.cod and control_panel_mostrar.panel = 1 AND control_cocina.identificador = ticket_temp.hash and control_cocina.edo = 1 and control_cocina.cod = ticket_temp.cant");
 
  $cantidadproductos = $a->num_rows;
 
@@ -744,6 +746,13 @@ if ($r = $db->select("nombre", "opciones_name", "WHERE cod = '".$br["opcion"]."'
 } unset($r); 
 
     } $ar->close();
+
+/// aqui debo actualizar para borrar si es ticket el que lleva el control de panel mostrar (paso a estado 2)
+if($_SESSION["config_o_ticket_pantalla"] == 2){
+    $cambio = array();
+    $cambio["edo"] = 2;
+    Helpers::UpdateId("control_cocina", $cambio, "identificador = '".$b["hash"]."' and td = ".$_SESSION["td"]."");
+}
 
     }    $a->close();
 
@@ -829,7 +838,9 @@ $print = "PRINTER-BAR";
 
 
 
-$a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket_temp.cant as cant, ticket_temp.producto as producto from ticket_temp, control_panel_mostrar WHERE ticket_temp.mesa = '".$_SESSION["mesa"]."' and ticket_temp.tx = ".$_SESSION["tx"]." and ticket_temp.td = ".$_SESSION["td"]." and control_panel_mostrar.producto = ticket_temp.cod and control_panel_mostrar.panel = 2");
+$a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket_temp.cant as cant, ticket_temp.producto as producto 
+  FROM ticket_temp, control_panel_mostrar, control_cocina 
+  WHERE ticket_temp.mesa = '".$_SESSION["mesa"]."' and ticket_temp.tx = ".$_SESSION["tx"]." and ticket_temp.td = ".$_SESSION["td"]." and control_panel_mostrar.producto = ticket_temp.cod and control_panel_mostrar.panel = 2 AND control_cocina.identificador = ticket_temp.hash and control_cocina.edo = 1 and control_cocina.cod = ticket_temp.cant");
  $cantidadproductos = $a->num_rows;
 
  if($cantidadproductos > 0){
@@ -871,6 +882,13 @@ if ($r = $db->select("nombre", "opciones_name", "WHERE cod = '".$br["opcion"]."'
 } unset($r); 
 
     } $ar->close();
+
+/// aqui debo actualizar para borrar si es ticket el que lleva el control de panel mostrar (paso a estado 2)
+if($_SESSION["config_o_ticket_pantalla"] == 2){
+    $cambio = array();
+    $cambio["edo"] = 2;
+    Helpers::UpdateId("control_cocina", $cambio, "identificador = '".$b["hash"]."' and td = ".$_SESSION["td"]."");
+}
 
     }    $a->close();
 

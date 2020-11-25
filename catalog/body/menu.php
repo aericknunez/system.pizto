@@ -311,12 +311,16 @@ if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["
 
 
 <?php 
+if($_SESSION["config_o_ticket_pantalla"] == 1){
+
 if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (Helpers::ServerDomain() == TRUE and $_SESSION["root_plataforma"] == 1)) {
  ?>
 
 <li><a href="?tv" class="collapsible-header waves-effect arrow-r"><i class="fas fa-tv"></i> VER PANTALLA </a></li>
 
 <?php }
+
+}
 
  ?>
 

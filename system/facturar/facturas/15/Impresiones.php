@@ -792,6 +792,19 @@ printer_draw_text($handle, date("H:i:s"), 350, $oi);
 $oi=$oi+$n1;
 printer_draw_text($handle, "Cajero: " . $_SESSION['nombre'], 25, $oi);
 
+
+// nombre de mesa
+if ($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and tx = ".$_SESSION["tx"]."")) { 
+    $nombre_mesa = $r["nombre"];
+} unset($r);  
+
+if($nombre_mesa != NULL){
+$oi=$oi+$n1;
+printer_draw_text($handle, "Mesa: " . $nombre_mesa, 25, $oi);
+}
+
+
+
 $oi=$oi+$n1;
 printer_draw_text($handle, ".", 25, $oi);
 
@@ -928,6 +941,19 @@ printer_draw_text($handle, date("H:i:s"), 300, $oi);
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "Mesero: " . $_SESSION['nombre'], 25, $oi);
+
+
+// nombre de mesa
+if ($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and tx = ".$_SESSION["tx"]."")) { 
+    $nombre_mesa = $r["nombre"];
+} unset($r);  
+
+if($nombre_mesa != NULL){
+$oi=$oi+$n1;
+printer_draw_text($handle, "Mesa: " . $nombre_mesa, 25, $oi);
+}
+
+
 
 $oi=$oi+$n1;
 printer_draw_text($handle, ".", 25, $oi);

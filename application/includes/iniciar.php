@@ -40,6 +40,9 @@ unset($_SESSION["session_unluck"], $_SESSION["login_admin"]);
             $_SESSION['secret_key'] = md5($r["td"]);
 
             } unset($r);
+
+
+
 // antes de seguir debo revisar si exixten datos en el sistema de este usuario
 // si no hay datos, debo redirigirlo a la pantalla de config para que los llene
 // de igual manera si estan incompletos y el sistema no puede continuar, debe llenarlos
@@ -50,6 +53,12 @@ unset($_SESSION["session_unluck"], $_SESSION["login_admin"]);
         
         $configuracion = new Config;
         $configuracion->CrearVariables(); // creo el resto de variables del sistema
+
+
+// si es mesero lo inicio en mesas
+if($_SESSION["tipo_cuenta"] == 6){
+    $_SESSION["tipo_inicio"] = 2;
+}
 
         // verifica apertura de caja
         VerificaAperturaCaja();

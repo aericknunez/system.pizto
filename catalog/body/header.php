@@ -76,19 +76,14 @@
 
             <ul class="nav navbar-nav nav-flex-icons ml-auto">
 
+<?php if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 3 or $_SESSION["tipo_cuenta"] == 5) { ?>
                 <li class="nav-item">
                     <a id="cambiar-pantalla-inicio" op="28" class="nav-link"><i class="fas fa-truck"></i></a>
                 </li>
-                
-            <?php if($_SESSION["tipo_cuenta"] == 4) { ?>
-                <li class="nav-item">
-                    <a class="nav-link"><i class="<?php if($_SESSION["tipo_inicio"] == 1) echo "fas fa-tv"; else { echo "fas fa-coffee"; } ?>"></i></a>
-                </li>
 
-                <li class="nav-item">
-                    <a class="nav-link"><i class="<?php if( $_SESSION["tx"] == 0) echo "fas fa-battery-empty"; else { echo "fas fa-battery-full"; } ?>"></i></a>
-                </li> 
-                <?php } else { 
+<?php } ?>
+                
+<?php if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 3 or $_SESSION["tipo_cuenta"] == 5) {
 
                 if($_SESSION['root_tipo_sistema'] != 1){ ?>    
                     <li class="nav-item">

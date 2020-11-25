@@ -514,15 +514,11 @@ printer_select_font($handle, $font);
 $oi=350;
 //// comienza la factura
 
-<<<<<<< Updated upstream
+
 printer_draw_text($handle, "17 Calle Poniente y 4ta av. Sur", 40, $oi);
 $oi=$oi+$n1;
 printer_draw_text($handle, "Atras de colegio Bautista, Santa Ana", 30, $oi);
-=======
-printer_draw_text($handle, "17 Calle Poniente y 4ta av. Sur", 25, $oi);
-$oi=$oi+$n1;
-printer_draw_text($handle, "Atras de colegio Bautista, Santa Ana", 15, $oi);
->>>>>>> Stashed changes
+
 // $oi=$oi+$n1;
 // printer_draw_text($handle, Helpers::Pais($_SESSION['config_pais']), 0, $oi);
 // $oi=$oi+$n1;

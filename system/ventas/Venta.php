@@ -1070,9 +1070,8 @@ if($this->ValidarTiempo($time) == TRUE){  // $parametro es el tiempo el hash del
 		        $time = $r["time"];
 		    } unset($r);  
 
-//if($this->ValidarTiempo($time) == TRUE){ // para tiempo
 		    
-		if($this->ValidarPorComandaProducto() == TRUE){
+		if($this->ValidarTiempo($time) == TRUE){
 
 		Helpers::DeleteId("ticket_temp", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
 		Helpers::DeleteId("mesa", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");
@@ -1099,8 +1098,7 @@ if($this->ValidarTiempo($time) == TRUE){  // $parametro es el tiempo el hash del
 
 public function ValidarPorComandaProducto(){
 	$db = new dbConn();
-	
-if($_SESSION["tipo_cuenta"] == 3 or $_SESSION["tipo_cuenta"] == 6){
+
     if ($r = $db->select("edo", "mesa_comanda_edo", "WHERE mesa = ".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
         $edo = $r["edo"];
     } unset($r);  
@@ -1110,7 +1108,7 @@ if($_SESSION["tipo_cuenta"] == 3 or $_SESSION["tipo_cuenta"] == 6){
 		} else {
 			return FALSE;
 		}
-	}
+
 }
 
 

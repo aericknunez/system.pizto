@@ -95,7 +95,7 @@ function ActivarMenu(){
 	}
 }
 
-// print_r($_SESSION);
+print_r($_SESSION);
 	
 echo '<div id="ventana"></div>';
 ?>

@@ -1,7 +1,7 @@
  <?php  
 
 class Impresiones{
-		public function __construct() { 
+    public function __construct() { 
      } 
 
 
@@ -680,7 +680,6 @@ printer_close($handle);
  public function ComandaCocina(){
   $db = new dbConn();
 
-$img  = "tiaquiz.bmp";
 $txt1   = "31"; 
 $txt2   = "11";
 $txt3   = "0";
@@ -700,7 +699,7 @@ $col5 = 500;
 $print = "PRINTER-COMANDAS";
 
 
-$a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket_temp.cant as cant, ticket_temp.producto as producto 
+$a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket_temp.cant as cant, ticket_temp.producto as producto, control_cocina.cod as codigo 
   FROM ticket_temp, control_panel_mostrar, control_cocina 
   WHERE ticket_temp.mesa = '".$_SESSION["mesa"]."' and ticket_temp.tx = ".$_SESSION["tx"]." and ticket_temp.td = ".$_SESSION["td"]." and control_panel_mostrar.producto = ticket_temp.cod and control_panel_mostrar.panel = 1 AND control_cocina.identificador = ticket_temp.hash and control_cocina.edo = 1 and control_cocina.cod = ticket_temp.cant");
 
@@ -726,14 +725,18 @@ printer_draw_text($handle, "COMANDA DE COCINA", 100, $oi);
 
     foreach ($a as $b) {
 //////
-
+// obtener cantidad (la cantidad se cuentan cuantos hay activos en controlcocina)
+$cont = $db->query("SELECT * FROM control_cocina WHERE edo = 1 and identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]."");
+$canti_p = $cont->num_rows;
+$cont->close();
+///
  
 
       $oi=$oi+$n1;
-        printer_draw_text($handle, $b["cant"], 0, $oi);
+        printer_draw_text($handle, $canti_p, 0, $oi);
         printer_draw_text($handle, $b["producto"], 40, $oi);
 
-    $ar = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]."");
+    $ar = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and cod = '".$b["codigo"]."'");
     foreach ($ar as $br) {
 
 if ($r = $db->select("nombre", "opciones_name", "WHERE cod = '".$br["opcion"]."' and td = ".$_SESSION["td"]."")) { 
@@ -774,7 +777,8 @@ if($llevar == 3){
 
 $oi=$oi+$n2;
 printer_draw_text($handle, $lleva, 25, $oi);
-printer_draw_text($handle, $_SESSION['mesa'], 400, $oi);
+printer_draw_text($handle, "MESA: " . $_SESSION['mesa'], 300, $oi);
+
 
 
 $font = printer_create_font("Arial", $txt3, $txt4, PRINTER_FW_NORMAL, false, false, false, 0);
@@ -825,7 +829,6 @@ printer_close($handle);
  public function ComandaBar(){
   $db = new dbConn();
 
-$img  = "tiaquiz.bmp";
 $txt1   = "31"; 
 $txt2   = "11";
 $txt3   = "0";
@@ -847,7 +850,7 @@ $print = "PRINTER-BAR";
 
 
 
-$a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket_temp.cant as cant, ticket_temp.producto as producto 
+$a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket_temp.cant as cant, ticket_temp.producto as producto, control_cocina.cod as codigo  
   FROM ticket_temp, control_panel_mostrar, control_cocina 
   WHERE ticket_temp.mesa = '".$_SESSION["mesa"]."' and ticket_temp.tx = ".$_SESSION["tx"]." and ticket_temp.td = ".$_SESSION["td"]." and control_panel_mostrar.producto = ticket_temp.cod and control_panel_mostrar.panel = 2 AND control_cocina.identificador = ticket_temp.hash and control_cocina.edo = 1 and control_cocina.cod = ticket_temp.cant");
  $cantidadproductos = $a->num_rows;
@@ -873,15 +876,19 @@ printer_draw_text($handle, "COMANDA DE BAR", 80, $oi);
 
     foreach ($a as $b) {
 //////
-
+// obtener cantidad (la cantidad se cuentan cuantos hay activos en controlcocina)
+$cont = $db->query("SELECT * FROM control_cocina WHERE edo = 1 and identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]."");
+$canti_p = $cont->num_rows;
+$cont->close();
+///
  
 
       $oi=$oi+$n1;
-        printer_draw_text($handle, $b["cant"], 0, $oi);
+        printer_draw_text($handle, $canti_p, 0, $oi);
         printer_draw_text($handle, $b["producto"], 40, $oi);
 
 
-    $ar = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]."");
+    $ar = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and cod = '".$b["codigo"]."'");
     foreach ($ar as $br) {
 
 
@@ -910,7 +917,6 @@ if($_SESSION["config_o_ticket_pantalla"] == 2){
     } unset($r);  
 
 if($llevar == 1){
-
   $lleva = "AQUI";
 }
 if($llevar == 2){
@@ -924,7 +930,7 @@ if($llevar == 3){
 
 $oi=$oi+$n2;
 printer_draw_text($handle, $lleva, 25, $oi);
-printer_draw_text($handle, $_SESSION['mesa'], 400, $oi);
+printer_draw_text($handle, "MESA: " . $_SESSION['mesa'], 300, $oi);
 
 
 $font = printer_create_font("Arial", $txt3, $txt4, PRINTER_FW_NORMAL, false, false, false, 0);
@@ -968,39 +974,6 @@ printer_close($handle);
 
 }
 
-
-$oi=$oi+$n2;
-printer_draw_text($handle, $lleva, 25, $oi);
-printer_draw_text($handle, $_SESSION['mesa'], 400, $oi);
-
-
-$font = printer_create_font("Arial", $txt3, $txt4, PRINTER_FW_NORMAL, false, false, false, 0);
-printer_select_font($handle, $font);
-
-$oi=$oi+$n2;
-printer_draw_text($handle, date("d-m-Y"), 0, $oi);
-printer_draw_text($handle, date("H:i:s"), 350, $oi);
-
-
-$oi=$oi+$n1;
-printer_draw_text($handle, "Cajero: " . $_SESSION['nombre'], 25, $oi);
-
-$oi=$oi+$n1;
-printer_draw_text($handle, ".", 25, $oi);
-
-// printer_write($handle, chr(27).chr(112).chr(48).chr(55).chr(121)); //enviar pulso
-
-
-printer_end_page($handle);
-printer_end_doc($handle);
-printer_close($handle);
-
-
-} // cantidad de productos
-
-
-
-}
 
 
 
@@ -1142,8 +1115,8 @@ $oi=$oi+$n2;
 
  public function AbrirCaja(){
  // $print
-	$print = "EPSON TM-T20II Receipt5";
-	
+  $print = "EPSON TM-T20II Receipt5";
+  
     $handle = printer_open($print);
     printer_set_option($handle, PRINTER_MODE, "RAW");
 

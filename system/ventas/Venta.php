@@ -145,8 +145,38 @@ class Venta{
 		} else {
 			$id = $this->Actualizar($cod,$mesa,$cliente,$imp);
 		}
+		if($_SESSION["config_o_ticket_pantalla"] == 2){
+			$this->AddRegistoTicket(); // para registrar que es un ticket
+		}	
 		return $id;
 	}
+
+
+
+public function AddRegistoTicket(){
+	$db = new dbConn();
+
+	$a = $db->query("SELECT * FROM mesa_comanda_edo WHERE mesa = ".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
+	$num = $a->num_rows;
+	$a->close();
+
+	if($num > 0){ // actualizar
+	    $cambio = array();
+	    $cambio["edo"] = 1;  
+	    Helpers::UpdateId("mesa_comanda_edo", $cambio, "mesa = ".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
+	} else {  // insertar
+		$datos = array();
+	    $datos["mesa"] = $_SESSION["mesa"];
+	    $datos["tx"] = $_SESSION['tx'];
+	    $datos["edo"] = 1;
+	    $datos["td"] = $_SESSION["td"];
+	    $datos["hash"] = Helpers::HashId();
+		$datos["time"] = Helpers::TimeId();
+	    $db->insert("mesa_comanda_edo", $datos);	
+
+	}
+
+}
 
 
 ///////////////////////////////////////////////////////////
@@ -961,7 +991,12 @@ if($_SESSION["tipo_cuenta"] != 6){
 		        $time = $r["time"];
 		    } unset($r);  
 
-if($this->ValidarTiempo($time) == TRUE){
+
+if($this->ValidarTiempo($time) == TRUE){  // $parametro es el tiempo el hash del producto
+
+	if($_SESSION["config_o_ticket_pantalla"] == 2){
+		if($this->ValidarPorComandaProducto() == TRUE){
+
 		    // obtengo los datos para poder determinar si actualizo o borro
 		    if ($r = $db->select("cant, pv, cod", "ticket_temp", "WHERE hash = '".$iden."'")) { 
         	$cantidad = $r["cant"];
@@ -1017,7 +1052,8 @@ if($this->ValidarTiempo($time) == TRUE){
 					window.location.href="?"
 	        	</script>';
 		} $x->close();
- 
+	
+	 }} // 1000000
 } else {
 	Alerts::Alerta("error","Error!","No tiene permisos para borrar esta orden!");
 }
@@ -1033,6 +1069,7 @@ if($this->ValidarTiempo($time) == TRUE){
 		    if ($r = $db->select("time", "mesa", "WHERE mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
 		        $time = $r["time"];
 		    } unset($r);  
+
 		    
 		if($this->ValidarTiempo($time) == TRUE){
 
@@ -1059,6 +1096,21 @@ if($this->ValidarTiempo($time) == TRUE){
 
 
 
+public function ValidarPorComandaProducto(){
+	$db = new dbConn();
+
+    if ($r = $db->select("edo", "mesa_comanda_edo", "WHERE mesa = ".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+        $edo = $r["edo"];
+    } unset($r);  
+
+		if($edo == 1){ // si es 1 esta activo para imprimir 
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+
+}
+
 
 
 
@@ -1068,7 +1120,7 @@ if($this->ValidarTiempo($time) == TRUE){
 	
 	   if($_SESSION["tipo_cuenta"] == 3 or $_SESSION["tipo_cuenta"] == 6){
 
-	   		if($_SESSION["config_o_tiempo_del_mesero"] != 0 or $_SESSION["config_o_tiempo_del_mesero"] != NULL){
+	   		if($_SESSION["config_o_tiempo_del_mesero"] != 0 or $_SESSION["config_o_tiempo_del_mesero"] != NULL){ // si el tiempo es cero o null siempre pasa
 				if($timex + $_SESSION["config_o_tiempo_del_mesero"] > time("H:i:s")){
 					return TRUE;
 				} else {

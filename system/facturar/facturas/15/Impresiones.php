@@ -941,7 +941,7 @@ if($llevar == 3){
 
 $oi=$oi+$n2;
 printer_draw_text($handle, $lleva, 25, $oi);
-printer_draw_text($handle, "MESA: " . $_SESSION['mesa'], 300, $oi);
+printer_draw_text($handle, "MESA: " . $_SESSION['mesa'], 260, $oi);
 
 
 $font = printer_create_font("Arial", $txt3, $txt4, PRINTER_FW_NORMAL, false, false, false, 0);

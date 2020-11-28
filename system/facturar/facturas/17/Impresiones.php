@@ -112,10 +112,11 @@ $subtotalf = $subtotalf + $stotal;
     }    $a->close();
 
 
+
 if($_SESSION['config_propina'] != 0.00){ ///  prara agregarle la propina -- sino borrar
-$oi=$oi+$n1;
-printer_draw_text($handle, "Propina:", $col4, $oi);
-printer_draw_text($handle, Helpers::Format(Helpers::Propina($subtotalf)), 402, $oi);
+$oi=$oi+$n2;
+printer_draw_text($handle, "Propina:", 232, $oi);
+printer_draw_text($handle, Helpers::Format(Helpers::Propina($subtotalf)),$col4, $oi);
 $subtotalf = Helpers::PropinaTotal($subtotalf);
 }
 
@@ -154,11 +155,8 @@ printer_draw_text($handle, "Cajero: " . $_SESSION['nombre'], 25, $oi);
 
 
 $oi=$oi+$n1+$n4;
-printer_draw_text($handle, "GRACIAS POR SU COMPRA...", 50, $oi);
+printer_draw_text($handle, "GRACIAS POR PREFERIRNOS...", 50, $oi);
 
-
-$oi=$oi+$n1+$n2;
-printer_draw_text($handle, "REF: ". $num_fac, NULL, $oi);
 
 $oi=$oi+$n1;
 printer_draw_text($handle, ".", 0, $oi);
@@ -595,9 +593,9 @@ $subtotalf = $subtotalf + $stotal;
 
 
 if($_SESSION['config_propina'] != 0.00){ ///  prara agregarle la propina -- sino borrar
-$oi=$oi+$n1;
-printer_draw_text($handle, "Propina:", $col4, $oi);
-printer_draw_text($handle, Helpers::Format(Helpers::Propina($subtotalf)), 402, $oi);
+$oi=$oi+$n2;
+printer_draw_text($handle, "Propina:", 232, $oi);
+printer_draw_text($handle, Helpers::Format(Helpers::Propina($subtotalf)),$col4, $oi);
 $subtotalf = Helpers::PropinaTotal($subtotalf);
 }
 
@@ -636,10 +634,8 @@ printer_draw_text($handle, "Cajero: " . $_SESSION['nombre'], 25, $oi);
 
 
 $oi=$oi+$n1+$n4;
-printer_draw_text($handle, "GRACIAS POR SU COMPRA...", 50, $oi);
+printer_draw_text($handle, "GRACIAS POR PREFERIRNOS...", 50, $oi);
 
-$oi=$oi+$n1+$n2;
-printer_draw_text($handle, "REF: ". $num_fac, NULL, $oi);
 
 $oi=$oi+$n1;
 printer_draw_text($handle, ".", 0, $oi);
@@ -664,9 +660,27 @@ printer_close($handle);
 
 
 
-
-
  public function Comanda(){
+
+// registro el envio  
+  $db = new dbConn();
+$cambio = array();
+$cambio["edo"] = 0;  
+Helpers::UpdateId("mesa_comanda_edo", $cambio, "mesa = ".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
+
+
+  $this->ComandaCocina();
+  // $this->ComandaBar();
+
+ }
+
+
+
+
+
+
+
+ public function ComandaCocina(){
   $db = new dbConn();
 
 $img  = "grosera.bmp";
@@ -683,6 +697,14 @@ $n4   = "0";
 $print = "LR2000";
 
 
+$a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket_temp.cant as cant, ticket_temp.producto as producto, control_cocina.cod as codigo 
+  FROM ticket_temp, control_panel_mostrar, control_cocina 
+  WHERE ticket_temp.mesa = '".$_SESSION["mesa"]."' and ticket_temp.tx = ".$_SESSION["tx"]." and ticket_temp.td = ".$_SESSION["td"]." and control_panel_mostrar.producto = ticket_temp.cod and control_panel_mostrar.panel = 1 AND control_cocina.identificador = ticket_temp.hash and control_cocina.edo = 1 and control_cocina.cod = ticket_temp.cant");
+
+ $cantidadproductos = $a->num_rows;
+
+ if($cantidadproductos > 0){
+
 $handle = printer_open($print);
 printer_set_option($handle, PRINTER_MODE, "RAW");
 
@@ -698,18 +720,21 @@ $oi="60";
 printer_draw_text($handle, "COMANDA DE COCINA", 100, $oi);
 
 
-$a = $db->query("select hash, cant, producto from ticket_temp where mesa = '".$_SESSION["mesa"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
- 
+
     foreach ($a as $b) {
 //////
-
+// obtener cantidad (la cantidad se cuentan cuantos hay activos en controlcocina)
+$cont = $db->query("SELECT * FROM control_cocina WHERE edo = 1 and identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]."");
+$canti_p = $cont->num_rows;
+$cont->close();
+///
  
 
       $oi=$oi+$n1;
-        printer_draw_text($handle, $b["cant"], 0, $oi);
+        printer_draw_text($handle, $canti_p, 0, $oi);
         printer_draw_text($handle, $b["producto"], 40, $oi);
 
-    $ar = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]."");
+    $ar = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and cod = '".$b["codigo"]."'");
     foreach ($ar as $br) {
 
 if ($r = $db->select("nombre", "opciones_name", "WHERE cod = '".$br["opcion"]."' and td = ".$_SESSION["td"]."")) { 
@@ -718,6 +743,13 @@ if ($r = $db->select("nombre", "opciones_name", "WHERE cod = '".$br["opcion"]."'
 } unset($r); 
 
     } $ar->close();
+
+/// aqui debo actualizar para borrar si es ticket el que lleva el control de panel mostrar (paso a estado 2)
+if($_SESSION["config_o_ticket_pantalla"] == 2){
+    $cambio = array();
+    $cambio["edo"] = 2;
+    Helpers::UpdateId("control_cocina", $cambio, "identificador = '".$b["hash"]."' and td = ".$_SESSION["td"]."");
+}
 
     }    $a->close();
 
@@ -743,6 +775,8 @@ if($llevar == 3){
 
 $oi=$oi+$n2;
 printer_draw_text($handle, $lleva, 25, $oi);
+printer_draw_text($handle, "MESA: " . $_SESSION['mesa'], 300, $oi);
+
 
 
 $font = printer_create_font("Arial", $txt3, $txt4, PRINTER_FW_NORMAL, false, false, false, 0);
@@ -756,26 +790,17 @@ printer_draw_text($handle, date("H:i:s"), 350, $oi);
 $oi=$oi+$n1;
 printer_draw_text($handle, "Cajero: " . $_SESSION['nombre'], 25, $oi);
 
-/// para obtener la direccion del cliente
-    if ($r = $db->select("cliente", "clientes_mesa", "WHERE mesa = ".$_SESSION['mesa']." and  tx = ".$_SESSION['tx']." and td = ".$_SESSION['td']."")) { 
-        $client = $r["cliente"];
-    } unset($r);  
 
-if($client != NULL){
-    if ($r = $db->select("nombre, direccion", "clientes", "WHERE hash = '".$client."' and td = ".$_SESSION['td']."")) { 
-        $nombre = $r["nombre"];
-        $direcion = $r["direccion"];
-    } unset($r); 	
+// nombre de mesa
+if ($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and tx = ".$_SESSION["tx"]."")) { 
+    $nombre_mesa = $r["nombre"];
+} unset($r);  
 
+if($nombre_mesa != NULL){
 $oi=$oi+$n1;
-printer_draw_text($handle, "Cliente: " . $nombre, 25, $oi);
-
-$oi=$oi+$n1;
-printer_draw_text($handle, $direcion, 25, $oi);
-
-
+printer_draw_text($handle, "Mesa: " . $nombre_mesa, 25, $oi);
 }
-/// termina cliente
+
 
 
 $oi=$oi+$n1;
@@ -788,6 +813,7 @@ printer_end_page($handle);
 printer_end_doc($handle);
 printer_close($handle);
 
+} // cantidad de productos
 
 
 

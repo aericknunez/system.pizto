@@ -62,7 +62,7 @@ $oi=$oi+$n1;
 printer_draw_text($handle, "TELEFONO: " . $_SESSION['config_telefono'], 0, $oi);
 
 $oi=$oi+$n1;
-printer_draw_text($handle, "FACTURA NUMERO: " . $num_fac, NULL, $oi);
+printer_draw_text($handle, "FACTURA NUMERO: " . $numero, NULL, $oi);
 
 $oi=$oi+$n2;
 printer_draw_text($handle, "____________________________________", 0, $oi);
@@ -83,7 +83,7 @@ $subtotalf = 0;
 
 
 
-$a = $db->query("select cod, cant, producto, pv, total, fecha, hora, num_fac from ticket_temp where mesa = '".$numero."' $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." group by cod");
+$a = $db->query("select cod, cant, producto, pv, total, fecha, hora, num_fac from ticket_temp where num_fac = '".$numero."' $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." group by cod");
   
     foreach ($a as $b) {
  
@@ -93,11 +93,11 @@ $a = $db->query("select cod, cant, producto, pv, total, fecha, hora, num_fac fro
 
 
 /// para hacer las sumas
-if ($s = $db->select("sum(cant), sum(total)", "ticket_temp", "WHERE cod = ".$b["cod"]." and mesa = '".$numero."'  $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+if ($s = $db->select("sum(cant), sum(total)", "ticket_temp", "WHERE cod = ".$b["cod"]." and num_fac = '".$numero."'  $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
         $scant=$s["sum(cant)"]; $stotal=$s["sum(total)"];
     } unset($s); 
 //////
-if ($sx = $db->select("sum(total)", "ticket_temp", "WHERE mesa = '".$numero."'  $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+if ($sx = $db->select("sum(total)", "ticket_temp", "WHERE num_fac = '".$numero."'  $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
        $stotalx=$sx["sum(total)"];
     } unset($sx); 
  
@@ -117,9 +117,9 @@ $subtotalf = $subtotalf + $stotal;
 
 
 if($_SESSION['config_propina'] != 0.00){ ///  prara agregarle la propina -- sino borrar
-$oi=$oi+$n1;
-printer_draw_text($handle, "Propina:", $col4, $oi);
-printer_draw_text($handle, Helpers::Format(Helpers::Propina($subtotalf)), 402, $oi);
+$oi=$oi+$n2;
+printer_draw_text($handle, "Propina:", 232, $oi);
+printer_draw_text($handle, Helpers::Format(Helpers::Propina($subtotalf)),$col4, $oi);
 $subtotalf = Helpers::PropinaTotal($subtotalf);
 }
 
@@ -526,6 +526,10 @@ printer_draw_text($handle, "TELEFONO: " . $_SESSION['config_telefono'], 0, $oi);
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "ORDEN NUMERO: ". $numero, NULL, $oi);
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "PRE CUENTA", NULL, $oi);
+
 
 
 $oi=$oi+$n2;

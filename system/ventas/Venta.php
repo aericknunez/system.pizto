@@ -1099,6 +1099,8 @@ if($this->ValidarTiempo($time) == TRUE){  // $parametro es el tiempo el hash del
 public function ValidarPorComandaProducto(){
 	$db = new dbConn();
 
+if($_SESSION["tipo_cuenta"] == 3 or $_SESSION["tipo_cuenta"] == 6){
+
     if ($r = $db->select("edo", "mesa_comanda_edo", "WHERE mesa = ".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
         $edo = $r["edo"];
     } unset($r);  
@@ -1109,7 +1111,13 @@ public function ValidarPorComandaProducto(){
 			return FALSE;
 		}
 
+} else {
+	return TRUE;
 }
+
+
+
+} // termina el metodo
 
 
 

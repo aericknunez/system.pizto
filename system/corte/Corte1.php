@@ -35,7 +35,7 @@ class Corte{
 		    $datos["no_tx"] = $this->TotalNoTx($fecha);
 		    $datos["total"] = $this->VentaHoy($fecha);
 		    $datos["gastos"] = $this->GastoHoy($fecha);
-		    $datos["diferencia"] = $this->DiferenciaDinero($caja_chica, $efectivo, $fecha);
+		    $datos["diferencia"] = $this->DiferenciaDinero($caja_chica, $efectivo);
 		    $datos["user"] = $_SESSION["user"];
 		    $datos["edo"] = 1;
 		    $datos["td"] = $_SESSION["td"];
@@ -139,7 +139,8 @@ class Corte{
 
 	public function MesasHoy(){
 		$db = new dbConn();
-	    	$a = $db->query("SELECT * FROM mesa WHERE td = ".$_SESSION["td"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."'"); $total = $a->num_rows; $a->close();
+	    	$a = $db->query("SELECT * FROM mesa WHERE td = ".$_SESSION["td"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."'"); 
+	    	$total = $a->num_rows; $a->close();
 		return $total;
 	}
 

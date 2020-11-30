@@ -147,11 +147,11 @@ class Corte{
 
 
 
-	public function ClientesHoy(){
+	public function ClientesHoy(){ // se refiere al numero de facturas emitidas
 		$db = new dbConn();
-	        $a = $db->query("SELECT sum(clientes) FROM mesa WHERE td = ".$_SESSION["td"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."'");
+	        $a = $db->query("SELECT count(num_fac) FROM ticket WHERE td = ".$_SESSION["td"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."'");
 		    foreach ($a as $b) {
-		        $clientes=$b["sum(clientes)"];
+		        $clientes=$b["count(num_fac)"];
 		    } $a->close();
 		    return  $clientes;
 

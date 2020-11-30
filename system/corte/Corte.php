@@ -408,12 +408,13 @@ public function CancelarCorte($ramdom,$fecha){
 		$db = new dbConn();
 
 
-    if ($r = $db->select("efectivo, propina, total, gastos, diferencia", "corte_diario", "WHERE edo = 1 and td = ".$_SESSION["td"]." order by time desc")) { 
+    if ($r = $db->select("efectivo, propina, total, gastos, diferencia, clientes", "corte_diario", "WHERE edo = 1 and td = ".$_SESSION["td"]." order by time desc")) { 
         $efectivo = $r["efectivo"];
         $propina = $r["propina"];
         $total = $r["total"];
         $gastos = $r["gastos"];
         $diferencia = $r["diferencia"];
+        $clientes = $r["clientes"];
 
     } unset($r);  
 
@@ -466,6 +467,16 @@ public function CancelarCorte($ramdom,$fecha){
 
 
 		 echo '<div class="card-deck mt-3">
+
+			    <!--Panel-->
+			    <div class="card">
+			        <div class="card-body">
+			            <h4 class="card-title">Facturas</h4>
+			            <p class="black-text display-4">' . Helpers::Entero($clientes) . '</p>
+			        </div>
+			    </div>
+			    <!--/.Panel-->
+
 			    <!--Panel-->
 			    <div class="card">
 			        <div class="card-body">

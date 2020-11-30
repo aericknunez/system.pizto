@@ -351,7 +351,7 @@ public function CancelarCorte($ramdom,$fecha){
 
 
 
-	public function Content($fecha){
+	public function Content($fecha){   // para corte normal
 		$sync = new Sync;
 
 
@@ -398,6 +398,112 @@ public function CancelarCorte($ramdom,$fecha){
 			echo '<a id="imprimir_corte" class="btn-floating cyan" title="Imprimir Corte" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-print"></i></a>';
 		
 	}
+
+
+
+
+
+	public function Content1(){ //// par ala opcion de caja 1
+		$sync = new Sync;
+		$db = new dbConn();
+
+
+    if ($r = $db->select("efectivo, propina, total, gastos, diferencia", "corte_diario", "WHERE edo = 1 and td = ".$_SESSION["td"]." order by time desc")) { 
+        $efectivo = $r["efectivo"];
+        $propina = $r["propina"];
+        $total = $r["total"];
+        $gastos = $r["gastos"];
+        $diferencia = $r["diferencia"];
+
+    } unset($r);  
+
+
+
+    if ($r = $db->select("efectivo, propina, total, gastos", "corte_diario", "WHERE edo = 1 and td = ".$_SESSION["td"]." order by time desc limit 1, 1")) { 
+        $apertura = $r["efectivo"];
+    } unset($r);  
+
+		 echo '<div class="card-deck">
+			    <!--Panel-->
+			    <div class="card">
+			        <div class="card-body">
+			            <h4 class="card-title">Efectivo</h4>
+			            <p class="black-text display-4">' . Helpers::Dinero($efectivo) . '</p>
+			        </div>
+			    </div>
+			    <!--/.Panel-->
+
+			    <!--Panel-->
+			    <div class="card">
+			        <div class="card-body">
+			            <h4 class="card-title">Venta</h4>
+			            <p class="black-text display-4">' . Helpers::Dinero($total) . '</p>
+			        </div>
+			    </div>
+			    <!--/.Panel-->
+
+			    <!--Panel-->
+			    <div class="card">
+			        <div class="card-body">
+			            <h4 class="card-title">Propina</h4>
+			            <p class="black-text display-4">' . Helpers::Dinero($propina) . '</p>
+			        </div>
+			    </div>
+			    <!--/.Panel-->
+
+			    <!--Panel-->
+			    <div class="card">
+			        <div class="card-body">
+			            <h4 class="card-title">Total</h4>
+			            <p class="black-text display-4">' . Helpers::Dinero($total + $propina) . '</p>
+			        </div>
+			    </div>
+			    <!--/.Panel-->
+
+			</div>';
+
+
+
+
+		 echo '<div class="card-deck mt-3">
+			    <!--Panel-->
+			    <div class="card">
+			        <div class="card-body">
+			            <h4 class="card-title">Gastos</h4>
+			            <p class="black-text display-4">' . Helpers::Dinero($gastos) . '</p>
+			        </div>
+			    </div>
+			    <!--/.Panel-->
+
+			    <!--Panel-->
+			    <div class="card">
+			        <div class="card-body">
+			            <h4 class="card-title">Apertura</h4>
+			            <p class="black-text display-4">' . Helpers::Dinero($apertura) . '</p>
+			        </div>
+			    </div>
+			    <!--/.Panel-->
+
+			    <!--Panel-->
+			    <div class="card">
+			        <div class="card-body">
+			            <h4 class="card-title">Diferencia</h4>
+			            <p class="black-text display-4">' . Helpers::Dinero($diferencia) . '</p>
+			        </div>
+			    </div>
+			    <!--/.Panel-->
+
+			</div>';
+
+
+
+			echo '<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalConfirmDelete">Eliminar Corte</button>';
+			echo '<a id="imprimir_corte" class="btn-floating cyan" title="Imprimir Corte" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-print"></i></a>';
+		
+	}
+
+
+
 
 	public function Form(){
 	echo '<p>Aun no se ha realizado el corte de este dia. <br />Ingrese la cantidad de su efectivo para poder continuar

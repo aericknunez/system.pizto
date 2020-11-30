@@ -27,7 +27,7 @@ if($_SESSION["config_o_tipo_corte"] == 0 or $_SESSION["config_o_tipo_corte"] == 
 $cortes->Contenido(date("d-m-Y"));
 } else {
   if($cortes->VerificaApertura() == 0){
-    $cortes->Content($cortes->UltimaFecha());
+    $cortes->Content1();
   } else {
     $cortes->Form();
   }

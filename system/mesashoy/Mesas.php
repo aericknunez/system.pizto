@@ -47,7 +47,7 @@ class Mesas{
 		     
 		   
 		    
-		   $ax = $db->query("SELECT cod, sum(total) FROM ".$tbl_ticket." WHERE edo = 1 and fecha = '$fecha' and mesa = ".$b["mesa"]." and td = ".$_SESSION['td']."");
+		   $ax = $db->query("SELECT cod, sum(total), num_fac as factur FROM ".$tbl_ticket." WHERE edo = 1 and fecha = '$fecha' and mesa = ".$b["mesa"]." and td = ".$_SESSION['td']."");
 		    foreach ($ax as $bx) {
 		      $total=$bx["sum(total)"];
 		      $totalz = Helpers::Dinero($total);
@@ -55,9 +55,21 @@ class Mesas{
 		      if($bx["cod"] == "989898"){
 		        $prop = 0;
 		      } else{
-		      $prop=$_SESSION["config_propina"]/100;
-			   $prop=$total*$prop;
+
+		    // ver la propina de cada uno
+
+			    if($r = $db->select("sum(total)", "ticket_propina", "WHERE num_fac = ".$bx["factur"]." and tx = ".$b["tx"]." and td = ".$_SESSION["td"]."")) { 
+			        $prop = $r["sum(total)"];
+			    } unset($r);  	    
+
 			   $propz = Helpers::Dinero($prop);
+			  
+
+		    //   $prop=$_SESSION["config_propina"]/100;
+			   // $prop=$total*$prop;
+			   // $propz = Helpers::Dinero($prop);
+
+
 		      }
 			    
 		    } $ax->close();
@@ -75,8 +87,13 @@ class Mesas{
 		    foreach ($az as $bz) {
 		      $xtotal=$bz["sum(total)"];
 
-		      $xprop=$_SESSION["config_propina"]/100;
-		      $xprop=$xtotal*$xprop;
+			    
+			    if($r = $db->select("sum(total)", "ticket_propina", "WHERE fecha = '$fecha' and td = ".$_SESSION["td"]."")) { 
+			        $xprop = $r["sum(total)"];
+			    } unset($r); 
+
+		      // $xprop=$_SESSION["config_propina"]/100;
+		      // $xprop=$xtotal*$xprop;
 		      
 		      $totales=$total+$prop;
 		      $totalesz = Helpers::Dinero($totales);

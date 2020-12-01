@@ -85,7 +85,12 @@ $fact->ObtenerEstadoFactura($_REQUEST["efectivo"], $factura);
       if($_SESSION['tcredito'] == "on"){
         unset($_SESSION['tcredito']); 
       }
-$fact->RestablecePropina();
+
+
+      if ($r = $db->select("propina", "config_master", "WHERE td = ".$_SESSION["td"]."")) { 
+          $_SESSION['config_propina'] = $r["propina"];
+      } unset($r); 
+      
 ///////////// termina factura
 } else {
  Alerts::Error404("Este pedido ya no existe, posiblemente ha sido cobrado o eliminado!");

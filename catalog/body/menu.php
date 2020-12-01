@@ -85,7 +85,7 @@ if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (
 <?php if($_SESSION["root_plataforma"] == 0){ ?>
 <li><a href="?rango" class="waves-effect"> Imprimir Facturas</a></li>
 <?php } ?>
-
+<li><a href="?propina" class="waves-effect"> Establecer Propina</a></li>
 
 <?php if($_SESSION["tx"] == 1 and ($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 5)){
 echo '<li><a href="?contadora" class="waves-effect"> Imprimir Reporte</a></li>';

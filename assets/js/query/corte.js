@@ -106,4 +106,29 @@ return false;
 
 
 
+    $("body").on("click","#imprimir_corte",function(){
+        var dataString = 'op=63';
+
+        $.ajax({
+            type: "POST",
+            url: "application/src/routes.php",
+            data: dataString,
+            beforeSend: function () {
+               $("#msjimprimir").html('<div class="row justify-content-md-center" ><img src="assets/img/load.gif" alt=""></div>');
+            },
+            success: function(data) {           
+                $("#msjimprimir").html(data); 
+            }
+        });
+    });       
+
+
+
+
+
+
+
+
+
+
 });

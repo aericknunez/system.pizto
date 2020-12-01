@@ -12,7 +12,7 @@ class Corte{
 		$db = new dbConn();
 
 	// busco caja chica del ultimo corte
-		if ($r = $db->select("efectivo", "corte_diario", "where edo = 1 and td = ".$_SESSION["td"]." order by id DESC LIMIT 1")) { 
+		if ($r = $db->select("efectivo", "corte_diario", "where edo = 1 and td = ".$_SESSION["td"]." order by time DESC LIMIT 1")) { 
 	        $caja_chica=$r["efectivo"];
 	    } unset($r);
 
@@ -27,14 +27,14 @@ class Corte{
 		    $datos["fecha"] = date("d-m-Y");
 		    $datos["fecha_format"] = Fechas::Format(date("d-m-Y"));
 		    $datos["hora"] = date("H:i:s");
-		    $datos["mesas"] = $this->MesasHoy($fecha);
-		    $datos["clientes"] = $this->ClientesHoy($fecha);
+		    $datos["mesas"] = $this->MesasHoy();
+		    $datos["clientes"] = $this->ClientesHoy();
 		    $datos["efectivo"] = $efectivo;
-		    $datos["propina"] = $this->PropinaHoy($fecha);
-		    $datos["tx"] = $this->TotalTx($fecha);
-		    $datos["no_tx"] = $this->TotalNoTx($fecha);
-		    $datos["total"] = $this->VentaHoy($fecha);
-		    $datos["gastos"] = $this->GastoHoy($fecha);
+		    $datos["propina"] = $this->PropinaHoy();
+		    $datos["tx"] = $this->TotalTx();
+		    $datos["no_tx"] = $this->TotalNoTx();
+		    $datos["total"] = $this->VentaHoy();
+		    $datos["gastos"] = $this->GastoHoy();
 		    $datos["diferencia"] = $this->DiferenciaDinero($caja_chica, $efectivo);
 		    $datos["user"] = $_SESSION["user"];
 		    $datos["edo"] = 1;
@@ -80,7 +80,7 @@ class Corte{
 // tiempo del corte anterior
 	public function GetInicio(){ // obtiene el tiempo de inicio de la aparteura
 		$db = new dbConn();
-	    if ($r = $db->select("time", "corte_diario", "WHERE edo=1 and td = ".$_SESSION["td"]."")) { 
+	    if ($r = $db->select("time", "corte_diario", "WHERE edo=1 and td = ".$_SESSION["td"]." order by time DESC LIMIT 1")) { 
 	        $inicio = $r["time"];
 	    } 
 	    unset($r); 

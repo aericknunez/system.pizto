@@ -81,6 +81,10 @@ elseif(isset($_GET["rtn"])) include_once 'system/facturar/rtn.php';
 
 elseif(isset($_GET["cai"])) include_once 'system/facturar/cai.php';
 
+elseif(isset($_GET["propina"])) include_once 'system/facturar/propina.php';
+
+elseif(isset($_GET["borrarelemento"])) include_once 'system/facturar/comentario_borrado.php';
+
 elseif(isset($_GET["eliminar_facturas"])) include_once 'system/facturar/eliminar_facturas.php';
 
 elseif(isset($_GET["reportediario"])) include_once 'system/reportes/reporteespecial.php';

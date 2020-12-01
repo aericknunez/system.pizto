@@ -420,7 +420,7 @@ public function CancelarCorte($ramdom,$fecha){
 
 
 
-    if ($r = $db->select("efectivo, propina, total, gastos", "corte_diario", "WHERE edo = 1 and td = ".$_SESSION["td"]." order by time desc limit 1, 1")) { 
+    if ($r = $db->select("efectivo", "corte_diario", "WHERE edo = 1 and td = ".$_SESSION["td"]." order by time desc limit 1, 1")) { 
         $apertura = $r["efectivo"];
     } unset($r);  
 

@@ -19,7 +19,7 @@ $n3 	= "0";
 $n4 	= "0";
 
 // $print
-$print = "LR2000";
+$print = "LR200";
 
 $logo_imagen="C:/AppServ/www/pizto/assets/img/logo_factura/". $img;
 

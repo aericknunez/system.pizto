@@ -995,7 +995,11 @@ if($_SESSION["tipo_cuenta"] != 6){
 if($this->ValidarTiempo($time) == TRUE){  // $parametro es el tiempo el hash del producto
 
 	if($_SESSION["config_o_ticket_pantalla"] == 2){
-		if($this->ValidarPorComandaProducto() == TRUE){
+		if($this->ValidarPorComandaProducto(2, $iden) == TRUE){
+
+if($_SESSION["motivo"] != NULL){
+	$this->CopyBorradoP($iden);
+}
 
 		    // obtengo los datos para poder determinar si actualizo o borro
 		    if ($r = $db->select("cant, pv, cod", "ticket_temp", "WHERE hash = '".$iden."'")) { 
@@ -1058,7 +1062,7 @@ if($this->ValidarTiempo($time) == TRUE){  // $parametro es el tiempo el hash del
 	Alerts::Alerta("error","Error!","No tiene permisos para borrar esta orden!");
 }
 
-
+unset($_SESSION["motivo"]);
 	} // termina funcion
 
 
@@ -1072,6 +1076,15 @@ if($this->ValidarTiempo($time) == TRUE){  // $parametro es el tiempo el hash del
 
 		    
 		if($this->ValidarTiempo($time) == TRUE){
+
+	if($_SESSION["config_o_ticket_pantalla"] == 2){
+		if($this->ValidarPorComandaProducto(1, NULL) == TRUE){
+
+
+if($_SESSION["motivo"] != NULL){
+	$this->CopyBorrado();
+}
+
 
 		Helpers::DeleteId("ticket_temp", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
 		Helpers::DeleteId("mesa", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");
@@ -1087,16 +1100,17 @@ if($this->ValidarTiempo($time) == TRUE){  // $parametro es el tiempo el hash del
 				window.location.href="?"
 			</script>';
 
+}} // 1000000
 		} else {
 			 Alerts::Alerta("error","Error!","No tiene permisos para borrar esta orden!");
 		}
 
-
+unset($_SESSION["motivo"]);
    	}
 
 
 
-public function ValidarPorComandaProducto(){
+public function ValidarPorComandaProducto($tipo, $iden){
 	$db = new dbConn();
 
 if($_SESSION["tipo_cuenta"] == 3 or $_SESSION["tipo_cuenta"] == 6){
@@ -1111,11 +1125,25 @@ if($_SESSION["tipo_cuenta"] == 3 or $_SESSION["tipo_cuenta"] == 6){
 			return FALSE;
 		}
 
+} 
+/// si es administrador o gerente
+else if($_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 5){
+	if($_SESSION['config_o_registro_borrar'] == 1){
+		if($_SESSION["motivo"] != NULL){
+			return TRUE;
+		} else {
+			echo '<script>
+				window.location.href="?borrarelemento&tipo='.$tipo.'&iden='.$iden.'"
+			</script>';		
+		}
+
+	} else {
+		return TRUE;
+	}
+
 } else {
 	return TRUE;
 }
-
-
 
 } // termina el metodo
 
@@ -1146,6 +1174,24 @@ if($_SESSION["tipo_cuenta"] == 3 or $_SESSION["tipo_cuenta"] == 6){
 
 
 
+
+	public function CopyBorrado(){
+		$db = new dbConn();
+			$a = $db->query("INSERT INTO ticket_borrado (cod, cant, producto, pv, stotal, imp, total, num_fac, fecha, hora, mesa, cliente, cancela, cajero, tipo_pago, user, gravado, tx, fechaF, edo, td, hash, time) 
+				SELECT cod, cant, producto, pv, stotal, imp, total, num_fac, fecha, hora, mesa, cliente, cancela, cajero, tipo_pago, user, gravado, tx, fechaF, edo, td, hash, time 
+				FROM ticket_temp WHERE mesa = '".$_SESSION["mesa"]."' and tx = '".$_SESSION["tx"]."'");
+			unset($a);
+
+		}	
+
+	public function CopyBorradoP($iden){
+		$db = new dbConn();
+			$a = $db->query("INSERT INTO ticket_borrado (cod, cant, producto, pv, stotal, imp, total, num_fac, fecha, hora, mesa, cliente, cancela, cajero, tipo_pago, user, gravado, tx, fechaF, edo, td, hash, time) 
+				SELECT cod, cant, producto, pv, stotal, imp, total, num_fac, fecha, hora, mesa, cliente, cancela, cajero, tipo_pago, user, gravado, tx, fechaF, edo, td, hash, time 
+				FROM ticket_temp WHERE hash = '$iden'");
+			unset($a);
+
+		}	
 
 
 

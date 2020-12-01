@@ -212,6 +212,12 @@ echo '<script type="text/javascript" src="assets/js/query/facturar.js?v='.$numer
 elseif(isset($_GET["eliminar_facturas"])) {
 echo '<script type="text/javascript" src="assets/js/query/facturar.js?v='.$numero.'"></script>';
 }
+elseif(isset($_GET["propina"])) {
+echo '<script type="text/javascript" src="assets/js/query/facturar.js?v='.$numero.'"></script>';
+}
+elseif(isset($_GET["borrarelemento"])) {
+echo '<script type="text/javascript" src="assets/js/query/facturar.js?v='.$numero.'"></script>';
+}
 
 
 elseif(isset($_GET["tablas"])) {

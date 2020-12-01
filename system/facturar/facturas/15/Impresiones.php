@@ -1158,6 +1158,240 @@ $oi=$oi+$n2;
 
 
 
+ public function ReporteCorte(){ // imprime el resumen del ultimo corte
+  $db = new dbConn();
+
+$txt1   = "31"; 
+$txt2   = "11";
+$txt3   = "0";
+$txt4   = "0";
+$n1   = "40";
+$n2   = "60";
+$n3   = "0";
+$n4   = "0";
+
+
+$col1 = 0;
+$col2 = 30;
+$col3 = 340;
+$col4 = 440;
+$col5 = 500;
+// $print
+$print = "IMPRESORA-CAJA";
+
+
+// $img  = "logo.bmp";
+// $txt1   = "35"; 
+// $txt2   = "15";
+// $txt3   = "0";
+// $txt4   = "0";
+// $n1   = "40";
+// $n2   = "60";
+// $n3   = "0";
+// $n4   = "0";
+
+// $col1 = 0;
+// $col2 = 30;
+// $col3 = 50;
+// $col4 = 440;
+// $col5 = 500;
+
+// // $print
+// $print = "EPSON TM-T20II";
+
+$handle = printer_open($print);
+printer_set_option($handle, PRINTER_MODE, "RAW");
+
+printer_start_doc($handle, "Mi Documento");
+printer_start_page($handle);
+
+$font = printer_create_font("Arial", $txt1, $txt2, PRINTER_FW_NORMAL, false, false, false, 0);
+printer_select_font($handle, $font);
+
+
+$oi=80;
+//// comienza la factura
+
+
+printer_draw_text($handle, "RESUMEN DE CORTE DE CAJA", 40, $oi);
+$oi=$oi+$n1;
+
+
+////////////// PRODUCTOS VENDIDOS
+
+$oi=$oi+$n2;
+printer_draw_text($handle, "____________________________________", 0, $oi);
+$oi=$oi+$n1;
+printer_draw_text($handle, "#", 10, $oi);
+printer_draw_text($handle, "Cant.", 60, $oi);
+printer_draw_text($handle, "Descripcion", $col2, $oi);
+printer_draw_text($handle, "Total", $col4, $oi);
+
+$oi=$oi+$n1+$n3;
+printer_draw_text($handle, "____________________________________", 0, $oi);
+
+
+///////////////
+///
+$subtotalf = 0;
+///
+// OBTENER EL NUMERO INICIAL DE TIME
+    if ($r = $db->select("time", "corte_diario", "WHERE edo = 1 and td = ".$_SESSION["td"]." order by time desc limit 1, 1")) { 
+        $timeinicial = $r["time"];
+    } unset($r);  
+////
+
+
+
+
+
+
+
+$a = $db->query("select cod, cant, producto, pv, total, fecha, hora, num_fac from ticket where time BETWEEN '".$timeinicial."' and '".Helpers::TimeId()."' and td = ".$_SESSION["td"]." order by num_fac");
+  
+    foreach ($a as $b) {
+ 
+$subtotalf = 0;
+
+    $oi=$oi+$n1;
+    printer_draw_text($handle, $b["num_fac"], $col1, $oi);
+    printer_draw_text($handle, $b["cant"], $col2, $oi);
+    printer_draw_text($handle, $b["producto"], $col3, $oi);
+    printer_draw_text($handle, $b["total"], $col4, $oi);
+////
+$subtotalf = $subtotalf + $stotal;
+///
+
+}    $a->close();
+
+
+$oi=$oi+$n2;
+printer_draw_text($handle, "____________________________________", 0, $oi);
+
+  // total de venta
+      $axy = $db->query("SELECT SUM(total) FROM ticket WHERE time BETWEEN '".$timeinicial."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
+    foreach ($axy as $bxy) {
+        $counte=$bxy["SUM(total)"];
+    } $axy->close();
+
+
+$oi=$oi+$n2;
+printer_draw_text($handle, "TOTAL DE VENTA: ", 20, $oi);
+printer_draw_text($handle, Helpers::Dinero($counte), $col4, $oi);
+ 
+
+
+
+  // total de venta
+      $axy = $db->query("SELECT sum(total) FROM ticket_propina WHERE time BETWEEN '".$timeinicial."' and '".Helpers::TimeId()."' and td = ".$_SESSION["td"]."");
+    foreach ($axy as $bxy) {
+        $propinas=$bxy["sum(total)"];
+    } $axy->close();
+
+
+$oi=$oi+30;
+printer_draw_text($handle, "TOTAL DE PROPINA: ", 20, $oi);
+printer_draw_text($handle, Helpers::Dinero($propinas), $col4, $oi);
+
+  
+
+$oi=$oi+50;
+printer_draw_text($handle, "TOTAL: ", 20, $oi);
+printer_draw_text($handle, Helpers::Dinero($counte + $propinas), $col4, $oi);
+
+  
+
+$oi=$oi+$n2;
+printer_draw_text($handle, "____________________________________", 0, $oi);
+
+
+
+// Eliminadas
+  $axy = $db->query("SELECT count(num_fac) FROM ticket_num WHERE time BETWEEN '".$timeinicial."' and '".Helpers::TimeId()."' and tx = 1 and edo = 2 and td = ".$_SESSION["td"]."");
+foreach ($axy as $bxy) {
+    $counte=$bxy["count(num_fac)"];
+} $axy->close();
+
+
+$oi=$oi+50;
+printer_draw_text($handle, "TICKET ELIMINADOS: " . $counte, 20, $oi);
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "____________________________________", 0, $oi);
+
+
+
+
+
+
+// gastos
+  $axy = $db->query("SELECT sum(cantidad) FROM gastos WHERE time BETWEEN '".$timeinicial."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
+foreach ($axy as $bxy) {
+    $gasto=$bxy["sum(cantidad)"];
+} $axy->close();
+
+
+$oi=$oi+50;
+printer_draw_text($handle, "GASTOS REGISTRADOS: ", 20, $oi);
+printer_draw_text($handle, Helpers::Dinero($gasto), $col4, $oi);
+
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "____________________________________", 0, $oi);
+
+
+
+/// APERTURA DE CAJA
+    if ($r = $db->select("efectivo", "corte_diario", "WHERE edo = 1 and td = ".$_SESSION["td"]." order by time desc limit 1, 1")) { 
+        $apertura = $r["efectivo"];
+    } unset($r);  
+
+$oi=$oi+50;
+printer_draw_text($handle, "DINERO EN APERTURA: ", 20, $oi);
+printer_draw_text($handle, Helpers::Dinero($apertura), $col4, $oi);
+
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "____________________________________", 0, $oi);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    printer_end_page($handle);
+    printer_end_doc($handle, 20);
+    printer_close($handle);
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }// class

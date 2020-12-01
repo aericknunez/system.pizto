@@ -14,6 +14,8 @@ include_once 'system/sync/Sync.php';
         unset ($_SESSION["mesa"]);
       }
   }
+
+
 ?>
 <div id="corte"></div>
 
@@ -37,7 +39,7 @@ $cortes->Contenido(date("d-m-Y"));
  ?>
 </div>
 
-
+<div align="center" id="msjimprimir"></div>
 <!--Modal: modalConfirmDelete-->
 <div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">

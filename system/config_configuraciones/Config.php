@@ -781,6 +781,9 @@ if (strpos($imagen, 'icoimg') !== false) {
 			$_SESSION['config_o_tiempo_del_mesero'] = $r["tiempo_del_mesero"];
 			$_SESSION['config_o_ticket_pantalla'] = $r["ticket_pantalla"];
 			$_SESSION['config_o_no_caja'] = $r["no_caja"];
+			$_SESSION['config_o_no_mesas'] = $r["no_mesas"];
+			$_SESSION['config_o_registro_borrar'] = $r["registro_borrar"];
+			$_SESSION['config_o_cometarios_comanda'] = $r["cometarios_comanda"];
 
 			} unset($r);
 

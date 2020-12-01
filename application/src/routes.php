@@ -908,6 +908,15 @@ break;
 
 
 
+case "63": // imprime corte
+    include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
+    $imprimir = new Impresiones(); 
+Alerts::Alerta("success","Imprimiendo","Imprimiendo reporte");
+    $imprimir->ReporteCorte();
+break; 
+
+
+
 case "64": // aperturar caja
 	include_once '../../system/corte/Corte.php';
 	$cortes = new Corte;
@@ -966,6 +975,18 @@ case  "68": // cancelar corte
 	}
 	$cortes->CancelarCorte($_POST["random"], $fecha);
 break; 
+
+
+
+case  "69": // cambiar porcentaje de propina
+
+$_SESSION['config_propina'] = $_POST["propina"];
+echo '<script>
+	window.location.href="?"
+</script>';
+
+break; 
+
 
 
 
@@ -1078,6 +1099,42 @@ case "78":
 	include_once '../../system/mesashoy/Mesas.php';
 	$mesas = new Mesas;
 	$mesas->ModalVerMesa($_POST["mesa"],$_POST["tx"],$_POST["tbl"]);
+break; 
+
+
+
+case "79": 
+if($_POST["motivo"] != NULL){
+	$_SESSION["motivo"] = $_POST["motivo"];
+
+	if($_POST["tipo"] == 2){
+
+		include_once '../../system/ventas/Venta.php';
+		include_once '../../system/ventas/Especial.php';
+		$ventas = new Venta;
+		$ventas->BorrarProducto($_POST["iden"],$_SESSION['config_imp']);
+
+
+		include_once '../../system/tv/Pantallas.php';
+			$pantalla = new Pantallas;
+			$pantalla->EliminaProducto($_POST["iden"]);
+			$pantalla->Cambia(1);
+
+	} else {
+		include_once '../../system/ventas/Venta.php';
+		$ventas = new Venta;
+		$ventas->BorrarFactura($_SESSION["mesa"]);
+
+		include_once '../../system/tv/Pantallas.php';
+			$pantalla = new Pantallas;
+			$pantalla->EliminaControl($_SESSION["mesa"]);
+			$pantalla->Cambia(1);		
+	}
+}
+echo '<script>
+	window.location.href="?"
+</script>';
+
 break; 
 
 

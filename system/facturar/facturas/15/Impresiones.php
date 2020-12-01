@@ -116,10 +116,16 @@ $subtotalf = $subtotalf + $stotal;
     }    $a->close();
 
 
-if($_SESSION['config_propina'] != 0.00){ ///  prara agregarle la propina -- sino borrar
+
+    if ($r = $db->select("efectivo", "ticket_propina", "WHERE num_fac = '".$numero."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+        $propina = $r["efectivo"];
+    } unset($r); 
+
+
+if($propina != 0.00){ ///  prara agregarle la propina -- sino borrar
 $oi=$oi+$n2;
 printer_draw_text($handle, "Propina:", 232, $oi);
-printer_draw_text($handle, Helpers::Format(Helpers::Propina($subtotalf)),$col4, $oi);
+printer_draw_text($handle, Helpers::Format($propina),$col4, $oi);
 $subtotalf = Helpers::PropinaTotal($subtotalf);
 }
 
@@ -1242,12 +1248,43 @@ printer_draw_text($handle, Helpers::Dinero($apertura), $col4, $oi);
 $oi=$oi+$n1;
 printer_draw_text($handle, "____________________________________", 0, $oi);
 
+$oi=$oi+$n1;
+printer_draw_text($handle, "____________________________________", 0, $oi);
 
 
 
 
 
+$oi=$oi+50;
+printer_draw_text($handle, "ORDENES ELIMINADAS: ", 20, $oi);
 
+$oi=$oi+$n1;
+printer_draw_text($handle, "#", 10, $oi);
+printer_draw_text($handle, "Cant.", 60, $oi);
+printer_draw_text($handle, "Descripcion", $col2, $oi);
+printer_draw_text($handle, "Total", $col4, $oi);
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "____________________________________", 0, $oi);
+
+$a = $db->query("select mesa, cod, cant, producto, pv, total, fecha, hora, num_fac from ticket_borrado where time BETWEEN '".$timeinicial."' and '".Helpers::TimeId()."' and td = ".$_SESSION["td"]." order by num_fac");
+  
+    foreach ($a as $b) {
+ 
+$subtotalf = 0;
+
+    $oi=$oi+$n1;
+    printer_draw_text($handle, $b["mesa"], $col1, $oi);
+    printer_draw_text($handle, $b["cant"], $col2, $oi);
+    printer_draw_text($handle, $b["producto"], $col3, $oi);
+    printer_draw_text($handle, $b["total"], $col4, $oi);
+////
+$subtotalf = $subtotalf + $stotal;
+///
+
+}    $a->close();
+
+printer_draw_text($handle, "____________________________________", 0, $oi);
 
 
 

@@ -15,7 +15,6 @@ $facturar = new Facturar;
 
 <form id="form-borrrarelemento" name="form-borrrarelemento">
  
- <?php echo $_SESSION["mesa"] ?>
 
 <div id="resultado">
 

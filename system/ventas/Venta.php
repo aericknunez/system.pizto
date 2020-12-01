@@ -1020,6 +1020,10 @@ if($_SESSION["motivo"] != NULL){
 	$this->InsertaBorrado();
 }
 
+$imprimir = new Impresiones();
+$imprimir->EliminaOrden();
+
+
  $this->BorraProd($iden,$imp);
 	
 	 }} // 1000000
@@ -1119,8 +1123,8 @@ if($_SESSION["motivo"] != NULL){
 	$this->InsertaBorrado();
 }
 
-// $imprimir = new Impresiones();
-// $imprimir->EliminaOrden();
+$imprimir = new Impresiones();
+$imprimir->EliminaOrden();
 		    
 
 	$this->BorradoFact($mesa);

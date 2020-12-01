@@ -73,34 +73,36 @@ $_SESSION["aquiLlevar"] = "on";
         $inicia->CompruebaIconos("../iconos/", NULL); // creo iconos si no exite el archivo
                
        $inicia->Caduca(); // revisa si ha caducado
-       BuscaRespaldo(); // revisa sy hay respaldos imcompletos
+       // BuscaRespaldo(); // revisa sy hay respaldos imcompletos
 
 	       if(Helpers::ServerDomain() == TRUE and $_SESSION['tipo_cuenta'] != 1){ // registro entrada en web
 	       	@$inicia->RegisterInOut(1);
-	       }   
+	       }
+
+           header("location: ../../");   
        }
 
 
 
-    function BuscaRespaldo(){
+    // function BuscaRespaldo(){
         
-        $sync = new Sync;
-        $corte = new Corte;        
-        $fechas = new Fechas;
+    //     $sync = new Sync;
+    //     $corte = new Corte;        
+    //     $fechas = new Fechas;
 
-        $dia=5;
-        for ($x = 1; $x <= $dia; $x++) {
-                $dias = $fechas->DiaResta(date("d-m-Y"),$x);
-             // sin no hay corte, no hay respaldo y si hay datos  
-             if($sync->BuscaRespaldo($dias) == 0 and $corte->BuscaCorte($dias) == 0 and $sync->VerificarDatos($dias) == "Si"){
-                header("location: ../../?respaldos&msj");
-             } else {
-                header("location: ../../");
-             }
-         }   
+    //     $dia=5;
+    //     for ($x = 1; $x <= $dia; $x++) {
+    //             $dias = $fechas->DiaResta(date("d-m-Y"),$x);
+    //          // sin no hay corte, no hay respaldo y si hay datos  
+    //          if($sync->BuscaRespaldo($dias) == 0 and $corte->BuscaCorte($dias) == 0 and $sync->VerificarDatos($dias) == "Si"){
+    //             header("location: ../../?respaldos&msj");
+    //          } else {
+    //             header("location: ../../");
+    //          }
+    //      }   
         
 
-    }
+    // }
 
     function BuscaDatosSistema(){
         $db = new dbConn();

@@ -212,12 +212,16 @@ class Mesas{
 		    	echo '</tbody>
 					</table>';
 
+
+
+
+
 				    $s = $db->query("SELECT sum(total) FROM ".$tbl." WHERE mesa = '$mesa' and edo = 1 and tx = '$tx' and td = ".$_SESSION["td"]."");
 				    foreach ($s as $t) {
 				        $max=$t["sum(total)"];
 				    } $s->close();
 				    if($max > 0){
-				    	echo "<h1 class='h1-responsive'>Total: ". Helpers::Dinero($max) ."</h1>";
+				    	echo "<h1 class='h1-responsive'>Total venta: ". Helpers::Dinero($max) ."</h1>";
 				    }
 				    if($total_eliminado > 0){
 				    	echo '<h2 class="text-danger">Total Eliminado: '. Helpers::Dinero($total_eliminado) .'</h2>';

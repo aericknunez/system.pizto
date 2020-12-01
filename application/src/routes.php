@@ -398,6 +398,9 @@ break;
 case "23": // borrar producto
 include_once '../../system/ventas/Venta.php';
 include_once '../../system/ventas/Especial.php';
+
+include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
+
 $ventas = new Venta;
 $ventas->BorrarProducto($_REQUEST["iden"],$_SESSION['config_imp']);
 
@@ -412,6 +415,8 @@ break;
 
 case "24": // borrar factura
 include_once '../../system/ventas/Venta.php';
+include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
+
 $ventas = new Venta;
 $ventas->BorrarFactura($_REQUEST["mesa"]);
 
@@ -1104,8 +1109,11 @@ break;
 
 
 case "79": 
+
 if($_POST["motivo"] != NULL){
 	$_SESSION["motivo"] = $_POST["motivo"];
+
+include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
 
 	if($_POST["tipo"] == 2){
 

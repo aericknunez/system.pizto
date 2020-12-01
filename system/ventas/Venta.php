@@ -877,6 +877,7 @@ if($_SESSION["tipo_cuenta"] != 6){
 			}
 
 		    $this->DataCopy($mesa, $ultimon);
+		    $this->RestablecePropina();
 
 		    return $ultimon;
 		    }
@@ -928,9 +929,26 @@ if($_SESSION["tipo_cuenta"] != 6){
 		}
 
     	    $this->DataCopy($mesa, $ultimon);
+    	    $this->RestablecePropina();
 		    return $ultimon;
+
+
 		    }
 		}
+
+
+
+
+
+
+	public function RestablecePropina(){
+		$db = new dbConn();
+
+	    if ($r = $db->select("propina", "config_master", "WHERE td = ".$_SESSION["td"]."")) { 
+	        $_SESSION['config_propina'] = $r["propina"];
+	    } unset($r); 
+	}	
+
 
 
 
@@ -1088,11 +1106,12 @@ public function BorraProd($iden,$imp){
 		        $time = $r["time"];
 		    } unset($r);  
 
-		    
+
 		if($this->ValidarTiempo($time) == TRUE){
 
 	if($_SESSION["config_o_ticket_pantalla"] == 2){
 		if($this->ValidarPorComandaProducto(1, NULL) == TRUE){
+
 
 
 if($_SESSION["motivo"] != NULL){
@@ -1100,11 +1119,15 @@ if($_SESSION["motivo"] != NULL){
 	$this->InsertaBorrado();
 }
 
-	$this->BorradoFact();
+// $imprimir = new Impresiones();
+// $imprimir->EliminaOrden();
+		    
+
+	$this->BorradoFact($mesa);
 
 }} // 1000000
 else {
-	$this->BorradoFact();
+	$this->BorradoFact($mesa);
 }
 		} else {
 			 Alerts::Alerta("error","Error!","No tiene permisos para borrar esta orden!");
@@ -1118,7 +1141,7 @@ unset($_SESSION["motivo"]);
 
 
 
-public function BorradoFact(){
+public function BorradoFact($mesa){
 $db = new dbConn();
 
 		Helpers::DeleteId("ticket_temp", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");

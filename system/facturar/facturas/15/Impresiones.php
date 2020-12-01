@@ -719,6 +719,26 @@ $col4 = 440;
 $col5 = 500;
 // $print
 $print = "PRINTER-COMANDAS";
+// 
+
+
+// $txt1   = "17"; 
+// $txt2   = "10";
+// $txt3   = "15";
+// $txt4   = "8";
+// $n1   = "18";
+// $n2   = "24";
+// $n3   = "21";
+// $n4   = "10";
+
+// $col1 = 0;
+// $col2 = 30;
+// $col3 = 50;
+// $col4 = 300;
+// $col5 = 350;
+
+// // $print
+// $print = "EPSON TM-U220 Receipt";
 
 
 $a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket_temp.cant as cant, ticket_temp.producto as producto, control_cocina.cod as codigo 
@@ -870,6 +890,24 @@ $col5 = 500;
 
 $print = "PRINTER-BAR";
 
+
+// $txt1   = "17"; 
+// $txt2   = "10";
+// $txt3   = "15";
+// $txt4   = "8";
+// $n1   = "18";
+// $n2   = "24";
+// $n3   = "21";
+// $n4   = "10";
+
+// $col1 = 0;
+// $col2 = 30;
+// $col3 = 50;
+// $col4 = 300;
+// $col5 = 350;
+
+// // $print
+// $print = "EPSON TM-U220 Receipt";
 
 
 $a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket_temp.cant as cant, ticket_temp.producto as producto, control_cocina.cod as codigo  
@@ -1199,6 +1237,27 @@ $print = "IMPRESORA-CAJA";
 // // $print
 // $print = "EPSON TM-T20II";
 
+
+
+// $txt1   = "17"; 
+// $txt2   = "10";
+// $txt3   = "15";
+// $txt4   = "8";
+// $n1   = "18";
+// $n2   = "24";
+// $n3   = "21";
+// $n4   = "10";
+
+// $col1 = 0;
+// $col2 = 30;
+// $col3 = 50;
+// $col4 = 300;
+// $col5 = 350;
+
+// // $print
+// $print = "EPSON TM-U220 Receipt";
+
+
 $handle = printer_open($print);
 printer_set_option($handle, PRINTER_MODE, "RAW");
 
@@ -1379,6 +1438,176 @@ printer_draw_text($handle, "____________________________________", 0, $oi);
 
 
 
+
+
+
+
+
+
+
+
+ public function EliminaOrden(){ // imprime el el producto que se borro
+  $db = new dbConn();
+
+// $txt1   = "31"; 
+// $txt2   = "11";
+// $txt3   = "0";
+// $txt4   = "0";
+// $n1   = "40";
+// $n2   = "60";
+// $n3   = "0";
+// $n4   = "0";
+
+
+// $col1 = 0;
+// $col2 = 30;
+// $col3 = 340;
+// $col4 = 440;
+// $col5 = 500;
+// // $print
+// $print = "IMPRESORA-CAJA";
+
+
+
+$txt1   = "17"; 
+$txt2   = "10";
+$txt3   = "15";
+$txt4   = "8";
+$n1   = "18";
+$n2   = "24";
+$n3   = "21";
+$n4   = "10";
+
+$col1 = 0;
+$col2 = 30;
+$col3 = 50;
+$col4 = 300;
+$col5 = 350;
+
+// $print
+$print = "EPSON TM-U220 Receipt";
+
+
+$a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket_temp.cant as cant, ticket_temp.producto as producto, control_cocina.cod as codigo 
+  FROM ticket_temp, control_panel_mostrar, control_cocina 
+  WHERE ticket_temp.mesa = '".$_SESSION["mesa"]."' and ticket_temp.tx = ".$_SESSION["tx"]." and ticket_temp.td = ".$_SESSION["td"]." and control_panel_mostrar.producto = ticket_temp.cod and control_panel_mostrar.panel = 1 AND control_cocina.identificador = ticket_temp.hash and control_cocina.edo = 1 and control_cocina.cod = ticket_temp.cant");
+
+ $cantidadproductos = $a->num_rows;
+
+ if($cantidadproductos > 0){
+
+$handle = printer_open($print);
+printer_set_option($handle, PRINTER_MODE, "RAW");
+
+printer_start_doc($handle, "Mi Documento");
+printer_start_page($handle);
+
+
+$font = printer_create_font("Arial", $txt1, $txt2, PRINTER_FW_NORMAL, false, false, false, 0);
+printer_select_font($handle, $font);
+
+
+$oi="60";
+printer_draw_text($handle, "COMANDA DE COCINA", 100, $oi);
+
+
+
+    foreach ($a as $b) {
+//////
+// obtener cantidad (la cantidad se cuentan cuantos hay activos en controlcocina)
+$cont = $db->query("SELECT * FROM control_cocina WHERE edo = 1 and identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]."");
+$canti_p = $cont->num_rows;
+$cont->close();
+///
+ 
+
+      $oi=$oi+$n1;
+        printer_draw_text($handle, $canti_p, 0, $oi);
+        printer_draw_text($handle, $b["producto"], 40, $oi);
+
+    $ar = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and cod = '".$b["codigo"]."'");
+    foreach ($ar as $br) {
+
+if ($r = $db->select("nombre", "opciones_name", "WHERE cod = '".$br["opcion"]."' and td = ".$_SESSION["td"]."")) { 
+      $oi=$oi+$n1;
+      printer_draw_text($handle, "* " . $r["nombre"], 50, $oi);  
+} unset($r); 
+
+    } $ar->close();
+
+/// aqui debo actualizar para borrar si es ticket el que lleva el control de panel mostrar (paso a estado 2)
+if($_SESSION["config_o_ticket_pantalla"] == 2){
+    $cambio = array();
+    $cambio["edo"] = 2;
+    Helpers::UpdateId("control_cocina", $cambio, "identificador = '".$b["hash"]."' and td = ".$_SESSION["td"]."");
+}
+
+    }    $a->close();
+
+
+
+
+
+    if ($r = $db->select("llevar", "mesa", "WHERE mesa = '".$_SESSION["mesa"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+        $llevar = $r["llevar"];
+    } unset($r);  
+
+if($llevar == 1){
+  $lleva = "COMER AQUI";
+}
+if($llevar == 2){
+  $lleva = "PARA LLEVAR";
+}
+if($llevar == 3){
+  $lleva = "DELIVERY";
+}
+
+
+
+$oi=$oi+$n2;
+printer_draw_text($handle, $lleva, 25, $oi);
+printer_draw_text($handle, "MESA: " . $_SESSION['mesa'], 300, $oi);
+
+
+
+$font = printer_create_font("Arial", $txt3, $txt4, PRINTER_FW_NORMAL, false, false, false, 0);
+printer_select_font($handle, $font);
+
+$oi=$oi+$n2;
+printer_draw_text($handle, date("d-m-Y"), 0, $oi);
+printer_draw_text($handle, date("H:i:s"), 350, $oi);
+
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "Cajero: " . $_SESSION['nombre'], 25, $oi);
+
+
+// nombre de mesa
+if ($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and tx = ".$_SESSION["tx"]."")) { 
+    $nombre_mesa = $r["nombre"];
+} unset($r);  
+
+if($nombre_mesa != NULL){
+$oi=$oi+$n1;
+printer_draw_text($handle, "Mesa: " . $nombre_mesa, 25, $oi);
+}
+
+
+
+$oi=$oi+$n1;
+printer_draw_text($handle, ".", 25, $oi);
+
+// printer_write($handle, chr(27).chr(112).chr(48).chr(55).chr(121)); //enviar pulso
+
+
+printer_end_page($handle);
+printer_end_doc($handle);
+printer_close($handle);
+
+} // cantidad de productos
+
+
+}
 
 
 

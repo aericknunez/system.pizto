@@ -1002,7 +1002,28 @@ if($_SESSION["motivo"] != NULL){
 	$this->InsertaBorrado();
 }
 
-		    // obtengo los datos para poder determinar si actualizo o borro
+ $this->BorraProd($iden,$imp);
+	
+	 }} // 1000000
+	 else {
+	 	$this->BorraProd($iden,$imp);	
+	 }
+} else {
+	Alerts::Alerta("error","Error!","No tiene permisos para borrar esta orden!");
+}
+
+unset($_SESSION["motivo"]);
+	} // termina funcion
+
+
+
+
+
+
+
+public function BorraProd($iden,$imp){
+	$db = new dbConn();
+			    // obtengo los datos para poder determinar si actualizo o borro
 		    if ($r = $db->select("cant, pv, cod", "ticket_temp", "WHERE hash = '".$iden."'")) { 
         	$cantidad = $r["cant"];
         	$pv = $r["pv"];
@@ -1057,15 +1078,7 @@ if($_SESSION["motivo"] != NULL){
 					window.location.href="?"
 	        	</script>';
 		} $x->close();
-	
-	 }} // 1000000
-} else {
-	Alerts::Alerta("error","Error!","No tiene permisos para borrar esta orden!");
 }
-
-unset($_SESSION["motivo"]);
-	} // termina funcion
-
 
 
 	public function BorrarFactura($mesa) {
@@ -1087,6 +1100,26 @@ if($_SESSION["motivo"] != NULL){
 	$this->InsertaBorrado();
 }
 
+	$this->BorradoFact();
+
+}} // 1000000
+else {
+	$this->BorradoFact();
+}
+		} else {
+			 Alerts::Alerta("error","Error!","No tiene permisos para borrar esta orden!");
+		}
+
+unset($_SESSION["motivo"]);
+   	}
+
+
+
+
+
+
+public function BorradoFact(){
+$db = new dbConn();
 
 		Helpers::DeleteId("ticket_temp", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
 		Helpers::DeleteId("mesa", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");
@@ -1101,14 +1134,10 @@ if($_SESSION["motivo"] != NULL){
 		echo '<script>
 				window.location.href="?"
 			</script>';
+}
 
-}} // 1000000
-		} else {
-			 Alerts::Alerta("error","Error!","No tiene permisos para borrar esta orden!");
-		}
 
-unset($_SESSION["motivo"]);
-   	}
+
 
 
 

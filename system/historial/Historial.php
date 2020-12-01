@@ -565,7 +565,7 @@ class Historial{
 		
 		//busqueda de usuarios
 
-	    $d = $db->selectGroup("*", "ticket", "WHERE fechaF BETWEEN '$primero' AND '$segundo' and td = ".$_SESSION['td']." and tx = 0 and edo = 2 GROUP BY num_fac");
+	    $d = $db->selectGroup("*", "mesa_borrado", "WHERE fechaF BETWEEN '$primero' AND '$segundo' and td = ".$_SESSION['td']."");
 	    if ($d->num_rows > 0) {
 
         echo '<h2>TICKETS ELIMINADOS</h2>

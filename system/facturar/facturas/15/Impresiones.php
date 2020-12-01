@@ -499,7 +499,7 @@ $col3 = 340;
 $col4 = 440;
 $col5 = 500;
 // $print
-$print = "IMPRESORA-CAJA";
+$print = "TICKET";
 $logo_imagen="C:/AppServ/www/pizto/assets/img/logo_factura/". $img;
 
 
@@ -959,7 +959,7 @@ if($llevar == 3){
 
 $oi=$oi+$n2;
 printer_draw_text($handle, $lleva, 25, $oi);
-printer_draw_text($handle, "MESA: " . $_SESSION['mesa'], 260, $oi);
+printer_draw_text($handle, "MESA: " . $_SESSION['mesa'], 245, $oi);
 
 
 $font = printer_create_font("Arial", $txt3, $txt4, PRINTER_FW_NORMAL, false, false, false, 0);
@@ -1438,7 +1438,7 @@ if($llevar == 3){
 
 $oi=$oi+$n2;
 printer_draw_text($handle, $lleva, 25, $oi);
-printer_draw_text($handle, "MESA: " . $_SESSION['mesa'], 300, $oi);
+printer_draw_text($handle, "MESA: " . $_SESSION['mesa'], 245, $oi);
 
 
 

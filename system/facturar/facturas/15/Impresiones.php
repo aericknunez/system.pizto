@@ -122,7 +122,7 @@ $subtotalf = $subtotalf + $stotal;
     } unset($r); 
 
 
-if($propina != 0.00){ ///  prara agregarle la propina -- sino borrar
+if($propina > 0.00){ ///  prara agregarle la propina -- sino borrar
 $oi=$oi+$n2;
 printer_draw_text($handle, "Propina:", 232, $oi);
 printer_draw_text($handle, Helpers::Format($propina),$col4, $oi);

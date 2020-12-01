@@ -5,13 +5,6 @@ include_once 'application/common/Alerts.php';
 include_once 'system/gastos/Gasto.php';
 $gasto = new Gastos();
 
-if(Helpers::GetIp() == "192.168.1.151"){
-  echo "Hola caja dos";
-} else {
-  echo "Caja 1";
-}
-
-
 include_once 'system/corte/Corte.php';
 $cut = new Corte();
 if($cut->VerificaApertura() == 1){ // comprobacion de corte

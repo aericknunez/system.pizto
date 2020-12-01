@@ -19,7 +19,12 @@ $n3 	= "0";
 $n4 	= "0";
 
 // $print
-$print = "LR200";
+if(Helpers::GetIp() == "192.168.1.151"){
+  $print = "TICKET2";
+} else {
+  $print = "LR200";
+}
+
 
 $logo_imagen="C:/AppServ/www/pizto/assets/img/logo_factura/". $img;
 
@@ -157,8 +162,13 @@ $n2   = "24";
 $n3   = "21";
 $n4   = "10";
 
-// $print
-$print = "EPSON TM-U220 Receipt";
+
+if(Helpers::GetIp() == "192.168.1.151"){
+  $print = "EPSON TM-U220 Receipt";
+} else {
+  $print = "FACTURA2";
+}
+
 
 
 
@@ -656,8 +666,12 @@ $n2   = "45";
 $n3   = "21";
 $n4   = "10";
 
-// $print
-$print = "EPSON TM-U220 Receipt";
+
+if(Helpers::GetIp() == "192.168.1.151"){
+  $print = "EPSON TM-U220 Receipt";
+} else {
+  $print = "FACTURA2";
+}
 
 
     $handle = printer_open($print);
@@ -772,9 +786,12 @@ $oi=$oi+$n2;
 
 
  public function AbrirCaja(){
- // $print
-	$print = "EPSON TM-T20II Receipt5";
-	
+
+if(Helpers::GetIp() == "192.168.1.151"){
+  $print = "TICKET2";
+} else {
+  $print = "LR200";
+}
     $handle = printer_open($print);
     printer_set_option($handle, PRINTER_MODE, "RAW");
 

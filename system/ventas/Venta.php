@@ -999,6 +999,7 @@ if($this->ValidarTiempo($time) == TRUE){  // $parametro es el tiempo el hash del
 
 if($_SESSION["motivo"] != NULL){
 	$this->CopyBorradoP($iden);
+	$this->InsertaBorrado();
 }
 
 		    // obtengo los datos para poder determinar si actualizo o borro
@@ -1083,6 +1084,7 @@ unset($_SESSION["motivo"]);
 
 if($_SESSION["motivo"] != NULL){
 	$this->CopyBorrado();
+	$this->InsertaBorrado();
 }
 
 
@@ -1173,7 +1175,17 @@ else if($_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 5){
 	}
 
 
-
+public function InsertaBorrado(){
+	$db = new dbConn();
+			$datos = array();
+		    $datos["mesa"] = $_SESSION["mesa"];
+		    $datos["tx"] = $_SESSION["tx"];
+		    $datos["motivo"] = $_SESSION["motivo"];
+		    $datos["td"] = $_SESSION["td"];
+		    $datos["hash"] = Helpers::HashId();
+			$datos["time"] = Helpers::TimeId();
+		    $db->insert("mesa_borrado", $datos); 
+}
 
 	public function CopyBorrado(){
 		$db = new dbConn();

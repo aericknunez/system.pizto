@@ -5,6 +5,9 @@ include_once 'application/common/Alerts.php';
 include_once 'system/gastos/Gasto.php';
 $gasto = new Gastos();
 
+echo Helpers::GetIp();
+
+
 include_once 'system/corte/Corte.php';
 $cut = new Corte();
 if($cut->VerificaApertura() == 1){ // comprobacion de corte

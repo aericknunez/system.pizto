@@ -85,7 +85,7 @@ $fact->ObtenerEstadoFactura($_REQUEST["efectivo"], $factura);
       if($_SESSION['tcredito'] == "on"){
         unset($_SESSION['tcredito']); 
       }
-
+$fact->RestablecePropina();
 ///////////// termina factura
 } else {
  Alerts::Error404("Este pedido ya no existe, posiblemente ha sido cobrado o eliminado!");

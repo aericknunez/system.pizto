@@ -877,8 +877,6 @@ if($_SESSION["tipo_cuenta"] != 6){
 			}
 
 		    $this->DataCopy($mesa, $ultimon);
-		    $this->RestablecePropina();
-
 		    return $ultimon;
 		    }
 		}
@@ -929,7 +927,6 @@ if($_SESSION["tipo_cuenta"] != 6){
 		}
 
     	    $this->DataCopy($mesa, $ultimon);
-    	    $this->RestablecePropina();
 		    return $ultimon;
 
 

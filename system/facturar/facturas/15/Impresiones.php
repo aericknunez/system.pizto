@@ -26,7 +26,7 @@ $col3 = 340;
 $col4 = 440;
 $col5 = 500;
 // $print
-$print = "IMPRESORA-CAJA";
+$print = "TICKET";
 $logo_imagen="C:/AppServ/www/pizto/assets/img/logo_factura/". $img;
 
 
@@ -1070,7 +1070,7 @@ $col3 = 340;
 $col4 = 440;
 $col5 = 500;
 // $print
-$print = "IMPRESORA-CAJA";
+$print = "TICKET";
 
 
 

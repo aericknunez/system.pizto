@@ -1065,10 +1065,10 @@ $n4   = "0";
 
 
 $col1 = 0;
-$col2 = 30;
-$col3 = 50;
-$col4 = 300;
-$col5 = 350;
+$col2 = 33;
+$col3 = 60;
+$col4 = 400;
+$col5 = 450;
 // $print
 $print = "TICKET";
 

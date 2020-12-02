@@ -1067,7 +1067,7 @@ $n4   = "0";
 $col1 = 0;
 $col2 = 33;
 $col3 = 60;
-$col4 = 400;
+$col4 = 420;
 $col5 = 450;
 // $print
 $print = "TICKET";
@@ -1148,7 +1148,7 @@ $a = $db->query("select cod, cant, producto, pv, total, fecha, hora, num_fac fro
 $subtotalf = 0;
 
     $oi=$oi+$n1;
-    printer_draw_text($handle, $b["num_fac"], $col1, $oi);
+    printer_draw_text($handle, "(". $b["num_fac"] . ")", $col1, $oi);
     printer_draw_text($handle, $b["cant"], $col2, $oi);
     printer_draw_text($handle, $b["producto"], $col3, $oi);
     printer_draw_text($handle, $b["total"], $col4, $oi);
@@ -1274,7 +1274,7 @@ $a = $db->query("select mesa, cod, cant, producto, pv, total, fecha, hora, num_f
 $subtotalf = 0;
 
     $oi=$oi+$n1;
-    printer_draw_text($handle, $b["mesa"], $col1, $oi);
+    printer_draw_text($handle, "(" . $b["mesa"] . ")", $col1, $oi);
     printer_draw_text($handle, $b["cant"], $col2, $oi);
     printer_draw_text($handle, $b["producto"], $col3, $oi);
     printer_draw_text($handle, $b["total"], $col4, $oi);

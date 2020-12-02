@@ -656,22 +656,22 @@ printer_close($handle);
  public function ReporteDiario($fecha){
   $db = new dbConn();
 
-
 $txt1   = "17"; 
 $txt2   = "10";
 $txt3   = "15";
 $txt4   = "8";
-$n1   = "30";
-$n2   = "45";
+$n1   = "18";
+$n2   = "24";
 $n3   = "21";
 $n4   = "10";
 
 
 if(Helpers::GetIp() == "192.168.1.151"){
-  $print = "EPSON TM-U220 Receipt";
+  $print = "FACTURAS2";
 } else {
-  $print = "FACTURA2";
+  $print = "EPSON TM-U220 Receipt";
 }
+
 
 
     $handle = printer_open($print);

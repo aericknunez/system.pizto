@@ -1066,9 +1066,9 @@ $n4   = "0";
 
 $col1 = 0;
 $col2 = 30;
-$col3 = 340;
-$col4 = 440;
-$col5 = 500;
+$col3 = 50;
+$col4 = 300;
+$col5 = 350;
 // $print
 $print = "TICKET";
 

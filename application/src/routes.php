@@ -1214,7 +1214,7 @@ break;
 
 
 case  "88": // Abrir Caja
-    include_once 'system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
+    include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
     $imprimir = new Impresiones(); 
     $imprimir->AbrirCaja();
 break; 
@@ -1223,7 +1223,7 @@ break;
 
 case  "89": // Reporte Diario
 
-    include_once 'system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
+    include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
     $imprimir = new Impresiones; 
     
     if($imprimir->ReporteDiario($_REQUEST["iden"])){

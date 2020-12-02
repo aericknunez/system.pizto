@@ -166,7 +166,7 @@ $n4   = "10";
 if(Helpers::GetIp() == "192.168.1.151"){
   $print = "EPSON TM-U220 Receipt";
 } else {
-  $print = "FACTURA2";
+  $print = "FACTURAS2";
 }
 
 

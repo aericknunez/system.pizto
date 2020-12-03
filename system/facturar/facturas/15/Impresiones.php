@@ -45,7 +45,7 @@ $col4 = 440;
 $col5 = 500;
 
 // $print
-$print = "EPSON";
+$print = "EPSON2";
 $logo_imagen="C:/AppServ/www/pizto/assets/img/logo_factura/". $img;
 
 
@@ -537,7 +537,7 @@ $col4 = 440;
 $col5 = 500;
 
 // $print
-$print = "EPSON";
+$print = "EPSON2";
 $logo_imagen="C:/AppServ/www/pizto/assets/img/logo_factura/". $img;
 
 
@@ -1068,7 +1068,7 @@ printer_close($handle);
 
  public function AbrirCaja(){
  // $print
-  $print = "EPSON";
+  $print = "EPSON2";
   
     $handle = printer_open($print);
     printer_set_option($handle, PRINTER_MODE, "RAW");
@@ -1127,7 +1127,7 @@ $col4 = 440;
 $col5 = 500;
 
 // $print
-$print = "EPSON";
+$print = "EPSON2";
 
 
 // $txt1   = "17"; 

@@ -86,10 +86,10 @@ printer_draw_text($handle, "FACTURA NUMERO: " . $numero, NULL, $oi);
 $oi=$oi+$n2;
 printer_draw_text($handle, "____________________________________", 0, $oi);
 $oi=$oi+$n1;
-printer_draw_text($handle, "Cant.", 55, $oi);
-printer_draw_text($handle, "Descripcion", $col2, $oi);
-printer_draw_text($handle, "P/U", $col3, $oi);
-printer_draw_text($handle, "Total", $col4, $oi);
+printer_draw_text($handle, "Cant.", $col1, $oi);
+printer_draw_text($handle, "Descripcion", $col3, $oi);
+printer_draw_text($handle, "P/U", $col4, $oi);
+printer_draw_text($handle, "Total", $col5, $oi);
 
 $oi=$oi+$n1+$n3;
 printer_draw_text($handle, "____________________________________", 0, $oi);

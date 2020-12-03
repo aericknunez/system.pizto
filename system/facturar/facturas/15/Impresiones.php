@@ -41,7 +41,7 @@ $n4   = "0";
 $col1 = 0;
 $col2 = 30;
 $col3 = 50;
-$col4 = 440;
+$col4 = 430;
 $col5 = 500;
 
 // $print
@@ -123,9 +123,9 @@ if ($sx = $db->select("sum(total)", "ticket_temp", "WHERE num_fac = '".$numero."
 
           $oi=$oi+$n1;
           printer_draw_text($handle, $scant, $col1, $oi);
-          printer_draw_text($handle, $b["producto"], $col2, $oi);
-          printer_draw_text($handle, $b["pv"], $col3, $oi);
-          printer_draw_text($handle, $stotal, $col4, $oi);
+          printer_draw_text($handle, $b["producto"], $col3, $oi);
+          printer_draw_text($handle, $b["pv"], $col4, $oi);
+          printer_draw_text($handle, $stotal, $col5, $oi);
 
 
 ////
@@ -534,7 +534,7 @@ $n4   = "0";
 $col1 = 0;
 $col2 = 30;
 $col3 = 50;
-$col4 = 440;
+$col4 = 430;
 $col5 = 500;
 
 // $print
@@ -620,9 +620,9 @@ if ($sx = $db->select("sum(total)", "ticket_temp", "WHERE mesa = '".$numero."'  
 
           $oi=$oi+$n1;
           printer_draw_text($handle, $scant, $col1, $oi);
-          printer_draw_text($handle, $b["producto"], $col2, $oi);
-          printer_draw_text($handle, $b["pv"], $col3, $oi);
-          printer_draw_text($handle, $stotal, $col4, $oi);
+          printer_draw_text($handle, $b["producto"], $col3, $oi);
+          printer_draw_text($handle, $b["pv"], $col4, $oi);
+          printer_draw_text($handle, $stotal, $col5, $oi);
 
 
 ////

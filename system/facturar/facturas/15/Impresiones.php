@@ -41,8 +41,8 @@ $n4   = "0";
 $col1 = 0;
 $col2 = 30;
 $col3 = 50;
-$col4 = 430;
-$col5 = 500;
+$col4 = 400;
+$col5 = 490;
 
 // $print
 $print = "EPSON2";
@@ -505,7 +505,7 @@ printer_close($handle);
 // $img  = "bbtotra.bmp";
 // $txt1   = "31"; 
 // $txt2   = "11";
-// $txt3   = "0";
+// $txt3   0= "0";
 // $txt4   = "0";
 // $n1   = "40";
 // $n2   = "60";
@@ -534,8 +534,8 @@ $n4   = "0";
 $col1 = 0;
 $col2 = 30;
 $col3 = 50;
-$col4 = 430;
-$col5 = 500;
+$col4 = 400;
+$col5 = 490;
 
 // $print
 $print = "EPSON2";
@@ -630,6 +630,10 @@ $subtotalf = $subtotalf + $stotal;
 ///
 
     }    $a->close();
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "Sub Total " . $_SESSION['config_moneda_simbolo'] . ":", 232, $oi);
+printer_draw_text($handle, Helpers::Format($subtotalf), $col4, $oi);
 
 
 if($_SESSION['config_propina'] != 0.00){ ///  prara agregarle la propina -- sino borrar

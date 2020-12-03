@@ -141,6 +141,11 @@ $subtotalf = $subtotalf + $stotal;
     } unset($r); 
 
 
+$oi=$oi+$n1;
+printer_draw_text($handle, "Sub Total " . $_SESSION['config_moneda_simbolo'] . ":", 232, $oi);
+printer_draw_text($handle, Helpers::Format($subtotalf), $col4, $oi);
+
+
 if($propina > 0.00){ ///  prara agregarle la propina -- sino borrar
 $oi=$oi+$n2;
 printer_draw_text($handle, "Propina:", 232, $oi);
@@ -637,7 +642,7 @@ printer_draw_text($handle, Helpers::Format($subtotalf), $col4, $oi);
 
 
 if($_SESSION['config_propina'] != 0.00){ ///  prara agregarle la propina -- sino borrar
-$oi=$oi+$n2;
+$oi=$oi+$n1;
 printer_draw_text($handle, "Propina:", 232, $oi);
 printer_draw_text($handle, Helpers::Format(Helpers::Propina($subtotalf)),$col4, $oi);
 $subtotalf = Helpers::PropinaTotal($subtotalf);
@@ -650,22 +655,7 @@ printer_draw_text($handle, Helpers::Format($subtotalf), $col4, $oi);
 $oi=$oi+$n2;
 printer_draw_text($handle, "____________________________________", 0, $oi);
 
-//efectivo
-if($efectivo == NULL){
-  $efectivo = $subtotalf;
-}
-$oi=$oi+$n1;
-printer_draw_text($handle, "Efectivo " . $_SESSION['config_moneda_simbolo'] . ":", 160, $oi);
-printer_draw_text($handle, Helpers::Format($efectivo), $col4, $oi);
 
-//cambio
-$cambios = $efectivo - $subtotalf;
-$oi=$oi+$n1;
-printer_draw_text($handle, "Cambio " . $_SESSION['config_moneda_simbolo'] . ":", 162, $oi);
-printer_draw_text($handle, Helpers::Format($cambios), $col4, $oi);
-
-$oi=$oi+$n2;
-printer_draw_text($handle, "___________________________________", 0, $oi);
 
 
 $oi=$oi+$n1;

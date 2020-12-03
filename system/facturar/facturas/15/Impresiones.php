@@ -9,9 +9,28 @@ class Impresiones{
  public function Ticket($efectivo, $numero){
   $db = new dbConn();
 
+// $img  = "bbtotra.bmp";
+// $txt1   = "31"; 
+// $txt2   = "11";
+// $txt3   = "0";
+// $txt4   = "0";
+// $n1   = "40";
+// $n2   = "60";
+// $n3   = "0";
+// $n4   = "0";
+
+
+// $col1 = 0;
+// $col2 = 30;
+// $col3 = 340;
+// $col4 = 440;
+// $col5 = 500;
+// // $print
+// $print = "TICKET";
+
 $img  = "bbtotra.bmp";
-$txt1   = "31"; 
-$txt2   = "11";
+$txt1   = "35"; 
+$txt2   = "15";
 $txt3   = "0";
 $txt4   = "0";
 $n1   = "40";
@@ -19,14 +38,14 @@ $n2   = "60";
 $n3   = "0";
 $n4   = "0";
 
-
 $col1 = 0;
 $col2 = 30;
-$col3 = 340;
+$col3 = 50;
 $col4 = 440;
 $col5 = 500;
+
 // $print
-$print = "TICKET";
+$print = "EPSON";
 $logo_imagen="C:/AppServ/www/pizto/assets/img/logo_factura/". $img;
 
 
@@ -482,9 +501,28 @@ printer_close($handle);
   $db = new dbConn();
 
 
+// $img  = "bbtotra.bmp";
+// $txt1   = "31"; 
+// $txt2   = "11";
+// $txt3   = "0";
+// $txt4   = "0";
+// $n1   = "40";
+// $n2   = "60";
+// $n3   = "0";
+// $n4   = "0";
+
+
+// $col1 = 0;
+// $col2 = 30;
+// $col3 = 340;
+// $col4 = 440;
+// $col5 = 500;
+// // $print
+// $print = "TICKET";
+// 
 $img  = "bbtotra.bmp";
-$txt1   = "31"; 
-$txt2   = "11";
+$txt1   = "35"; 
+$txt2   = "15";
 $txt3   = "0";
 $txt4   = "0";
 $n1   = "40";
@@ -492,14 +530,14 @@ $n2   = "60";
 $n3   = "0";
 $n4   = "0";
 
-
 $col1 = 0;
 $col2 = 30;
-$col3 = 340;
+$col3 = 50;
 $col4 = 440;
 $col5 = 500;
+
 // $print
-$print = "TICKET";
+$print = "EPSON";
 $logo_imagen="C:/AppServ/www/pizto/assets/img/logo_factura/". $img;
 
 
@@ -1030,7 +1068,7 @@ printer_close($handle);
 
  public function AbrirCaja(){
  // $print
-  $print = "EPSON TM-T20II Receipt5";
+  $print = "EPSON";
   
     $handle = printer_open($print);
     printer_set_option($handle, PRINTER_MODE, "RAW");
@@ -1054,8 +1092,27 @@ printer_close($handle);
  public function ReporteCorte(){ // imprime el resumen del ultimo corte
   $db = new dbConn();
 
-$txt1   = "31"; 
-$txt2   = "11";
+// $txt1   = "31"; 
+// $txt2   = "11";
+// $txt3   = "0";
+// $txt4   = "0";
+// $n1   = "40";
+// $n2   = "60";
+// $n3   = "0";
+// $n4   = "0";
+
+
+// $col1 = 0;
+// $col2 = 45;
+// $col3 = 65;
+// $col4 = 420;
+// $col5 = 450;
+// // $print
+// $print = "TICKET";
+
+$img  = "bbtotra.bmp";
+$txt1   = "35"; 
+$txt2   = "15";
 $txt3   = "0";
 $txt4   = "0";
 $n1   = "40";
@@ -1063,15 +1120,14 @@ $n2   = "60";
 $n3   = "0";
 $n4   = "0";
 
-
 $col1 = 0;
-$col2 = 45;
-$col3 = 65;
-$col4 = 420;
-$col5 = 450;
-// $print
-$print = "TICKET";
+$col2 = 30;
+$col3 = 50;
+$col4 = 440;
+$col5 = 500;
 
+// $print
+$print = "EPSON";
 
 
 // $txt1   = "17"; 

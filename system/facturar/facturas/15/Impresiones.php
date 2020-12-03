@@ -184,8 +184,6 @@ printer_draw_text($handle, "Cajero: " . $_SESSION['nombre'], 25, $oi);
 
 $oi=$oi+$n1+$n4;
 printer_draw_text($handle, "GRACIAS POR SU COMPRA...", 50, $oi);
-printer_delete_font($font);
-
 
 
 $oi=$oi+$n1;
@@ -196,6 +194,9 @@ printer_draw_text($handle, ".", 0, $oi);
 
 
 printer_write($handle, chr(27).chr(112).chr(48).chr(55).chr(121)); //enviar pulso
+
+printer_delete_font($font);
+
 
 ///
 printer_end_page($handle);
@@ -583,10 +584,10 @@ printer_draw_text($handle, "PRE CUENTA", NULL, $oi);
 $oi=$oi+$n2;
 printer_draw_text($handle, "____________________________________", 0, $oi);
 $oi=$oi+$n1;
-printer_draw_text($handle, "Cant.", 55, $oi);
-printer_draw_text($handle, "Descripcion", $col2, $oi);
-printer_draw_text($handle, "P/U", $col3, $oi);
-printer_draw_text($handle, "Total", $col4, $oi);
+printer_draw_text($handle, "Cant.", $col1, $oi);
+printer_draw_text($handle, "Descripcion", $col3, $oi);
+printer_draw_text($handle, "P/U", $col4, $oi);
+printer_draw_text($handle, "Total", $col5, $oi);
 
 $oi=$oi+$n1+$n3;
 printer_draw_text($handle, "____________________________________", 0, $oi);

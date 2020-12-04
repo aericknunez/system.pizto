@@ -701,7 +701,39 @@ $ventas = new Venta;
 $ventas->CrearMesa($_SESSION["nclientes"], 2);
 $mesa=$_SESSION["mesa"];
 unset($_SESSION["mesa"], $_SESSION["nclientes"]);
-header("location: ../../?view&mesa=".$mesa."");
+
+if($_POST["nmesa"] != NULL){
+
+	if ($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = ".$mesa." and tx = ".$_SESSION["tx"]." and td =".$_SESSION["td"]."")) { 
+	    $nmesa = $r["nombre"];
+	} unset($r);
+        if($nmesa == NULL){ // insertamos
+                   $datos = array();
+                    $datos["mesa"] = $mesa;
+                    $datos["tx"] = $_SESSION["tx"];
+                    $datos["nombre"] = $_POST["nmesa"];
+                    $datos["fecha"] = date("d-m-Y");
+                    $datos["hora"] = date("H:i:s");
+                    $datos["td"] = $_SESSION["td"];
+                    $datos["hash"] = Helpers::HashId();
+                    $datos["time"] = Helpers::TimeId();
+                    $db->insert("mesa_nombre", $datos); 
+
+        } else { // actualizamos
+
+              $cambio = array();
+              $cambio["nombre"] =$_POST["nmesa"];
+              
+              Helpers::UpdateId("mesa_nombre", $cambio, "mesa = ".$mesa." and tx = ".$_SESSION["tx"]." and td =".$_SESSION["td"]."");
+
+        }
+}
+
+echo '<script>
+		window.location.href="?view&mesa='.$mesa.'"
+	</script>';
+// header("location: ../../?view&mesa=".$mesa."");
+
 break; 
 
 

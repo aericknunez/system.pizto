@@ -62,6 +62,7 @@ elseif(isset($_GET["cortes"])) include_once 'system/historial/cortes.php';
 
 elseif(isset($_GET["mesasfecha"])) include_once 'system/historial/mesasfecha.php';
 
+elseif(isset($_GET["ordenes_eliminadas"])) include_once 'system/historial/ordenes_eliminadas.php';
 
 elseif(isset($_GET["ticket_eliminados"])) include_once 'system/historial/ticket_eliminados.php';
 

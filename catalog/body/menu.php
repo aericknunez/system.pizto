@@ -34,6 +34,7 @@ if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (
 <li><a href="?gra_semanal" class="waves-effect"> Grafico Semanal</a></li>
 <li><a href="?gra_mensual" class="waves-effect"> Grafico Mensual</a></li>
 <li><a href="?gra_semestre" class="waves-effect"> Grafico Semestral</a></li>
+<li><a href="?ordenes_eliminadas" class="waves-effect"> Ordenes Eliminadas</a></li>
 <li><a href="?ticket_eliminados" class="waves-effect"> Ticket Eliminados</a></li>
 <?php if($_SESSION["tipo_cuenta"] == 1) { ?>
 <li><a href="?mesasfecha" class="waves-effect"> Mesas Fecha</a></li>

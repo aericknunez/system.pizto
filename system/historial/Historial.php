@@ -558,61 +558,65 @@ class Historial{
 
 
 
-	public function HistorialOrdenes($inicio, $fin) {
+	public function HistorialOrdenes() {
 		$db = new dbConn();
-		$primero = Fechas::Format($inicio);
-		$segundo = Fechas::Format($fin);
-		
-		//busqueda de usuarios
 
-	    $d = $db->selectGroup("*", "mesa_borrado", "WHERE fechaF BETWEEN '$primero' AND '$segundo' and td = ".$_SESSION['td']." limit 25");
-	    if ($d->num_rows > 0) {
+    $a = $db->query("SELECT * FROM mesa_borrado WHERE td = ".$_SESSION['td']." limit 25");
+	if($a->num_rows > 0){
 
         echo '<h2>TICKETS ELIMINADOS</h2>
         <table class="table table-striped table-sm">
 
 			<thead>
 		     <tr>
-		       <th>Fecha</th>
-		       <th>Hora</th>
-		       <th>Ticket</th>
-		       <th>Cajero</th>
-		       <th>Total</th>
-		       <th>Detalles</th>
+		       <th>Mesa</th>
+		       <th>Motivo</th>
+		       <th>Nombre</th>
 		     </tr>
 		   </thead>
 
 		   <tbody>';
 
-	        while($r = $d->fetch_assoc() ) {
-	            $factura = $r["num_fac"];
+    foreach ($a as $b) {
 
-	            $s = $db->query("SELECT sum(total) FROM ticket WHERE num_fac = '$factura' and edo = 2 and tx = 0 and td = ".$_SESSION["td"]."");
-				    foreach ($s as $t) {
-				        $max=$t["sum(total)"];
-				    } $s->close();
 
-	        echo '<tr>
-				       <th scope="row">'. $r["fecha"]. '</th>
-				       <td>'.$r["hora"]. '</td>
-				       <td>'.$factura.'</td>
-				       <td>'. $r["cajero"]. '</td>
-				       <td>'. Helpers::Dinero($max). '</td>
-				       <td><a id="xvermesa" mesa="'. $r["mesa"] . '" tx="'. $r["tx"] . '" op="78" tbl="ticket" class="btn-floating btn-sm"><i class="fas fa-eye red-text"></i></a></td>
+    if ($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = '".$b["mesa"]."' and tx = '".$b["tx"]."' and td = ".$_SESSION['td']."")) { 
+        $nombre = $r["nombre"];
+    } unset($r);  
+
+	        echo '<tr class="bg-success font-weight-bold">
+				       <th scope="row">'. $b["mesa"]. '</th>
+				       <td>'.$b["motivo"]. '</td>
+				       <td>'.$nombre. '</td>
 				  </tr>';
-	        }
-	    echo '</tbody>
-				</table>';
 
-	    } else {
-	        Alerts::Mensajex("No se encotraron registros","danger");
-	    } 
-	   
-	   $d->close();
+    $ax = $db->query("SELECT * FROM ticket_borrado WHERE mesa = '".$b["mesa"]."' and tx = '".$b["tx"]."' and td = ".$_SESSION['td']."");
+	        echo '<tr>
+				       <th scope="row">Fecha y Hora</th>
+				       <td>Cantidad - Producto</td>
+				       <td>Total</td>
+				  </tr>';
+    foreach ($ax as $bx) {
+	        echo '<tr>
+				       <th scope="row">'. $bx["fecha"]. ' '. $bx["hora"]. '</th>
+				       <td>'. $bx["cant"]. ' - '.$bx["producto"]. '</td>
+				       <td>'. $bx["total"]. '</td>
+				  </tr>';
+    } $ax->close();
+
+
+	 }
+	echo '</tbody>
+		</table>';
+
+
+	}else {
+		Alerts::Mensajex("No se encotraron registros","danger");
+	}  $a->close();
 
 
 
-	}
+}
 
 
 

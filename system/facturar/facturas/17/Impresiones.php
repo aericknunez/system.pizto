@@ -164,7 +164,7 @@ printer_draw_text($handle, "Cajero: " . $_SESSION['nombre'], 25, $oi);
 
 
 $oi=$oi+$n1+$n4;
-printer_draw_text($handle, "GRACIAS POR SU COMPRA...", 50, $oi);
+printer_draw_text($handle, "GRACIAS POR SU PREFERENCIA", 50, $oi);
 printer_delete_font($font);
 
 
@@ -659,9 +659,21 @@ printer_draw_text($handle, "Telefono: " . $ctelefono, 10, $oi);
 
 // datos del cliente delivery
 
+// nombre de mesa
+if ($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and tx = ".$_SESSION["tx"]."")) { 
+    $nombre_mesa = $r["nombre"];
+} unset($r);  
+
+if($nombre_mesa != NULL){
+$oi=$oi+$n1;
+printer_draw_text($handle, "Mesa: " . $nombre_mesa, 25, $oi);
+}
+
+
+
 
 $oi=$oi+$n1+$n4;
-printer_draw_text($handle, "GRACIAS POR SU COMPRA...", 50, $oi);
+printer_draw_text($handle, "GRACIAS POR SU PREFERENCIA", 50, $oi);
 
 $oi=$oi+$n1+$n2;
 printer_draw_text($handle, ".", 0, $oi);

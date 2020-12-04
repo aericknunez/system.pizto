@@ -606,23 +606,6 @@ printer_draw_text($handle, Helpers::Format($subtotalf), $col4, $oi);
 $oi=$oi+$n2;
 printer_draw_text($handle, "____________________________________", 0, $oi);
 
-//efectivo
-if($efectivo == NULL){
-  $efectivo = $subtotalf;
-}
-$oi=$oi+$n1;
-printer_draw_text($handle, "Efectivo " . $_SESSION['config_moneda_simbolo'] . ":", 160, $oi);
-printer_draw_text($handle, Helpers::Format($efectivo), $col4, $oi);
-
-//cambio
-$cambios = $efectivo - $subtotalf;
-$oi=$oi+$n1;
-printer_draw_text($handle, "Cambio " . $_SESSION['config_moneda_simbolo'] . ":", 162, $oi);
-printer_draw_text($handle, Helpers::Format($cambios), $col4, $oi);
-
-$oi=$oi+$n2;
-printer_draw_text($handle, "___________________________________", 0, $oi);
-
 
 $oi=$oi+$n1;
 printer_draw_text($handle, $fechaf, 100, $oi);

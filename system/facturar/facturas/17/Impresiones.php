@@ -875,7 +875,7 @@ $col4 = 440;
 $col5 = 500;
 // $print
 
-$print = "LR2000";
+$print = "BAR";
 
 
 $a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket_temp.cant as cant, ticket_temp.producto as producto, control_cocina.cod as codigo  
@@ -1344,7 +1344,7 @@ $col4 = 440;
 $col5 = 500;
 // $print
 
-$print = "LR2000";
+$print = "BAR";
 
 
 

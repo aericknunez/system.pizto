@@ -929,9 +929,9 @@ if ($r = $db->select("nombre", "opciones_name", "WHERE cod = '".$br["opcion"]."'
 
 /// aqui debo actualizar para borrar si es ticket el que lleva el control de panel mostrar (paso a estado 2)
 if($_SESSION["config_o_ticket_pantalla"] == 2){
-    $cambio = array();
-    $cambio["edo"] = 2;
-    Helpers::UpdateId("control_cocina", $cambio, "identificador = '".$b["hash"]."' and td = ".$_SESSION["td"]."");
+    // $cambio = array();
+    // $cambio["edo"] = 2;
+    // Helpers::UpdateId("control_cocina", $cambio, "identificador = '".$b["hash"]."' and td = ".$_SESSION["td"]."");
 }
 
     }    $a->close();
@@ -1576,9 +1576,9 @@ if ($r = $db->select("nombre", "opciones_name", "WHERE cod = '".$br["opcion"]."'
 
 /// aqui debo actualizar para borrar si es ticket el que lleva el control de panel mostrar (paso a estado 2)
 if($_SESSION["config_o_ticket_pantalla"] == 2){
-    $cambio = array();
-    $cambio["edo"] = 2;
-    Helpers::UpdateId("control_cocina", $cambio, "identificador = '".$b["hash"]."' and td = ".$_SESSION["td"]."");
+    // $cambio = array();
+    // $cambio["edo"] = 2;
+    // Helpers::UpdateId("control_cocina", $cambio, "identificador = '".$b["hash"]."' and td = ".$_SESSION["td"]."");
 }
 
     }    $a->close();

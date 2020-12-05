@@ -9,7 +9,7 @@ class Impresiones{
  public function Ticket($efectivo, $numero){
   $db = new dbConn();
 
-$img  = "hotpozza.bmp";
+$img  = "hotpizza.bmp";
 $txt1   = "31"; 
 $txt2   = "11";
 $txt3   = "0";
@@ -26,7 +26,7 @@ $col3 = 340;
 $col4 = 440;
 $col5 = 500;
 // $print
-$print = "LR2000";
+$print = "TICKET";
 $logo_imagen="C:/AppServ/www/pizto/assets/img/logo_factura/". $img;
 
 
@@ -482,7 +482,7 @@ printer_close($handle);
   $db = new dbConn();
 
 
-$img  = "hotpozza.bmp";
+$img  = "hotpizza.bmp";
 $txt1   = "31"; 
 $txt2   = "11";
 $txt3   = "0";
@@ -499,7 +499,7 @@ $col3 = 340;
 $col4 = 440;
 $col5 = 500;
 // $print
-$print = "LR2000";
+$print = "TICKET";
 $logo_imagen="C:/AppServ/www/pizto/assets/img/logo_factura/". $img;
 
 
@@ -723,7 +723,7 @@ $col3 = 340;
 $col4 = 440;
 $col5 = 500;
 // $print
-$print = "LR2000";
+$print = "COCINA";
 // 
 
 
@@ -1029,7 +1029,7 @@ printer_close($handle);
 
  public function AbrirCaja(){
  // $print
-$print = "LR2000";
+$print = "TICKET";
   
     $handle = printer_open($print);
     printer_set_option($handle, PRINTER_MODE, "RAW");
@@ -1069,7 +1069,7 @@ $col3 = 65;
 $col4 = 420;
 $col5 = 450;
 // $print
-$print = "LR2000";
+$print = "TICKET";
 
 
 
@@ -1514,7 +1514,7 @@ $col4 = 440;
 $col5 = 500;
 // $print
 
-$print = "LR2000";
+$print = "COCINA";
 
 
 

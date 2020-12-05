@@ -49,9 +49,9 @@ $oi=350;
 
 
 
-printer_draw_text($handle, "Km 35 carretera panamericana", 5, $oi);
+printer_draw_text($handle, "Residencial Madrid Pol 39, Casa 1", 5, $oi);
 $oi=$oi+$n1;
-printer_draw_text($handle, "Cojutepeque", 200, $oi);
+printer_draw_text($handle, "Ciudad Real", 200, $oi);
 // $oi=$oi+$n1;
 // printer_draw_text($handle, Helpers::Pais($_SESSION['config_pais']), 0, $oi);
 // $oi=$oi+$n1;
@@ -59,7 +59,7 @@ printer_draw_text($handle, "Cojutepeque", 200, $oi);
 // $oi=$oi+$n1;
 // printer_draw_text($handle, $_SESSION['config_nombre_documento'] . ": " . $_SESSION['config_nit'], 0, $oi);
 $oi=$oi+$n1;
-printer_draw_text($handle, "Tel: 2313-4541", 0, $oi);
+printer_draw_text($handle, "Tel: 7659-2747", 0, $oi);
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "FACTURA NUMERO: " . $numero, NULL, $oi);
@@ -521,9 +521,9 @@ $oi=350;
 //// comienza la factura
 
 
-printer_draw_text($handle, "Km 35 carretera panamericana", 5, $oi);
+printer_draw_text($handle, "Residencial Madrid Pol 39, Casa 1", 5, $oi);
 $oi=$oi+$n1;
-printer_draw_text($handle, "Cojutepeque", 200, $oi);
+printer_draw_text($handle, "Ciudad Real", 200, $oi);
 // $oi=$oi+$n1;
 // printer_draw_text($handle, Helpers::Pais($_SESSION['config_pais']), 0, $oi);
 // $oi=$oi+$n1;
@@ -531,7 +531,7 @@ printer_draw_text($handle, "Cojutepeque", 200, $oi);
 // $oi=$oi+$n1;
 // printer_draw_text($handle, $_SESSION['config_nombre_documento'] . ": " . $_SESSION['config_nit'], 0, $oi);
 $oi=$oi+$n1;
-printer_draw_text($handle, "Tel: 2313-4541", 0, $oi);
+printer_draw_text($handle, "Tel: 7659-2747", 0, $oi);
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "ORDEN NUMERO: ". $numero, NULL, $oi);

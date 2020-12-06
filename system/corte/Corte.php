@@ -439,23 +439,34 @@ $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 1 a
     } $a->close();
 
 /// propina de tarjeta
-    $a = $db->query("SELECT num_fac, tx FROM ticket WHERE edo = 1 and tipo_pago = 2 and td = ".$_SESSION["td"]." and time BETWEEN  '".$inicio."' and '".$fin."'");
+    $a = $db->query("SELECT num_fac, tx FROM ticket WHERE edo = 1 and tipo_pago = 2 and td = ".$_SESSION["td"]." and time BETWEEN  '".$inicio."' and '".$fin."' GROUP BY num_fac");
     $propinatarjetac = 0;
     foreach ($a as $b) {
 
-	    if ($r = $db->select("total", "ticket_propina", "WHERE num_fac = ".$b["tx"]." and td = ".$_SESSION["td"]." and tx = ".$b["tx"]." and time BETWEEN  '".$inicio."' and '".$fin."'")) { 
-	        $total2 = $r["total"];
+	    if ($r = $db->select("total", "ticket_propina", "WHERE num_fac = ".$b["num_fac"]." and td = ".$_SESSION["td"]." and tx = ".$b["tx"]."")) { 
+	        $totalx = $r["total"];
 	    } unset($r);  
-	    $propinatarjetac = $propinatarjetac + $total2;
+	    $propinatarjetac = $propinatarjetac + $totalx;
     } $a->close();
 
+
+/// propina de efectivo
+    $a = $db->query("SELECT num_fac, tx FROM ticket WHERE edo = 1 and tipo_pago = 1 and td = ".$_SESSION["td"]." and time BETWEEN  '".$inicio."' and '".$fin."' GROUP BY num_fac");
+    $propinatarjetae = 0;
+    foreach ($a as $b) {
+
+	    if ($r = $db->select("total", "ticket_propina", "WHERE num_fac = ".$b["num_fac"]." and td = ".$_SESSION["td"]." and tx = ".$b["tx"]."")) { 
+	        $total2 = $r["total"];
+	    } unset($r);  
+	    $propinatarjetae = $propinatarjetae + $total2;
+    } $a->close();
 
 		 echo '<div class="card-deck">
 
 
 			    <!--Panel-->
 			    <div class="card">
-			        <div class="card-body" title="La suma de todas las ventas pagadas en efectivo" data-toggle="tooltip">
+			        <div class="card-body" title="La suma de todas las ventas pagadas en efectivo sin incluir la propina" data-toggle="tooltip">
 			            <h4 class="card-title">Venta Efectivo</h4>
 			            <p class="black-text display-4">' . Helpers::Dinero($vefectivo) . '</p>
 			        </div>
@@ -465,7 +476,7 @@ $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 1 a
 
 			    <!--Panel-->
 			    <div class="card">
-			        <div class="card-body" title="La suma de las ventas pagadas con tarjeta de credito" data-toggle="tooltip">
+			        <div class="card-body" title="La suma de las ventas pagadas con tarjeta de credito sin incluir propina" data-toggle="tooltip">
 			            <h4 class="card-title">Tarjeta Credito</h4>
 			            <p class="black-text display-4">' . Helpers::Dinero($tarjetacredito) . '</p>
 			        </div>
@@ -475,17 +486,18 @@ $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 1 a
 
 			    <!--Panel-->
 			    <div class="card">
-			        <div class="card-body" title="La suma de todas las propinas de la venta de hoy en efectivo" data-toggle="tooltip">
+			        <div class="card-body" title="La suma de todas las propinas de la venta de hoy y separadas en efectivo o credito" data-toggle="tooltip">
 			            <h4 class="card-title">Propina Total</h4>
 			            <p class="black-text display-4">' . Helpers::Dinero($propina) . '</p>
-			            <p>Tarjeta de credito: '. Helpers::Dinero($propinatarjetac) .'</p>
+			            <p>Tarjeta: '. Helpers::Dinero($propinatarjetac) .'</p>
+			            <p>Efectivo: '. Helpers::Dinero($propinatarjetae) .'</p>
 			        </div>
 			    </div>
 			    <!--/.Panel-->
 
 			    <!--Panel-->
 			    <div class="card">
-			        <div class="card-body" title="El total de venta es las ventas en efectivo, mas las ventas con tarjeta de credito, mas las propinas" data-toggle="tooltip">
+			        <div class="card-body" title="El total de venta en efectivo y credito sumandole propina en efectivo y al credito" data-toggle="tooltip">
 			            <h4 class="card-title">Total de Venta</h4>
 			            <p class="black-text display-4">' . Helpers::Dinero($total + $propina) . '</p>
 			        </div>
@@ -501,7 +513,7 @@ $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 1 a
 
 			    <!--Panel-->
 			    <div class="card">
-			        <div class="card-body" title="Efectivo de caja al sumar todas las cantidades en efectivo menos los gastos" data-toggle="tooltip">
+			        <div class="card-body" title="Efectivo Ingresado al momento de realizar el corte" data-toggle="tooltip">
 			            <h4 class="card-title">Efectivo en caja</h4>
 			            <p class="black-text display-4">' . Helpers::Dinero($efectivo) . '</p>
 			        </div>

@@ -164,7 +164,7 @@ printer_draw_text($handle, "Cajero: " . $_SESSION['nombre'], 25, $oi);
 
 
 $oi=$oi+$n1+$n4;
-printer_draw_text($handle, "GRACIAS POR SU COMPRA...", 50, $oi);
+printer_draw_text($handle, "GRACIAS POR SU PREFERENCIA", 50, $oi);
 printer_delete_font($font);
 
 
@@ -606,23 +606,6 @@ printer_draw_text($handle, Helpers::Format($subtotalf), $col4, $oi);
 $oi=$oi+$n2;
 printer_draw_text($handle, "____________________________________", 0, $oi);
 
-//efectivo
-if($efectivo == NULL){
-  $efectivo = $subtotalf;
-}
-$oi=$oi+$n1;
-printer_draw_text($handle, "Efectivo " . $_SESSION['config_moneda_simbolo'] . ":", 160, $oi);
-printer_draw_text($handle, Helpers::Format($efectivo), $col4, $oi);
-
-//cambio
-$cambios = $efectivo - $subtotalf;
-$oi=$oi+$n1;
-printer_draw_text($handle, "Cambio " . $_SESSION['config_moneda_simbolo'] . ":", 162, $oi);
-printer_draw_text($handle, Helpers::Format($cambios), $col4, $oi);
-
-$oi=$oi+$n2;
-printer_draw_text($handle, "___________________________________", 0, $oi);
-
 
 $oi=$oi+$n1;
 printer_draw_text($handle, $fechaf, 100, $oi);
@@ -659,9 +642,21 @@ printer_draw_text($handle, "Telefono: " . $ctelefono, 10, $oi);
 
 // datos del cliente delivery
 
+// nombre de mesa
+if ($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and tx = ".$_SESSION["tx"]."")) { 
+    $nombre_mesa = $r["nombre"];
+} unset($r);  
+
+if($nombre_mesa != NULL){
+$oi=$oi+$n1;
+printer_draw_text($handle, "Mesa: " . $nombre_mesa, 25, $oi);
+}
+
+
+
 
 $oi=$oi+$n1+$n4;
-printer_draw_text($handle, "GRACIAS POR SU COMPRA...", 50, $oi);
+printer_draw_text($handle, "GRACIAS POR SU PREFERENCIA", 50, $oi);
 
 $oi=$oi+$n1+$n2;
 printer_draw_text($handle, ".", 0, $oi);
@@ -875,7 +870,7 @@ $col4 = 440;
 $col5 = 500;
 // $print
 
-$print = "LR2000";
+$print = "BAR";
 
 
 $a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket_temp.cant as cant, ticket_temp.producto as producto, control_cocina.cod as codigo  
@@ -1344,7 +1339,7 @@ $col4 = 440;
 $col5 = 500;
 // $print
 
-$print = "LR2000";
+$print = "BAR";
 
 
 

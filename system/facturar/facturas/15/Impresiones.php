@@ -9,9 +9,28 @@ class Impresiones{
  public function Ticket($efectivo, $numero){
   $db = new dbConn();
 
+// $img  = "bbtotra.bmp";
+// $txt1   = "31"; 
+// $txt2   = "11";
+// $txt3   = "0";
+// $txt4   = "0";
+// $n1   = "40";
+// $n2   = "60";
+// $n3   = "0";
+// $n4   = "0";
+
+
+// $col1 = 0;
+// $col2 = 30;
+// $col3 = 340;
+// $col4 = 440;
+// $col5 = 500;
+// // $print
+// $print = "TICKET";
+
 $img  = "bbtotra.bmp";
-$txt1   = "31"; 
-$txt2   = "11";
+$txt1   = "35"; 
+$txt2   = "15";
 $txt3   = "0";
 $txt4   = "0";
 $n1   = "40";
@@ -19,14 +38,14 @@ $n2   = "60";
 $n3   = "0";
 $n4   = "0";
 
-
 $col1 = 0;
 $col2 = 30;
-$col3 = 340;
-$col4 = 440;
-$col5 = 500;
+$col3 = 50;
+$col4 = 400;
+$col5 = 490;
+
 // $print
-$print = "TICKET";
+$print = "EPSON2";
 $logo_imagen="C:/AppServ/www/pizto/assets/img/logo_factura/". $img;
 
 
@@ -67,10 +86,10 @@ printer_draw_text($handle, "FACTURA NUMERO: " . $numero, NULL, $oi);
 $oi=$oi+$n2;
 printer_draw_text($handle, "____________________________________", 0, $oi);
 $oi=$oi+$n1;
-printer_draw_text($handle, "Cant.", 55, $oi);
-printer_draw_text($handle, "Descripcion", $col2, $oi);
-printer_draw_text($handle, "P/U", $col3, $oi);
-printer_draw_text($handle, "Total", $col4, $oi);
+printer_draw_text($handle, "Cant.", $col1, $oi);
+printer_draw_text($handle, "Descripcion", $col3, $oi);
+printer_draw_text($handle, "P/U", $col4, $oi);
+printer_draw_text($handle, "Total", $col5, $oi);
 
 $oi=$oi+$n1+$n3;
 printer_draw_text($handle, "____________________________________", 0, $oi);
@@ -104,9 +123,9 @@ if ($sx = $db->select("sum(total)", "ticket_temp", "WHERE num_fac = '".$numero."
 
           $oi=$oi+$n1;
           printer_draw_text($handle, $scant, $col1, $oi);
-          printer_draw_text($handle, $b["producto"], $col2, $oi);
-          printer_draw_text($handle, $b["pv"], $col3, $oi);
-          printer_draw_text($handle, $stotal, $col4, $oi);
+          printer_draw_text($handle, $b["producto"], $col3, $oi);
+          printer_draw_text($handle, $b["pv"], $col4, $oi);
+          printer_draw_text($handle, $stotal, $col5, $oi);
 
 
 ////
@@ -120,6 +139,11 @@ $subtotalf = $subtotalf + $stotal;
     if ($r = $db->select("efectivo", "ticket_propina", "WHERE num_fac = '".$numero."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
         $propina = $r["efectivo"];
     } unset($r); 
+
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "Sub Total " . $_SESSION['config_moneda_simbolo'] . ":", 232, $oi);
+printer_draw_text($handle, Helpers::Format($subtotalf), $col4, $oi);
 
 
 if($propina > 0.00){ ///  prara agregarle la propina -- sino borrar
@@ -165,8 +189,6 @@ printer_draw_text($handle, "Cajero: " . $_SESSION['nombre'], 25, $oi);
 
 $oi=$oi+$n1+$n4;
 printer_draw_text($handle, "GRACIAS POR SU COMPRA...", 50, $oi);
-printer_delete_font($font);
-
 
 
 $oi=$oi+$n1;
@@ -177,6 +199,9 @@ printer_draw_text($handle, ".", 0, $oi);
 
 
 printer_write($handle, chr(27).chr(112).chr(48).chr(55).chr(121)); //enviar pulso
+
+printer_delete_font($font);
+
 
 ///
 printer_end_page($handle);
@@ -482,9 +507,28 @@ printer_close($handle);
   $db = new dbConn();
 
 
+// $img  = "bbtotra.bmp";
+// $txt1   = "31"; 
+// $txt2   = "11";
+// $txt3   0= "0";
+// $txt4   = "0";
+// $n1   = "40";
+// $n2   = "60";
+// $n3   = "0";
+// $n4   = "0";
+
+
+// $col1 = 0;
+// $col2 = 30;
+// $col3 = 340;
+// $col4 = 440;
+// $col5 = 500;
+// // $print
+// $print = "TICKET";
+// 
 $img  = "bbtotra.bmp";
-$txt1   = "31"; 
-$txt2   = "11";
+$txt1   = "35"; 
+$txt2   = "15";
 $txt3   = "0";
 $txt4   = "0";
 $n1   = "40";
@@ -492,14 +536,14 @@ $n2   = "60";
 $n3   = "0";
 $n4   = "0";
 
-
 $col1 = 0;
 $col2 = 30;
-$col3 = 340;
-$col4 = 440;
-$col5 = 500;
+$col3 = 50;
+$col4 = 400;
+$col5 = 490;
+
 // $print
-$print = "TICKET";
+$print = "EPSON2";
 $logo_imagen="C:/AppServ/www/pizto/assets/img/logo_factura/". $img;
 
 
@@ -545,10 +589,10 @@ printer_draw_text($handle, "PRE CUENTA", NULL, $oi);
 $oi=$oi+$n2;
 printer_draw_text($handle, "____________________________________", 0, $oi);
 $oi=$oi+$n1;
-printer_draw_text($handle, "Cant.", 55, $oi);
-printer_draw_text($handle, "Descripcion", $col2, $oi);
-printer_draw_text($handle, "P/U", $col3, $oi);
-printer_draw_text($handle, "Total", $col4, $oi);
+printer_draw_text($handle, "Cant.", $col1, $oi);
+printer_draw_text($handle, "Descripcion", $col3, $oi);
+printer_draw_text($handle, "P/U", $col4, $oi);
+printer_draw_text($handle, "Total", $col5, $oi);
 
 $oi=$oi+$n1+$n3;
 printer_draw_text($handle, "____________________________________", 0, $oi);
@@ -581,9 +625,9 @@ if ($sx = $db->select("sum(total)", "ticket_temp", "WHERE mesa = '".$numero."'  
 
           $oi=$oi+$n1;
           printer_draw_text($handle, $scant, $col1, $oi);
-          printer_draw_text($handle, $b["producto"], $col2, $oi);
-          printer_draw_text($handle, $b["pv"], $col3, $oi);
-          printer_draw_text($handle, $stotal, $col4, $oi);
+          printer_draw_text($handle, $b["producto"], $col3, $oi);
+          printer_draw_text($handle, $b["pv"], $col4, $oi);
+          printer_draw_text($handle, $stotal, $col5, $oi);
 
 
 ////
@@ -592,9 +636,13 @@ $subtotalf = $subtotalf + $stotal;
 
     }    $a->close();
 
+$oi=$oi+$n1;
+printer_draw_text($handle, "Sub Total " . $_SESSION['config_moneda_simbolo'] . ":", 232, $oi);
+printer_draw_text($handle, Helpers::Format($subtotalf), $col4, $oi);
+
 
 if($_SESSION['config_propina'] != 0.00){ ///  prara agregarle la propina -- sino borrar
-$oi=$oi+$n2;
+$oi=$oi+$n1;
 printer_draw_text($handle, "Propina:", 232, $oi);
 printer_draw_text($handle, Helpers::Format(Helpers::Propina($subtotalf)),$col4, $oi);
 $subtotalf = Helpers::PropinaTotal($subtotalf);
@@ -607,22 +655,7 @@ printer_draw_text($handle, Helpers::Format($subtotalf), $col4, $oi);
 $oi=$oi+$n2;
 printer_draw_text($handle, "____________________________________", 0, $oi);
 
-//efectivo
-if($efectivo == NULL){
-  $efectivo = $subtotalf;
-}
-$oi=$oi+$n1;
-printer_draw_text($handle, "Efectivo " . $_SESSION['config_moneda_simbolo'] . ":", 160, $oi);
-printer_draw_text($handle, Helpers::Format($efectivo), $col4, $oi);
 
-//cambio
-$cambios = $efectivo - $subtotalf;
-$oi=$oi+$n1;
-printer_draw_text($handle, "Cambio " . $_SESSION['config_moneda_simbolo'] . ":", 162, $oi);
-printer_draw_text($handle, Helpers::Format($cambios), $col4, $oi);
-
-$oi=$oi+$n2;
-printer_draw_text($handle, "___________________________________", 0, $oi);
 
 
 $oi=$oi+$n1;
@@ -1030,7 +1063,7 @@ printer_close($handle);
 
  public function AbrirCaja(){
  // $print
-  $print = "EPSON TM-T20II Receipt5";
+  $print = "EPSON2";
   
     $handle = printer_open($print);
     printer_set_option($handle, PRINTER_MODE, "RAW");
@@ -1054,8 +1087,27 @@ printer_close($handle);
  public function ReporteCorte(){ // imprime el resumen del ultimo corte
   $db = new dbConn();
 
-$txt1   = "31"; 
-$txt2   = "11";
+// $txt1   = "31"; 
+// $txt2   = "11";
+// $txt3   = "0";
+// $txt4   = "0";
+// $n1   = "40";
+// $n2   = "60";
+// $n3   = "0";
+// $n4   = "0";
+
+
+// $col1 = 0;
+// $col2 = 45;
+// $col3 = 65;
+// $col4 = 420;
+// $col5 = 450;
+// // $print
+// $print = "TICKET";
+
+$img  = "bbtotra.bmp";
+$txt1   = "35"; 
+$txt2   = "15";
 $txt3   = "0";
 $txt4   = "0";
 $n1   = "40";
@@ -1063,15 +1115,14 @@ $n2   = "60";
 $n3   = "0";
 $n4   = "0";
 
-
 $col1 = 0;
-$col2 = 45;
-$col3 = 65;
-$col4 = 420;
-$col5 = 450;
-// $print
-$print = "TICKET";
+$col2 = 30;
+$col3 = 50;
+$col4 = 440;
+$col5 = 500;
 
+// $print
+$print = "EPSON2";
 
 
 // $txt1   = "17"; 

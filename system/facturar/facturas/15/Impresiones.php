@@ -636,6 +636,7 @@ $subtotalf = $subtotalf + $stotal;
 
     }    $a->close();
 
+
 $oi=$oi+$n1;
 printer_draw_text($handle, "Sub Total " . $_SESSION['config_moneda_simbolo'] . ":", 232, $oi);
 printer_draw_text($handle, Helpers::Format($subtotalf), $col4, $oi);

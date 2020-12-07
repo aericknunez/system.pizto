@@ -408,45 +408,64 @@ public function CancelarCorte($ramdom,$fecha){
 		$db = new dbConn();
 
 
-    if ($r = $db->select("efectivo, propina, total, gastos, diferencia, clientes", "corte_diario", "WHERE edo = 1 and td = ".$_SESSION["td"]." order by time desc")) { 
+    if ($r = $db->select("efectivo, propina, total, gastos, diferencia, clientes, time", "corte_diario", "WHERE edo = 1 and td = ".$_SESSION["td"]." order by time desc")) { 
         $efectivo = $r["efectivo"];
         $propina = $r["propina"];
         $total = $r["total"];
         $gastos = $r["gastos"];
         $diferencia = $r["diferencia"];
         $clientes = $r["clientes"];
+        $fin = $r["time"];
 
     } unset($r);  
 
 
 
-    if ($r = $db->select("efectivo", "corte_diario", "WHERE edo = 1 and td = ".$_SESSION["td"]." order by time desc limit 1, 1")) { 
+    if ($r = $db->select("efectivo, time", "corte_diario", "WHERE edo = 1 and td = ".$_SESSION["td"]." order by time desc limit 1, 1")) { 
         $apertura = $r["efectivo"];
+        $inicio = $r["time"]+1;
     } unset($r);  
+
+// tarjeta de credito
+$a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 2 and td = ".$_SESSION["td"]." and time BETWEEN '".$inicio."' and '".$fin."'");
+    foreach ($a as $b) {
+     $tarjetacredito=$b["sum(total)"];
+    } $a->close();
+
+// venta en efectivo
+$a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 1 and td = ".$_SESSION["td"]." and time BETWEEN '".$inicio."' and '".$fin."'");
+    foreach ($a as $b) {
+     $vefectivo=$b["sum(total)"];
+    } $a->close();
+
 
 		 echo '<div class="card-deck">
+
+
 			    <!--Panel-->
 			    <div class="card">
-			        <div class="card-body">
-			            <h4 class="card-title">Efectivo</h4>
-			            <p class="black-text display-4">' . Helpers::Dinero($efectivo) . '</p>
+			        <div class="card-body" title="La suma de todas las ventas pagadas en efectivo" data-toggle="tooltip">
+			            <h4 class="card-title">Venta Efectivo</h4>
+			            <p class="black-text display-4">' . Helpers::Dinero($vefectivo) . '</p>
 			        </div>
 			    </div>
 			    <!--/.Panel-->
 
+
 			    <!--Panel-->
 			    <div class="card">
-			        <div class="card-body">
-			            <h4 class="card-title">Venta</h4>
-			            <p class="black-text display-4">' . Helpers::Dinero($total) . '</p>
+			        <div class="card-body" title="La suma de las ventas pagadas con tarjeta de credito" data-toggle="tooltip">
+			            <h4 class="card-title">Tarjeta Credito</h4>
+			            <p class="black-text display-4">' . Helpers::Dinero($tarjetacredito) . '</p>
 			        </div>
 			    </div>
 			    <!--/.Panel-->
 
+
 			    <!--Panel-->
 			    <div class="card">
-			        <div class="card-body">
-			            <h4 class="card-title">Propina</h4>
+			        <div class="card-body" title="La suma de todas las propinas de la venta de hoy en efectivo" data-toggle="tooltip">
+			            <h4 class="card-title">Propina Total</h4>
 			            <p class="black-text display-4">' . Helpers::Dinero($propina) . '</p>
 			        </div>
 			    </div>
@@ -454,8 +473,8 @@ public function CancelarCorte($ramdom,$fecha){
 
 			    <!--Panel-->
 			    <div class="card">
-			        <div class="card-body">
-			            <h4 class="card-title">Total</h4>
+			        <div class="card-body" title="El total de venta es las ventas en efectivo, mas las ventas con tarjeta de credito, mas las propinas" data-toggle="tooltip">
+			            <h4 class="card-title">Total de Venta</h4>
 			            <p class="black-text display-4">' . Helpers::Dinero($total + $propina) . '</p>
 			        </div>
 			    </div>
@@ -470,16 +489,16 @@ public function CancelarCorte($ramdom,$fecha){
 
 			    <!--Panel-->
 			    <div class="card">
-			        <div class="card-body">
-			            <h4 class="card-title">Facturas</h4>
-			            <p class="black-text display-4">' . Helpers::Entero($clientes) . '</p>
+			        <div class="card-body" title="Efectivo de caja al sumar todas las cantidades en efectivo menos los gastos" data-toggle="tooltip">
+			            <h4 class="card-title">Efectivo en caja</h4>
+			            <p class="black-text display-4">' . Helpers::Dinero($efectivo) . '</p>
 			        </div>
 			    </div>
 			    <!--/.Panel-->
 
 			    <!--Panel-->
 			    <div class="card">
-			        <div class="card-body">
+			        <div class="card-body" title="La suma de todos los gastos reportados" data-toggle="tooltip">
 			            <h4 class="card-title">Gastos</h4>
 			            <p class="black-text display-4">' . Helpers::Dinero($gastos) . '</p>
 			        </div>
@@ -488,7 +507,7 @@ public function CancelarCorte($ramdom,$fecha){
 
 			    <!--Panel-->
 			    <div class="card">
-			        <div class="card-body">
+			        <div class="card-body" title="Dinero en efectivo del corte anterior" data-toggle="tooltip">
 			            <h4 class="card-title">Apertura</h4>
 			            <p class="black-text display-4">' . Helpers::Dinero($apertura) . '</p>
 			        </div>
@@ -497,7 +516,7 @@ public function CancelarCorte($ramdom,$fecha){
 
 			    <!--Panel-->
 			    <div class="card">
-			        <div class="card-body">
+			        <div class="card-body" title="Diferencia de dinero en el corte actual" data-toggle="tooltip">
 			            <h4 class="card-title">Diferencia</h4>
 			            <p class="black-text display-4">' . Helpers::Dinero($diferencia) . '</p>
 			        </div>

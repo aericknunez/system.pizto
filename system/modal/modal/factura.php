@@ -35,10 +35,20 @@ if($ver_mesa->num_rows){
 
 /// define las variables finales
 
-if($_SESSION['config_propina'] != 0.00){ ///  prara agregarle la propina
- $prop = ' | Propina '.$_SESSION['config_propina'].'% : '. Helpers::Dinero(Helpers::Propina($total));
- $total = Helpers::PropinaTotal($total);
+
+
+
+    if ($r = $db->select("propina, total", "ticket_propina", "WHERE num_fac = '".$factura."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+        $porcentaje = $r["propina"];
+        $propina = $r["total"];
+    } unset($r); 
+
+if($propina > 0.00){ ///  prara agregarle la propina
+ $prop = ' | Propina '.$porcentaje.'% : '. Helpers::Dinero($propina);
+ $total = $propina + $total;
 }
+
+
 if($_REQUEST["efectivo"]==NULL){ $efectivo = $total; } else { $efectivo = $_REQUEST["efectivo"];}
 
 $cambio = $efectivo - $total;

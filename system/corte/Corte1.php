@@ -169,6 +169,17 @@ class Corte{
 
 
 
+
+	public function VentaHoyTarjeta(){
+		$db = new dbConn();
+	    $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 2 and td = ".$_SESSION["td"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."'");
+		    foreach ($a as $b) {
+		     $total=$b["sum(total)"];
+		    } $a->close();
+		    return $total;
+	}
+
+
 	public function PropinaHoy(){
 		$db = new dbConn();
 	    $a = $db->query("SELECT sum(total) FROM ticket_propina WHERE td = ".$_SESSION["td"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."'");
@@ -227,7 +238,7 @@ class Corte{
 	public function DiferenciaDinero($caja_chica, $efectivo){
 		/// conversiones para el dinero
 			$total_cc = $this->VentaHoy()+$caja_chica+$this->PropinaHoy()+$this->EntradasEfectivo(); //total ventas  mas caja chica de ayer
-				$total_debido = $total_cc-$this->GastoHoy(); //dinero que deberia haber ()
+				$total_debido = $total_cc-$this->GastoHoy() - $this->VentaHoyTarjeta(); //dinero que deberia haber ()
 				$diferencia = $efectivo - $total_debido;
 				return $diferencia;
 	}

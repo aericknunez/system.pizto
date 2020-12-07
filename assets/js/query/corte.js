@@ -1,6 +1,12 @@
 $(document).ready(function()
 {
 
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+
+
 	$('#btn-corte').click(function(e){ /// para el formulario
 		e.preventDefault();
 		$.ajax({

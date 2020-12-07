@@ -438,6 +438,17 @@ $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 1 a
      $vefectivo=$b["sum(total)"];
     } $a->close();
 
+/// propina de tarjeta
+    $a = $db->query("SELECT num_fac, tx FROM ticket WHERE edo = 1 and tipo_pago = 2 and td = ".$_SESSION["td"]." and time BETWEEN  '".$inicio."' and '".$fin."'");
+    $propinatarjetac = 0;
+    foreach ($a as $b) {
+
+	    if ($r = $db->select("total", "ticket_propina", "WHERE num_fac = ".$b["tx"]." and td = ".$_SESSION["td"]." and tx = ".$b["tx"]." and time BETWEEN  '".$inicio."' and '".$fin."'")) { 
+	        $total2 = $r["total"];
+	    } unset($r);  
+	    $propinatarjetac = $propinatarjetac + $total2;
+    } $a->close();
+
 
 		 echo '<div class="card-deck">
 
@@ -467,6 +478,7 @@ $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 1 a
 			        <div class="card-body" title="La suma de todas las propinas de la venta de hoy en efectivo" data-toggle="tooltip">
 			            <h4 class="card-title">Propina Total</h4>
 			            <p class="black-text display-4">' . Helpers::Dinero($propina) . '</p>
+			            <p>Tarjeta de credito: '. Helpers::Dinero($propinatarjetac) .'</p>
 			        </div>
 			    </div>
 			    <!--/.Panel-->

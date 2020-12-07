@@ -190,6 +190,24 @@ class Corte{
 	}
 
 
+
+	public function PropinaHoyTarjeta(){
+		$db = new dbConn();
+    $a = $db->query("SELECT num_fac, tx FROM ticket WHERE edo = 1 and tipo_pago = 2 and td = ".$_SESSION["td"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."'");
+    $total = 0;
+    foreach ($a as $b) {
+
+	    if ($r = $db->select("total", "ticket_propina", "WHERE num_fac = ".$b["tx"]." and td = ".$_SESSION["td"]." and tx = ".$b["tx"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."'")) { 
+	        $total2 = $r["total"];
+	    } unset($r);  
+	    $total = $total + $total2;
+    } $a->close();
+return $total;
+	}
+
+
+
+
 	public function TotalTx(){
 		$db = new dbConn();
 	    $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and td = ".$_SESSION["td"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."' and tx = 1");
@@ -238,7 +256,7 @@ class Corte{
 	public function DiferenciaDinero($caja_chica, $efectivo){
 		/// conversiones para el dinero
 			$total_cc = $this->VentaHoy()+$caja_chica+$this->PropinaHoy()+$this->EntradasEfectivo(); //total ventas  mas caja chica de ayer
-				$total_debido = $total_cc-$this->GastoHoy() - $this->VentaHoyTarjeta(); //dinero que deberia haber ()
+				$total_debido = $total_cc-$this->GastoHoy() - $this->VentaHoyTarjeta() -  $this->PropinaHoyTarjeta(); //dinero que deberia haber ()
 				$diferencia = $efectivo - $total_debido;
 				return $diferencia;
 	}

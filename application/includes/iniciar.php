@@ -73,9 +73,9 @@ $_SESSION["aquiLlevar"] = "on";
         $inicia->CompruebaIconos("../iconos/", NULL); // creo iconos si no exite el archivo
  
 // comprueba si esta el logo
-if (!file_exists("../../assets/img/logo/" . $_SESSION['config_imagen'])) {
-    $_SESSION['config_imagen'] = "piztog.png";
-}
+// if (!file_exists("../../assets/img/logo/" . $_SESSION['config_imagen'])) {
+//     $_SESSION['config_imagen'] = "piztog.png";
+// }
 
        $inicia->Caduca(); // revisa si ha caducado
        // BuscaRespaldo(); // revisa sy hay respaldos imcompletos

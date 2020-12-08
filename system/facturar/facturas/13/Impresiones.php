@@ -180,12 +180,11 @@ printer_draw_text($handle, ".", 0, $oi);
 $oi=$oi+$n1+$n2;
 printer_draw_text($handle, ".", 0, $oi);
 
-printer_write($handle, chr(29) . chr(86) . "1"); //cortar papel
+// printer_write($handle, chr(29) . "V" . 0); //cortar papel
 
 printer_write($handle, chr(27).chr(112).chr(48).chr(55).chr(121)); //enviar pulso
 
 printer_delete_font($font);
-
 
 ///
 printer_end_page($handle);

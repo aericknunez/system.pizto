@@ -26,7 +26,7 @@ $col3 = 340;
 $col4 = 440;
 $col5 = 500;
 // $print
-$print = "LR2000";
+$print = "CAJA";
 $logo_imagen="C:/AppServ/www/pizto/assets/img/logo_factura/". $img;
 
 
@@ -507,7 +507,7 @@ $col3 = 340;
 $col4 = 440;
 $col5 = 500;
 // $print
-$print = "LR2000";
+$print = "CAJA";
 $logo_imagen="C:/AppServ/www/pizto/assets/img/logo_factura/". $img;
 
 
@@ -721,7 +721,7 @@ $col3 = 340;
 $col4 = 440;
 $col5 = 500;
 // $print
-$print = "LR2000";
+$print = "KITCHEN";
 // 
 // 
 
@@ -874,7 +874,7 @@ $col3 = 340;
 $col4 = 440;
 $col5 = 500;
 // $print
-$print = "LR2000";
+$print = "BAR";
 // 
 
 $a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket_temp.cant as cant, ticket_temp.producto as producto, control_cocina.cod as codigo  
@@ -1028,7 +1028,7 @@ printer_close($handle);
 
  public function AbrirCaja(){
  // $print
-  $print = "EPSON2";
+  $print = "CAJA";
   
     $handle = printer_open($print);
     printer_set_option($handle, PRINTER_MODE, "RAW");
@@ -1068,7 +1068,7 @@ $col3 = 340;
 $col4 = 440;
 $col5 = 500;
 // $print
-$print = "LR2000";
+$print = "CAJA";
 // 
 
 
@@ -1342,7 +1342,7 @@ $col3 = 340;
 $col4 = 440;
 $col5 = 500;
 // $print
-$print = "LR2000";
+$print = "BAR";
 // 
 
 
@@ -1512,7 +1512,7 @@ $col3 = 340;
 $col4 = 440;
 $col5 = 500;
 // $print
-$print = "LR2000";
+$print = "KITCHEN";
 // 
 
 

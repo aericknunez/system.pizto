@@ -310,6 +310,20 @@ if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["
 
 
 
+<?php // solo si es local pero se visualia en la web
+if(Helpers::ServerDomain() == TRUE and $_SESSION["root_plataforma"] == 0) {
+ ?>
+
+<li><a class="collapsible-header waves-effect arrow-r"><i class="fas fa-cogs"></i> CONFIGURACIONES<i class="fas fa-angle-down rotate-icon"></i></a>
+<div class="collapsible-body">
+<ul class="list-unstyled">
+
+<li><a href="?user" class="collapsible-header waves-effect arrow-r"> Usuarios </a></li>
+</ul>
+</div>
+</li>
+<?php }  ?>
+
 
 
 <?php 

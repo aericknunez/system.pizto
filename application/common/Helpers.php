@@ -88,6 +88,13 @@ class Helpers{
     }
 
 
+      static public function TipoPago($tipo) {
+    if($tipo == "1") return '<div class="text-success font-weight-bold">Efectivo</div>';
+    if($tipo == "2") return '<div class="text-danger font-weight-bold">Tarjeta</div>';
+    }
+
+
+
     static public function Pais($string) {
         if($string == "1") return 'El Salvador';
         if($string == "2") return 'Honduras';

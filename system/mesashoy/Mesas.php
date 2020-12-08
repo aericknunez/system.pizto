@@ -236,6 +236,14 @@ class Mesas{
 
 
 
+
+
+
+
+
+
+
+
  	public function ModalVerMesa($mesa,$tx,$tbl) {
 		$db = new dbConn();
 
@@ -245,6 +253,103 @@ class Mesas{
 
 		$this->VerProductoMesas($mesa,$tx,$tbl);
 	}
+
+
+
+
+
+
+
+
+
+
+	public function VerProductoTicket($ticket,$tx) {
+		$db = new dbConn();
+
+		   $a = $db->query("SELECT * FROM ticket WHERE num_fac = '$ticket' and tx = '$tx' and td = ".$_SESSION["td"]."");
+		    if($a->num_rows > 0){
+		    
+		      	echo '<table class="table table-striped table-responsive-sm table-sm">
+					  <thead>
+					    <tr>
+					      <th scope="col">Cantidad</th>
+					      <th scope="col">Producto</th>
+					      <th scope="col">Precio</th>
+					      <th scope="col">Total</th>
+					      <th scope="col">Cliente</th>
+					      <th scope="col">Ticket</th>
+					      <th scope="col">Estado</th>
+					      </tr>
+					  </thead>
+					  <tbody>';
+					  $total_eliminado = 0;
+		    	 foreach ($a as $b) {
+		    	 	
+		    	 	if($b["num_fac"] == 0) $edo="Pendiente"; else $edo="Cancelado";
+		    	     
+		    	     
+				     if($b["edo"] != 1){
+				     	echo '<tr class="text-danger">';
+				     	$total_eliminado = $total_eliminado + $b["total"];
+				     } else {
+				     	echo '<tr>';
+				     }
+
+		if($b["producto"] == "Producto-Especial"){
+			if ($r = $db->select("nombre", "producto", "WHERE cod = ".$b["cod"]." and td = ".$_SESSION['td']."")) { 
+			$nombre = "(Esp.) " . $r["nombre"];
+			} unset($r);
+		} else {
+			$nombre = $b["producto"];
+		}
+				     echo '<th scope="row">'. $b["cant"] .'</th>
+				      <td>'. $nombre .'</td>
+				      <td>'. Helpers::Dinero($b["pv"]) .'</td>
+				      <td>'. Helpers::Dinero($b["total"]) .'</td>
+				      <td>'. $b["cliente"] .'</td>
+				      <td>'. $b["num_fac"] .'</td>
+				      <td>'. $edo .'</td>
+				      </tr>';
+		    	}
+		    	echo '</tbody>
+					</table>';
+
+
+
+
+
+				    $s = $db->query("SELECT sum(total) FROM ticket WHERE num_fac = '$ticket' and edo = 1 and tx = '$tx' and td = ".$_SESSION["td"]."");
+				    foreach ($s as $t) {
+				        $max=$t["sum(total)"];
+				    } $s->close();
+				    if($max > 0){
+				    	echo "<h1 class='h1-responsive'>Total venta: ". Helpers::Dinero($max) ."</h1>";
+				    }
+				    if($total_eliminado > 0){
+				    	echo '<h2 class="text-danger">Total Eliminado: '. Helpers::Dinero($total_eliminado) .'</h2>';
+				    }		    
+
+
+
+    if ($r = $db->select("total", "ticket_propina", "WHERE num_fac = '$ticket' and tx = '$tx' and td = ".$_SESSION["td"]."")) { 
+        $propina = $r["total"];
+    } unset($r);  
+
+    if($propina > 0){
+    	echo "<h1 class='h3-responsive'>Propina: ". Helpers::Dinero($propina) ."</h1>";
+    	echo "<h1 class='h1-responsive text-danger'>Total Factura: ". Helpers::Dinero($max + $propina) ."</h1>";
+    }
+
+		    } $a->close();
+		   
+
+	}
+
+
+
+
+
+
 
 
 

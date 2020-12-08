@@ -626,6 +626,93 @@ class Historial{
 
 
 
+	public function ResumenMeseros($inicio, $fin) { /// resumen meseros
+		$db = new dbConn();
+		$primero = Fechas::Format($inicio);
+		$segundo = Fechas::Format($fin);
+		
+		//busqueda de usuarios
+// echo $primero . "   ||  " . $segundo;
+
+    $a = $db->query("SELECT nombre, user FROM login_userdata WHERE tipo = 6 and td = ".$_SESSION["td"]."");
+    foreach ($a as $b) {
+
+	    $ax = $db->query("SELECT * FROM ticket WHERE user = '".$b["user"]."' and td = '".$_SESSION["td"]."' and fechaF BETWEEN '$primero' AND '$segundo' group by num_fac");
+	    if($ax->num_rows > 0){
+    echo '<h2>'.$b["nombre"].'</h2>
+    <table class="table table-striped table-sm mb-5">
+
+		<thead>
+	     <tr>
+	       <th>Factura</th>
+	       <th>Fecha</th>
+	       <th>Pago</th>
+	       <th>Total</th>
+	       <th>Porcentaje</th>
+	       <th>Propina</th>
+	       <th>Total Factura</th>
+	     </tr>
+	   </thead>
+
+	   <tbody>';
+	   $xtotal = 0;
+	   $xporcentaje = 0;
+	   $xpropina = 0;
+	   $ordenes = 0;
+	    foreach ($ax as $bx) {
+
+    if ($r = $db->select("sum(total)", "ticket", "WHERE num_fac = '". $bx["num_fac"]."' and tx = '".$bx["tx"]."' and td = '".$_SESSION["td"]."'")) { 
+        $total = $r["sum(total)"];
+    } unset($r);  
+
+    if ($r = $db->select("propina, total", "ticket_propina", "WHERE num_fac = '". $bx["num_fac"]."' and tx = '".$bx["tx"]."' and td = '".$_SESSION["td"]."'")) { 
+        $porcentaje = $r["propina"];
+        $propina = $r["total"];
+    } unset($r);  
+
+	        echo '<tr>
+				       <th scope="row">'. $bx["num_fac"]. '</th>
+				       <td>'. $bx["fecha"]. ' | '. $bx["hora"]. '</td>
+				       <td>'. Helpers::TipoPago($bx["tipo_pago"]). '</td>
+				       <td>'. Helpers::Dinero($total). '</td>
+				       <td>'. Helpers::Entero($porcentaje).' %</td>
+				       <td>'. Helpers::Dinero($propina). '</td>
+				       <td>'. Helpers::Dinero($total + $propina). '</td>
+				       <td><a id="xverticket" num_fac="'. $bx["num_fac"] . '" tx="'. $bx["tx"] . '" op="78x" class="btn-floating btn-sm"><i class="fas fa-eye red-text"></i></a></td>
+				  </tr>';
+	   
+	   $xtotal = $xtotal + $total;
+	   $xporcentaje = $xporcentaje + $porcentaje;
+	   $xpropina = $xpropina + $propina;
+	   $ordenes++;
+
+	    } 
+
+$xporcentaje = $xporcentaje / $ordenes;
+	        echo '<tr>
+				       <th scope="row" colspan="3" class="text-right font-weight-bold">TOTAL: </th>
+				       <td class="font-weight-bold">'. Helpers::Dinero($xtotal). '</td>
+				       <td class="font-weight-bold">'. Helpers::format($xporcentaje).' %</td>
+				       <td class="font-weight-bold">'. Helpers::Dinero($xpropina). '</td>
+				       <td class="font-weight-bold">'. Helpers::Dinero($xtotal + $xpropina). '</td>
+				  </tr>';
+
+	    echo '</tbody>
+		</table>';
+		} $ax->close();
+
+
+    } $a->close(); // busqueda de usuarios
+
+
+} // fumcion
+
+
+
+
+
+
+
 
 
 

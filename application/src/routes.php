@@ -1140,6 +1140,14 @@ break;
 
 
 
+case "78x": 
+	include_once '../../system/mesashoy/Mesas.php';
+	$mesas = new Mesas;
+	$mesas->VerProductoTicket($_POST["num_fac"],$_POST["tx"]);
+break; 
+
+
+
 case "79": 
 
 if($_POST["motivo"] != NULL){
@@ -1934,6 +1942,22 @@ break;
 
 
 
+
+case  "210": // Resumen meseros
+	include_once '../../system/historial/Historial.php';
+	$historial = new Historial;
+	if($_POST["fecha1_submit"]){
+		$inicio = $_POST["fecha1_submit"]; $fin=$_POST["fecha2_submit"];
+	} else {
+		$inicio = date("01-m-Y"); $fin=date("31-m-Y");
+	}
+	$historial->ResumenMeseros($inicio, $fin);
+
+break; 
+
+
+
+
 case "300": // agregar empleado
 include_once '../../system/planilla/Planilla.php';
 	$plan = new planilla;
@@ -2367,6 +2391,9 @@ echo '<script>
 	window.location.href="?delivery&mesa='.$_SESSION["mesa"].'"
 </script>';
 break; 
+
+
+
 
 
 

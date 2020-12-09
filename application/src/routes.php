@@ -110,13 +110,15 @@ break;
 
 case "9":
 include_once '../../system/config_iconos/Icono.php';
-// $iconos = new Icono;
-// $iconos->DelCategoria($_REQUEST["cod"]);
+$iconos = new Icono;
+$iconos->DelCategoria($_REQUEST["cod"]);
 
-// include_once '../../system/config_configuraciones/Config.php';
-// 	$configuracion = new Config;
-// 	$configuracion->CrearIconos("../iconos/", 1);
-	print_r($_REQUEST);
+include_once '../../system/config_configuraciones/Config.php';
+	$configuracion = new Config;
+	$configuracion->CrearIconos("../iconos/", 1);
+echo '<script>
+	window.location.href="?iconos"
+</script>';
 break;
 
 

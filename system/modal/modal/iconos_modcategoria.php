@@ -19,6 +19,8 @@ action="?modal=selectimg" >
 <input name="Enviar" type="submit" id="Enviar" value="Modificar" class="btn btn-primary btn-rounded"  onclick="return confirmar('Esta seguro que desea modificar el icono?')" ></li>
 </form>
 
+
+<div id="contenido" class="text-center">
 <? 
 if($_REQUEST['cod'] != "1111" and $_REQUEST['cod'] != "2222") {
 ?>
@@ -39,7 +41,7 @@ echo "<br><hr>
 <p>Este icono no se puede eliminar por que son de uso exclusivo del sistema</p>";
 } 
 ?>
-
+</div>
       </div>
       <div class="modal-footer">
           <a href="?modal=reordenar&popup=<? echo $_REQUEST["cod"]; ?>" class="btn grey btn-rounded">Reordenar Iconos</a>

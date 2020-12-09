@@ -159,15 +159,14 @@ class Icono{
 
 	public function DelCategoria($cod){
     	$db = new dbConn();
-			Helpers::DeleteId("popup", "cod='$cod' and td = ".$_SESSION["td"]."");
-			Helpers::DeleteId("images", "cod='$cod' and td = ".$_SESSION["td"]."");
+			Helpers::DeleteId("categorias", "cod='".$cod."' and td = ".$_SESSION["td"]."");
+			Helpers::DeleteId("images", "cod='".$cod."' and td = ".$_SESSION["td"]."");
 
 			$cambio = array();
 			    $cambio["popup"] = "0";
-			    
-			    Helpers::UpdateId("images", $cambio, "popup='$cod' and td = ".$_SESSION["td"]."");
-
+			    Helpers::UpdateId("images", $cambio, "popup='".$cod."' and td = ".$_SESSION["td"]."");
     	}
+
 
 
    public function GetCategoria(){

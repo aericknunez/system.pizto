@@ -296,10 +296,14 @@ public function CancelarCorte($ramdom,$fecha){
 		   	    $fin = Helpers::TimeId();
 
 
+	    if ($r = $db->select("hash", "corte_diario", "where edo = 1 and td = ".$_SESSION["td"]." order by id DESC LIMIT 1")) { 
+	        $hash=$r["hash"];
+	    } unset($r);
+
 				$cambio = array();
 			    $cambio["edo"] = "2";
 			    
-			    if (Helpers::UpdateId("corte_diario", $cambio, "fecha_format=" . Fechas::Format($fecha))) {
+			    if (Helpers::UpdateId("corte_diario", $cambio, "hash='".$hash."'")) {
 
 			// pongo inactivo 
 		   	$cambiox = array();

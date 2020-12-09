@@ -3,6 +3,7 @@ include_once 'application/common/Alerts.php';
 $factura = $_REQUEST["factura"];
 include_once 'system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
 include_once 'system/facturar/Facturar.php';
+require_once 'application/ticket/autoload.php'; // para ticket
       $fact = new Facturar();
 
 ?>

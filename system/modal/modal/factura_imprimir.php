@@ -1,4 +1,5 @@
 <?php
+require_once 'application/ticket/autoload.php';
 $mesa = $_REQUEST["mesa"];
 $cancela = $_REQUEST["cancela"];
 

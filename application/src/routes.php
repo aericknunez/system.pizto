@@ -951,6 +951,7 @@ break;
 
 case "63": // imprime corte
     include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
+    require_once ('../ticket/autoload.php'); 
     $imprimir = new Impresiones(); 
 Alerts::Alerta("success","Imprimiendo","Imprimiendo reporte");
     $imprimir->ReporteCorte();
@@ -1238,6 +1239,7 @@ case  "86": // imprimir factura
 $factura = $_REQUEST["factura"];
 include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
 include_once '../../system/facturar/Facturar.php';
+    require_once ('../ticket/autoload.php'); 
       $fact = new Facturar();
 
 $fact->ObtenerEstadoFacturaReimprimir($_REQUEST["efectivo"], $factura);
@@ -1259,6 +1261,7 @@ break;
 
 case  "88": // Abrir Caja
     include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
+        require_once ('../ticket/autoload.php'); 
     $imprimir = new Impresiones(); 
     $imprimir->AbrirCaja();
 break; 
@@ -1268,6 +1271,7 @@ break;
 case  "89": // Reporte Diario
 
     include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
+        require_once ('../ticket/autoload.php'); 
     $imprimir = new Impresiones; 
     
     if($imprimir->ReporteDiario($_REQUEST["iden"])){
@@ -1591,6 +1595,7 @@ break;
 
 
 case "150": // Imprimir Ticket
+    require_once ('../ticket/autoload.php'); 
 // busco que facura voy a ocupar
 $user = $_SESSION["user"];
 	if ($r = $db->select("impresora, clase", "facturar_users", 
@@ -1640,6 +1645,7 @@ case  "161": // ImprimirRanfo
 $factura = $_REQUEST["factura"];
 include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
 include_once '../../system/facturar/Facturar.php';
+    require_once ('../ticket/autoload.php'); 
       $fact = new Facturar();
       
 
@@ -2227,6 +2233,7 @@ break;
 
 case  "372": // Imprimir Comanda
 include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
+    require_once ('../ticket/autoload.php'); 
 $imprimir = new Impresiones();
 $imprimir->Comanda();
 Alerts::Alerta("success","Imprimiendo","Imprimiendo comanda para cocina");

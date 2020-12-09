@@ -346,6 +346,25 @@ if($nombre_mesa != NULL){
 }
 
 
+
+    if ($r = $db->select("llevar", "mesa", "WHERE mesa = '".$_SESSION["mesa"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+        $llevar = $r["llevar"];
+    } unset($r);  
+
+if($llevar == 1){
+  $lleva = "COMER AQUI";
+}
+if($llevar == 2){
+  $lleva = "PARA LLEVAR";
+}
+if($llevar == 3){
+  $lleva = "DELIVERY";
+}
+
+  $printer -> text($lleva);
+   $printer->feed();
+
+
 $printer -> text("____________________________________________________________");
 $printer->feed();
 

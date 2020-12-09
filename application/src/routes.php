@@ -2241,6 +2241,19 @@ break;
 
 
 
+case  "373": // cambiar la vista de la propina
+if($_SESSION["aquiLlevar"] == "on"){
+	// se muestra la propina
+
+} else {
+	// se oculta la propina
+
+}
+break; 
+
+
+
+
 case "400": // agregar cliente
 include_once '../../system/cliente/Cliente.php';
 	$cliente = new Clientes;

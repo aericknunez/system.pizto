@@ -466,13 +466,13 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 				    		if($_SESSION["noimprimir"] != NULL){
 				    		echo '<a id="cambiar-pantalla-inicio" op="87"><h1 class="text-danger">Total: '. Helpers::Dinero(Helpers::PropinaTotal($max)).'</h1></a>';
 						    } else {
-						    		if($_SESSION['config_propina'] != 0.00){
+						    		if($_SESSION['config_propina'] != 0.00 and $_SESSION["delivery_on"] == FALSE and $_SESSION["aquiLlevar"] == "on"){
 						    		echo '<p>Subtotal: '.$max.' | Propina '.$_SESSION['config_propina'].'% : '. Helpers::Dinero(Helpers::Propina($max)) .'</p>'; }
 
 						    		echo '<a id="cambiar-pantalla-inicio" op="87"><h1 class="h1-responsive">Total: '. Helpers::Dinero(Helpers::PropinaTotal($max)) .'</h1></a>';
 							}
 				    } else {
-				    			if($_SESSION['config_propina'] != 0.00){
+				    			if($_SESSION['config_propina'] != 0.00 and $_SESSION["delivery_on"] == FALSE and $_SESSION["aquiLlevar"] == "on"){
 				    		echo '<p>Subtotal: '.$max.' | Propina '.$_SESSION['config_propina'].'% : '.Helpers::Dinero( Helpers::Propina($max)) .'</p>'; }
 
 				    		echo '<h1 class="h1-responsive">Total: '. Helpers::Dinero(Helpers::PropinaTotal($max)) .'</h1>';
@@ -614,13 +614,13 @@ if($_SESSION["tipo_cuenta"] != 6){
 				    		if($_SESSION["noimprimir"] != NULL){
 				    		echo '<a id="cambiar-pantalla-inicio" op="87"><h1 class="text-danger">Total: '. Helpers::Dinero(Helpers::PropinaTotal($max)).'</h1></a>';
 						    } else {
-						    		if($_SESSION['config_propina'] != 0.00){
+						    		if($_SESSION['config_propina'] != 0.00 and $_SESSION["delivery_on"] == FALSE and $_SESSION["aquiLlevar"] == "on"){
 						    		echo '<p>Subtotal: '.$max.' | Propina '.$_SESSION['config_propina'].'% : '. Helpers::Dinero(Helpers::Propina($max)) .'</p>'; }
 
 						    		echo '<a id="cambiar-pantalla-inicio" op="87"><h1 class="h1-responsive">Total: '. Helpers::Dinero(Helpers::PropinaTotal($max)) .'</h1></a>';
 							}
 				    } else {
-				    			if($_SESSION['config_propina'] != 0.00){
+				    			if($_SESSION['config_propina'] != 0.00 and $_SESSION["delivery_on"] == FALSE and $_SESSION["aquiLlevar"] == "on"){
 				    		echo '<p>Subtotal: '.$max.' | Propina '.$_SESSION['config_propina'].'% : '.Helpers::Dinero( Helpers::Propina($max)) .'</p>'; }
 
 				    		echo '<h1 class="h1-responsive">Total: '. Helpers::Dinero(Helpers::PropinaTotal($max)) .'</h1>';
@@ -747,7 +747,7 @@ if($_SESSION["tipo_cuenta"] != 6){
 				        $max=$t["sum(total)"];
 				    } $s->close();
 
-				    if($_SESSION['config_propina'] != 0.00){
+				    if($_SESSION['config_propina'] != 0.00 and $_SESSION["delivery_on"] == FALSE and $_SESSION["aquiLlevar"] == "on"){
 						    		echo '<p>Subtotal: '.$max.' | Propina '.$_SESSION['config_propina'].'% : '. Helpers::Dinero(Helpers::Propina($max)) .'</p>'; }
 
 				    echo "<h1 class='h1-responsive'>Total: ". Helpers::Dinero(Helpers::PropinaTotal($max)) ."</h1>";
@@ -872,7 +872,7 @@ if($_SESSION["tipo_cuenta"] != 6){
 
 		    unset($_SESSION["mesa"]);
 
-		    if($_SESSION['config_propina'] != 0.00){ ///  prara agregarle la propina
+		    if($_SESSION['config_propina'] != 0.00 and $_SESSION["delivery_on"] == FALSE and $_SESSION["aquiLlevar"] == "on"){ ///  prara agregarle la propina
 			$this->AgregarPropina($ultimon); 
 			}
 
@@ -922,7 +922,7 @@ if($_SESSION["tipo_cuenta"] != 6){
 		}
 		$a->close();
 		
-		if($_SESSION['config_propina'] != 0.00){ ///  prara agregarle la propina	
+		if($_SESSION['config_propina'] != 0.00 and $_SESSION["delivery_on"] == FALSE and $_SESSION["aquiLlevar"] == "on"){ ///  prara agregarle la propina	
 		$this->AgregarPropina($ultimon); 
 		}
 

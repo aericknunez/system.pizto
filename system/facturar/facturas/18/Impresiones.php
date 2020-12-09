@@ -472,7 +472,7 @@ $col3 = 340;
 $col4 = 440;
 $col5 = 500;
 // $print
-$print = "COCINA";
+$print = "TICKET";
 // 
 
 

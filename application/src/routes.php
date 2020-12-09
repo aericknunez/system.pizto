@@ -104,7 +104,9 @@ $iconos->DelProducto($_REQUEST["cod"]);
 include_once '../../system/config_configuraciones/Config.php';
 	$configuracion = new Config;
 	$configuracion->CrearIconos("../iconos/", 1);
-	
+echo '<script>
+	window.location.href="?iconos"
+</script>';
 break;
 
 

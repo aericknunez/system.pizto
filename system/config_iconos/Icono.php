@@ -153,9 +153,8 @@ class Icono{
 		Helpers::DeleteId("images", "cod='$cod' and td = ".$_SESSION["td"]."");
 		// para despues que este comida empleado
 		// Helpers::DeleteId("comida_empleado_ico", "WHERE cod='".$_REQUEST["cod"]."'")
-
-		$db->close();
     	}
+
 
 	public function DelCategoria($cod){
     	$db = new dbConn();

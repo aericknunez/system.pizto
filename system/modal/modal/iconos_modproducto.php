@@ -61,7 +61,7 @@ echo "<br><hr>
 <p>Este icono no se puede eliminar por que son de uso exclusivo del sistema</p>";
 } 
 ?>
-
+<div id="contenido"></div>
       </div>
       <div class="modal-footer">
 

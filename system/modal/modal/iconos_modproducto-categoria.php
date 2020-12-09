@@ -30,6 +30,7 @@ $a = $db->query("Select * from images where popup=".$_REQUEST["cod"]." and td = 
 
  ?>
 
+<div id="contenido"></div>
  
   <br>
    </ul> 

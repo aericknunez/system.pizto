@@ -36,7 +36,7 @@ class Pantallas{
 
 	////////////////////////////////
 	///
-	$a = $db->query("SELECT * FROM control_cocina WHERE ".$panel_mostrar." opciones = 1 and edo = 1 and td = ".$_SESSION["td"]."");
+	$a = $db->query("SELECT * FROM control_cocina WHERE ".$panel_mostrar." opciones = 1 and edo = 1 and td = ".$_SESSION["td"]." ORDER BY mesa, id");
     foreach ($a as $b) {
 
     	echo '<!-- Card -->

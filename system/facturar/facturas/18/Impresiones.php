@@ -95,17 +95,17 @@ $printer->feed();
     } unset($r); 
 
 
-$printer -> text($this->DosCol("Sub Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($subtotalf), 20));
+$printer -> text($this->DosCol("Sub Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($subtotalf), 10));
 
 
 
 
 if($propina > 0.00){ ///  prara agregarle la propina -- sino borrar
-$printer -> text($this->DosCol("Propina " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($propina), 20));
+$printer -> text($this->DosCol("Propina " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($propina), 10));
 }
 
 $xtotal = $subtotalf + $propina;
-$printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($xtotal), 20));
+$printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($xtotal), 10));
 
 
 $printer -> text("____________________________________________________________");
@@ -117,7 +117,7 @@ if($efectivo == NULL){
   $efectivo = $xtotal;
 }
 
-$printer -> text($this->DosCol("Efectivo " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($efectivo), 20));
+$printer -> text($this->DosCol("Efectivo " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($efectivo), 10));
 
 
 
@@ -125,7 +125,7 @@ $printer -> text($this->DosCol("Efectivo " . $_SESSION['config_moneda_simbolo'] 
 //cambio
 $cambios = $efectivo - $xtotal;
 
-$printer -> text($this->DosCol("Cambio " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($cambios), 20));
+$printer -> text($this->DosCol("Cambio " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($cambios), 10));
 
 
 $printer -> text("____________________________________________________________");
@@ -134,7 +134,7 @@ $printer->feed();
 
 
 
-$printer -> text($this->DosCol($fechaf, 30, $horaf, 30));
+$printer -> text($this->DosCol($fechaf, 30, $horaf, 25));
 
 
 
@@ -275,19 +275,19 @@ $printer->feed();
 
 
 
-$printer -> text($this->DosCol("Sub Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($subtotalf), 20));
+$printer -> text($this->DosCol("Sub Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($subtotalf), 10));
 
 
 
 if($_SESSION['config_propina'] != 0.00){ ///  prara agregarle la propina -- sino borrar
-$printer -> text($this->DosCol("Propina " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format(Helpers::Propina($subtotalf)), 20));
+$printer -> text($this->DosCol("Propina " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format(Helpers::Propina($subtotalf)), 10));
   $subtotalf = Helpers::PropinaTotal($subtotalf);
 }
 
 
 $xtotal = $subtotalf + $propina;
 
-$printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($xtotal), 20));
+$printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($xtotal), 10));
 
 
 
@@ -302,7 +302,7 @@ $printer->feed();
 
 
 
-$printer -> text($this->DosCol($fechaf, 30, $horaf, 30));
+$printer -> text($this->DosCol($fechaf, 30, $horaf, 20));
 
 
 $printer -> text("Cajero: " . $_SESSION['nombre']);
@@ -1134,7 +1134,7 @@ $printer->close();
 
  public function Item($cant,  $name = '', $price = '', $total = '', $dollarSign = false)
     {
-        $rightCols = 10;
+        $rightCols = 7;
         $leftCols = 38;
         if ($dollarSign) {
             $leftCols = $leftCols / 2 - $rightCols / 2;

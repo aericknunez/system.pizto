@@ -1133,7 +1133,7 @@ $printer->close();
 
  public function Item($cant,  $name = '', $price = '', $total = '', $dollarSign = false)
     {
-        $rightCols = 10;
+        $rightCols = 15;
         $leftCols = 42;
         if ($dollarSign) {
             $leftCols = $leftCols / 2 - $rightCols / 2;

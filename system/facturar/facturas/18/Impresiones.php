@@ -46,7 +46,7 @@ $printer->text("FACTURA NUMERO: " . $numero);
 /* Stuff around with left margin */
 $printer->feed();
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 $printer->feed();
 /* Items */
@@ -86,7 +86,7 @@ $subtotalf = $subtotalf + $stotal;
     }    $a->close();
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
@@ -108,7 +108,7 @@ $xtotal = $subtotalf + $propina;
 $printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($xtotal), 10));
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
@@ -127,8 +127,7 @@ $cambios = $efectivo - $xtotal;
 
 $printer -> text($this->DosCol("Cambio " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($cambios), 10));
 
-
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
@@ -224,7 +223,7 @@ $printer->text("PRECUENTA");
 /* Stuff around with left margin */
 $printer->feed();
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 $printer->feed();
 /* Items */
@@ -270,7 +269,7 @@ $subtotalf = $subtotalf + $stotal;
 
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
@@ -295,7 +294,7 @@ $printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . "
 
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
@@ -346,8 +345,9 @@ if($nombre_mesa != NULL){
 }
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
+
 
 
 $printer->feed();
@@ -422,8 +422,9 @@ $printer -> setTextSize(1, 2);
 $printer -> setLineSpacing(80);
 
 
-$printer -> text("_________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
+
 
 
     foreach ($a as $b) {
@@ -467,8 +468,9 @@ $printer->feed();
     }    $a->close();
 
 
-$printer -> text("_________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
+
 
 
 
@@ -590,8 +592,9 @@ $printer -> setTextSize(1, 2);
 $printer -> setLineSpacing(80);
 
 
-$printer -> text("_________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
+
 
 
     foreach ($a as $b) {
@@ -634,9 +637,9 @@ if($_SESSION["config_o_ticket_pantalla"] == 2){
 
     }    $a->close();
 
-
-$printer -> text("_________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
+
 
 
 
@@ -782,7 +785,7 @@ $printer -> text("RESUMEN DE CORTE DE CAJA");
 /* Stuff around with left margin */
 $printer->feed();
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
-$printer -> text("_________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 $printer->feed();
 /* Items */
@@ -866,18 +869,18 @@ $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 1 a
 
 
 
-$printer -> text($this->DosCol("VENTA EN EFECTIVO: ", 40, Helpers::Dinero($vefectivo), 20));
+$printer -> text($this->DosCol("VENTA EN EFECTIVO: ", 40, Helpers::Dinero($vefectivo), 10));
 
-$printer -> text($this->DosCol("PROPINA EN EFECTIVO: ", 40, Helpers::Dinero($propinatarjetae), 20));
-
-
-$printer -> text($this->DosCol("VENTA CON TARJETA: ", 40, Helpers::Dinero($tarjetacredito), 20));
-
-$printer -> text($this->DosCol("PROPINA CON TARJETA: ", 40, Helpers::Dinero($propinatarjetac), 20));
+$printer -> text($this->DosCol("PROPINA EN EFECTIVO: ", 40, Helpers::Dinero($propinatarjetae), 10));
 
 
+$printer -> text($this->DosCol("VENTA CON TARJETA: ", 40, Helpers::Dinero($tarjetacredito), 10));
 
-$printer -> text($this->DosCol("TOTAL DE VENTA: ", 40, Helpers::Dinero($counte), 20));
+$printer -> text($this->DosCol("PROPINA CON TARJETA: ", 40, Helpers::Dinero($propinatarjetac), 10));
+
+
+
+$printer -> text($this->DosCol("TOTAL DE VENTA: ", 40, Helpers::Dinero($counte), 10));
 
 
 
@@ -889,15 +892,15 @@ $printer -> text($this->DosCol("TOTAL DE VENTA: ", 40, Helpers::Dinero($counte),
     } $axy->close();
 
 
-$printer -> text($this->DosCol("TOTAL DE PROPINA: ", 40, Helpers::Dinero($propinas), 20));
+$printer -> text($this->DosCol("TOTAL DE PROPINA: ", 40, Helpers::Dinero($propinas), 10));
 
 
 
-$printer -> text($this->DosCol("TOTAL: ", 40, Helpers::Dinero($counte + $propinas), 20));
+$printer -> text($this->DosCol("TOTAL: ", 40, Helpers::Dinero($counte + $propinas), 10));
 
 
   
-$printer -> text("_________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
@@ -910,10 +913,10 @@ foreach ($axy as $bxy) {
 
 
 
-$printer -> text($this->DosCol("TICKET ELIMINADOS: ", 40, $counte, 20));
+$printer -> text($this->DosCol("TICKET ELIMINADOS: ", 40, $counte, 10));
 
 
-$printer -> text("_________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
@@ -927,23 +930,24 @@ foreach ($axy as $bxy) {
 } $axy->close();
 
 
-$printer -> text($this->DosCol("GASTOS REGISTRADOS: ", 40, Helpers::Dinero($gasto), 20));
+$printer -> text($this->DosCol("GASTOS REGISTRADOS: ", 40, Helpers::Dinero($gasto), 10));
 
 
-$printer -> text("_________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
 
-$printer -> text($this->DosCol("DINERO EN APERTURA: ", 40, Helpers::Dinero($apertura), 20));
+$printer -> text($this->DosCol("DINERO EN APERTURA: ", 40, Helpers::Dinero($apertura), 10));
 
-$printer -> text($this->DosCol("EFECTIVO INGRESADO: ", 40, Helpers::Dinero($efectivo), 20));
+$printer -> text($this->DosCol("EFECTIVO INGRESADO: ", 40, Helpers::Dinero($efectivo), 10));
 
 
-$printer -> text($this->DosCol("DIFERENCIA: ", 40, Helpers::Dinero($diferencia), 20));
+$printer -> text($this->DosCol("DIFERENCIA: ", 40, Helpers::Dinero($diferencia), 10));
 
-$printer -> text("_________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
+
 
 
 
@@ -1013,8 +1017,9 @@ $printer -> setTextSize(1, 2);
 $printer -> setLineSpacing(80);
 
 
-$printer -> text("_________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
+
 
 
     if ($r = $db->select("motivo", "mesa_borrado", "WHERE mesa='".$_SESSION["mesa"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
@@ -1024,7 +1029,7 @@ $printer->feed();
 $printer -> text("MOTIVO: " . $motivo);
 $printer->feed();
 
-$printer -> text("_________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 

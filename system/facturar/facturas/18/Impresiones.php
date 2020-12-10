@@ -505,7 +505,7 @@ if ($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = ".$_SESSION["mesa"].
 if($nombre_mesa != NULL){
 
 $printer -> text("Mesa: " . $nombre_mesa);
-
+$printer->feed();
 }
 
 
@@ -521,16 +521,16 @@ $printer -> text("Mesa: " . $nombre_mesa);
     } unset($r);  
 
 if($cnombre != NULL){
-$oi=$oi+$n1;
-printer_draw_text($handle, "Cliente: " . $cnombre, 10, $oi);
+$printer -> text("Cliente: " . $cnombre);
+$printer->feed();
 }
 if($cdireccion != NULL){
-$oi=$oi+$n1;
-printer_draw_text($handle, $cdireccion, 10, $oi);
+$printer -> text($cdireccion);
+$printer->feed();
 }
 if($ctelefono != NULL){
-$oi=$oi+$n1;
-printer_draw_text($handle, "Telefono: " . $ctelefono, 10, $oi);
+$printer -> text("Telefono: " . $ctelefono);
+$printer->feed();
 }
 
 // datos del cliente delivery
@@ -689,17 +689,18 @@ $printer -> text("Mesa: " . $nombre_mesa);
     } unset($r);  
 
 if($cnombre != NULL){
-$oi=$oi+$n1;
-printer_draw_text($handle, "Cliente: " . $cnombre, 10, $oi);
+$printer -> text("Cliente: " . $cnombre);
+$printer->feed();
 }
 if($cdireccion != NULL){
-$oi=$oi+$n1;
-printer_draw_text($handle, $cdireccion, 10, $oi);
+$printer -> text($cdireccion);
+$printer->feed();
 }
 if($ctelefono != NULL){
-$oi=$oi+$n1;
-printer_draw_text($handle, "Telefono: " . $ctelefono, 10, $oi);
+$printer -> text("Telefono: " . $ctelefono);
+$printer->feed();
 }
+
 
 // datos del cliente delivery
 

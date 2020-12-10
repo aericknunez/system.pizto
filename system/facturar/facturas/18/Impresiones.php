@@ -555,7 +555,7 @@ if($llevar == 3){
 
 $oi=$oi+$n2;
 printer_draw_text($handle, $lleva, 25, $oi);
-printer_draw_text($handle, "MESA: " . $_SESSION['mesa'], 300, $oi);
+printer_draw_text($handle, "ORDEN: " . $_SESSION['mesa'], 300, $oi);
 
 
 
@@ -582,6 +582,32 @@ printer_draw_text($handle, "Mesa: " . $nombre_mesa, 25, $oi);
 }
 
 
+
+//// imprimir datos del cliente delivery
+    if ($r = $db->select("cliente", "clientes_mesa", "WHERE mesa = '".$_SESSION["mesa"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+        $clientex = $r["cliente"];
+    } unset($r);  
+
+    if ($r = $db->select("nombre, direccion, telefono", "clientes", "WHERE hash = '".$clientex."'  and td = ".$_SESSION["td"]."")) { 
+        $cnombre = $r["nombre"];
+        $cdireccion = $r["direccion"];
+        $ctelefono = $r["telefono"];
+    } unset($r);  
+
+if($cnombre != NULL){
+$oi=$oi+$n1;
+printer_draw_text($handle, "Cliente: " . $cnombre, 10, $oi);
+}
+if($cdireccion != NULL){
+$oi=$oi+$n1;
+printer_draw_text($handle, $cdireccion, 10, $oi);
+}
+if($ctelefono != NULL){
+$oi=$oi+$n1;
+printer_draw_text($handle, "Telefono: " . $ctelefono, 10, $oi);
+}
+
+// datos del cliente delivery
 
 $oi=$oi+$n1;
 printer_draw_text($handle, ".", 25, $oi);
@@ -705,7 +731,7 @@ if($llevar == 3){
 
 $oi=$oi+$n2;
 printer_draw_text($handle, $lleva, 25, $oi);
-printer_draw_text($handle, "MESA: " . $_SESSION['mesa'], 300, $oi);
+printer_draw_text($handle, "ORDEN: " . $_SESSION['mesa'], 300, $oi);
 
 
 
@@ -731,7 +757,31 @@ $oi=$oi+$n1;
 printer_draw_text($handle, "Mesa: " . $nombre_mesa, 25, $oi);
 }
 
+//// imprimir datos del cliente delivery
+    if ($r = $db->select("cliente", "clientes_mesa", "WHERE mesa = '".$_SESSION["mesa"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+        $clientex = $r["cliente"];
+    } unset($r);  
 
+    if ($r = $db->select("nombre, direccion, telefono", "clientes", "WHERE hash = '".$clientex."'  and td = ".$_SESSION["td"]."")) { 
+        $cnombre = $r["nombre"];
+        $cdireccion = $r["direccion"];
+        $ctelefono = $r["telefono"];
+    } unset($r);  
+
+if($cnombre != NULL){
+$oi=$oi+$n1;
+printer_draw_text($handle, "Cliente: " . $cnombre, 10, $oi);
+}
+if($cdireccion != NULL){
+$oi=$oi+$n1;
+printer_draw_text($handle, $cdireccion, 10, $oi);
+}
+if($ctelefono != NULL){
+$oi=$oi+$n1;
+printer_draw_text($handle, "Telefono: " . $ctelefono, 10, $oi);
+}
+
+// datos del cliente delivery
 
 $oi=$oi+$n1;
 printer_draw_text($handle, ".", 25, $oi);

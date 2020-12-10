@@ -422,7 +422,7 @@ $printer -> setTextSize(1, 2);
 $printer -> setLineSpacing(80);
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_________________________________________________________");
 $printer->feed();
 
 
@@ -467,7 +467,7 @@ $printer->feed();
     }    $a->close();
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_________________________________________________________");
 $printer->feed();
 
 
@@ -590,7 +590,7 @@ $printer -> setTextSize(1, 2);
 $printer -> setLineSpacing(80);
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_________________________________________________________");
 $printer->feed();
 
 
@@ -635,7 +635,7 @@ if($_SESSION["config_o_ticket_pantalla"] == 2){
     }    $a->close();
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_________________________________________________________");
 $printer->feed();
 
 
@@ -781,7 +781,7 @@ $printer -> text("RESUMEN DE CORTE DE CAJA");
 /* Stuff around with left margin */
 $printer->feed();
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
-$printer -> text("____________________________________________________________");
+$printer -> text("_________________________________________________________");
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 $printer->feed();
 /* Items */
@@ -896,7 +896,7 @@ $printer -> text($this->DosCol("TOTAL: ", 40, Helpers::Dinero($counte + $propina
 
 
   
-$printer -> text("____________________________________________________________");
+$printer -> text("_________________________________________________________");
 $printer->feed();
 
 
@@ -912,7 +912,7 @@ foreach ($axy as $bxy) {
 $printer -> text($this->DosCol("TICKET ELIMINADOS: ", 40, $counte, 20));
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_________________________________________________________");
 $printer->feed();
 
 
@@ -929,7 +929,7 @@ foreach ($axy as $bxy) {
 $printer -> text($this->DosCol("GASTOS REGISTRADOS: ", 40, Helpers::Dinero($gasto), 20));
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_________________________________________________________");
 $printer->feed();
 
 
@@ -941,7 +941,7 @@ $printer -> text($this->DosCol("EFECTIVO INGRESADO: ", 40, Helpers::Dinero($efec
 
 $printer -> text($this->DosCol("DIFERENCIA: ", 40, Helpers::Dinero($diferencia), 20));
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_________________________________________________________");
 $printer->feed();
 
 
@@ -1012,7 +1012,7 @@ $printer -> setTextSize(1, 2);
 $printer -> setLineSpacing(80);
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_________________________________________________________");
 $printer->feed();
 
 
@@ -1023,7 +1023,7 @@ $printer->feed();
 $printer -> text("MOTIVO: " . $motivo);
 $printer->feed();
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_________________________________________________________");
 $printer->feed();
 
 

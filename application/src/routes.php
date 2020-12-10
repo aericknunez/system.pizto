@@ -403,6 +403,7 @@ case "23": // borrar producto
 include_once '../../system/ventas/Venta.php';
 include_once '../../system/ventas/Especial.php';
 
+    require_once ('../ticket/autoload.php'); 
 include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
 
 $ventas = new Venta;
@@ -419,6 +420,8 @@ break;
 
 case "24": // borrar factura
 include_once '../../system/ventas/Venta.php';
+
+    require_once ('../ticket/autoload.php'); 
 include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
 
 $ventas = new Venta;
@@ -1158,6 +1161,7 @@ case "79":
 if($_POST["motivo"] != NULL){
 	$_SESSION["motivo"] = $_POST["motivo"];
 
+    require_once ('../ticket/autoload.php'); 
 include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
 
 	if($_POST["tipo"] == 2){

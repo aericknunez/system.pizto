@@ -992,26 +992,6 @@ $printer->close();
  public function EliminaOrdenCocina(){ // imprime el el producto que se borro
   $db = new dbConn();
 
-$txt1   = "31"; 
-$txt2   = "11";
-$txt3   = "0";
-$txt4   = "0";
-$n1   = "40";
-$n2   = "60";
-$n3   = "0";
-$n4   = "0";
-
-
-$col1 = 0;
-$col2 = 30;
-$col3 = 340;
-$col4 = 440;
-$col5 = 500;
-// $print
-
-$print = "COCINA";
-
-
 
 
 $a = $db->query("select ticket_borrado.cod as cod, ticket_borrado.hash as hash, ticket_borrado.cant as cant, ticket_borrado.producto as producto, control_cocina.cod as codigo 
@@ -1022,29 +1002,42 @@ $a = $db->query("select ticket_borrado.cod as cod, ticket_borrado.hash as hash, 
 
  if($cantidadproductos > 0){
 
-$handle = printer_open($print);
-printer_set_option($handle, PRINTER_MODE, "RAW");
+$nombre_impresora = "LR2000";
 
-printer_start_doc($handle, "Mi Documento");
-printer_start_page($handle);
-
-
-$font = printer_create_font("Arial", $txt1, $txt2, PRINTER_FW_NORMAL, false, false, false, 0);
-printer_select_font($handle, $font);
+$connector = new WindowsPrintConnector($nombre_impresora);
+$printer = new Printer($connector);
+$printer -> initialize();
 
 
-$oi="60";
-printer_draw_text($handle, "ORDEN CANCELADA!", 100, $oi);
+$printer -> setJustification(Printer::JUSTIFY_LEFT);
+
+$printer -> selectPrintMode(Printer::MODE_DOUBLE_HEIGHT);
+$printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
+$printer -> text("ORDEN CANCELADA!");
+$printer -> selectPrintMode();
+$printer->feed();
+
+
+$printer -> setFont(Printer::FONT_B);
+
+$printer -> setTextSize(1, 2);
+$printer -> setLineSpacing(80);
+
+
+$printer -> text("____________________________________________________________");
+$printer->feed();
 
 
     if ($r = $db->select("motivo", "mesa_borrado", "WHERE mesa='".$_SESSION["mesa"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
         $motivo = $r["motivo"];
     } unset($r); 
 
-$oi=$oi+$n2;
-printer_draw_text($handle, "MOTIVO: " . $motivo, 5, $oi);
-$oi=$oi+$n1;
-printer_draw_text($handle, "____________________________________", 0, $oi);
+$printer -> text("MOTIVO: " . $motivo);
+$printer->feed();
+
+$printer -> text("____________________________________________________________");
+$printer->feed();
+
 
     foreach ($a as $b) {
 //////
@@ -1055,19 +1048,29 @@ $cont->close();
 ///
  
 
-      $oi=$oi+$n1;
-        printer_draw_text($handle, $canti_p, 0, $oi);
-        printer_draw_text($handle, $b["producto"], 40, $oi);
+$printer -> text($canti_p . " - " .  $b["producto"]);
+$printer->feed();
 
-    $ar = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and cod = '".$b["codigo"]."'");
+
+
+  $ap = $db->query("SELECT cod FROM control_cocina WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and edo = 3");
+  foreach ($ap as $bp) {
+
+    $ar = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and cod = '".$bp["cod"]."'");
     foreach ($ar as $br) {
 
-if ($r = $db->select("nombre", "opciones_name", "WHERE cod = '".$br["opcion"]."' and td = ".$_SESSION["td"]."")) { 
-      $oi=$oi+$n1;
-      printer_draw_text($handle, "* " . $r["nombre"], 50, $oi);  
+if ($r = $db->select("nombre", "opciones_name", "WHERE cod = '".$br["opcion"]."' and td = ".$_SESSION["td"]."")) {
+
+
+$printer -> text("* " . $r["nombre"]);
+$printer->feed();
+
 } unset($r); 
 
     } $ar->close();
+
+} $ap->close();
+
 
 /// aqui debo actualizar para borrar si es ticket el que lleva el control de panel mostrar (paso a estado 2)
 if($_SESSION["config_o_ticket_pantalla"] == 2){
@@ -1098,22 +1101,14 @@ if($llevar == 3){
 
 
 
-$oi=$oi+$n2;
-printer_draw_text($handle, $lleva, 25, $oi);
-printer_draw_text($handle, "MESA: " . $_SESSION['mesa'], 300, $oi);
 
+$printer -> text($this->DosCol($lleva, 11, "MESA: " . $_SESSION['mesa'], 30));
 
+$printer -> text($this->DosCol(date("d-m-Y"), 11, date("H:i:s"), 30));
 
-$font = printer_create_font("Arial", $txt3, $txt4, PRINTER_FW_NORMAL, false, false, false, 0);
-printer_select_font($handle, $font);
+$printer -> text("Cajero: " . $_SESSION['nombre']);
+$printer->feed();
 
-$oi=$oi+$n2;
-printer_draw_text($handle, date("d-m-Y"), 0, $oi);
-printer_draw_text($handle, date("H:i:s"), 350, $oi);
-
-
-$oi=$oi+$n1;
-printer_draw_text($handle, "Cajero: " . $_SESSION['nombre'], 25, $oi);
 
 
 // nombre de mesa
@@ -1122,26 +1117,20 @@ if ($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = ".$_SESSION["mesa"].
 } unset($r);  
 
 if($nombre_mesa != NULL){
-$oi=$oi+$n1;
-printer_draw_text($handle, "Mesa: " . $nombre_mesa, 25, $oi);
+$printer -> text("Mesa: " . $nombre_mesa);
 }
 
 
-
-$oi=$oi+$n1;
-printer_draw_text($handle, ".", 25, $oi);
-
-// printer_write($handle, chr(27).chr(112).chr(48).chr(55).chr(121)); //enviar pulso
-
-
-printer_end_page($handle);
-printer_end_doc($handle);
-printer_close($handle);
+$printer->feed();
+$printer->cut();
+$printer->close();
 
 } // cantidad de productos
 
 
 }
+
+
 
 
 

@@ -488,7 +488,7 @@ if($llevar == 3){
 
 
 
-$printer -> text($this->DosCol($lleva, 11, "MESA: " . $_SESSION['mesa'], 30));
+$printer -> text($this->DosCol($lleva, 11, "ORDEN: " . $_SESSION['mesa'], 30));
 
 
 $printer -> text($this->DosCol(date("d-m-Y"), 11, date("H:i:s"), 30));
@@ -656,7 +656,7 @@ if($llevar == 3){
 
 
 
-$printer -> text($this->DosCol($lleva, 11, "MESA: " . $_SESSION['mesa'], 30));
+$printer -> text($this->DosCol($lleva, 11, "ORDEN: " . $_SESSION['mesa'], 30));
 
 
 $printer -> text($this->DosCol(date("d-m-Y"), 11, date("H:i:s"), 30));

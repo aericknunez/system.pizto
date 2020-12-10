@@ -278,7 +278,7 @@ $printer -> text($this->DosCol("Sub Total " . $_SESSION['config_moneda_simbolo']
 
 
 
-if($_SESSION['config_propina'] != 0.00){ ///  prara agregarle la propina -- sino borrar
+if($_SESSION['config_propina'] != 0.00 and $_SESSION["delivery_on"] == FALSE and $_SESSION["aquiLlevar"] == "on"){ ///  prara agregarle la propina -- sino borrar
 $printer -> text($this->DosCol("Propina " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format(Helpers::Propina($subtotalf)), 10));
   $subtotalf = Helpers::PropinaTotal($subtotalf);
 }

@@ -171,7 +171,7 @@ printer_draw_text($handle, "Efectivo " . $_SESSION['config_moneda_simbolo'] . ":
 printer_draw_text($handle, Helpers::Format($efectivo), $col4, $oi);
 
 //cambio
-$cambios = $efectivo - $subtotalf;
+$cambios = $efectivo - $tot;
 $oi=$oi+$n1;
 printer_draw_text($handle, "Cambio " . $_SESSION['config_moneda_simbolo'] . ":", 162, $oi);
 printer_draw_text($handle, Helpers::Format($cambios), $col4, $oi);

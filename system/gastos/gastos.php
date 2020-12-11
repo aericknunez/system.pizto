@@ -22,7 +22,7 @@ if($cut->VerificaApertura() == 1){ // comprobacion de corte
   <option value="2">COMPRAS CON FACTURAS</option>
   <option value="3">REMESAS</option>
   <option value="4">ADELANTO A PERSONAL</option>
-  <option value="5">CHEQUES</option>
+  <option value="5">CHEQUES Y TRANSFERENCIAS</option>
 </select>
 Descripci&oacuten
 <textarea type="text" id="descripcion" name="descripcion" class="form-control mb-3"></textarea>

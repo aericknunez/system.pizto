@@ -104,8 +104,8 @@ if($propina > 0.00){ ///  prara agregarle la propina -- sino borrar
 $printer -> text($this->DosCol("Propina " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($propina), 20));
 }
 
-
-$printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($subtotalf + $propina), 20));
+$xtotal = $subtotalf + $propina;
+$printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($xtotal), 20));
 
 
 $printer -> text("____________________________________________________________");
@@ -114,7 +114,7 @@ $printer->feed();
 
 //efectivo
 if($efectivo == NULL){
-  $efectivo = $subtotalf + $propina;
+  $efectivo = $xtotal + $propina;
 }
 
 $printer -> text($this->DosCol("Efectivo " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($efectivo), 20));
@@ -123,7 +123,7 @@ $printer -> text($this->DosCol("Efectivo " . $_SESSION['config_moneda_simbolo'] 
 
 
 //cambio
-$cambios = $efectivo - $subtotalf;
+$cambios = $efectivo - $xtotal;
 
 $printer -> text($this->DosCol("Cambio " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($cambios), 20));
 
@@ -286,8 +286,8 @@ $printer -> text($this->DosCol("Propina " . $_SESSION['config_moneda_simbolo'] .
 
 
 
-
-$printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($subtotalf + $propina), 20));
+$xtotal = $subtotalf + $propina;
+$printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($xtotal), 20));
 
 
 
@@ -900,19 +900,29 @@ $printer->feed();
 
 
 
-
 // gastos
-  $axy = $db->query("SELECT sum(cantidad) FROM gastos WHERE time BETWEEN '".$inicio."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
+  $axy = $db->query("SELECT sum(cantidad) FROM gastos WHERE tipo != 3 and tipo != 5 and time BETWEEN '".$inicio."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
 foreach ($axy as $bxy) {
     $gasto=$bxy["sum(cantidad)"];
 } $axy->close();
 
+// remesas (tipo  3)
+  $axy = $db->query("SELECT sum(cantidad) FROM gastos WHERE tipo = 3 and time BETWEEN '".$inicio."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
+foreach ($axy as $bxy) {
+    $remesas=$bxy["sum(cantidad)"];
+} $axy->close();
 
-$printer -> text($this->DosCol("GASTOS REGISTRADOS: ", 40, Helpers::Dinero($gasto), 20));
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text($this->DosCol("GASTOS REGISTRADOS: ", 40, Helpers::Dinero($gasto), 10));
+
+
+$printer -> text($this->DosCol("REMESAS: ", 40, Helpers::Dinero($remesas), 10));
+
+
+$printer -> text("_______________________________________________________");
 $printer->feed();
+
 
 
 

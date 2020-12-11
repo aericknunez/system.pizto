@@ -924,13 +924,23 @@ $printer->feed();
 
 
 // gastos
-  $axy = $db->query("SELECT sum(cantidad) FROM gastos WHERE time BETWEEN '".$inicio."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
+  $axy = $db->query("SELECT sum(cantidad) FROM gastos WHERE tipo != 3 and tipo != 5 and time BETWEEN '".$inicio."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
 foreach ($axy as $bxy) {
     $gasto=$bxy["sum(cantidad)"];
 } $axy->close();
 
+// remesas (tipo  3)
+  $axy = $db->query("SELECT sum(cantidad) FROM gastos WHERE tipo = 3 and time BETWEEN '".$inicio."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
+foreach ($axy as $bxy) {
+    $remesas=$bxy["sum(cantidad)"];
+} $axy->close();
+
+
 
 $printer -> text($this->DosCol("GASTOS REGISTRADOS: ", 40, Helpers::Dinero($gasto), 10));
+
+
+$printer -> text($this->DosCol("REMESAS: ", 40, Helpers::Dinero($remesas), 10));
 
 
 $printer -> text("_______________________________________________________");

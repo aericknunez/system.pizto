@@ -9,28 +9,9 @@ class Impresiones{
  public function Ticket($efectivo, $numero){
   $db = new dbConn();
 
-// $img  = "bbtotra.bmp";
-// $txt1   = "31"; 
-// $txt2   = "11";
-// $txt3   = "0";
-// $txt4   = "0";
-// $n1   = "40";
-// $n2   = "60";
-// $n3   = "0";
-// $n4   = "0";
-
-
-// $col1 = 0;
-// $col2 = 30;
-// $col3 = 340;
-// $col4 = 440;
-// $col5 = 500;
-// // $print
-// $print = "TICKET";
-
-$img  = "bbtotra.bmp";
-$txt1   = "35"; 
-$txt2   = "15";
+$img  = "salsaycurtido.bmp";
+$txt1   = "31"; 
+$txt2   = "11";
 $txt3   = "0";
 $txt4   = "0";
 $n1   = "40";
@@ -38,14 +19,14 @@ $n2   = "60";
 $n3   = "0";
 $n4   = "0";
 
+
 $col1 = 0;
 $col2 = 30;
-$col3 = 50;
-$col4 = 400;
-$col5 = 490;
-
+$col3 = 340;
+$col4 = 440;
+$col5 = 500;
 // $print
-$print = "EPSON2";
+$print = "CAJA";
 $logo_imagen="C:/AppServ/www/pizto/assets/img/logo_factura/". $img;
 
 
@@ -67,10 +48,9 @@ $oi=350;
 //// comienza la factura
 
 
-printer_draw_text($handle, "17 Calle Poniente y 4ta av. Sur", 40, $oi);
+printer_draw_text($handle, "4ta Calle Pte y 3ra Av Sur, Calle Valiente", 5, $oi);
 $oi=$oi+$n1;
-printer_draw_text($handle, "Atras de colegio Bautista, Santa Ana", 30, $oi);
-
+printer_draw_text($handle, "Metapan", 200, $oi);
 // $oi=$oi+$n1;
 // printer_draw_text($handle, Helpers::Pais($_SESSION['config_pais']), 0, $oi);
 // $oi=$oi+$n1;
@@ -78,7 +58,9 @@ printer_draw_text($handle, "Atras de colegio Bautista, Santa Ana", 30, $oi);
 // $oi=$oi+$n1;
 // printer_draw_text($handle, $_SESSION['config_nombre_documento'] . ": " . $_SESSION['config_nit'], 0, $oi);
 $oi=$oi+$n1;
-printer_draw_text($handle, "TELEFONO: " . $_SESSION['config_telefono'], 0, $oi);
+printer_draw_text($handle, "Tel: " . $_SESSION['config_telefono'], 0, $oi);
+
+
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "FACTURA NUMERO: " . $numero, NULL, $oi);
@@ -86,10 +68,10 @@ printer_draw_text($handle, "FACTURA NUMERO: " . $numero, NULL, $oi);
 $oi=$oi+$n2;
 printer_draw_text($handle, "____________________________________", 0, $oi);
 $oi=$oi+$n1;
-printer_draw_text($handle, "Cant.", $col1, $oi);
-printer_draw_text($handle, "Descripcion", $col3, $oi);
-printer_draw_text($handle, "P/U", $col4, $oi);
-printer_draw_text($handle, "Total", $col5, $oi);
+printer_draw_text($handle, "Cant.", 55, $oi);
+printer_draw_text($handle, "Descripcion", $col2, $oi);
+printer_draw_text($handle, "P/U", $col3, $oi);
+printer_draw_text($handle, "Total", $col4, $oi);
 
 $oi=$oi+$n1+$n3;
 printer_draw_text($handle, "____________________________________", 0, $oi);
@@ -123,9 +105,9 @@ if ($sx = $db->select("sum(total)", "ticket_temp", "WHERE num_fac = '".$numero."
 
           $oi=$oi+$n1;
           printer_draw_text($handle, $scant, $col1, $oi);
-          printer_draw_text($handle, $b["producto"], $col3, $oi);
-          printer_draw_text($handle, $b["pv"], $col4, $oi);
-          printer_draw_text($handle, $stotal, $col5, $oi);
+          printer_draw_text($handle, $b["producto"], $col2, $oi);
+          printer_draw_text($handle, $b["pv"], $col3, $oi);
+          printer_draw_text($handle, $stotal, $col4, $oi);
 
 
 ////
@@ -153,10 +135,9 @@ printer_draw_text($handle, "Propina " . $_SESSION['config_moneda_simbolo'] . ":"
 printer_draw_text($handle, Helpers::Format($propina),$col4, $oi);
 }
 
-$tot = $subtotalf + $propina;
 $oi=$oi+$n1;
 printer_draw_text($handle, "Total " . $_SESSION['config_moneda_simbolo'] . ":", 232, $oi);
-printer_draw_text($handle, Helpers::Format($tot), $col4, $oi);
+printer_draw_text($handle, Helpers::Format($subtotalf + $propina), $col4, $oi);
 
 
 $oi=$oi+$n2;
@@ -164,7 +145,7 @@ printer_draw_text($handle, "____________________________________", 0, $oi);
 
 //efectivo
 if($efectivo == NULL){
-  $efectivo = $tot + $propina;
+  $efectivo = $subtotalf;
 }
 $oi=$oi+$n1;
 printer_draw_text($handle, "Efectivo " . $_SESSION['config_moneda_simbolo'] . ":", 160, $oi);
@@ -199,11 +180,11 @@ printer_draw_text($handle, ".", 0, $oi);
 $oi=$oi+$n1+$n2;
 printer_draw_text($handle, ".", 0, $oi);
 
+// printer_write($handle, chr(29) . "V" . 0); //cortar papel
 
 printer_write($handle, chr(27).chr(112).chr(48).chr(55).chr(121)); //enviar pulso
 
 printer_delete_font($font);
-
 
 ///
 printer_end_page($handle);
@@ -509,28 +490,9 @@ printer_close($handle);
   $db = new dbConn();
 
 
-// $img  = "bbtotra.bmp";
-// $txt1   = "31"; 
-// $txt2   = "11";
-// $txt3   0= "0";
-// $txt4   = "0";
-// $n1   = "40";
-// $n2   = "60";
-// $n3   = "0";
-// $n4   = "0";
-
-
-// $col1 = 0;
-// $col2 = 30;
-// $col3 = 340;
-// $col4 = 440;
-// $col5 = 500;
-// // $print
-// $print = "TICKET";
-// 
-$img  = "bbtotra.bmp";
-$txt1   = "35"; 
-$txt2   = "15";
+$img  = "salsaycurtido.bmp";
+$txt1   = "31"; 
+$txt2   = "11";
 $txt3   = "0";
 $txt4   = "0";
 $n1   = "40";
@@ -538,14 +500,14 @@ $n2   = "60";
 $n3   = "0";
 $n4   = "0";
 
+
 $col1 = 0;
 $col2 = 30;
-$col3 = 50;
-$col4 = 400;
-$col5 = 490;
-
+$col3 = 340;
+$col4 = 440;
+$col5 = 500;
 // $print
-$print = "EPSON2";
+$print = "CAJA";
 $logo_imagen="C:/AppServ/www/pizto/assets/img/logo_factura/". $img;
 
 
@@ -567,10 +529,9 @@ $oi=350;
 //// comienza la factura
 
 
-printer_draw_text($handle, "17 Calle Poniente y 4ta av. Sur", 40, $oi);
+printer_draw_text($handle, "4ta Calle Pte y 3ra Av Sur, Calle Valiente", 5, $oi);
 $oi=$oi+$n1;
-printer_draw_text($handle, "Atras de colegio Bautista, Santa Ana", 30, $oi);
-
+printer_draw_text($handle, "Metapan", 200, $oi);
 // $oi=$oi+$n1;
 // printer_draw_text($handle, Helpers::Pais($_SESSION['config_pais']), 0, $oi);
 // $oi=$oi+$n1;
@@ -578,7 +539,7 @@ printer_draw_text($handle, "Atras de colegio Bautista, Santa Ana", 30, $oi);
 // $oi=$oi+$n1;
 // printer_draw_text($handle, $_SESSION['config_nombre_documento'] . ": " . $_SESSION['config_nit'], 0, $oi);
 $oi=$oi+$n1;
-printer_draw_text($handle, "TELEFONO: " . $_SESSION['config_telefono'], 0, $oi);
+printer_draw_text($handle, "Tel: " . $_SESSION['config_telefono'], 0, $oi);
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "ORDEN NUMERO: ". $numero, NULL, $oi);
@@ -588,13 +549,14 @@ printer_draw_text($handle, "PRE CUENTA", NULL, $oi);
 
 
 
+
 $oi=$oi+$n2;
 printer_draw_text($handle, "____________________________________", 0, $oi);
 $oi=$oi+$n1;
-printer_draw_text($handle, "Cant.", $col1, $oi);
-printer_draw_text($handle, "Descripcion", $col3, $oi);
-printer_draw_text($handle, "P/U", $col4, $oi);
-printer_draw_text($handle, "Total", $col5, $oi);
+printer_draw_text($handle, "Cant.", 55, $oi);
+printer_draw_text($handle, "Descripcion", $col2, $oi);
+printer_draw_text($handle, "P/U", $col3, $oi);
+printer_draw_text($handle, "Total", $col4, $oi);
 
 $oi=$oi+$n1+$n3;
 printer_draw_text($handle, "____________________________________", 0, $oi);
@@ -627,9 +589,9 @@ if ($sx = $db->select("sum(total)", "ticket_temp", "WHERE mesa = '".$numero."'  
 
           $oi=$oi+$n1;
           printer_draw_text($handle, $scant, $col1, $oi);
-          printer_draw_text($handle, $b["producto"], $col3, $oi);
-          printer_draw_text($handle, $b["pv"], $col4, $oi);
-          printer_draw_text($handle, $stotal, $col5, $oi);
+          printer_draw_text($handle, $b["producto"], $col2, $oi);
+          printer_draw_text($handle, $b["pv"], $col3, $oi);
+          printer_draw_text($handle, $stotal, $col4, $oi);
 
 
 ////
@@ -760,7 +722,8 @@ $col3 = 340;
 $col4 = 440;
 $col5 = 500;
 // $print
-$print = "PRINTER-COMANDAS";
+$print = "KITCHEN";
+// 
 // 
 
 
@@ -895,6 +858,7 @@ printer_close($handle);
  public function ComandaBar(){
   $db = new dbConn();
 
+
 $txt1   = "31"; 
 $txt2   = "11";
 $txt3   = "0";
@@ -911,9 +875,8 @@ $col3 = 340;
 $col4 = 440;
 $col5 = 500;
 // $print
-
-$print = "PRINTER-BAR";
-
+$print = "BAR";
+// 
 
 $a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket_temp.cant as cant, ticket_temp.producto as producto, control_cocina.cod as codigo  
   FROM ticket_temp, control_panel_mostrar, control_cocina 
@@ -1066,7 +1029,7 @@ printer_close($handle);
 
  public function AbrirCaja(){
  // $print
-  $print = "EPSON2";
+  $print = "CAJA";
   
     $handle = printer_open($print);
     printer_set_option($handle, PRINTER_MODE, "RAW");
@@ -1090,27 +1053,8 @@ printer_close($handle);
  public function ReporteCorte(){ // imprime el resumen del ultimo corte
   $db = new dbConn();
 
-// $txt1   = "31"; 
-// $txt2   = "11";
-// $txt3   = "0";
-// $txt4   = "0";
-// $n1   = "40";
-// $n2   = "60";
-// $n3   = "0";
-// $n4   = "0";
-
-
-// $col1 = 0;
-// $col2 = 45;
-// $col3 = 65;
-// $col4 = 420;
-// $col5 = 450;
-// // $print
-// $print = "TICKET";
-
-$img  = "bbtotra.bmp";
-$txt1   = "35"; 
-$txt2   = "15";
+$txt1   = "31"; 
+$txt2   = "11";
 $txt3   = "0";
 $txt4   = "0";
 $n1   = "40";
@@ -1118,14 +1062,15 @@ $n2   = "60";
 $n3   = "0";
 $n4   = "0";
 
+
 $col1 = 0;
 $col2 = 30;
-$col3 = 50;
+$col3 = 340;
 $col4 = 440;
 $col5 = 500;
-
 // $print
-$print = "EPSON2";
+$print = "CAJA";
+// 
 
 
 // $txt1   = "17"; 
@@ -1273,27 +1218,15 @@ printer_draw_text($handle, "____________________________________", 0, $oi);
 
 
 // gastos
-  $axy = $db->query("SELECT sum(cantidad) FROM gastos WHERE tipo != 3 and tipo != 5 and time BETWEEN '".$inicio."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
+  $axy = $db->query("SELECT sum(cantidad) FROM gastos WHERE time BETWEEN '".$timeinicial."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
 foreach ($axy as $bxy) {
     $gasto=$bxy["sum(cantidad)"];
 } $axy->close();
-
-// remesas (tipo  3)
-  $axy = $db->query("SELECT sum(cantidad) FROM gastos WHERE tipo = 3 and time BETWEEN '".$inicio."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
-foreach ($axy as $bxy) {
-    $remesas=$bxy["sum(cantidad)"];
-} $axy->close();
-
 
 
 $oi=$oi+50;
 printer_draw_text($handle, "GASTOS REGISTRADOS: ", 20, $oi);
 printer_draw_text($handle, Helpers::Dinero($gasto), $col4, $oi);
-
-
-$oi=$oi+50;
-printer_draw_text($handle, "REMESAS: ", 20, $oi);
-printer_draw_text($handle, Helpers::Dinero($remesas), $col4, $oi);
 
 
 $oi=$oi+$n1;
@@ -1410,8 +1343,8 @@ $col3 = 340;
 $col4 = 440;
 $col5 = 500;
 // $print
-
-$print = "PRINTER-BAR";
+$print = "BAR";
+// 
 
 
 
@@ -1580,9 +1513,8 @@ $col3 = 340;
 $col4 = 440;
 $col5 = 500;
 // $print
-
-$print = "PRINTER-COMANDAS";
-
+$print = "KITCHEN";
+// 
 
 
 

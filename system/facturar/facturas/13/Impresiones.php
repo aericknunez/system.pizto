@@ -40,7 +40,7 @@ $printer->feed();
 $printer->text("Tel: " . $_SESSION['config_telefono']);
 
 $printer->feed();
-$printer->text("FACTURA NUMERO: " . $numero);
+$printer->text("ORDEN NUMERO: " . $numero);
 
 
 /* Stuff around with left margin */

@@ -102,7 +102,7 @@ $subtotalf = 0;
 
 
 
-$a = $db->query("select cod, cant, producto, pv, total, fecha, hora, num_fac from ticket_temp where num_fac = '".$numero."' $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." group by cod");
+$a = $db->query("select cod, cant, producto, pv, total, fecha, hora, num_fac from ticket where num_fac = '".$numero."' $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." group by cod");
   
     foreach ($a as $b) {
  
@@ -112,11 +112,11 @@ $a = $db->query("select cod, cant, producto, pv, total, fecha, hora, num_fac fro
 
 
 /// para hacer las sumas
-if ($s = $db->select("sum(cant), sum(total)", "ticket_temp", "WHERE cod = ".$b["cod"]." and num_fac = '".$numero."'  $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+if ($s = $db->select("sum(cant), sum(total)", "ticket", "WHERE cod = ".$b["cod"]." and num_fac = '".$numero."'  $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
         $scant=$s["sum(cant)"]; $stotal=$s["sum(total)"];
     } unset($s); 
 //////
-if ($sx = $db->select("sum(total)", "ticket_temp", "WHERE num_fac = '".$numero."'  $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+if ($sx = $db->select("sum(total)", "ticket", "WHERE num_fac = '".$numero."'  $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
        $stotalx=$sx["sum(total)"];
     } unset($sx); 
  
@@ -164,7 +164,7 @@ printer_draw_text($handle, "____________________________________", 0, $oi);
 
 //efectivo
 if($efectivo == NULL){
-  $efectivo = $tot + $propina;
+  $efectivo = $tot;
 }
 $oi=$oi+$n1;
 printer_draw_text($handle, "Efectivo " . $_SESSION['config_moneda_simbolo'] . ":", 160, $oi);

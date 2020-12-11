@@ -1239,7 +1239,6 @@ break;
 
 
 case  "86": // imprimir factura
-
 $factura = $_REQUEST["factura"];
 include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
 include_once '../../system/facturar/Facturar.php';

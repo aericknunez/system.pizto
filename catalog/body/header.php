@@ -76,7 +76,7 @@
 
             <ul class="nav navbar-nav nav-flex-icons ml-auto">
 
-<?php if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 3 or $_SESSION["tipo_cuenta"] == 5) { ?>
+<?php if($_SESSION["tipo_cuenta"] == 1 or $_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 3 or ($_SESSION["tipo_cuenta"] == 5 and $_SESSION["tx"] != 13)) { ?>
                 <li class="nav-item">
                     <a id="cambiar-pantalla-inicio" op="28" class="nav-link"><i class="fas fa-truck"></i></a>
                 </li>

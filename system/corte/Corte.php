@@ -413,13 +413,14 @@ public function CancelarCorte($ramdom,$fecha){
 		$db = new dbConn();
 
 
-    if ($r = $db->select("efectivo, propina, total, gastos, diferencia, clientes, time", "corte_diario", "WHERE edo = 1 and td = ".$_SESSION["td"]." order by time desc")) { 
+    if ($r = $db->select("efectivo, propina, total, gastos, diferencia, clientes, time, hash", "corte_diario", "WHERE edo = 1 and td = ".$_SESSION["td"]." order by time desc")) { 
         $efectivo = $r["efectivo"];
         $propina = $r["propina"];
         $total = $r["total"];
         $gastos = $r["gastos"];
         $diferencia = $r["diferencia"];
         $clientes = $r["clientes"];
+        $hash = $r["hash"];
         $fin = $r["time"];
 
     } unset($r);  
@@ -451,7 +452,10 @@ $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 1 a
 	    if ($r = $db->select("total", "ticket_propina", "WHERE num_fac = ".$b["num_fac"]." and td = ".$_SESSION["td"]." and tx = ".$b["tx"]."")) { 
 	        $totalx = $r["total"];
 	    } unset($r);  
-	    $propinatarjetac = $propinatarjetac + $totalx;
+	    if($totalx > 0){
+	    	$propinatarjetac = $propinatarjetac + $totalx;
+	    	unset($total2);
+	    }  
     } $a->close();
 
 
@@ -462,8 +466,11 @@ $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 1 a
 
 	    if ($r = $db->select("total", "ticket_propina", "WHERE num_fac = ".$b["num_fac"]." and td = ".$_SESSION["td"]." and tx = ".$b["tx"]."")) { 
 	        $total2 = $r["total"];
-	    } unset($r);  
-	    $propinatarjetae = $propinatarjetae + $total2;
+	    } unset($r); 
+	    if($total2 > 0){
+	    	$propinatarjetae = $propinatarjetae + $total2;
+	    	unset($total2);
+	    }  
     } $a->close();
 
 		 echo '<div class="card-deck">
@@ -558,7 +565,7 @@ $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 1 a
 
 			echo '<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalConfirmDelete">Eliminar Corte</button>';
 			echo '<a id="imprimir_corte" class="btn-floating cyan" title="Imprimir Corte" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-print"></i></a>';
-		
+			echo '<a href="?resumen&hash='.$hash.'" class="btn-floating btn-primary" title="Ver detalles del corte" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-info-circle"></i></a>';
 	}
 
 

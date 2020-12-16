@@ -538,6 +538,19 @@ $printer->feed();
 // datos del cliente delivery
 
 
+// COMENTARIOS DE LA MESA
+if ($r = $db->select("comentario", "mesa_comentarios", "WHERE mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and tx = ".$_SESSION["tx"]."")) { 
+    $comentario = $r["comentario"];
+} unset($r);  
+
+if($comentario != NULL){
+$printer -> text("OBSERVACIONS: " . $comentario);
+$printer->feed();
+}
+
+
+
+
 $printer->feed();
 $printer->cut();
 $printer->close();
@@ -704,8 +717,21 @@ $printer -> text("Telefono: " . $ctelefono);
 $printer->feed();
 }
 
-
 // datos del cliente delivery
+
+
+
+// COMENTARIOS DE LA MESA
+if ($r = $db->select("comentario", "mesa_comentarios", "WHERE mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and tx = ".$_SESSION["tx"]."")) { 
+    $comentario = $r["comentario"];
+} unset($r);  
+
+if($comentario != NULL){
+$printer -> text("OBSERVACIONS: " . $comentario);
+$printer->feed();
+}
+
+
 
 
 $printer->feed();

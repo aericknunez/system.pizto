@@ -2244,14 +2244,29 @@ break;
 
 
 
-case  "373": // cambiar la vista de la propina
-if($_SESSION["aquiLlevar"] == "on"){
-	// se muestra la propina
+case  "373": // carga el total e la venta
+	include_once '../../system/ventas/Venta.php';
+	$ventas = new Venta;
+	$ventas->TotalFactura();
+break; 
 
-} else {
-	// se oculta la propina
 
+
+case  "374": // agrego el comentario a la ore y comanda
+if($_POST["comentario"] != NULL){
+	include_once '../../system/ventas/Venta.php';
+	$ventas = new Venta;
+	$ventas->AgregaComentario($_POST["comentario"]);
 }
+break; 
+
+
+
+case  "375": // detalles del corte
+	include_once '../../system/historial/Resumen.php';
+	$resum = new Resumen;
+	$resum->ResumenCorte($_REQUEST["hash"], $_REQUEST["corte"]);
+// print_r($_REQUEST);
 break; 
 
 

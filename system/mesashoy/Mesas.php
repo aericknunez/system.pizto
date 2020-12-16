@@ -228,6 +228,11 @@ class Mesas{
 				    }		    
 
 		    } $a->close();
+
+
+if ($_SESSION["config_propina"] != 0) {
+	Alerts::Mensajex("La propina no se está calculando en el total de la venta","info");
+}
 		   
 
 	}

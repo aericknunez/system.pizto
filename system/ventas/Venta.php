@@ -455,28 +455,11 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 		    	echo '</tbody>
 					</table>';
 
-				    $s = $db->query("SELECT sum(total) FROM ticket_temp WHERE mesa = '$mesa' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and num_fac= 0");
-				    foreach ($s as $t) {
-				        $max=$t["sum(total)"];
-				    } $s->close();
-				   
-				    if($_SESSION["rtn"] != NULL){ echo $_SESSION['config_nombre_documento'] . ": " . $_SESSION["rtn"]; }
 
-				    if($_SESSION["tx"] == 0){
-				    		if($_SESSION["noimprimir"] != NULL){
-				    		echo '<a id="cambiar-pantalla-inicio" op="87"><h1 class="text-danger">Total: '. Helpers::Dinero(Helpers::PropinaTotal($max)).'</h1></a>';
-						    } else {
-						    		if($_SESSION['config_propina'] != 0.00 and $_SESSION["delivery_on"] == FALSE and $_SESSION["aquiLlevar"] == "on"){
-						    		echo '<p>Subtotal: '.$max.' | Propina '.$_SESSION['config_propina'].'% : '. Helpers::Dinero(Helpers::Propina($max)) .'</p>'; }
 
-						    		echo '<a id="cambiar-pantalla-inicio" op="87"><h1 class="h1-responsive">Total: '. Helpers::Dinero(Helpers::PropinaTotal($max)) .'</h1></a>';
-							}
-				    } else {
-				    			if($_SESSION['config_propina'] != 0.00 and $_SESSION["delivery_on"] == FALSE and $_SESSION["aquiLlevar"] == "on"){
-				    		echo '<p>Subtotal: '.$max.' | Propina '.$_SESSION['config_propina'].'% : '.Helpers::Dinero( Helpers::Propina($max)) .'</p>'; }
-
-				    		echo '<h1 class="h1-responsive">Total: '. Helpers::Dinero(Helpers::PropinaTotal($max)) .'</h1>';
-				    }
+echo '<div id="total_factura">';
+ $this->TotalFactura();
+echo '</div>';
 				    	    
 				   
 /// form de venta bloqueado a mesero
@@ -508,10 +491,22 @@ if($_SESSION["tipo_cuenta"] != 6){
 
 					$this->BotonesFactura();
 
-			if($_SESSION['config_aqui'] == "on"){
+
+
+
+			/// el mensaje de comer aqui o para llevar
+			if($_SESSION['config_aqui'] == "on" and $_SESSION["delivery_on"] != TRUE){
 					echo '<div id="aquillevar" class="text-center text-uppercase text-muted">'; if($_SESSION["aquiLlevar"] == "on"){ echo "Comer Aqui"; } else { echo "Para LLevar"; } echo'</div>';
 			}
 
+
+
+			/// mensaje de comanda
+		if($_SESSION['config_o_comentarios_comanda'] == 1){
+			 if($this->CompruebaComentario() == TRUE){
+			 	Alerts::Mensajex("<strong>Comentario Agregado: </strong>" . $this->GetComentario(),"success");
+			 }
+    	}
 
 		    } $a->close();
 		   
@@ -603,30 +598,9 @@ if($_SESSION["tipo_cuenta"] != 6){
 		    	echo '</tbody>
 					</table>';
 
-				    $s = $db->query("SELECT sum(total) FROM ticket_temp WHERE mesa = '$mesa' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and num_fac= 0");
-				    foreach ($s as $t) {
-				        $max=$t["sum(total)"];
-				    } $s->close();
-				   
-				    if($_SESSION["rtn"] != NULL){ echo $_SESSION['config_nombre_documento'] . ": " . $_SESSION["rtn"]; }
-
-				    if($_SESSION["tx"] == 0){
-				    		if($_SESSION["noimprimir"] != NULL){
-				    		echo '<a id="cambiar-pantalla-inicio" op="87"><h1 class="text-danger">Total: '. Helpers::Dinero(Helpers::PropinaTotal($max)).'</h1></a>';
-						    } else {
-						    		if($_SESSION['config_propina'] != 0.00 and $_SESSION["delivery_on"] == FALSE and $_SESSION["aquiLlevar"] == "on"){
-						    		echo '<p>Subtotal: '.$max.' | Propina '.$_SESSION['config_propina'].'% : '. Helpers::Dinero(Helpers::Propina($max)) .'</p>'; }
-
-						    		echo '<a id="cambiar-pantalla-inicio" op="87"><h1 class="h1-responsive">Total: '. Helpers::Dinero(Helpers::PropinaTotal($max)) .'</h1></a>';
-							}
-				    } else {
-				    			if($_SESSION['config_propina'] != 0.00 and $_SESSION["delivery_on"] == FALSE and $_SESSION["aquiLlevar"] == "on"){
-				    		echo '<p>Subtotal: '.$max.' | Propina '.$_SESSION['config_propina'].'% : '.Helpers::Dinero( Helpers::Propina($max)) .'</p>'; }
-
-				    		echo '<h1 class="h1-responsive">Total: '. Helpers::Dinero(Helpers::PropinaTotal($max)) .'</h1>';
-				    }
-				    	    
-
+echo '<div id="total_factura">';
+ $this->TotalFactura();
+echo '</div>';
 
 /// form de venta bloqueado a mesero
 if($_SESSION["tipo_cuenta"] != 6){
@@ -658,6 +632,13 @@ if($_SESSION["tipo_cuenta"] != 6){
 
 
 					$this->BotonesFactura();
+
+					/// mensaje de comanda
+		if($_SESSION['config_o_comentarios_comanda'] == 1){
+			 if($this->CompruebaComentario() == TRUE){
+			 	Alerts::Mensajex("<strong>Comentario Agregado: </strong>" . $this->GetComentario(),"success");
+			 }
+    	}
 
 		    } $a->close();
 		   
@@ -742,15 +723,12 @@ if($_SESSION["tipo_cuenta"] != 6){
 		    	echo '</tbody>
 					</table>';
 
-				    $s = $db->query("SELECT sum(total) FROM ticket_temp WHERE mesa = '$mesa' and cancela = '$cancela' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and num_fac= 0");
-				    foreach ($s as $t) {
-				        $max=$t["sum(total)"];
-				    } $s->close();
 
-				    if($_SESSION['config_propina'] != 0.00 and $_SESSION["delivery_on"] == FALSE and $_SESSION["aquiLlevar"] == "on"){
-						    		echo '<p>Subtotal: '.$max.' | Propina '.$_SESSION['config_propina'].'% : '. Helpers::Dinero(Helpers::Propina($max)) .'</p>'; }
 
-				    echo "<h1 class='h1-responsive'>Total: ". Helpers::Dinero(Helpers::PropinaTotal($max)) ."</h1>";
+				    echo '<div id="total_factura">';
+					 $this->TotalFactura($cancela);
+					echo '</div>';
+
 
 
 				     echo '<form action="application/src/routes.php?op=25" method="post"  name="form-vender" id="form-vender" >
@@ -823,6 +801,65 @@ if($_SESSION["tipo_cuenta"] != 6){
 		    } $a->close();
 		}
 	}
+
+
+
+
+
+
+/// TOTAL DE FACTURA
+
+public function TotalFactura($cancela = NULL){
+	$db = new dbConn();
+
+if($cancela != NULL){
+	$cancelar = "and cancela = '".$cancela."'";
+}
+
+    $s = $db->query("SELECT sum(total) FROM ticket_temp WHERE mesa = ".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and num_fac= 0 $cancelar");
+    foreach ($s as $t) {
+        $max=$t["sum(total)"];
+    } $s->close();
+
+
+    if($_SESSION["rtn"] != NULL){ echo $_SESSION['config_nombre_documento'] . ": " . $_SESSION["rtn"]; }
+
+
+
+    if($_SESSION["tx"] == 0){
+    		if($_SESSION["noimprimir"] != NULL){
+
+		    	if($_SESSION['config_propina'] != 0.00 and $_SESSION["delivery_on"] == FALSE and $_SESSION["aquiLlevar"] == "on"){
+		    		echo '<p>Subtotal: '.$max.' | Propina '.$_SESSION['config_propina'].'% : '. Helpers::Dinero(Helpers::Propina($max)) .'</p>'; 
+
+		    		echo '<a id="cambiar-pantalla-inicio" op="87"><h1 class="text-danger">Total: '. Helpers::Dinero(Helpers::PropinaTotal($max)).'</h1></a>';
+		    	} else {
+		    		echo '<a id="cambiar-pantalla-inicio" op="87"><h1 class="text-danger">Total: '. Helpers::Dinero($max).'</h1></a>';
+		    	} 
+
+		    } else {
+		    	if($_SESSION['config_propina'] != 0.00 and $_SESSION["delivery_on"] == FALSE and $_SESSION["aquiLlevar"] == "on"){
+		    		echo '<p>Subtotal: '.$max.' | Propina '.$_SESSION['config_propina'].'% : '. Helpers::Dinero(Helpers::Propina($max)) .'</p>'; 
+
+		    		echo '<a id="cambiar-pantalla-inicio" op="87"><h1 class="text-black">Total: '. Helpers::Dinero(Helpers::PropinaTotal($max)).'</h1></a>';
+		    	} else {
+		    		echo '<a id="cambiar-pantalla-inicio" op="87"><h1 class="text-black">Total: '. Helpers::Dinero($max).'</h1></a>';
+		    	} 
+			}
+    } else {
+		    	if($_SESSION['config_propina'] != 0.00 and $_SESSION["delivery_on"] == FALSE and $_SESSION["aquiLlevar"] == "on"){
+		    		echo '<p>Subtotal: '.$max.' | Propina '.$_SESSION['config_propina'].'% : '. Helpers::Dinero(Helpers::Propina($max)) .'</p>'; 
+
+		    		echo '<h1 class="text-black">Total: '. Helpers::Dinero(Helpers::PropinaTotal($max)).'</h1>';
+		    	} else {
+		    		echo '<h1 class="text-black">Total: '. Helpers::Dinero($max).'</h1>';
+		    	} 
+    }
+				    	    
+
+}
+
+
 
 
 
@@ -1260,12 +1297,79 @@ public function InsertaBorrado(){
 
 
 
+
+
+
+
+
+public function CompruebaComentario(){
+	$db = new dbConn();
+
+ $a = $db->query("SELECT * FROM mesa_comentarios WHERE mesa = ".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"].""); $comprobacion = $a->num_rows; $a->close();
+
+	if($comprobacion > 0){
+		return TRUE;
+	} else {
+		return FALSE;
+	}
+}
+   			 
+
+
+
+public function GetComentario(){
+	$db = new dbConn();
+    if ($r = $db->select("comentario", "mesa_comentarios", "WHERE mesa = ".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+       return $r["comentario"];
+    } unset($r);  
+}
+   			 
+
+
+
+public function AgregaComentario($comentario){
+	$db = new dbConn();
+
+	if($this->CompruebaComentario() == TRUE){
+
+	 	$cambio = array();
+	    $cambio["comentario"] = $comentario;
+	    $cambio["fecha"] = date("d-m-Y");
+	    $cambio["hora"] = date("H:i:s");
+	    if(Helpers::UpdateId("mesa_comentarios", $cambio, "mesa = ".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." limit 1")){
+	    	Alerts::Mensajex("<strong>Comentario Actualizado: </strong>$comentario","warning");
+	    }
+
+	} else {
+
+		$datos = array();
+	    $datos["mesa"] = $_SESSION["mesa"];
+	    $datos["tx"] = $_SESSION["tx"];
+	    $datos["comentario"] = $comentario;
+	    $datos["fecha"] = date("d-m-Y");
+	    $datos["hora"] = date("H:i:s");
+	    $datos["td"] = $_SESSION["td"];
+	    $datos["hash"] = Helpers::HashId();
+		$datos["time"] = Helpers::TimeId();
+	    if($db->insert("mesa_comentarios", $datos)){
+	    	Alerts::Mensajex("<strong>Comentario Agregado: </strong>$comentario","success");
+	    } 
+	}
+}
+
+
+
+
+
  public function BotonesFactura($cancela = NULL){
+
+// $cancela solo sirve cuando es un cliente individual
 
 echo '<div class="row d-flex justify-content-center">';
 
-/// si es en delivery
 
+
+/// si es en delivery
 	if($_SESSION["delivery_on"] == TRUE){
 		echo '<a id="deliveryedo" class="btn-floating red"><i class="fas fa-user" aria-hidden="true" title="Opciones" data-toggle="tooltip" data-placement="bottom"></i></a>';
 
@@ -1277,38 +1381,41 @@ echo '<div class="row d-flex justify-content-center">';
 
 	} 
 
-
+/// si es mesas pero no delivery
 	if($_SESSION['tipo_inicio'] == 2 and $_SESSION["delivery_on"] != TRUE){ // si esta en mesas.
-
 
 	if($_SESSION['config_imprimir_antes'] != NULL){
 		 	echo '<a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&efectivo=&cancela='.$cancela.'" class="btn-floating blue" title="Imprimir Ticket" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-print"></i></a>'; }	
 	
-	if($_SESSION['config_aqui'] != NULL){
+	if($_SESSION['config_aqui'] != NULL and $cancela == NULL){
 		 	echo '<a id="aqui" class="btn-floating blue" title="Aqui o Para llevar" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-utensils"></i></a>'; }
 
 	} 
 
 
+/// si no es mesa y no es delivery
 	if($_SESSION['tipo_inicio'] == 1 and $_SESSION["delivery_on"] != TRUE) { // si esta en venta rapida
 		
 		if($_SESSION['opcionesactivas'] == TRUE){
 		echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'" class="btn-floating btn-success" title="Cambios al platillo" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-hamburger"></i></a>'; }
 
-		if($_SESSION['config_aqui'] != NULL){
+		if($_SESSION['config_aqui'] != NULL and $cancela == NULL){
 		 	echo '<a id="aqui" class="btn-floating blue" title="Aqui o Para llevar" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-utensils"></i></a>'; }
 	}
-	/// si es para todos
 
+
+	/// si es para todos
 	if($_SESSION['config_tcredito'] == "on"){
 		 	echo '<a id="tcredito" class="btn-floating indigo"><i class="fas fa-credit-card" title="Tipo de Pago" data-toggle="tooltip" data-placement="bottom"></i></a>'; }
 
 
-	if($_SESSION['config_imprimir_comanda'] != NULL){
+	if($_SESSION['config_imprimir_comanda'] != NULL and $cancela == NULL){
 		 	echo '<a id="imprimir_comanda" class="btn-floating cyan" title="Imprimir Comanda" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-print"></i></a>'; }
 
-	// if($_SESSION['config_imprimir_antes'] != NULL){
-	// 	 	echo '<div align="center"><a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&cancela='.$cancela.'" class="btn-floating blue"><i class="fas fa-print" aria-hidden="true"></i></a></div>'; }
+	if($_SESSION['config_o_comentarios_comanda'] == 1 and $cancela == NULL){
+		 	echo '<a id="cometario_comanda" class="btn-floating unique-color" title="Comentarios en Comanda" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-comment"></i></a>';  }
+
+
 
 echo '</div>';
  }

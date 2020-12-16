@@ -59,7 +59,7 @@ unset($_SESSION["session_unluck"], $_SESSION["login_admin"]);
 if($_SESSION["tipo_cuenta"] == 6){
     $_SESSION["tipo_inicio"] = 2;
 }
-$_SESSION["aquiLlevar"] = "on";
+$_SESSION["aquiLlevar"] = "on"; // deja activo la mesa para comer aqui desde el inicio
 
         // verifica apertura de caja
         VerificaAperturaCaja();

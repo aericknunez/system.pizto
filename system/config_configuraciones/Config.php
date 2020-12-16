@@ -297,6 +297,52 @@ $return.= "\n \n";
 </div>'; 
 
 
+
+
+
+/// modal de comentarios
+$return.= "\n \n";
+
+ $return.= '<div class="modal" id="ComentarioComanda" tabindex="-1" role="dialog" aria-labelledby="ComentarioComanda" aria-hidden="true"  data-backdrop="true">
+		  <div class="modal-dialog modal-md" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">
+		         INGRESE EL COMENTARIO A LA COMANDA</h5>
+		 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+		      </div>
+		      <div class="modal-body">
+
+
+<form id="form-comentario" name="form-comentario">
+ 
+     <div class="justify-content-center">
+      <div class="col-xs-2">
+        <textarea type="text" id="comentario" name="comentario" class="form-control mb-3" placeholder="Escriba su cometario aqui"></textarea>
+      </div>
+    </div>
+
+    <div class="justify-content-center">
+      <button class="btn btn-info my-4" type="submit" id="btn-comentario" name="btn-comentario">AGREGAR COMENTARIO</button>
+    </div>
+
+    </form>
+
+
+<div id="vista_comentarios"></div>
+
+		</div>
+
+  </div>
+</div>
+</div>'; 
+
+
+
+
+
 } else { // si no hay registros
 
 $return.= '<? '; 
@@ -637,6 +683,53 @@ $return.= "\n \n";
 </div>'; 
 
 
+
+
+
+/// modal de comentarios
+$return.= "\n \n";
+
+ $return.= '<div class="modal" id="ComentarioComanda" tabindex="-1" role="dialog" aria-labelledby="ComentarioComanda" aria-hidden="true"  data-backdrop="true">
+		  <div class="modal-dialog modal-md" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">
+		         INGRESE EL COMENTARIO A LA COMANDA</h5>
+		 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+		      </div>
+		      <div class="modal-body">
+
+
+<form id="form-comentario" name="form-comentario">
+ 
+     <div class="justify-content-center">
+      <div class="col-xs-2">
+        <textarea type="text" id="comentario" name="comentario" class="form-control mb-3" placeholder="Escriba su cometario aqui"></textarea>
+      </div>
+    </div>
+
+    <div class="justify-content-center">
+      <button class="btn btn-info my-4" type="submit" id="btn-comentario" name="btn-comentario">AGREGAR COMENTARIO</button>
+    </div>
+
+    </form>
+
+
+<div id="vista_comentarios"></div>
+
+		</div>
+
+  </div>
+</div>
+</div>'; 
+
+
+
+
+
+
 } else { // si no hay registros
 
 $return.= '<? '; 
@@ -783,7 +876,7 @@ if (strpos($imagen, 'icoimg') !== false) {
 			$_SESSION['config_o_no_caja'] = $r["no_caja"];
 			$_SESSION['config_o_no_mesas'] = $r["no_mesas"];
 			$_SESSION['config_o_registro_borrar'] = $r["registro_borrar"];
-			$_SESSION['config_o_cometarios_comanda'] = $r["cometarios_comanda"];
+			$_SESSION['config_o_comentarios_comanda'] = $r["comentarios_comanda"];
 
 			} unset($r);
 

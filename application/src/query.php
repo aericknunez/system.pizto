@@ -155,6 +155,9 @@ echo '<script type="text/javascript" src="assets/js/query/historial.js?v='.$nume
 elseif(isset($_GET["cortes"])) {
 echo '<script type="text/javascript" src="assets/js/query/historial.js?v='.$numero.'"></script>';
 }
+elseif(isset($_GET["resumen"])) {
+echo '<script type="text/javascript" src="assets/js/query/historial.js?v='.$numero.'"></script>';
+}
 elseif(isset($_GET["ticket_eliminados"])) {
 echo '<script type="text/javascript" src="assets/js/query/historial.js?v='.$numero.'"></script>';
 }

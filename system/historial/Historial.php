@@ -228,7 +228,7 @@ class Historial{
 				$colores='class="text-danger"';	
 				} 
 				  echo '<tr '.$colores.'>
-				       <th scope="row">'. $b["fecha"] . '</th>';
+				       <th scope="row"><a id="ver_resumen" hash="'. $b["hash"] . '"  corte="corte">'. $b["fecha"] . '</a></th>';
 					if($_SESSION["td"] != 3){
 				echo '<td>'. $b["mesas"] . '</td>
 				       <td>'. $b["clientes"] . '</td>
@@ -681,9 +681,13 @@ class Historial{
 				       <td><a id="xverticket" num_fac="'. $bx["num_fac"] . '" tx="'. $bx["tx"] . '" op="78x" class="btn-floating btn-sm"><i class="fas fa-eye red-text"></i></a></td>
 				  </tr>';
 	   
-	   $xtotal = $xtotal + $total;
-	   $xporcentaje = $xporcentaje + $porcentaje;
-	   $xpropina = $xpropina + $propina;
+	   if($total != NULL) { $xtotal = $xtotal + $total; 
+	   	unset($total); }
+	   if($porcentaje != NULL) { $xporcentaje = $xporcentaje + $porcentaje; 
+	   	unset($porcentaje); }
+	   if($propina != NULL) { $xpropina = $xpropina + $propina; 
+	   	unset($propina); }
+	   
 	   $ordenes++;
 
 	    } 

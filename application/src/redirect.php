@@ -60,6 +60,8 @@ elseif(isset($_GET["inout"])) include_once 'system/historial/inout.php';
 
 elseif(isset($_GET["cortes"])) include_once 'system/historial/cortes.php';
 
+elseif(isset($_GET["resumen"])) include_once 'system/historial/resumen_corte.php';
+
 elseif(isset($_GET["mesasfecha"])) include_once 'system/historial/mesasfecha.php';
 
 elseif(isset($_GET["ordenes_eliminadas"])) include_once 'system/historial/ordenes_eliminadas.php';

@@ -137,6 +137,15 @@ $printer -> text($this->DosCol($fechaf, 30, $horaf, 25));
 
 
 
+/// numero de orden
+if ($sx = $db->select("mesa", "ticket", "WHERE num_fac = '".$numero."'  $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+       $norden=$sx["mesa"];
+} unset($sx); 
+$printer -> text("ORDEN No: " . $norden);
+$printer->feed();
+/// orde
+
+
 $printer -> text("Cajero: " . $_SESSION['nombre']);
 
 $printer->feed();

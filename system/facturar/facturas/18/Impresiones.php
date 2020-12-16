@@ -544,9 +544,11 @@ if ($r = $db->select("comentario", "mesa_comentarios", "WHERE mesa = ".$_SESSION
 } unset($r);  
 
 if($comentario != NULL){
-$printer -> text("OBSERVACIONS: " . $comentario);
+$printer -> text("OBSERVACIONES: " . $comentario);
 $printer->feed();
 }
+
+
 
 
 
@@ -727,7 +729,7 @@ if ($r = $db->select("comentario", "mesa_comentarios", "WHERE mesa = ".$_SESSION
 } unset($r);  
 
 if($comentario != NULL){
-$printer -> text("OBSERVACIONS: " . $comentario);
+$printer -> text("OBSERVACIONES: " . $comentario);
 $printer->feed();
 }
 

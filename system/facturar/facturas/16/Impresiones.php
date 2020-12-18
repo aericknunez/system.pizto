@@ -794,4 +794,180 @@ $oi=$oi+$n2;
 
 
 
+
+ public function ReporteCorte(){ // imprime el resumen del ultimo corte
+  $db = new dbConn();
+
+$txt1   = "17"; 
+$txt2   = "10";
+$txt3   = "15";
+$txt4   = "8";
+$n1   = "18";
+$n2   = "24";
+$n3   = "21";
+$n4   = "10";
+
+// $print
+$print = "EPSON TM-U220 Receipt";
+
+
+$col1 = 0;
+$col2 = 30;
+$col3 = 250;
+$col4 = 330;
+$col5 = 330;
+
+
+
+$handle = printer_open($print);
+printer_set_option($handle, PRINTER_MODE, "RAW");
+
+printer_start_doc($handle, "Mi Documento");
+printer_start_page($handle);
+
+$font = printer_create_font("Arial", $txt1, $txt2, PRINTER_FW_NORMAL, false, false, false, 0);
+printer_select_font($handle, $font);
+
+
+$oi=80;
+//// comienza la factura
+
+
+printer_draw_text($handle, "RESUMEN DE CORTE DE CAJA", 40, $oi);
+$oi=$oi+$n1;
+
+
+// OBTENER EL NUMERO INICIAL DE TIME
+    if ($r = $db->select("time", "corte_diario", "WHERE edo = 1 and td = ".$_SESSION["td"]." order by time desc limit 1, 1")) { 
+        $timeinicial = $r["time"];
+    } unset($r);  
+////
+
+
+
+
+
+
+$oi=$oi+$n2;
+printer_draw_text($handle, "____________________________________", 0, $oi);
+
+  // total de venta
+      $axy = $db->query("SELECT SUM(total) FROM ticket WHERE time BETWEEN '".$timeinicial."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
+    foreach ($axy as $bxy) {
+        $counte=$bxy["SUM(total)"];
+    } $axy->close();
+
+
+$oi=$oi+$n2;
+printer_draw_text($handle, "TOTAL DE VENTA: ", 20, $oi);
+printer_draw_text($handle, Helpers::Dinero($counte), $col4, $oi);
+ 
+
+
+
+  // total de venta
+      $axy = $db->query("SELECT sum(total) FROM ticket_propina WHERE time BETWEEN '".$timeinicial."' and '".Helpers::TimeId()."' and td = ".$_SESSION["td"]."");
+    foreach ($axy as $bxy) {
+        $propinas=$bxy["sum(total)"];
+    } $axy->close();
+
+
+$oi=$oi+30;
+printer_draw_text($handle, "TOTAL DE PROPINA: ", 20, $oi);
+printer_draw_text($handle, Helpers::Dinero($propinas), $col4, $oi);
+
+  
+
+$oi=$oi+50;
+printer_draw_text($handle, "TOTAL: ", 20, $oi);
+printer_draw_text($handle, Helpers::Dinero($counte + $propinas), $col4, $oi);
+
+  
+
+$oi=$oi+$n2;
+printer_draw_text($handle, "____________________________________", 0, $oi);
+
+
+
+// Eliminadas
+  $axy = $db->query("SELECT count(num_fac) FROM ticket_num WHERE time BETWEEN '".$timeinicial."' and '".Helpers::TimeId()."' and tx = 1 and edo = 2 and td = ".$_SESSION["td"]."");
+foreach ($axy as $bxy) {
+    $counte=$bxy["count(num_fac)"];
+} $axy->close();
+
+
+$oi=$oi+50;
+printer_draw_text($handle, "TICKET ELIMINADOS: " . $counte, 20, $oi);
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "____________________________________", 0, $oi);
+
+
+
+
+
+
+// gastos
+  $axy = $db->query("SELECT sum(cantidad) FROM gastos WHERE tipo != 3 and tipo != 5 and time BETWEEN '".$inicio."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
+foreach ($axy as $bxy) {
+    $gasto=$bxy["sum(cantidad)"];
+} $axy->close();
+
+// remesas (tipo  3)
+  $axy = $db->query("SELECT sum(cantidad) FROM gastos WHERE tipo = 3 and time BETWEEN '".$inicio."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
+foreach ($axy as $bxy) {
+    $remesas=$bxy["sum(cantidad)"];
+} $axy->close();
+
+
+
+$oi=$oi+50;
+printer_draw_text($handle, "GASTOS REGISTRADOS: ", 20, $oi);
+printer_draw_text($handle, Helpers::Dinero($gasto), $col4, $oi);
+
+
+$oi=$oi+50;
+printer_draw_text($handle, "REMESAS: ", 20, $oi);
+printer_draw_text($handle, Helpers::Dinero($remesas), $col4, $oi);
+
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "____________________________________", 0, $oi);
+
+
+
+/// APERTURA DE CAJA
+    if ($r = $db->select("efectivo", "corte_diario", "WHERE edo = 1 and td = ".$_SESSION["td"]." order by time desc limit 1, 1")) { 
+        $apertura = $r["efectivo"];
+    } unset($r);  
+
+$oi=$oi+50;
+printer_draw_text($handle, "DINERO EN APERTURA: ", 20, $oi);
+printer_draw_text($handle, Helpers::Dinero($apertura), $col4, $oi);
+
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "____________________________________", 0, $oi);
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "____________________________________", 0, $oi);
+
+
+
+
+    printer_end_page($handle);
+    printer_end_doc($handle, 20);
+    printer_close($handle);
+
+
+}
+
+
+
+
+
+
+
+
+
 }// class

@@ -56,6 +56,7 @@ class Corte{
 			 		
 			 		// eliminar el los datos de ticket_temp
 					   	    $db->query("TRUNCATE ticket_temp");
+					   	    $db->query("TRUNCATE control_cocina");
 
 			   		echo '<script>
 						window.location.href="?modal=respaldar"
@@ -65,6 +66,7 @@ class Corte{
 		   	  	if(Helpers::ServerDomain() == TRUE and $_SESSION["root_plataforma"] != 0){
 		   	  		// eliminar el los datos de ticket_temp si estan el la web
 		   	  		$db->delete("ticket_temp", "WHERE fecha = '$fecha' and td = ".$_SESSION["td"]."");
+		   	  		$db->delete("control_cocina", "WHERE td = ".$_SESSION["td"]."");
 		   	  	}		   	
 		   }
 

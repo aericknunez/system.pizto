@@ -25,6 +25,9 @@ class Pantallas{
 
 	}
 
+
+
+
 	public function Panel(){
 		$db = new dbConn();
 
@@ -65,9 +68,11 @@ class Pantallas{
 	    } $x->close();
 	    //
 
+$nmesa = $this->NombreMesa($b["mesa"], $b["tx"]);
+if($nmesa == NULL){ $mesax = $b["mesa"]; } else { $mesax = $nmesa; }
 
 		echo '<p class="card-text">Orden de: '. $nombre_mesero .'</p>
-		     <p class="card-text blue-text">Mesa: '.$b["mesa"].' || Cliente: '.$b["cliente"].' <br> Hora: '.$b["hora"].'</p>
+		     <p class="card-text blue-text">Mesa: '.$mesax.' || Cliente: '.$b["cliente"].' <br> Hora: '.$b["hora"].'</p>
 			  </div>
 			</div>
 			</a>
@@ -78,7 +83,7 @@ class Pantallas{
     } $a->close();
 	///////////////////////////////
 
-	$d = $db->selectGroup("*", "control_cocina", "WHERE ".$panel_mostrar." opciones = 0 and edo = 1 and td = ".$_SESSION["td"]." GROUP BY producto, mesa ORDER BY mesa, id");
+	$d = $db->selectGroup("*", "control_cocina", "WHERE ".$panel_mostrar." opciones = 0 and edo = 1 and td = ".$_SESSION["td"]." GROUP BY producto, mesa ORDER BY mesa desc");
     if ($d->num_rows > 0) {
         while($b = $d->fetch_assoc() ) {
 
@@ -106,8 +111,11 @@ class Pantallas{
 
 		echo '<h6><span class="badge badge-pill badge-primary"> '.$pendientes.' </span> Pendientes</h6>';
 
+$nmesa = $this->NombreMesa($b["mesa"], $b["tx"]);
+if($nmesa == NULL){ $mesax = $b["mesa"]; } else { $mesax = $nmesa; }
+
 		echo '<p class="card-text">Orden de: '.$nombre_mesero.'</p>
-		     <p class="card-text blue-text">Mesa: '.$b["mesa"].' || Cliente: '.$b["cliente"].' <br> Hora: '.$b["hora"].'</p>
+		     <p class="card-text blue-text">Mesa: '.$mesax.' || Cliente: '.$b["cliente"].' <br> Hora: '.$b["hora"].'</p>
 			  </div>
 			</div>
 			</a>
@@ -118,6 +126,10 @@ class Pantallas{
     } $d->close();
 
 	echo '</div>';
+
+
+
+
 
 	/// lo hago para cada pantalla
 	if ($r = $db->select("pantallas", "config_root", "WHERE td = ".$_SESSION["td"]."")) { 
@@ -142,6 +154,15 @@ class Pantallas{
 
 
 
+public function NombreMesa($mesa, $tx){
+	    $db = new dbConn();
+
+    if ($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = '$mesa' and tx = '$tx' and td = ".$_SESSION["td"]."")) { 
+        return $r["nombre"];
+    }  unset($r);  
+}
+
+
 
 		public function Sonar(){
 			echo '<audio id="audioplayer" autoplay=true>
@@ -158,7 +179,7 @@ class Pantallas{
 		public function MostarLateral() {
 		$db = new dbConn();
 
-		    $a = $db->query("SELECT * FROM control_cocina WHERE edo != 1 and td = ".$_SESSION['td']." order by id desc limit 15");
+		    $a = $db->query("SELECT * FROM control_cocina WHERE edo != 1 and td = ".$_SESSION['td']." order by time desc limit 15");
 
 		    if($a->num_rows == 0){
 		    echo '<div align="center"><img src="assets/img/logo/'. $_SESSION['config_imagen'] .'" alt="" class="img-fluid hoverable"></div>';
@@ -175,13 +196,22 @@ class Pantallas{
 					  <tbody>';
 
 		    foreach ($a as $b) {
-		    	if ($r = $db->select("nombre", "producto", "WHERE cod = ". $b["producto"] ." and td = ".$_SESSION['td']."")) { 
-			        $producto = $r["nombre"];
-			    } unset($r);
+    	if ($r = $db->select("nombre", "producto", "WHERE cod = ". $b["producto"] ." and td = ".$_SESSION['td']."")) { 
+	        $producto = $r["nombre"];
+	    } unset($r);
+
+//
+if ($r = $db->select("mesa, tx", "ticket_temp", "WHERE hash = '".$b["identificador"]."' and td=".$_SESSION["td"]."")) { 
+$mesai=$r["mesa"]; $txi=$r["tx"];
+} unset($r); 
+
+$nmesa = $this->NombreMesa($mesai, $txi);
+if($nmesa == NULL){ $mesax = $b["mesa"]; } else { $mesax = $nmesa; }
+
 			   if($b["edo"] == 3) $color = 'class="text-danger animated flash fast  delay-5s"';
 		        echo '<tr '.$color.'>
 				      <td>'. $producto .'</td>
-				      <td>'. $b["mesa"] .'</td>
+				      <td>'. $mesax .'</td>
 				      <td>'. $b["cliente"] .'</td>
 				      <td>'. $b["hora"] .'</td>
 				    </tr>';

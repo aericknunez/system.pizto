@@ -949,6 +949,33 @@ printer_draw_text($handle, Helpers::Dinero($apertura), $col4, $oi);
 $oi=$oi+$n1;
 printer_draw_text($handle, "____________________________________", 0, $oi);
 
+
+
+/// FECHA HORA Y USUARIO
+    if ($r = $db->select("fecha, hora, user", "corte_diario", "WHERE edo = 1 and td = ".$_SESSION["td"]." order by time desc limit 1")) { 
+        $ifecha = $r["fecha"];
+        $ihora = $r["hora"];
+        $iuser = $r["user"];
+    } unset($r);  
+
+    if ($r = $db->select("nombre", "login_userdata", "WHERE user = '$iuser' and td = ".$_SESSION["td"]."")) { 
+        $user = $r["nombre"];
+    } unset($r);  
+
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "USUARIO: ", 20, $oi);
+printer_draw_text($handle, $user, $col4, $oi);
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "FECHA: ", 20, $oi);
+printer_draw_text($handle, $ifecha . " : " . $ihora, $col4, $oi);
+
+
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "____________________________________", 0, $oi);
+
 $oi=$oi+$n1;
 printer_draw_text($handle, "____________________________________", 0, $oi);
 

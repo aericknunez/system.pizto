@@ -65,8 +65,8 @@ class Corte{
 
 		   	  	if(Helpers::ServerDomain() == TRUE and $_SESSION["root_plataforma"] != 0){
 		   	  		// eliminar el los datos de ticket_temp si estan el la web
-		   	  		$db->delete("ticket_temp", "WHERE fecha = '$fecha' and td = ".$_SESSION["td"]."");
-		   	  		$db->delete("control_cocina", "WHERE td = ".$_SESSION["td"]."");
+		   	  		$db->delete("ticket_temp", "WHERE time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."' and td = ".$_SESSION["td"]."");
+		   	  		$db->delete("control_cocina", "WHERE time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."' and td = ".$_SESSION["td"]."");
 		   	  	}		   	
 		   }
 

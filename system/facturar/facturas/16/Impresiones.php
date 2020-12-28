@@ -905,6 +905,16 @@ printer_draw_text($handle, "____________________________________", 0, $oi);
 
 
 
+// listado de gastos
+  $axz = $db->query("SELECT nombre, cantidad FROM gastos WHERE time BETWEEN '".$inicio."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
+foreach ($axz as $bxz) {
+
+$oi=$oi+$n1;
+printer_draw_text($handle, $bxy["nombre"], 0, $oi);
+printer_draw_text($handle, Helpers::Dinero($bxy["cantidad"]), $col4, $oi);
+
+} $axz->close();
+
 
 
 // gastos
@@ -965,11 +975,11 @@ printer_draw_text($handle, "____________________________________", 0, $oi);
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "USUARIO: ", 20, $oi);
-printer_draw_text($handle, $user, $col4, $oi);
+printer_draw_text($handle, $user, $col3, $oi);
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "FECHA: ", 20, $oi);
-printer_draw_text($handle, $ifecha . " : " . $ihora, $col4, $oi);
+printer_draw_text($handle, $ifecha . " : " . $ihora, $col3, $oi);
 
 
 

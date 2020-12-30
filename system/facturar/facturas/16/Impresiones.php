@@ -906,11 +906,11 @@ printer_draw_text($handle, "____________________________________", 0, $oi);
 
 
 // listado de gastos
-  $axz = $db->query("SELECT nombre, cantidad FROM gastos WHERE time BETWEEN '".$inicio."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
+  $axz = $db->query("SELECT nombre, cantidad FROM gastos WHERE time BETWEEN '".$timeinicial."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
 foreach ($axz as $bxz) {
 
 $oi=$oi+$n1;
-printer_draw_text($handle, $bxy["nombre"], 0, $oi);
+printer_draw_text($handle, $bxy["nombre"], 5, $oi);
 printer_draw_text($handle, Helpers::Dinero($bxy["cantidad"]), $col4, $oi);
 
 } $axz->close();
@@ -918,13 +918,13 @@ printer_draw_text($handle, Helpers::Dinero($bxy["cantidad"]), $col4, $oi);
 
 
 // gastos
-  $axy = $db->query("SELECT sum(cantidad) FROM gastos WHERE tipo != 3 and tipo != 5 and time BETWEEN '".$inicio."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
+  $axy = $db->query("SELECT sum(cantidad) FROM gastos WHERE tipo != 3 and tipo != 5 and time BETWEEN '".$timeinicial."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
 foreach ($axy as $bxy) {
     $gasto=$bxy["sum(cantidad)"];
 } $axy->close();
 
 // remesas (tipo  3)
-  $axy = $db->query("SELECT sum(cantidad) FROM gastos WHERE tipo = 3 and time BETWEEN '".$inicio."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
+  $axy = $db->query("SELECT sum(cantidad) FROM gastos WHERE tipo = 3 and time BETWEEN '".$timeinicial."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
 foreach ($axy as $bxy) {
     $remesas=$bxy["sum(cantidad)"];
 } $axy->close();

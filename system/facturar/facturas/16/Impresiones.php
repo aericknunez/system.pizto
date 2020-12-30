@@ -814,7 +814,7 @@ $print = "EPSON TM-U220 Receipt";
 $col1 = 0;
 $col2 = 30;
 $col3 = 250;
-$col4 = 330;
+$col4 = 320;
 $col5 = 330;
 
 

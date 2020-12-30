@@ -910,8 +910,8 @@ printer_draw_text($handle, "____________________________________", 0, $oi);
 foreach ($axz as $bxz) {
 
 $oi=$oi+$n1;
-printer_draw_text($handle, $bxy["nombre"], 5, $oi);
-printer_draw_text($handle, Helpers::Dinero($bxy["cantidad"]), $col4, $oi);
+printer_draw_text($handle, $bxz["nombre"], 5, $oi);
+printer_draw_text($handle, Helpers::Dinero($bxz["cantidad"]), $col4, $oi);
 
 } $axz->close();
 

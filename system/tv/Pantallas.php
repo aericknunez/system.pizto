@@ -39,7 +39,7 @@ class Pantallas{
 
 	////////////////////////////////
 	///
-	$a = $db->query("SELECT * FROM control_cocina WHERE ".$panel_mostrar." opciones = 1 and edo = 1 and td = ".$_SESSION["td"]." ORDER BY mesa, id");
+	$a = $db->query("SELECT * FROM control_cocina WHERE ".$panel_mostrar." opciones = 1 and edo = 1 and td = ".$_SESSION["td"]." ORDER BY mesa, id LIMIT 15");
     foreach ($a as $b) {
 
     	echo '<!-- Card -->
@@ -83,7 +83,7 @@ if($nmesa == NULL){ $mesax = $b["mesa"]; } else { $mesax = $nmesa; }
     } $a->close();
 	///////////////////////////////
 
-	$d = $db->selectGroup("*", "control_cocina", "WHERE ".$panel_mostrar." opciones = 0 and edo = 1 and td = ".$_SESSION["td"]." GROUP BY producto, mesa ORDER BY mesa desc");
+	$d = $db->selectGroup("*", "control_cocina", "WHERE ".$panel_mostrar." opciones = 0 and edo = 1 and td = ".$_SESSION["td"]." GROUP BY producto, mesa ORDER BY mesa desc LIMIT 15");
     if ($d->num_rows > 0) {
         while($b = $d->fetch_assoc() ) {
 

@@ -1384,6 +1384,10 @@ echo '<div class="row d-flex justify-content-center">';
 /// si es mesas pero no delivery
 	if($_SESSION['tipo_inicio'] == 2 and $_SESSION["delivery_on"] != TRUE){ // si esta en mesas.
 
+	if($_SESSION['opcionesactivas'] == TRUE){
+		echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'" class="btn-floating btn-success" title="Cambios al platillo" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-hamburger"></i></a>'; }
+
+
 	if($_SESSION['config_imprimir_antes'] != NULL){
 		 	echo '<a href="?modal=factura_imprimir&mesa='.$_SESSION["mesa"].'&efectivo=&cancela='.$cancela.'" class="btn-floating blue" title="Imprimir Ticket" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-print"></i></a>'; }	
 	

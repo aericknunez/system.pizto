@@ -172,8 +172,7 @@ $_SESSION["aquiLlevar"] = "on"; // deja activo la mesa para comer aqui desde el 
 
 // elimino todos los registros que no tienen numero de mesa
 
-            Helpers::DeleteId("ticket_temp", "num_fac = 0 and mesa = '0' and user = '".$_SESSION["user"]."' and td = " . $_SESSION["td"]);
-            } 
+Helpers::DeleteId("ticket_temp", "num_fac = 0 and mesa = '0' and user = '".$_SESSION["user"]."' and td = " . $_SESSION["td"]);
 
 
     }

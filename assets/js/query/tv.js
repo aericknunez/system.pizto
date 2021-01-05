@@ -24,7 +24,7 @@ $(document).ready(function()
             }
         });
     }
-    setInterval(CompruebaPanel, 6000);
+    setInterval(CompruebaPanel, 9000);
 
 
 

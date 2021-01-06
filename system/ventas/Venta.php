@@ -1044,7 +1044,7 @@ if($cancela != NULL){
 		    } unset($r);  
 
 
-if($this->ValidarTiempo($time) == TRUE){  // $parametro es el tiempo el hash del producto
+if($this->ValidarTiempo($time, 2, $iden) == TRUE){  // $parametro es el tiempo el hash del producto
 
 	if($_SESSION["config_o_ticket_pantalla"] == 2){
 		if($this->ValidarPorComandaProducto(2, $iden) == TRUE){
@@ -1145,7 +1145,7 @@ public function BorraProd($iden,$imp){
 		    } unset($r);  
 
 
-		if($this->ValidarTiempo($time) == TRUE){
+		if($this->ValidarTiempo($time, 1, $mesa) == TRUE){
 
 	if($_SESSION["config_o_ticket_pantalla"] == 2){
 		if($this->ValidarPorComandaProducto(1, NULL) == TRUE){
@@ -1244,7 +1244,7 @@ else if($_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 5){
 
 
 // validar el tiempo de borrado de productos
-	public function ValidarTiempo($timex){ // puede pasar, false no pasa
+	public function ValidarTiempo($timex, $tipo = NULL, $iden = NULL){ // puede pasar, false no pasa
 	
 	   if($_SESSION["tipo_cuenta"] == 3 or $_SESSION["tipo_cuenta"] == 6){
 
@@ -1258,11 +1258,48 @@ else if($_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 5){
 				return TRUE;
 			}
 
-	   } else {
+	   }
+
+// is es pantalla
+else if($_SESSION["config_o_ticket_pantalla"] == 1){ /// solo si esta activo lo de la pantalla
+
+	  if($_SESSION["tipo_cuenta"] == 2 or $_SESSION["tipo_cuenta"] == 5){
+
+
+	   		if($_SESSION["config_o_tiempo_del_mesero"] != 0 or $_SESSION["config_o_tiempo_del_mesero"] != NULL){ // si el tiempo es cero o null siempre pasa
+				if($timex + $_SESSION["config_o_tiempo_del_mesero"] > time("H:i:s")){
+					return TRUE;
+				} else {
+
+
+		if($_SESSION['config_o_registro_borrar'] == 1){
+			if($_SESSION["motivo"] != NULL){
+				return TRUE;
+			} else {
+				echo '<script>
+					window.location.href="?borrarelemento&tipo='.$tipo.'&iden='.$iden.'"
+				</script>';		
+			}
+
+		} else {
+			return TRUE;
+		}
+
+				}
+			} else {
+				return TRUE;
+			}
+
+	}
+
+}
+// si es pantalla
+
+ else {
 	   	   return TRUE;
 	   }
 
-	}
+}
 
 
 public function InsertaBorrado(){

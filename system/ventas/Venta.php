@@ -1180,7 +1180,7 @@ $db = new dbConn();
 /// paso antes de borrar
 if($_SESSION["motivo"] != NULL){
 	$this->CopyBorrado();
-	$this->InsertaBorrado($mesa);
+	$this->InsertaBorrado();
 }
 		Helpers::DeleteId("ticket_temp", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
 		Helpers::DeleteId("mesa", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");

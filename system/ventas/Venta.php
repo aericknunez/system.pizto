@@ -1291,6 +1291,10 @@ else if($_SESSION["config_o_ticket_pantalla"] == 1){ /// solo si esta activo lo 
 			}
 
 	}
+	
+	if($_SESSION["tipo_cuenta"] == 1){
+			return TRUE;
+	}
 
 }
 // si es pantalla

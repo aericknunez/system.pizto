@@ -1049,11 +1049,6 @@ if($this->ValidarTiempo($time, 2, $iden) == TRUE){  // $parametro es el tiempo e
 	if($_SESSION["config_o_ticket_pantalla"] == 2){
 		if($this->ValidarPorComandaProducto(2, $iden) == TRUE){
 
-if($_SESSION["motivo"] != NULL){
-	$this->CopyBorradoP($iden);
-	$this->InsertaBorrado();
-}
-
 $imprimir = new Impresiones();
 $imprimir->EliminaOrden();
 
@@ -1085,6 +1080,12 @@ public function BorraProd($iden,$imp){
         	$pv = $r["pv"];
         	$codigos = $r["cod"];
    			 } unset($r);  
+
+//  paso los datos a borrado antes de eliminar
+if($_SESSION["motivo"] != NULL){
+	$this->CopyBorradoP($iden);
+	$this->InsertaBorrado();
+}
 
    			 // obtengo datos si tiene opcion activada, si la tiene borro todos los productos
    			 $a = $db->query("SELECT * FROM opciones_ticket WHERE identificador = '".$iden."' and td = ".$_SESSION["td"]."");
@@ -1151,12 +1152,6 @@ public function BorraProd($iden,$imp){
 		if($this->ValidarPorComandaProducto(1, NULL) == TRUE){
 
 
-
-if($_SESSION["motivo"] != NULL){
-	$this->CopyBorrado();
-	$this->InsertaBorrado();
-}
-
 $imprimir = new Impresiones();
 $imprimir->EliminaOrden();
 		    
@@ -1182,6 +1177,11 @@ unset($_SESSION["motivo"]);
 public function BorradoFact($mesa){
 $db = new dbConn();
 
+/// paso antes de borrar
+if($_SESSION["motivo"] != NULL){
+	$this->CopyBorrado();
+	$this->InsertaBorrado();
+}
 		Helpers::DeleteId("ticket_temp", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
 		Helpers::DeleteId("mesa", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");
 		Helpers::DeleteId("mesa_nombre", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");

@@ -1180,7 +1180,7 @@ $db = new dbConn();
 /// paso antes de borrar
 if($_SESSION["motivo"] != NULL){
 	$this->CopyBorrado();
-	$this->InsertaBorrado();
+	$this->InsertaBorrado($mesa);
 }
 		Helpers::DeleteId("ticket_temp", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
 		Helpers::DeleteId("mesa", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");
@@ -1308,10 +1308,23 @@ else if($_SESSION["config_o_ticket_pantalla"] == 1){ /// solo si esta activo lo 
 
 public function InsertaBorrado(){
 	$db = new dbConn();
+// nombre mesa
+    if ($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = '".$_SESSION["mesa"]."' and tx = '".$_SESSION["tx"]."' and td = ".$_SESSION['td']."")) { 
+        $nombre = $r["nombre"];
+    } unset($r);  
+
+
+    if ($r = $db->select("cajero", "ticket_temp", "WHERE mesa = '".$_SESSION["mesa"]."' and tx = '".$_SESSION["tx"]."' and td = ".$_SESSION['td']." limit 1")) { 
+        $cajero = $r["cajero"];
+    } unset($r);  
+
 			$datos = array();
 		    $datos["mesa"] = $_SESSION["mesa"];
 		    $datos["tx"] = $_SESSION["tx"];
 		    $datos["motivo"] = $_SESSION["motivo"];
+		    $datos["user"] = $_SESSION["user"];
+		    $datos["mesa_nombre"] = $nombre;
+		    $datos["mesero"] = $cajero;
 		    $datos["td"] = $_SESSION["td"];
 		    $datos["hash"] = Helpers::HashId();
 			$datos["time"] = Helpers::TimeId();

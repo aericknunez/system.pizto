@@ -1083,8 +1083,9 @@ public function BorraProd($iden,$imp){
 
 //  paso los datos a borrado antes de eliminar
 if($_SESSION["motivo"] != NULL){
-	$this->CopyBorradoP($iden);
-	$this->InsertaBorrado();
+	$hash = Helpers::HashId(); 
+	$this->CopyBorradoP($iden, $hash);
+	$this->InsertaBorrado($hash);
 }
 
    			 // obtengo datos si tiene opcion activada, si la tiene borro todos los productos
@@ -1179,8 +1180,9 @@ $db = new dbConn();
 
 /// paso antes de borrar
 if($_SESSION["motivo"] != NULL){
-	$this->CopyBorrado();
-	$this->InsertaBorrado();
+	$hash = Helpers::HashId(); 
+	$this->CopyBorrado($hash);
+	$this->InsertaBorrado($hash);
 }
 		Helpers::DeleteId("ticket_temp", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
 		Helpers::DeleteId("mesa", "mesa='".$mesa."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." and estado = 1");
@@ -1306,7 +1308,7 @@ else if($_SESSION["config_o_ticket_pantalla"] == 1){ /// solo si esta activo lo 
 }
 
 
-public function InsertaBorrado(){
+public function InsertaBorrado($hash){
 	$db = new dbConn();
 // nombre mesa
     if ($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = '".$_SESSION["mesa"]."' and tx = '".$_SESSION["tx"]."' and td = ".$_SESSION['td']."")) { 
@@ -1326,26 +1328,33 @@ public function InsertaBorrado(){
 		    $datos["mesa_nombre"] = $nombre;
 		    $datos["mesero"] = $cajero;
 		    $datos["td"] = $_SESSION["td"];
-		    $datos["hash"] = Helpers::HashId();
+		    $datos["hash"] = $hash;
 			$datos["time"] = Helpers::TimeId();
 		    $db->insert("mesa_borrado", $datos); 
 }
 
-	public function CopyBorrado(){
+	public function CopyBorrado($hash){
 		$db = new dbConn();
-			$a = $db->query("INSERT INTO ticket_borrado (cod, cant, producto, pv, stotal, imp, total, num_fac, fecha, hora, mesa, cliente, cancela, cajero, tipo_pago, user, gravado, tx, fechaF, edo, td, hash, time) 
-				SELECT cod, cant, producto, pv, stotal, imp, total, num_fac, fecha, hora, mesa, cliente, cancela, cajero, tipo_pago, user, gravado, tx, fechaF, edo, td, hash, time 
+			$a = $db->query("INSERT INTO ticket_borrado (cod, cant, producto, pv, stotal, imp, total, num_fac, fecha, hora, mesa, cliente, cancela, cajero, tipo_pago, user, gravado, tx, fechaF, edo, td, time) 
+				SELECT cod, cant, producto, pv, stotal, imp, total, num_fac, fecha, hora, mesa, cliente, cancela, cajero, tipo_pago, user, gravado, tx, fechaF, edo, td, time 
 				FROM ticket_temp WHERE mesa = '".$_SESSION["mesa"]."' and tx = '".$_SESSION["tx"]."'");
 			unset($a);
 
+
+$cambio["hash"] = $hash;		    
+Helpers::UpdateId("ticket_borrado", $cambio, "td = ".$_SESSION["td"]." and hash = ''"); 
+
 		}	
 
-	public function CopyBorradoP($iden){
+	public function CopyBorradoP($iden, $hash){
 		$db = new dbConn();
-			$a = $db->query("INSERT INTO ticket_borrado (cod, cant, producto, pv, stotal, imp, total, num_fac, fecha, hora, mesa, cliente, cancela, cajero, tipo_pago, user, gravado, tx, fechaF, edo, td, hash, time) 
-				SELECT cod, cant, producto, pv, stotal, imp, total, num_fac, fecha, hora, mesa, cliente, cancela, cajero, tipo_pago, user, gravado, tx, fechaF, edo, td, hash, time 
+			$a = $db->query("INSERT INTO ticket_borrado (cod, cant, producto, pv, stotal, imp, total, num_fac, fecha, hora, mesa, cliente, cancela, cajero, tipo_pago, user, gravado, tx, fechaF, edo, td, time) 
+				SELECT cod, cant, producto, pv, stotal, imp, total, num_fac, fecha, hora, mesa, cliente, cancela, cajero, tipo_pago, user, gravado, tx, fechaF, edo, td, time 
 				FROM ticket_temp WHERE hash = '$iden'");
 			unset($a);
+
+$cambio["hash"] = $hash;		    
+Helpers::UpdateId("ticket_borrado", $cambio, "td = ".$_SESSION["td"]." and hash = ''"); 
 
 		}	
 

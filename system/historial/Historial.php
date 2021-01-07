@@ -590,7 +590,7 @@ if ($r = $db->select("nombre", "login_userdata", "WHERE user = '".$b["user"]."' 
 				       <td>Borrado por: '.$user. ' | Mesero: '.$b["mesero"]. '</td>
 				  </tr>';
 
-    $ax = $db->query("SELECT * FROM ticket_borrado WHERE mesa = '".$b["mesa"]."' and tx = '".$b["tx"]."' and td = ".$_SESSION['td']."");
+    $ax = $db->query("SELECT * FROM ticket_borrado WHERE mesa = '".$b["mesa"]."' and tx = '".$b["tx"]."' and td = ".$_SESSION['td']." and hash = '".$b["hash"]."'");
 	        echo '<tr>
 				       <th scope="row">Fecha y Hora</th>
 				       <td>Cantidad - Producto</td>

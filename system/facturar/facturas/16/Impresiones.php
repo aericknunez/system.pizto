@@ -93,8 +93,8 @@ if ($s = $db->select("sum(cant), sum(total)", "ticket", "WHERE cod = ".$b["cod"]
         $scant=$s["sum(cant)"]; $stotal=$s["sum(total)"];
     } unset($s); 
 //////
-if ($sx = $db->select("mesero, sum(total)", "ticket", "WHERE num_fac = '".$numero."'  $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
-       $stotalx=$sx["sum(total)"]; $mesero=$sx["mesero"];
+if ($sx = $db->select("sum(total)", "ticket", "WHERE num_fac = '".$numero."'  $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+       $stotalx=$sx["sum(total)"];
     } unset($sx); 
  
 
@@ -173,6 +173,12 @@ printer_select_font($handle, $font);
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "Cajero: " . $_SESSION['nombre'], 25, $oi);
+
+
+if ($sx = $db->select("cajero", "ticket", "WHERE num_fac = '".$numero."'  $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+     $mesero=$sx["cajero"];
+} unset($sx); 
+ 
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "Mesero: " . $mesero, 25, $oi);

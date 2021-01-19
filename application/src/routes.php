@@ -1164,6 +1164,7 @@ if($_POST["motivo"] != NULL){
     require_once ('../ticket/autoload.php'); 
 include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
 
+$mesax = $_SESSION["mesa"];
 	if($_POST["tipo"] == 2){
 
 		include_once '../../system/ventas/Venta.php';
@@ -1177,6 +1178,21 @@ include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php
 			$pantalla->EliminaProducto($_POST["iden"]);
 			$pantalla->Cambia(1);
 
+// redireccionar
+if($_SESSION["delivery_on"] == TRUE){
+	echo '<script>
+	window.location.href="?delivery&mesa='.$mesax.'"
+	</script>';
+} elseif($_SESSION['tipo_inicio'] == 2){
+	echo '<script>
+	window.location.href="?view&mesa='.$mesax.'"
+	</script>';
+} else {
+	echo '<script>
+	window.location.href="?"
+	</script>';
+}
+
 	} else {
 		include_once '../../system/ventas/Venta.php';
 		$ventas = new Venta;
@@ -1185,12 +1201,16 @@ include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php
 		include_once '../../system/tv/Pantallas.php';
 			$pantalla = new Pantallas;
 			$pantalla->EliminaControl($_SESSION["mesa"]);
-			$pantalla->Cambia(1);		
+			$pantalla->Cambia(1);
+
+echo '<script>
+window.location.href="?"
+</script>';
+
+
 	}
 }
-echo '<script>
-	window.location.href="?"
-</script>';
+
 
 break; 
 

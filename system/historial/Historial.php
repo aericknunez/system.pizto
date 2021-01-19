@@ -579,18 +579,18 @@ class Historial{
 
     foreach ($a as $b) {
 
+// user	            
+if ($r = $db->select("nombre", "login_userdata", "WHERE user = '".$b["user"]."' and td = ".$_SESSION['td']."")) { 
+        $user = $r["nombre"];
+    } unset($r); 
 
-    if ($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = '".$b["mesa"]."' and tx = '".$b["tx"]."' and td = ".$_SESSION['td']."")) { 
-        $nombre = $r["nombre"];
-    } unset($r);  
-
-	        echo '<tr class="bg-success font-weight-bold">
-				       <th scope="row">'. $b["mesa"]. '</th>
+     	        echo '<tr class="cyan lighten-3 font-weight-bold">
+				       <th scope="row">'. $b["mesa"]. ' | '.$b["mesa_nombre"]. '</th>
 				       <td>'.$b["motivo"]. '</td>
-				       <td>'.$nombre. '</td>
+				       <td>Borrado por: '.$user. ' | Mesero: '.$b["mesero"]. '</td>
 				  </tr>';
 
-    $ax = $db->query("SELECT * FROM ticket_borrado WHERE mesa = '".$b["mesa"]."' and tx = '".$b["tx"]."' and td = ".$_SESSION['td']."");
+    $ax = $db->query("SELECT * FROM ticket_borrado WHERE mesa = '".$b["mesa"]."' and tx = '".$b["tx"]."' and td = ".$_SESSION['td']." and hash = '".$b["hash"]."'");
 	        echo '<tr>
 				       <th scope="row">Fecha y Hora</th>
 				       <td>Cantidad - Producto</td>

@@ -561,7 +561,7 @@ class Historial{
 	public function HistorialOrdenes() {
 		$db = new dbConn();
 
-    $a = $db->query("SELECT * FROM mesa_borrado WHERE td = ".$_SESSION['td']." limit 25");
+    $a = $db->query("SELECT * FROM mesa_borrado WHERE td = ".$_SESSION['td']." order by time desc limit 25");
 	if($a->num_rows > 0){
 
         echo '<h2>TICKETS ELIMINADOS</h2>

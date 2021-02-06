@@ -1185,7 +1185,7 @@ $printer->close();
 
  public function Item($cant,  $name = '', $price = '', $total = '', $dollarSign = false)
     {
-        $rightCols = 5;
+        $rightCols = 8;
         $leftCols = 38;
         if ($dollarSign) {
             $leftCols = $leftCols / 2 - $rightCols / 2;

@@ -46,7 +46,7 @@ $printer->text("FACTURA NUMERO: " . $numero);
 /* Stuff around with left margin */
 $printer->feed();
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
-$printer -> text("____________________________________________________________");
+$printer -> text("________________________________________________________");
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 $printer->feed();
 /* Items */
@@ -86,7 +86,7 @@ $subtotalf = $subtotalf + $stotal;
     }    $a->close();
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("________________________________________________________");
 $printer->feed();
 
 
@@ -108,7 +108,7 @@ $xtotal = $subtotalf + $propina;
 $printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($xtotal), 10));
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("________________________________________________________");
 $printer->feed();
 
 
@@ -128,7 +128,7 @@ $cambios = $efectivo - $xtotal;
 $printer -> text($this->DosCol("Cambio " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($cambios), 10));
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("________________________________________________________");
 $printer->feed();
 
 

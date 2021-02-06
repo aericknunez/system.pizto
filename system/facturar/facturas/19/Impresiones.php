@@ -25,7 +25,7 @@ $printer -> setFont(Printer::FONT_B);
 // $printer -> selectPrintMode(Printer::MODE_DOUBLE_HEIGHT);
 // $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
 
-$printer -> setTextSize(1, 1);
+$printer -> setTextSize(1, 2);
 $printer -> setLineSpacing(80);
 
 
@@ -1185,8 +1185,8 @@ $printer->close();
 
  public function Item($cant,  $name = '', $price = '', $total = '', $dollarSign = false)
     {
-        $rightCols = 10;
-        $leftCols = 42;
+        $rightCols = 7;
+        $leftCols = 38;
         if ($dollarSign) {
             $leftCols = $leftCols / 2 - $rightCols / 2;
         }

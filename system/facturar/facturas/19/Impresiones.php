@@ -417,7 +417,7 @@ $a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket
 
 
 
-$nombre_impresora = "LR2000";
+$nombre_impresora = "COCINA";
 
 $connector = new WindowsPrintConnector($nombre_impresora);
 $printer = new Printer($connector);
@@ -570,7 +570,7 @@ $a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket
 
 
 
-$nombre_impresora = "BAR";
+$nombre_impresora = "COCINA";
 
 $connector = new WindowsPrintConnector($nombre_impresora);
 $printer = new Printer($connector);
@@ -1044,7 +1044,7 @@ $a = $db->query("select ticket_borrado.cod as cod, ticket_borrado.hash as hash, 
 
  if($cantidadproductos > 0){
 
-$nombre_impresora = "LR2000";
+$nombre_impresora = "COCINA";
 
 $connector = new WindowsPrintConnector($nombre_impresora);
 $printer = new Printer($connector);

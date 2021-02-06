@@ -34,9 +34,14 @@ $logo = EscposImage::load($img, false);
 $printer->bitImage($logo);
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 
-$printer->text("Calle a San Salvador colonia el Mora Poste 337, Santa Ana");
-
+$printer -> setJustification(Printer::JUSTIFY_CENTER);
+$printer->text("Calle a San Salvador colonia el Mora Poste 337");
 $printer->feed();
+
+$printer->text("Santa Ana");
+$printer->feed();
+
+$printer -> setJustification(Printer::JUSTIFY_LEFT);
 $printer->text("Tel: 7985-6021");
 
 $printer->feed();
@@ -208,9 +213,14 @@ $logo = EscposImage::load($img, false);
 $printer->bitImage($logo);
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 
-$printer->text("Calle a San Salvador colonia el Mora Poste 337, Santa Ana");
-
+$printer -> setJustification(Printer::JUSTIFY_CENTER);
+$printer->text("Calle a San Salvador colonia el Mora Poste 337");
 $printer->feed();
+
+$printer->text("Santa Ana");
+$printer->feed();
+
+$printer -> setJustification(Printer::JUSTIFY_LEFT);
 $printer->text("Tel: 7985-6021");
 
 $printer->feed();
@@ -224,7 +234,7 @@ $printer->text("PRECUENTA");
 /* Stuff around with left margin */
 $printer->feed();
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
-$printer -> text("____________________________________________________________");
+$printer -> text("________________________________________________________");
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 $printer->feed();
 /* Items */
@@ -270,24 +280,24 @@ $subtotalf = $subtotalf + $stotal;
 
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("________________________________________________________");
 $printer->feed();
 
 
 
-$printer -> text($this->DosCol("Sub Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($subtotalf), 20));
+$printer -> text($this->DosCol("Sub Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($subtotalf), 10));
 
 
 
 if($_SESSION['config_propina'] != 0.00 and $_SESSION["delivery_on"] == FALSE and $_SESSION["aquiLlevar"] == "on"){ ///  prara agregarle la propina -- sino borrar
-$printer -> text($this->DosCol("Propina " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format(Helpers::Propina($subtotalf)), 20));
+$printer -> text($this->DosCol("Propina " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format(Helpers::Propina($subtotalf)), 10));
   $subtotalf = Helpers::PropinaTotal($subtotalf);
 }
 
 
 
 $xtotal = $subtotalf + $propina;
-$printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($xtotal), 20));
+$printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($xtotal), 10));
 
 
 
@@ -295,14 +305,14 @@ $printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . "
 
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("________________________________________________________");
 $printer->feed();
 
 
 
 
 
-$printer -> text($this->DosCol($fechaf, 30, $horaf, 30));
+$printer -> text($this->DosCol($fechaf, 30, $horaf, 20));
 
 
 $printer -> text("Cajero: " . $_SESSION['nombre']);

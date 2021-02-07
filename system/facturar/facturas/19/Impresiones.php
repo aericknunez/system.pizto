@@ -1025,7 +1025,7 @@ $printer->feed();
 
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 $printer -> setEmphasis(true);
-$printer -> text($this->Item("#", 'Cant', 'Descripcion', 'Total'));
+$printer -> text($this->Item('Cant', 'Descripcion', 'Total', null));
 $printer -> setEmphasis(false);
 
 

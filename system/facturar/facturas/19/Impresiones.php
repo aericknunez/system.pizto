@@ -32,9 +32,8 @@ $printer -> setLineSpacing(80);
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
 $logo = EscposImage::load($img, false);
 $printer->bitImage($logo);
-$printer -> setJustification(Printer::JUSTIFY_LEFT);
 
-$printer -> setJustification(Printer::JUSTIFY_CENTER);
+
 $printer->text("Calle a San Salvador colonia el Mora Poste 337");
 $printer->feed();
 
@@ -42,7 +41,7 @@ $printer->text("Santa Ana");
 $printer->feed();
 
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
-$printer->text("Tel: 7985-6021");
+$printer->text("Tel: 7907-3196");
 
 $printer->feed();
 $printer->text("FACTURA NUMERO: " . $numero);
@@ -52,7 +51,6 @@ $printer->text("FACTURA NUMERO: " . $numero);
 $printer->feed();
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
 $printer -> text("_______________________________________________________");
-$printer -> setJustification(Printer::JUSTIFY_LEFT);
 $printer->feed();
 /* Items */
 
@@ -224,9 +222,7 @@ $printer -> setLineSpacing(80);
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
 $logo = EscposImage::load($img, false);
 $printer->bitImage($logo);
-$printer -> setJustification(Printer::JUSTIFY_LEFT);
 
-$printer -> setJustification(Printer::JUSTIFY_CENTER);
 $printer->text("Calle a San Salvador colonia el Mora Poste 337");
 $printer->feed();
 
@@ -234,7 +230,8 @@ $printer->text("Santa Ana");
 $printer->feed();
 
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
-$printer->text("Tel: 7985-6021");
+$printer->text("Tel: 7907-3196");
+
 
 $printer->feed();
 $printer->text("ORDEN NUMERO: " . $numero);
@@ -248,7 +245,6 @@ $printer->text("PRECUENTA");
 $printer->feed();
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
 $printer -> text("_______________________________________________________");
-$printer -> setJustification(Printer::JUSTIFY_LEFT);
 $printer->feed();
 /* Items */
 

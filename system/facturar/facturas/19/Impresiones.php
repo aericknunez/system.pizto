@@ -786,15 +786,13 @@ $printer -> setFont(Printer::FONT_B);
 $printer -> setTextSize(1, 2);
 $printer -> setLineSpacing(80);
 
-$printer -> setJustification(Printer::JUSTIFY_LEFT);
+$printer -> setJustification(Printer::JUSTIFY_CENTER);
 
 $printer -> text("RESUMEN DE CORTE DE CAJA");
 
 /* Stuff around with left margin */
 $printer->feed();
-$printer -> setJustification(Printer::JUSTIFY_CENTER);
 $printer -> text("_______________________________________________________");
-$printer -> setJustification(Printer::JUSTIFY_LEFT);
 $printer->feed();
 /* Items */
 
@@ -816,18 +814,49 @@ $subtotalf = 0;
 ////
 
 
-$a = $db->query("select cod, cant, producto, pv, total, fecha, hora, num_fac from ticket where time BETWEEN '".$inicio."' and '".Helpers::TimeId()."' and td = ".$_SESSION["td"]." order by num_fac");
+
+
+
+
+
+  $a = $db->query("select cod, sum(cant), sum(total), producto, pv 
+      from ticket 
+      where 
+      cod != 8888 and edo = 1 and time BETWEEN '".$inicio."' and '".Helpers::TimeId()."' and td = ".$_SESSION['td']." GROUP BY cod order by sum(cant) desc");
+
+      foreach ($a as $b) {
+
+      $ay = $db->query("SELECT nombre FROM producto where cod = ".$b["cod"]." and td = ".$_SESSION['td']."");
+      foreach ($ay as $by) {
+          $nombre_producto=$by["nombre"];
+      } $ay->close();
+
+if($b["cod"] == "8889"){  $nombre_producto = "(Productos Especiales) ";   } 
+      
+$printer -> text($this->Item( $b["sum(cant)"], $nombre_producto, Helpers::Dinero($b["pv"]), Helpers::Dinero($b["sum(total)"])));
+ } 
+
+      $a->close();
+
+
+
+
+
+
+
+
+// $a = $db->query("select cod, cant, producto, pv, total, fecha, hora, num_fac from ticket where time BETWEEN '".$inicio."' and '".Helpers::TimeId()."' and td = ".$_SESSION["td"]." order by num_fac");
   
-    foreach ($a as $b) {
+//     foreach ($a as $b) {
  
-$subtotalf = 0;
+// $subtotalf = 0;
 
-$printer -> text($this->Item("(". $b["num_fac"] . ") " . $b["cant"], $b["producto"], $b["pv"], $b["total"]));
+// $printer -> text($this->Item($b["cant"], $b["producto"], $b["pv"], $b["total"]));
 
-$subtotalf = $subtotalf + $stotal;
-///
+// $subtotalf = $subtotalf + $stotal;
+// ///
 
-}    $a->close();
+// }    $a->close();
 
 
 $printer -> text("_______________________________________________________");

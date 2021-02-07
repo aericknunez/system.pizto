@@ -62,13 +62,13 @@ $printer -> setEmphasis(false);
 
 $subtotalf = 0;
 
-$a = $db->query("select cod, cant, producto, pv, total, fecha, hora, num_fac from ticket where num_fac = '".$numero."' $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." group by cod");
+$a = $db->query("select cod, cant, producto, pv, total, fecha, hora, mesa from ticket where num_fac = '".$numero."' $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]." group by cod");
   
     foreach ($a as $b) {
  
  $fechaf=$b["fecha"];
  $horaf=$b["hora"];
- $num_fac=$b["num_fac"];
+ $mesa=$b["mesa"];
 
 
 /// para hacer las sumas
@@ -146,12 +146,12 @@ $printer->feed();
 
 
 // nombre de mesa
-if ($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and tx = ".$_SESSION["tx"]."")) { 
+if ($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = ".$mesa." and td = ".$_SESSION["td"]." and tx = ".$_SESSION["tx"]."")) { 
     $nombre_mesa = $r["nombre"];
 } unset($r);  
 
 if($nombre_mesa != NULL){
-  $printer -> text("NOMBRE: " . $nombre_mesa);
+  $printer -> text("Mesa: " . $nombre_mesa);
    $printer->feed();
 }
 
@@ -384,7 +384,7 @@ if($llevar == 3){
    $printer->feed();
 
 
-$printer -> text("___________________________________________________________");
+$printer -> text("______________________________________________________");
 $printer->feed();
 
 

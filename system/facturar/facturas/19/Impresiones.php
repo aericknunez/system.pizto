@@ -156,6 +156,7 @@ if($nombre_mesa != NULL){
 }
 
 
+
 $printer->feed();
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
 $printer -> text("GRACIAS POR SU PREFERENCIA...");

@@ -144,6 +144,19 @@ $printer -> text($this->DosCol($fechaf, 30, $horaf, 20));
 
 
 $printer -> text("Cajero: " . $_SESSION['nombre']);
+$printer->feed();
+
+
+// nombre de mesa
+if ($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and tx = ".$_SESSION["tx"]."")) { 
+    $nombre_mesa = $r["nombre"];
+} unset($r);  
+
+if($nombre_mesa != NULL){
+  $printer -> text("NOMBRE: " . $nombre_mesa);
+   $printer->feed();
+}
+
 
 $printer->feed();
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
@@ -1028,8 +1041,10 @@ $printer->close();
 
 
 
+
  public function EliminaOrden(){ 
   $this->EliminaOrdenCocina();
+  $this->EliminaOrdenBar();
  }
 
 
@@ -1181,6 +1196,161 @@ $printer->close();
 
 
 }
+
+
+
+
+
+
+ public function EliminaOrdenBar(){ // imprime el el producto que se borro
+  $db = new dbConn();
+
+
+
+$a = $db->query("select ticket_borrado.cod as cod, ticket_borrado.hash as hash, ticket_borrado.cant as cant, ticket_borrado.producto as producto, control_cocina.cod as codigo 
+  FROM ticket_borrado, control_panel_mostrar, control_cocina 
+  WHERE ticket_borrado.mesa = '".$_SESSION["mesa"]."' and ticket_borrado.tx = ".$_SESSION["tx"]." and ticket_borrado.td = ".$_SESSION["td"]." and control_panel_mostrar.producto = ticket_borrado.cod and control_panel_mostrar.panel = 2 AND control_cocina.identificador = ticket_borrado.hash and control_cocina.edo = 3 and control_cocina.cod = ticket_borrado.cant");
+
+ $cantidadproductos = $a->num_rows;
+
+ if($cantidadproductos > 0){
+
+$nombre_impresora = "COCINA";
+
+$connector = new WindowsPrintConnector($nombre_impresora);
+$printer = new Printer($connector);
+$printer -> initialize();
+
+
+$printer -> setJustification(Printer::JUSTIFY_LEFT);
+
+$printer -> selectPrintMode(Printer::MODE_DOUBLE_HEIGHT);
+$printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
+$printer -> text("ORDEN CANCELADA!");
+$printer -> selectPrintMode();
+$printer->feed();
+
+
+$printer -> setFont(Printer::FONT_B);
+
+$printer -> setTextSize(1, 2);
+$printer -> setLineSpacing(80);
+
+
+$printer -> text("_______________________________________________________");
+$printer->feed();
+
+
+    if ($r = $db->select("motivo", "mesa_borrado", "WHERE mesa='".$_SESSION["mesa"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+        $motivo = $r["motivo"];
+    } unset($r); 
+
+$printer -> text("MOTIVO: " . $motivo);
+$printer->feed();
+
+$printer -> text("_______________________________________________________");
+$printer->feed();
+
+
+    foreach ($a as $b) {
+//////
+// obtener cantidad (la cantidad se cuentan cuantos hay activos en controlcocina)
+$cont = $db->query("SELECT * FROM control_cocina WHERE edo = 3 and identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]."");
+$canti_p = $cont->num_rows;
+$cont->close();
+///
+ 
+
+$printer -> text($canti_p . " - " .  $b["producto"]);
+$printer->feed();
+
+
+
+  $ap = $db->query("SELECT cod FROM control_cocina WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and edo = 3");
+  foreach ($ap as $bp) {
+
+    $ar = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and cod = '".$bp["cod"]."'");
+    foreach ($ar as $br) {
+
+if ($r = $db->select("nombre", "opciones_name", "WHERE cod = '".$br["opcion"]."' and td = ".$_SESSION["td"]."")) {
+
+
+$printer -> text("* " . $r["nombre"]);
+$printer->feed();
+
+} unset($r); 
+
+    } $ar->close();
+
+} $ap->close();
+
+
+/// aqui debo actualizar para borrar si es ticket el que lleva el control de panel mostrar (paso a estado 2)
+if($_SESSION["config_o_ticket_pantalla"] == 2){
+    $cambio = array();
+    $cambio["edo"] = 4;
+    Helpers::UpdateId("control_cocina", $cambio, "identificador = '".$b["hash"]."' and td = ".$_SESSION["td"]."");
+}
+
+    }    $a->close();
+
+
+
+
+
+    if ($r = $db->select("llevar", "mesa", "WHERE mesa = '".$_SESSION["mesa"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+        $llevar = $r["llevar"];
+    } unset($r);  
+
+if($llevar == 1){
+  $lleva = "COMER AQUI";
+}
+if($llevar == 2){
+  $lleva = "PARA LLEVAR";
+}
+if($llevar == 3){
+  $lleva = "DELIVERY";
+}
+
+
+
+
+$printer -> text($this->DosCol($lleva, 11, "MESA: " . $_SESSION['mesa'], 30));
+
+$printer -> text($this->DosCol(date("d-m-Y"), 11, date("H:i:s"), 30));
+
+$printer -> text("Cajero: " . $_SESSION['nombre']);
+$printer->feed();
+
+
+
+// nombre de mesa
+if ($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and tx = ".$_SESSION["tx"]."")) { 
+    $nombre_mesa = $r["nombre"];
+} unset($r);  
+
+if($nombre_mesa != NULL){
+$printer -> text("Mesa: " . $nombre_mesa);
+}
+
+
+$printer->feed();
+$printer->cut();
+$printer->close();
+
+} // cantidad de productos
+
+
+}
+
+
+
+
+
+
+
+
+
 
 
 

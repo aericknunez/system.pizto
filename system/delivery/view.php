@@ -469,3 +469,52 @@ if($edo == 1 or $edo == NULL){
   </div>
 </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal bounceIn" id="ModalCantidad" tabindex="-1" role="dialog" aria-labelledby="ModalCantidad"
+  aria-hidden="true" data-backdrop="false">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">CAMBIAR CANTIDAD</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+<!-- CONTENIDO -->
+<div align="center">
+  <div class="col-md-12 z-depth-2 justify-content-center">
+      <div class="md-form mt-0">
+        <form id="form-Ccantidad">
+        <input class="form-control form-control-lg" type="number" step="any" min="1" placeholder="Cantidad" id="cantidad" name="cantidad" value="" autofocus>
+        <input type="hidden" id="codigox" name="codigox" value="">
+        <input type="hidden" id="cliente" name="cliente" value="">
+         <button class="btn aqua-gradient btn-rounded btn-sm" type="submit" id="btn-Ccantidad" name="btn-Ccantidad">Agregar</button>
+        </form>
+      </div>
+  </div>
+</div>
+<!-- CONTENIDO -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

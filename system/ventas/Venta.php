@@ -153,7 +153,7 @@ class Venta{
 
 
 
-public function AddRegistoTicket(){
+public function AddRegistoTicket(){ // registra el estado de la comanda para poder determinar si se envio la comanda o cocian o no
 	$db = new dbConn();
 
 	$a = $db->query("SELECT * FROM mesa_comanda_edo WHERE mesa = ".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
@@ -177,6 +177,41 @@ public function AddRegistoTicket(){
 	}
 
 }
+
+
+
+public function NewCantidad($cod,$mesa,$cliente,$imp, $cantidad){ // cantidad de productos
+	$db = new dbConn();
+
+
+		if ($r = $db->select("cant, pv, hash", "ticket_temp", "WHERE cod = '$cod' and mesa = '$mesa' and cliente = '$cliente' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+        $cantx=$r["cant"];
+        $pv=$r["pv"];   
+        $hash=$r["hash"];     
+    	} unset($r); 
+
+    	$cant = $cantidad;
+    	$total = $pv * $cant;
+
+    	$stot=Helpers::STotal($total, $imp);
+    	$im=Helpers::Impuesto($stot, $imp);
+
+    	    $cambio = array();
+		    $cambio["cant"] = $cant;
+		    $cambio["stotal"] = $stot;
+		    $cambio["imp"] = $im;
+		    $cambio["total"] = $stot + $im;
+		    
+		    Helpers::UpdateId("ticket_temp", $cambio, "cod = '$cod' and mesa = '".$_SESSION["mesa"]."' and cliente = '$cliente' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
+
+
+if($_SESSION["config_o_ticket_pantalla"] == 2){
+	$this->AddRegistoTicket(); // para registrar que es un ticket
+}	
+
+   return $hash;
+}
+
 
 
 ///////////////////////////////////////////////////////////
@@ -413,7 +448,7 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 
 		    	 foreach ($a as $b) {
 		    	    echo '<tr>
-				      <th scope="row">'. $b["cant"] .'</th>
+				      <th scope="row"><a id="xcantidad" cantidad="'. $b["cant"] .'" codigox="'. $b["cod"] .'" cliente="'. $b["cliente"] .'">'. $b["cant"] .'</a></th>
 				      <td>'. $b["producto"] .'</td>
 				      <td>'. $b["pv"] .'</td>
 				      <td>'. $b["total"] .'</td>';

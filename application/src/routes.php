@@ -279,6 +279,34 @@ break;
 
 
 
+case "20q": //cambiar cantidad de producto
+	include_once '../../system/ventas/Venta.php';
+	$ventas = new Venta;
+		
+// cambia la cantidad del producto
+
+$identificador = $ventas->NewCantidad($_REQUEST["codigox"], $_SESSION["mesa"], $_REQUEST["cliente"], $_SESSION['config_imp'], $_REQUEST["cantidad"]);
+
+
+
+    if ($r = $db->select("panel", "control_panel_mostrar", "WHERE producto = '".$_REQUEST["codigox"]."' and tx = " . $_SESSION["tx"])) { 
+        $panelx = $r["panel"];
+    } unset($r);  
+
+
+	// para pantallas
+	include_once '../../system/tv/Pantallas.php';
+	$pantalla = new Pantallas;
+	if($panelx != NULL and $panelx != 0){
+	$pantalla->AgregarControl($identificador, $_SESSION["mesa"], $_REQUEST["cliente"],0,$panelx);
+	}
+	$pantalla->Cambia(1);
+print_r($_REQUEST);
+
+break; 
+
+
+
 case "20x": //Otras Ventas
 include_once '../../system/ventas/Venta.php';
 $ventas = new Venta;

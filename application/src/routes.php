@@ -301,7 +301,6 @@ $identificador = $ventas->NewCantidad($_REQUEST["codigox"], $_SESSION["mesa"], $
 	$pantalla->AgregarControl($identificador, $_SESSION["mesa"], $_REQUEST["cliente"],0,$panelx);
 	}
 	$pantalla->Cambia(1);
-print_r($_REQUEST);
 
 break; 
 

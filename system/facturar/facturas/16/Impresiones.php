@@ -191,7 +191,7 @@ $oi=$oi+$n2;
 printer_draw_text($handle, "___________________________________", 0, $oi);
 
 $oi=$oi+$n1;
-printer_draw_text($handle, "G=Articulo Gravado  E= Artculo Exento", 0, $oi);
+printer_draw_text($handle, "G=Articulo Gravado", 0, $oi);
 
 
 
@@ -443,7 +443,7 @@ $oi=$oi+$n2;
 printer_draw_text($handle, "___________________________________", 0, $oi);
 
 $oi=$oi+$n1;
-printer_draw_text($handle, "G=Articulo Gravado  E= Artculo Exento", 0, $oi);
+printer_draw_text($handle, "G=Articulo Gravado", 0, $oi);
 
 
 

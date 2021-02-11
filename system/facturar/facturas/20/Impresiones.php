@@ -104,17 +104,17 @@ $printer->feed();
     } unset($r); 
 
 
-$printer -> text($this->DosCol("Sub Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($subtotalf), 10));
+$printer -> text($this->DosCol("Sub Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($subtotalf), 20));
 
 
 
 
 if($propina > 0.00){ ///  prara agregarle la propina -- sino borrar
-$printer -> text($this->DosCol("Propina " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($propina), 10));
+$printer -> text($this->DosCol("Propina " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($propina), 20));
 }
 
 $xtotal = $subtotalf + $propina;
-$printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($xtotal), 10));
+$printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($xtotal), 20));
 
 
 $printer -> text("_______________________________________________________");
@@ -223,7 +223,7 @@ $printer -> initialize();
 
 $printer -> setFont(Printer::FONT_B);
 
-$printer -> setTextSize(1, 2);
+$printer -> setTextSize(1, 1);
 $printer -> setLineSpacing(80);
 
 
@@ -467,7 +467,7 @@ $printer->feed();
 
 $printer -> setFont(Printer::FONT_B);
 
-$printer -> setTextSize(1, 2);
+$printer -> setTextSize(1, 1);
 $printer -> setLineSpacing(80);
 
 
@@ -620,7 +620,7 @@ $printer->feed();
 
 $printer -> setFont(Printer::FONT_B);
 
-$printer -> setTextSize(1, 2);
+$printer -> setTextSize(1, 1);
 $printer -> setLineSpacing(80);
 
 
@@ -795,7 +795,7 @@ $printer -> initialize();
 
 $printer -> setFont(Printer::FONT_B);
 
-$printer -> setTextSize(1, 2);
+$printer -> setTextSize(1, 1);
 $printer -> setLineSpacing(80);
 
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
@@ -1125,7 +1125,7 @@ $printer->feed();
 
 $printer -> setFont(Printer::FONT_B);
 
-$printer -> setTextSize(1, 2);
+$printer -> setTextSize(1, 1);
 $printer -> setLineSpacing(80);
 
 
@@ -1271,7 +1271,7 @@ $printer->feed();
 
 $printer -> setFont(Printer::FONT_B);
 
-$printer -> setTextSize(1, 2);
+$printer -> setTextSize(1, 1);
 $printer -> setLineSpacing(80);
 
 

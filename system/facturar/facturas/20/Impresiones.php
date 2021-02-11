@@ -55,8 +55,9 @@ $printer->text("FACTURA NUMERO: " . $numero);
 /* Stuff around with left margin */
 $printer->feed();
 
-$printer -> text("_______________________________________________________");
+$printer -> text("____________________________________________________________");
 $printer->feed();
+
 
 /* Items */
 
@@ -95,7 +96,7 @@ $subtotalf = $subtotalf + $stotal;
     }    $a->close();
 
 
-$printer -> text("_______________________________________________________");
+$printer -> text("____________________________________________________________");
 $printer->feed();
 
 
@@ -117,7 +118,7 @@ $xtotal = $subtotalf + $propina;
 $printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($xtotal), 20));
 
 
-$printer -> text("_______________________________________________________");
+$printer -> text("____________________________________________________________");
 $printer->feed();
 
 
@@ -126,7 +127,7 @@ if($efectivo == NULL){
   $efectivo = $xtotal;
 }
 
-$printer -> text($this->DosCol("Efectivo " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($efectivo), 10));
+$printer -> text($this->DosCol("Efectivo " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($efectivo), 20));
 
 
 
@@ -134,10 +135,10 @@ $printer -> text($this->DosCol("Efectivo " . $_SESSION['config_moneda_simbolo'] 
 //cambio
 $cambios = $efectivo - $xtotal;
 
-$printer -> text($this->DosCol("Cambio " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($cambios), 10));
+$printer -> text($this->DosCol("Cambio " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($cambios), 20));
 
 
-$printer -> text("_______________________________________________________");
+$printer -> text("____________________________________________________________");
 $printer->feed();
 
 

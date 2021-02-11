@@ -34,14 +34,15 @@ $logo = EscposImage::load($img, false);
 $printer->bitImage($logo);
 
 
-$printer->text("Primera Avenida sur, Barrio el centro. ");
+$printer->text("Final Primera Avenida sur, prolongaci'on avenida Fray Carlos Morellos.");
 $printer->feed();
 
-$printer->text("Nueva Concepción");
+$printer->text("Nueva Concepción, Chalatenango");
 $printer->feed();
 
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
-$printer->text("Tel: 7396-4654");
+$printer->text("WhatsApp: 7059-4463");
+
 
 
 $printer->feed();
@@ -142,7 +143,7 @@ $printer -> text($this->DosCol($fechaf, 30, $horaf, 20));
 
 
 
-$printer -> text("Cajero: " . $_SESSION['nombre']);
+$printer -> text("Le atendió: " . $_SESSION['nombre']);
 $printer->feed();
 
 
@@ -160,7 +161,7 @@ if($nombre_mesa != NULL){
 
 $printer->feed();
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
-$printer -> text("GRACIAS POR SU PREFERENCIA...");
+$printer -> text("GRACIAS POR SU COMPRA...");
 $printer -> setJustification();
 
 
@@ -225,14 +226,15 @@ $printer -> setJustification(Printer::JUSTIFY_CENTER);
 $logo = EscposImage::load($img, false);
 $printer->bitImage($logo);
 
-$printer->text("Primera Avenida sur, Barrio el centro. ");
+$printer->text("Final Primera Avenida sur, prolongaci'on avenida Fray Carlos Morellos.");
 $printer->feed();
 
-$printer->text("Nueva Concepción");
+$printer->text("Nueva Concepción, Chalatenango");
 $printer->feed();
+
 
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
-$printer->text("Tel: 7396-4654");
+$printer->text("WhatsApp: 7059-4463");
 
 
 $printer->feed();
@@ -326,7 +328,7 @@ $printer->feed();
 $printer -> text($this->DosCol($fechaf, 30, $horaf, 20));
 
 
-$printer -> text("Cajero: " . $_SESSION['nombre']);
+$printer -> text("Le atendió: " . $_SESSION['nombre']);
 $printer->feed();
 
 //// imprimir datos del cliente delivery
@@ -392,7 +394,7 @@ $printer->feed();
 
 $printer->feed();
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
-$printer -> text("GRACIAS POR SU PREFERENCIA...");
+$printer -> text("GRACIAS POR SU COMPRA...");
 $printer -> setJustification();
 
 

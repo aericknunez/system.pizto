@@ -54,13 +54,21 @@ printer_draw_text($handle, "2a Av. Norte, Finca Buenos Aires", 0, $oi);
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "Tel: 2450-5034", 0, $oi);
-$oi=$oi+$n1;
+
 
 //$numero1=str_pad($numero, 8, "0", STR_PAD_LEFT);
 //$numero1="000-001-01-$numero1";
+$oi=$oi+$n1;
 printer_draw_text($handle, "Factura Numero: $numero", 0, $oi);
 
+$oi=$oi+$n1;
+printer_draw_text($handle, "No Autorizacion: ASC-15041-036616-2021", 0, $oi);
 
+$oi=$oi+$n1;
+printer_draw_text($handle, "Del: 21NA0010000111 Al: 21NA00100001115000", 0, $oi);
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "Fecha de autorizacion: 08-01-2021", 0, $oi);
 
 ///
 $oi=$oi+$n2;
@@ -172,7 +180,13 @@ printer_select_font($handle, $font);
 //////////////////
 
 $oi=$oi+$n1;
+printer_draw_text($handle, "SERIE: MJ04HH0", 0, $oi);
+
+
+$oi=$oi+$n1;
 printer_draw_text($handle, "Cajero: " . $_SESSION['nombre'], 25, $oi);
+
+
 
 
 if ($sx = $db->select("cajero", "ticket", "WHERE num_fac = '".$numero."'  $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 

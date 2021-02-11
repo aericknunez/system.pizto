@@ -34,7 +34,7 @@ $logo = EscposImage::load($img, false);
 $printer->bitImage($logo);
 
 
-$printer->text(" Primera Avenida sur, Barrio el centro. ");
+$printer->text("Primera Avenida sur, Barrio el centro. ");
 $printer->feed();
 
 $printer->text("Nueva Concepción");
@@ -225,7 +225,7 @@ $printer -> setJustification(Printer::JUSTIFY_CENTER);
 $logo = EscposImage::load($img, false);
 $printer->bitImage($logo);
 
-$printer->text(" Primera Avenida sur, Barrio el centro. ");
+$printer->text("Primera Avenida sur, Barrio el centro. ");
 $printer->feed();
 
 $printer->text("Nueva Concepción");

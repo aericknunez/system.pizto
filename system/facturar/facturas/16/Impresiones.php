@@ -60,27 +60,34 @@ printer_draw_text($handle, "Tel: 2450-5034", 0, $oi);
 //$numero1="000-001-01-$numero1";
 //
 $oi=$oi+$n1;
-printer_draw_text($handle, "CONTRIBUYENTE: MARIA SAIDA PUENTES DE RIVAS", 0, $oi);
+printer_draw_text($handle, "CONTRIBUYENTE: ", 0, $oi);
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "SAIDA MARIA PUENTES DE RIVAS", 10, $oi);
+
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "NIT: 0110-240581-101-5", 0, $oi);
 
 $oi=$oi+$n1;
-printer_draw_text($handle, "GIRO: Actividades de alojamiento para", 0, $oi);
+printer_draw_text($handle, "GIRO:Restaurantes y Actividades ", 0, $oi);
 
 
 $oi=$oi+$n1;
-printer_draw_text($handle, "Estancias cortas", 0, $oi);
+printer_draw_text($handle, "De alojamiento Para Estancias cortas", 0, $oi);
 
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "TICKET NUMERO: $numero", 0, $oi);
 
-$oi=$oi+$n1;
-printer_draw_text($handle, "No Autorizacion: ASC-15041-036616-2021", 0, $oi);
+$oi=$oi+$n1+5;
+printer_draw_text($handle, "Autorizacion: ASC-15041-036616-2021", 0, $oi);
 
 $oi=$oi+$n1;
-printer_draw_text($handle, "Del: 21NA0010000111 Al: 21NA00100001115000", 0, $oi);
+printer_draw_text($handle, "Del: 21NA0010000111", 0, $oi);
+$oi=$oi+$n1;
+printer_draw_text($handle, "Al: 21NA00100001115000", 0, $oi);
+
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "Fecha de autorizacion: 08-01-2021", 0, $oi);
@@ -302,27 +309,34 @@ printer_draw_text($handle, "Tel: 2450-5034", 0, $oi);
 //$numero1=str_pad($numero, 8, "0", STR_PAD_LEFT);
 //$numero1="000-001-01-$numero1";
 $oi=$oi+$n1;
-printer_draw_text($handle, "CONTRIBUYENTE: MARIA SAIDA PUENTES DE RIVAS", 0, $oi);
+printer_draw_text($handle, "CONTRIBUYENTE: ", 0, $oi);
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "SAIDA MARIA PUENTES DE RIVAS", 10, $oi);
+
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "NIT: 0110-240581-101-5", 0, $oi);
 
 $oi=$oi+$n1;
-printer_draw_text($handle, "GIRO: Actividades de alojamiento para", 0, $oi);
+printer_draw_text($handle, "GIRO:Restaurantes y Actividades ", 0, $oi);
 
 
 $oi=$oi+$n1;
-printer_draw_text($handle, "Estancias cortas", 0, $oi);
+printer_draw_text($handle, "De alojamiento Para Estancias cortas", 0, $oi);
 
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "TICKET NUMERO: $numero", 0, $oi);
 
-$oi=$oi+$n1;
-printer_draw_text($handle, "No Autorizacion: ASC-15041-036616-2021", 0, $oi);
+$oi=$oi+$n1+5;
+printer_draw_text($handle, "Autorizacion: ASC-15041-036616-2021", 0, $oi);
 
 $oi=$oi+$n1;
-printer_draw_text($handle, "Del: 21NA0010000111 Al: 21NA00100001115000", 0, $oi);
+printer_draw_text($handle, "Del: 21NA0010000111", 0, $oi);
+$oi=$oi+$n1;
+printer_draw_text($handle, "Al: 21NA00100001115000", 0, $oi);
+
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "Fecha de autorizacion: 08-01-2021", 0, $oi);

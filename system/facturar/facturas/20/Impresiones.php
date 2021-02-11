@@ -25,7 +25,7 @@ $printer -> setFont(Printer::FONT_B);
 // $printer -> selectPrintMode(Printer::MODE_DOUBLE_HEIGHT);
 // $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
 
-$printer -> setTextSize(1, 2);
+$printer -> setTextSize(1, 1);
 $printer -> setLineSpacing(80);
 
 
@@ -34,7 +34,10 @@ $logo = EscposImage::load($img, false);
 $printer->bitImage($logo);
 
 
-$printer->text("Final Primera Avenida sur, prolongaci'on avenida Fray Carlos Morellos.");
+$printer->text("Final Primera Avenida sur");
+$printer->feed();
+
+$printer->text("Prolongación avenida Fray Carlos Morellos.");
 $printer->feed();
 
 $printer->text("Nueva Concepción, Chalatenango");
@@ -51,9 +54,10 @@ $printer->text("FACTURA NUMERO: " . $numero);
 
 /* Stuff around with left margin */
 $printer->feed();
-$printer -> setJustification(Printer::JUSTIFY_CENTER);
+
 $printer -> text("_______________________________________________________");
 $printer->feed();
+
 /* Items */
 
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
@@ -160,8 +164,9 @@ if($nombre_mesa != NULL){
 
 
 $printer->feed();
+$printer -> setJustification();
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
-$printer -> text("GRACIAS POR SU COMPRA...");
+$printer -> text("GRACIAS POR SU COMPRA");
 $printer -> setJustification();
 
 
@@ -226,7 +231,10 @@ $printer -> setJustification(Printer::JUSTIFY_CENTER);
 $logo = EscposImage::load($img, false);
 $printer->bitImage($logo);
 
-$printer->text("Final Primera Avenida sur, prolongaci'on avenida Fray Carlos Morellos.");
+$printer->text("Final Primera Avenida sur");
+$printer->feed();
+
+$printer->text("Prolongación avenida Fray Carlos Morellos.");
 $printer->feed();
 
 $printer->text("Nueva Concepción, Chalatenango");
@@ -247,7 +255,6 @@ $printer->text("PRECUENTA");
 
 /* Stuff around with left margin */
 $printer->feed();
-$printer -> setJustification(Printer::JUSTIFY_CENTER);
 $printer -> text("_______________________________________________________");
 $printer->feed();
 /* Items */
@@ -392,9 +399,11 @@ $printer -> text("______________________________________________________");
 $printer->feed();
 
 
+
 $printer->feed();
+$printer -> setJustification();
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
-$printer -> text("GRACIAS POR SU COMPRA...");
+$printer -> text("GRACIAS POR SU COMPRA");
 $printer -> setJustification();
 
 

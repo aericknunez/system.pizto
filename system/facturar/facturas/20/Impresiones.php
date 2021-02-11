@@ -256,8 +256,9 @@ $printer->text("PRECUENTA");
 
 /* Stuff around with left margin */
 $printer->feed();
-$printer -> text("_______________________________________________________");
+$printer -> text("____________________________________________________________");
 $printer->feed();
+
 /* Items */
 
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
@@ -301,24 +302,25 @@ $subtotalf = $subtotalf + $stotal;
 
 
 
-$printer -> text("_______________________________________________________");
+$printer -> text("____________________________________________________________");
 $printer->feed();
 
 
 
-$printer -> text($this->DosCol("Sub Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($subtotalf), 10));
+
+$printer -> text($this->DosCol("Sub Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($subtotalf), 20));
 
 
 
 if($_SESSION['config_propina'] != 0.00 and $_SESSION["delivery_on"] == FALSE and $_SESSION["aquiLlevar"] == "on"){ ///  prara agregarle la propina -- sino borrar
-$printer -> text($this->DosCol("Propina " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format(Helpers::Propina($subtotalf)), 10));
+$printer -> text($this->DosCol("Propina " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format(Helpers::Propina($subtotalf)), 20));
   $subtotalf = Helpers::PropinaTotal($subtotalf);
 }
 
 
 
 $xtotal = $subtotalf + $propina;
-$printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($xtotal), 10));
+$printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($xtotal), 20));
 
 
 
@@ -326,8 +328,9 @@ $printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . "
 
 
 
-$printer -> text("_______________________________________________________");
+$printer -> text("____________________________________________________________");
 $printer->feed();
+
 
 
 
@@ -396,7 +399,7 @@ if($llevar == 3){
    $printer->feed();
 
 
-$printer -> text("______________________________________________________");
+$printer -> text("____________________________________________________________");
 $printer->feed();
 
 
@@ -472,8 +475,9 @@ $printer -> setTextSize(1, 1);
 $printer -> setLineSpacing(80);
 
 
-$printer -> text("_______________________________________________________");
+$printer -> text("____________________________________________________________");
 $printer->feed();
+
 
 
     foreach ($a as $b) {
@@ -517,7 +521,7 @@ if($_SESSION["config_o_ticket_pantalla"] == 2){
     }    $a->close();
 
 
-$printer -> text("_______________________________________________________");
+$printer -> text("____________________________________________________________");
 $printer->feed();
 
 
@@ -625,8 +629,9 @@ $printer -> setTextSize(1, 1);
 $printer -> setLineSpacing(80);
 
 
-$printer -> text("_______________________________________________________");
+$printer -> text("____________________________________________________________");
 $printer->feed();
+
 
 
     foreach ($a as $b) {
@@ -670,8 +675,9 @@ if($_SESSION["config_o_ticket_pantalla"] == 2){
     }    $a->close();
 
 
-$printer -> text("_______________________________________________________");
+$printer -> text("____________________________________________________________");
 $printer->feed();
+
 
 
 
@@ -805,8 +811,9 @@ $printer -> text("RESUMEN DE CORTE DE CAJA");
 
 /* Stuff around with left margin */
 $printer->feed();
-$printer -> text("_______________________________________________________");
+$printer -> text("____________________________________________________________");
 $printer->feed();
+
 /* Items */
 
 
@@ -872,8 +879,9 @@ $printer -> text($this->Item( $b["sum(cant)"], $nombre_producto, Helpers::Dinero
 // }    $a->close();
 
 
-$printer -> text("_______________________________________________________");
+$printer -> text("____________________________________________________________");
 $printer->feed();
+
 
   // total de venta
       $axy = $db->query("SELECT SUM(total) FROM ticket WHERE time BETWEEN '".$inicio."' and '".Helpers::TimeId()."' and edo = 1 and td = ".$_SESSION["td"]."");
@@ -941,18 +949,18 @@ $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 1 a
 
 
 
-$printer -> text($this->DosCol("VENTA EN EFECTIVO: ", 40, Helpers::Dinero($vefectivo), 10));
+$printer -> text($this->DosCol("VENTA EN EFECTIVO: ", 40, Helpers::Dinero($vefectivo), 20));
 
-$printer -> text($this->DosCol("PROPINA EN EFECTIVO: ", 40, Helpers::Dinero($propinatarjetae), 10));
-
-
-$printer -> text($this->DosCol("VENTA CON TARJETA: ", 40, Helpers::Dinero($tarjetacredito), 10));
-
-$printer -> text($this->DosCol("PROPINA CON TARJETA: ", 40, Helpers::Dinero($propinatarjetac), 10));
+$printer -> text($this->DosCol("PROPINA EN EFECTIVO: ", 40, Helpers::Dinero($propinatarjetae), 20));
 
 
+$printer -> text($this->DosCol("VENTA CON TARJETA: ", 40, Helpers::Dinero($tarjetacredito), 20));
 
-$printer -> text($this->DosCol("TOTAL DE VENTA: ", 40, Helpers::Dinero($counte), 10));
+$printer -> text($this->DosCol("PROPINA CON TARJETA: ", 40, Helpers::Dinero($propinatarjetac), 20));
+
+
+
+$printer -> text($this->DosCol("TOTAL DE VENTA: ", 40, Helpers::Dinero($counte), 20));
 
 
 
@@ -964,16 +972,17 @@ $printer -> text($this->DosCol("TOTAL DE VENTA: ", 40, Helpers::Dinero($counte),
     } $axy->close();
 
 
-$printer -> text($this->DosCol("TOTAL DE PROPINA: ", 40, Helpers::Dinero($propinas), 10));
+$printer -> text($this->DosCol("TOTAL DE PROPINA: ", 40, Helpers::Dinero($propinas), 20));
 
 
 
-$printer -> text($this->DosCol("TOTAL: ", 40, Helpers::Dinero($counte + $propinas), 10));
+$printer -> text($this->DosCol("TOTAL: ", 40, Helpers::Dinero($counte + $propinas), 20));
 
 
   
-$printer -> text("_______________________________________________________");
+$printer -> text("____________________________________________________________");
 $printer->feed();
+
 
 
 
@@ -985,10 +994,10 @@ foreach ($axy as $bxy) {
 
 
 
-$printer -> text($this->DosCol("TICKET ELIMINADOS: ", 40, $counte, 10));
+$printer -> text($this->DosCol("TICKET ELIMINADOS: ", 40, $counte, 20));
 
 
-$printer -> text("_______________________________________________________");
+$printer -> text("____________________________________________________________");
 $printer->feed();
 
 
@@ -1008,10 +1017,10 @@ foreach ($axy as $bxy) {
 
 
 
-$printer -> text($this->DosCol("GASTOS REGISTRADOS: ", 40, Helpers::Dinero($gasto), 10));
+$printer -> text($this->DosCol("GASTOS REGISTRADOS: ", 40, Helpers::Dinero($gasto), 20));
 
 
-$printer -> text($this->DosCol("REMESAS: ", 40, Helpers::Dinero($remesas), 10));
+$printer -> text($this->DosCol("REMESAS: ", 40, Helpers::Dinero($remesas), 20));
 
 
 $printer -> text("__________________________________________________");
@@ -1020,12 +1029,12 @@ $printer->feed();
 
 
 
-$printer -> text($this->DosCol("DINERO EN APERTURA: ", 40, Helpers::Dinero($apertura), 10));
+$printer -> text($this->DosCol("DINERO EN APERTURA: ", 40, Helpers::Dinero($apertura), 20));
 
-$printer -> text($this->DosCol("EFECTIVO INGRESADO: ", 40, Helpers::Dinero($efectivo), 10));
+$printer -> text($this->DosCol("EFECTIVO INGRESADO: ", 40, Helpers::Dinero($efectivo), 20));
 
 
-$printer -> text($this->DosCol("DIFERENCIA: ", 40, Helpers::Dinero($diferencia), 10));
+$printer -> text($this->DosCol("DIFERENCIA: ", 40, Helpers::Dinero($diferencia), 20));
 
 $printer -> text("_______________________________________________________");
 $printer->feed();
@@ -1130,7 +1139,7 @@ $printer -> setTextSize(1, 1);
 $printer -> setLineSpacing(80);
 
 
-$printer -> text("_______________________________________________________");
+$printer -> text("____________________________________________________________");
 $printer->feed();
 
 
@@ -1141,8 +1150,9 @@ $printer->feed();
 $printer -> text("MOTIVO: " . $motivo);
 $printer->feed();
 
-$printer -> text("_______________________________________________________");
+$printer -> text("____________________________________________________________");
 $printer->feed();
+
 
 
     foreach ($a as $b) {
@@ -1276,8 +1286,9 @@ $printer -> setTextSize(1, 1);
 $printer -> setLineSpacing(80);
 
 
-$printer -> text("_______________________________________________________");
+$printer -> text("____________________________________________________________");
 $printer->feed();
+
 
 
     if ($r = $db->select("motivo", "mesa_borrado", "WHERE mesa='".$_SESSION["mesa"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
@@ -1287,8 +1298,9 @@ $printer->feed();
 $printer -> text("MOTIVO: " . $motivo);
 $printer->feed();
 
-$printer -> text("_______________________________________________________");
+$printer -> text("____________________________________________________________");
 $printer->feed();
+
 
 
     foreach ($a as $b) {

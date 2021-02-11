@@ -70,6 +70,9 @@ $oi=$oi+$n1;
 printer_draw_text($handle, "NIT: 0110-240581-101-5", 0, $oi);
 
 $oi=$oi+$n1;
+printer_draw_text($handle, "NRC: 240124-4", 0, $oi);
+
+$oi=$oi+$n1;
 printer_draw_text($handle, "GIRO:Restaurantes y Actividades ", 0, $oi);
 
 
@@ -317,6 +320,9 @@ printer_draw_text($handle, "SAIDA MARIA PUENTES DE RIVAS", 10, $oi);
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "NIT: 0110-240581-101-5", 0, $oi);
+
+$oi=$oi+$n1;
+printer_draw_text($handle, "NRC: 240124-4", 0, $oi);
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "GIRO:Restaurantes y Actividades ", 0, $oi);

@@ -159,12 +159,21 @@ printer_draw_text($handle, "IVA. " . $_SESSION['config_moneda_simbolo'] . ":", 1
 printer_draw_text($handle, Helpers::Format(Helpers::Impuesto(Helpers::STotal($subtotalf, $_SESSION['config_imp']), $_SESSION['config_imp'])), 320, $oi);
 
 
-if($_SESSION['config_propina'] != 0.00){ ///  prara agregarle la propina -- sino borrar
+
+    if ($r = $db->select("total", "ticket_propina", "WHERE num_fac = '".$numero."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+        $propina = $r["total"];
+    } unset($r); 
+
+
+if($propina > 0.00){ ///  prara agregarle la propina -- sino borrar
 $oi=$oi+$n2;
 printer_draw_text($handle, "Propina: ", 160, $oi);
 printer_draw_text($handle, Helpers::Format(Helpers::Propina($subtotalf)),$col4, $oi);
 $subtotalf = Helpers::PropinaTotal($subtotalf);
 }
+
+
+
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "Total " . $_SESSION['config_moneda_simbolo'] . ":", 232, $oi);
@@ -413,12 +422,18 @@ printer_draw_text($handle, "IVA. " . $_SESSION['config_moneda_simbolo'] . ":", 1
 printer_draw_text($handle, Helpers::Format(Helpers::Impuesto(Helpers::STotal($subtotalf, $_SESSION['config_imp']), $_SESSION['config_imp'])), 320, $oi);
 
 
-if($_SESSION['config_propina'] != 0.00){ ///  prara agregarle la propina -- sino borrar
+    if ($r = $db->select("total", "ticket_propina", "WHERE num_fac = '".$numero."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
+        $propina = $r["total"];
+    } unset($r); 
+
+
+if($propina > 0.00){ ///  prara agregarle la propina -- sino borrar
 $oi=$oi+$n2;
 printer_draw_text($handle, "Propina: ", 160, $oi);
 printer_draw_text($handle, Helpers::Format(Helpers::Propina($subtotalf)),$col4, $oi);
 $subtotalf = Helpers::PropinaTotal($subtotalf);
 }
+
 
 $oi=$oi+$n1;
 printer_draw_text($handle, "Total " . $_SESSION['config_moneda_simbolo'] . ":", 232, $oi);

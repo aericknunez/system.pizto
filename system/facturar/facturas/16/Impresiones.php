@@ -260,6 +260,8 @@ printer_close($handle);
  }
 
  public function Facturax($efectivo, $numero){
+  $db = new dbConn();
+
 
 
 $txt1   = "17"; 

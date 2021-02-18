@@ -1056,6 +1056,8 @@ if($cancela != NULL){
 			$datos["time"] = Helpers::TimeId();
 		    $db->insert("ticket_propina", $datos);
 
+		    unset($_SESSION['config_propina_cant']);
+
 	}
 
 

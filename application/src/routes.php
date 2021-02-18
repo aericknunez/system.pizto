@@ -1050,15 +1050,32 @@ break;
 
 
 
-case  "69": // cambiar porcentaje de propina
+case  "69": 
+	if($_SESSION['config_propina_cant'] != NULL){
+		
+		$ar = $db->query("SELECT sum(total) FROM ticket_temp where num_fac = '$factura' and tx = ".$_SESSION['tx']." and td = ".$_SESSION['td']."");
+		foreach ($ar as $br) {
+		 $totalpro = $br["sum(total)"];
+		} $ar->close();	
 
-$_SESSION['config_propina'] = $_POST["propina"];
+
+		$_SESSION['config_propina'] = Helpers::CalculaPorcentajeMas($totalpro, $totalpro + $_POST["propina"]);
+	} else {
+		$_SESSION['config_propina'] = $_POST["propina"];	
+	}
 echo '<script>
 	window.location.href="?"
-</script>';
-
+</script>';	
 break; 
 
+
+case  "69x": // cambiar porcentaje de propina
+	if($_SESSION['config_propina_cant'] != NULL){
+		unset($_SESSION['config_propina_cant']);
+	} else {
+		$_SESSION['config_propina_cant'] = TRUE;		
+	}
+break; 
 
 
 

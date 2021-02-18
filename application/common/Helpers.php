@@ -197,6 +197,14 @@ class Helpers{
     }
 
 
+    static public function CalculaPorcentajeMas($numero1, $numero2){ // calcula el porcentaje de mas de un numero
+        $num = $numero2 * 100;
+        $num = $num / $numero1;
+        $numer = $num - 100;
+        return $numer;
+    }
+
+
     static public function NFactura($numero){ 
         $numero1=str_pad($numero, 8, "0", STR_PAD_LEFT);
         $format="000-001-01-$numero1";

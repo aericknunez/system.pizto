@@ -18,6 +18,15 @@ $facturar = new Facturar;
 
 <div id="resultado">
 
+          <div class="switch">
+            <label>
+             Porcentaje
+              <input type="checkbox" <?php if($_SESSION['config_propina_cant'] == "1") echo 'checked = "checked"'; ?> id="prop" name="prop" >
+              <span class="lever"></span> 
+             Cantidad 
+            </label>
+          </div>
+
      <div class="justify-content-center">
       <div class="col-xs-2">
         <label for="ex1">Actualmente hay una propina establecida de <?php echo $_SESSION['config_propina']; ?> %</label>
@@ -28,6 +37,8 @@ $facturar = new Facturar;
     <div class="justify-content-center">
       <button class="btn btn-info my-4" type="submit" id="btn-propina" name="btn-propina">Establecer Propina</button>
     </div>
+
+<div id="load"></div>
 
 </div>
 

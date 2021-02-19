@@ -1069,7 +1069,7 @@ break;
 case  "69": 
 	if($_SESSION['config_propina_cant'] != NULL){
 		
-		$ar = $db->query("SELECT sum(total) FROM ticket_temp where num_fac = '$factura' and tx = ".$_SESSION['tx']." and td = ".$_SESSION['td']."");
+		$ar = $db->query("SELECT sum(total) FROM ticket_temp where mesa = '".$_SESSION["mesa"]."' and tx = ".$_SESSION['tx']." and td = ".$_SESSION['td']."");
 		foreach ($ar as $br) {
 		 $totalpro = $br["sum(total)"];
 		} $ar->close();	

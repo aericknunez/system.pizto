@@ -470,7 +470,7 @@ Helpers::UpdateId("mesa_comanda_edo", $cambio, "mesa = ".$_SESSION["mesa"]." and
   $db = new dbConn();
 
 
-$a = $db->query("select cant, producto from ticket_temp WHERE cod = '8887' and mesa = '".$_SESSION["mesa"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
+$a = $db->query("select cant, cod from ticket_temp WHERE producto = 'Producto-Especial' and mesa = '".$_SESSION["mesa"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
 
  $cantidadproductos = $a->num_rows;
 
@@ -502,7 +502,11 @@ $printer->feed();
 
 foreach ($a as $b) {
 
-$printer -> text($b["cant"] . " - " .  $b["producto"]);
+if ($r = $db->select("nombre", "producto", "WHERE cod = '".$b["cod"]."' and td = ".$_SESSION["td"]."")) { 
+$nombre = $r["nombre"];
+} unset($r);  
+
+$printer -> text($b["cant"] . " - " .  $nombre);
 $printer->feed();
 
 }    $a->close();

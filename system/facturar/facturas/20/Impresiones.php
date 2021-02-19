@@ -470,7 +470,7 @@ Helpers::UpdateId("mesa_comanda_edo", $cambio, "mesa = ".$_SESSION["mesa"]." and
   $db = new dbConn();
 
 
-$a = $db->query("select cant, producto from ticket_temp WHERE cod = '8887' and mesa = '".$numero."' $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
+$a = $db->query("select cant, producto from ticket_temp WHERE cod = '8887' and mesa = '".$_SESSION["mesa"]."' $cancelar and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
 
  $cantidadproductos = $a->num_rows;
 

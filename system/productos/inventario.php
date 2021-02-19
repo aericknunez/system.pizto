@@ -1,6 +1,6 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+include_once 'application/common/Alerts.php';
 ?>
 
 <div class="row d-flex justify-content-center">
@@ -42,6 +42,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             unset($uni);
             } echo '</tbody>
                      </table>';
+        } else {
+          Alerts::Mensajex("No se encuentran registros","info");
         }
         $a->close();
 ?>

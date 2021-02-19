@@ -273,7 +273,7 @@ public function Porcentaje(){
 
 
 
-	public function RemesaHoy($fecha){
+	static public function RemesaHoy($fecha){
 		$db = new dbConn();
 	    $a = $db->query("SELECT sum(cantidad) FROM gastos WHERE (edo = 1 or edo = 2) and tipo = 3 and td = ".$_SESSION["td"]." and fecha = '$fecha'");
 		    foreach ($a as $b) {
@@ -284,7 +284,7 @@ public function Porcentaje(){
 
 
 
-	public function SoloGastosHoy($fecha){
+	static public function SoloGastosHoy($fecha){
 		$db = new dbConn();
 	    $a = $db->query("SELECT sum(cantidad) FROM gastos WHERE (edo = 1 or edo = 2) and tipo != 5 and tipo != 3 and td = ".$_SESSION["td"]." and fecha = '$fecha'");
 		    foreach ($a as $b) {
@@ -497,6 +497,19 @@ $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 1 a
 	    }  
     } $a->close();
 
+/// gastos
+$a = $db->query("SELECT sum(cantidad) FROM gastos WHERE (edo = 1 or edo = 2) and tipo != 5 and tipo != 3 and td = ".$_SESSION["td"]." and time BETWEEN  '".$inicio."' and '".$fin."'");
+    foreach ($a as $b) {
+     $tgasto=$b["sum(cantidad)"];
+    } $a->close();
+
+/// remesas
+$a = $db->query("SELECT sum(cantidad) FROM gastos WHERE (edo = 1 or edo = 2) and tipo = 3 and td = ".$_SESSION["td"]." and time BETWEEN  '".$inicio."' and '".$fin."'");
+    foreach ($a as $b) {
+     $tremesa=$b["sum(cantidad)"];
+    } $a->close();
+
+
 		 echo '<div class="card-deck">
 
 
@@ -561,9 +574,12 @@ $a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 1 a
 			        <div class="card-body" title="La suma de todos los gastos reportados" data-toggle="tooltip">
 			            <h4 class="card-title">Gastos</h4>
 			            <p class="black-text display-4">' . Helpers::Dinero($gastos) . '</p>
+			            <p>Gastos: '. Helpers::Dinero($tgasto) .'</p>
+			            <p>Remesas: '. Helpers::Dinero($tremesa) .'</p>
 			        </div>
 			    </div>
 			    <!--/.Panel-->
+
 
 			    <!--Panel-->
 			    <div class="card">

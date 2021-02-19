@@ -73,7 +73,7 @@ $objPHPExcel->setActiveSheetIndex(0)
           ->setCellValue('B' . $fila, $b["producto"])
           ->setCellValue('C' . $fila, $b["num_fac"])
           ->setCellValue('D' . $fila, $b["fecha"] . ' - '. $b["hora"])
-          ->setCellValue('E' . $fila, Helpers::TipoPago($b["tipo_pago"]))
+          ->setCellValue('E' . $fila, Helpers::TipoPagoSimple($b["tipo_pago"]))
           ->setCellValue('F' . $fila, $b["pv"])
           ->setCellValue('G' . $fila, $b["total"]);
  

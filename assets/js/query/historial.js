@@ -34,6 +34,25 @@ $(document).ready(function()
 	})
 	
 	
+	$('#btn-diarioL').click(function(e){ /// para el formulario
+		$("#form-diarioL").hide();
+		MuestraLoader();
+		e.preventDefault();
+		$.ajax({
+			url: "application/src/routes.php?op=70x",
+			method: "POST",
+			data: $("#form-diarioL").serialize(),
+			success: function(data){
+				$("#contenido").html(data);
+				$("#form-diarioL").trigger("reset");
+				$("#form-diarioL").show();
+				EscondeLoader();
+			}
+		})
+	})
+	
+	
+
 
 
 	$('#btn-mensual').click(function(e){ /// para el formulario

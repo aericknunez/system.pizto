@@ -149,6 +149,9 @@ echo '<script type="text/javascript" src="assets/js/query/corte.js?v='.$numero.'
 elseif(isset($_GET["diario"])) {
 echo '<script type="text/javascript" src="assets/js/query/historial.js?v='.$numero.'"></script>';
 }
+elseif(isset($_GET["diariol"])) {
+echo '<script type="text/javascript" src="assets/js/query/historial.js?v='.$numero.'"></script>';
+}
 elseif(isset($_GET["mensual"])) {
 echo '<script type="text/javascript" src="assets/js/query/historial.js?v='.$numero.'"></script>';
 }

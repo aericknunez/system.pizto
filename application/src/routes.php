@@ -1108,6 +1108,19 @@ break;
 
 
 
+case  "70x": // historial diario
+	include_once '../../system/historial/Historial.php';
+	$historial = new Historial;
+	if($_POST["fecha_submit"] == NULL){ 
+		$fecha = date("d-m-Y"); 
+	} else { 
+		$fecha = $_POST["fecha_submit"];
+	}
+	$historial->HistorialDiarioLista($fecha);
+break; 
+
+
+
 case  "71": // historial mensual
 	include_once '../../system/historial/Historial.php';
 	$historial = new Historial;

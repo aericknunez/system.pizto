@@ -92,6 +92,11 @@ class Helpers{
     if($tipo == "2") return '<div class="text-danger font-weight-bold">Tarjeta</div>';
     }
 
+    static public function TipoPagoSimple($tipo) {
+    if($tipo == "1") return 'Efectivo';
+    if($tipo == "2") return 'Tarjeta';
+    }
+
 
 
     static public function Pais($string) {

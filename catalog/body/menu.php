@@ -31,6 +31,7 @@ if((Helpers::ServerDomain() == FALSE and $_SESSION["root_plataforma"] == 0) or (
 <li><a href="?cortes" class="waves-effect"> Historial de Cortes</a></li>
 <li><a href="?gastodiario" class="waves-effect"> Gastos Diario</a></li>
 <li><a href="?gastomensual" class="waves-effect"> Gastos Mensual</a></li>
+<li><a href="?diariol" class="waves-effect"> Productos Vendidos</a></li>
 <li><a href="?gra_semanal" class="waves-effect"> Grafico Semanal</a></li>
 <li><a href="?gra_mensual" class="waves-effect"> Grafico Mensual</a></li>
 <li><a href="?gra_semestre" class="waves-effect"> Grafico Semestral</a></li>

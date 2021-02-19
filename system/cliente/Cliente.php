@@ -92,7 +92,6 @@ class Clientes {
             <tr>
               <th scope="col">#</th>
               <th scope="col">Nombre</th>
-              <th scope="col">Documento</th>
               <th scope="col">Direccion</th>
               <th scope="col">Telefono</th>
               <th scope="col">Eliminar</th>
@@ -104,7 +103,6 @@ class Clientes {
                 echo '<tr>
                       <th scope="row">'. $n ++ .'</th>
                       <td>'.$b["nombre"].'</td>
-                      <td>'.$b["documento"].'</td>
                       <td>'.$b["direccion"].'</td>
                       <td>'.$b["telefono"].'</td>
                       <td><a id="xdelete" hash="'.$b["hash"].'" op="365"><i class="fa fa-minus-circle fa-lg red-text"></i></a></td>

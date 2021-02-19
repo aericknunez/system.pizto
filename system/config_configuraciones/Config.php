@@ -664,7 +664,7 @@ if($handle = fopen($url . "iconos_".$_SESSION["td"].".php",'w+')){
 	}
 	
 }
-fwrite($handle,$return);
+fwrite($handle,utf8_encode($return));
 fclose($handle);
 
 

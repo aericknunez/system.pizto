@@ -1077,28 +1077,9 @@ $printer -> text($this->DosCol("TOTAL DE PROPINA: ", 40, Helpers::Dinero($propin
 
 $printer -> text($this->DosCol("TOTAL: ", 40, Helpers::Dinero($counte + $propinas), 20));
 
-
   
 $printer -> text("____________________________________________________________");
 $printer->feed();
-
-
-
-
-// Eliminadas
-  $axy = $db->query("SELECT count(num_fac) FROM ticket_num WHERE time BETWEEN '".$inicio."' and '".Helpers::TimeId()."' and tx = 1 and edo = 2 and td = ".$_SESSION["td"]."");
-foreach ($axy as $bxy) {
-    $counte=$bxy["count(num_fac)"];
-} $axy->close();
-
-
-
-$printer -> text($this->DosCol("TICKET ELIMINADOS: ", 40, $counte, 20));
-
-
-$printer -> text("____________________________________________________________");
-$printer->feed();
-
 
 
 
@@ -1137,36 +1118,6 @@ $printer -> text($this->DosCol("DIFERENCIA: ", 40, Helpers::Dinero($diferencia),
 
 $printer -> text("_______________________________________________________");
 $printer->feed();
-
-
-
-
-$printer -> text("ORDENES ELIMINADAS: ");
-$printer->feed();
-
-$printer -> setJustification(Printer::JUSTIFY_LEFT);
-$printer -> setEmphasis(true);
-$printer -> text($this->Item('Cant', 'Descripcion', 'Total', null));
-$printer -> setEmphasis(false);
-
-
-$printer -> text("_______________________________________________________");
-$printer->feed();
-
-
-
-$a = $db->query("select mesa, cod, cant, producto, pv, total, fecha, hora, num_fac from ticket_borrado where time BETWEEN '".$inicio."' and '".Helpers::TimeId()."' and td = ".$_SESSION["td"]." order by num_fac");
-  
-    foreach ($a as $b) {
- 
-$subtotalf = 0;
-
-$printer -> text($this->Item("(" . $b["mesa"] . ") " . $b["cant"], $b["producto"], NULL ,$b["total"]));
-
-$subtotalf = $subtotalf + $stotal;
-///
-
-}    $a->close();
 
 
 

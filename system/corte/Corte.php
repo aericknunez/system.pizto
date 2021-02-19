@@ -273,6 +273,28 @@ public function Porcentaje(){
 
 
 
+	public function RemesaHoy($fecha){
+		$db = new dbConn();
+	    $a = $db->query("SELECT sum(cantidad) FROM gastos WHERE (edo = 1 or edo = 2) and tipo = 3 and td = ".$_SESSION["td"]." and fecha = '$fecha'");
+		    foreach ($a as $b) {
+		     $total=$b["sum(cantidad)"];
+		    } $a->close();
+		    return $total;
+	}
+
+
+
+	public function SoloGastosHoy($fecha){
+		$db = new dbConn();
+	    $a = $db->query("SELECT sum(cantidad) FROM gastos WHERE (edo = 1 or edo = 2) and tipo != 5 and tipo != 3 and td = ".$_SESSION["td"]." and fecha = '$fecha'");
+		    foreach ($a as $b) {
+		     $total=$b["sum(cantidad)"];
+		    } $a->close();
+		    return $total;
+	}
+
+
+
 	public function GastoMes($fecha){
 		$db = new dbConn();
 	    $a = $db->query("SELECT sum(cantidad) FROM gastos WHERE (edo = 1 or edo = 2) and tipo != 5 and td = ".$_SESSION["td"]." and fecha like '%-$fecha'");

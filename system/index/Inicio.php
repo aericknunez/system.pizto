@@ -378,8 +378,10 @@ echo '<div class="row">
     <div class="col-xl-3 col-md-6 mb-4  col-sm-6 col-6">
       <div class="card-counter light">
         <i class="fas fa-dollar-sign"></i>
-        <span class="count-numbers"><h5 class="font-weight-bold">'. Helpers::Dinero($corte->GastoHoy(date("d-m-Y"))) .'</h5></span>
-        <span class="count-name">Gastos Hoy</span>
+        <span class="count-numbers">
+        <h5 class="font-weight-bold">'. Helpers::Dinero($corte->SoloGastosHoy(date("d-m-Y"))) .'</h5>
+        <h5 class="font-weight-bold">'. Helpers::Dinero($corte->RemesaHoy(date("d-m-Y"))) .'</h5></span>
+        <span class="count-name">Gastos y Remesas</span>
       </div>
     </div>
 

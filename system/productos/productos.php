@@ -55,6 +55,7 @@ Esta secci&oacuten es solamente para agregar el producto por primera vez
   </select>
 
     <input type="number" id="cantidad" name="cantidad" step="any" class="form-control mb-2" placeholder="Cantidad" required="yes">
+    <input type="number" id="minimo" name="minimo" step="any" class="form-control mb-2" placeholder="Cantidad minima de inventario" required="yes">
     <button class="btn btn-info my-4" name="btn-materia" id="btn-materia" type="submit">Agregar Producto</button>
 
 </form>

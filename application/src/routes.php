@@ -338,6 +338,23 @@ break;
 
 
 
+case "20t": //Otras Ventas
+include_once '../../system/ventas/Venta.php';
+$ventas = new Venta;
+if($_REQUEST["cliente"] == NULL) { $clientes = 1; }
+else { $clientes = $_REQUEST["cliente"]; } 
+
+$ventas->RegistroDelivery(8887, 
+	$_SESSION["mesa"], 
+	$clientes, 
+	$_SESSION['config_imp'],
+	"Delivery",
+	$_POST["cant"]);
+break;
+
+
+
+
 case "20y": //Venta Especial
 include_once '../../system/ventas/Venta.php';
 $ventas = new Venta;
@@ -633,8 +650,7 @@ break;
 case  "34": // agrega materia prima
 	include_once '../../system/productos/Producto.php';
 	$productos = new Producto;
-	$productos->AddMateria($_POST["nombre"],$_POST["cantidad"],$_POST["unidad"]);
-	
+	$productos->AddMateria($_POST);	
 break; 
 
 
@@ -2357,7 +2373,6 @@ break;
 case  "402": // activar mesa para delivery
 include_once '../../system/ventas/Venta.php';
 $ventas = new Venta;
-unset($_SESSION["mesa"], $_SESSION["nclientes"], $_SESSION["cad"]);
 $ventas->CrearMesa(1, 3);
 
 ///////////
@@ -2372,7 +2387,7 @@ include_once '../../system/delivery/Llevar.php';
 }
 //////////
 $mesa = $_SESSION["mesa"];
-unset($_SESSION["mesa"], $_SESSION["cad"]);
+unset($_SESSION["mesa"], $_SESSION["nclientes"], $_SESSION["cad"]);
 echo '<script>
 	window.location.href="?delivery&mesa='.$mesa.'"
 </script>';
@@ -2499,6 +2514,20 @@ echo '<script>
 break; 
 
 
+
+case  "414": // ver listado de propinas
+include_once '../../system/delivery/Llevar.php';
+	$deliver = new Llevar;
+	$deliver->VerListaEnvios();
+break; 
+
+
+
+case  "415": // ver listado de propinas
+include_once '../../system/delivery/Llevar.php';
+	$deliver = new Llevar;
+	$deliver->AddEnvio($_POST);
+break; 
 
 
 

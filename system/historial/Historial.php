@@ -42,7 +42,9 @@ class Historial{
 		if($b["cod"] == "8889"){
 			$nombre_producto = "(Productos Especiales) ";		
 		} 
-			    
+		if($b["cod"] == "8887"){
+			$nombre_producto = "Delivery ";		
+		} 	    
 			   echo '<tr>
 			       <th scope="row">'. $b["sum(cant)"] . '</th>
 			       <td>'. $nombre_producto . '</td>
@@ -87,6 +89,8 @@ class Historial{
 		    } $ap->close();
 		     echo "Total Agrupado: ". Helpers::Dinero($prop + $tot) . "<br>";
 
+		     echo '<div class="text-right"><a href="system/documentos/ventadiaria.php?fecha='.$fecha.'" >Descargar Excel</a></div>';
+
 		     Alerts::Mensajex("Es posible que la cantidad de productos con el total difiera con el precio de venta, ya que hay productos vendidos con precio especial","info");
 	}
 
@@ -128,7 +132,10 @@ class Historial{
 				if($b["cod"] == "8889"){
 					$nombre_producto = "(Productos Especiales) ";		
 				} 
-
+				if($b["cod"] == "8887"){
+					$nombre_producto = "Delivery ";		
+				} 	
+				
 			   echo '<tr>
 			       <th scope="row">'. $b["sum(cant)"] . '</th>
 			       <td>'. $nombre_producto . '</td>
@@ -168,6 +175,9 @@ class Historial{
 		        echo "Total Propina: ". Helpers::Dinero($bp["sum(total)"]) . "<br>";
 		    } $ap->close();
 		    echo "Total Agrupado: ". Helpers::Dinero($prop + $tot) . "<br>";
+
+
+		     echo '<div class="text-right"><a href="system/documentos/ventamensual.php?fecha='.$fechax.'">Descargar Excel</a></div>';
 
 		     Alerts::Mensajex("Es posible que la cantidad de productos con el total difiera con el precio de venta, ya que hay productos vendidos con precio especial","info");
 
@@ -349,6 +359,9 @@ class Historial{
 		    } $as->close();
 
 
+		     echo '<div class="text-right"><a href="system/documentos/gastodiario.php?fecha='.$fecha.'">Descargar Excel</a></div>';
+
+
 			} // num rows
 			$a->close();
 
@@ -429,6 +442,8 @@ class Historial{
 		    } $as->close();
 
 
+		     echo '<div class="text-right"><a href="system/documentos/gastomensual.php?fecha='.$fechax.'">Descargar Excel</a></div>';
+		     
 			}
   			$a->close();
 

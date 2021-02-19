@@ -252,7 +252,51 @@ public function OtrasVentas($cod,$mesa,$cliente,$imp,$nombre,$pv) {
 	}
 
 
+
+public function RegistroDelivery($cod,$mesa,$cliente,$imp,$nombre,$pv) {
+		$db = new dbConn();
+
+    	$stot=Helpers::STotal($pv, $imp);
+    	$im=Helpers::Impuesto($stot, $imp);
+
+		if($this->ComprobarProducto($cod,$mesa,$cliente) == TRUE){
+			Helpers::DeleteId("ticket_temp", "cod = '$cod' and mesa = '".$_SESSION["mesa"]."' and cliente = '$cliente' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
+		}
+
+		if($pv != 0){
+	
+			$datos = array();
+		    $datos["cod"] = $cod;
+		    $datos["cant"] = 1;
+		    $datos["producto"] = $nombre;
+		    $datos["pv"] = $pv;	    				   
+		    $datos["stotal"] = $stot;	    				   
+		    $datos["imp"] = $im;
+		    $datos["total"] = $stot + $im;;
+		    $datos["num_fac"] = 0;
+		    $datos["fecha"] = date("d-m-Y");
+		    $datos["hora"] = date("H:i:s");
+		    $datos["mesa"] = $mesa;
+		    $datos["cliente"] = $cliente;
+		    $datos["cancela"] = $cliente;
+		    $datos["cajero"] = $_SESSION['nombre'];
+		    $datos["tipo_pago"] = 1;
+		    $datos["user"] = $_SESSION['user'];
+		    $datos["gravado"] = 1;
+		    $datos["tx"] = $_SESSION['tx'];
+		    $datos["fechaF"] = Fechas::Format(date("d-m-Y"));
+		    $datos["edo"] = 1;
+		    $datos["td"] = $_SESSION["td"];
+		    $datos["hash"] = Helpers::HashId();
+			$datos["time"] = Helpers::TimeId();
+		    $db->insert("ticket_temp", $datos);
+	    }
+
+	}
+
 ///////////////////////////////////////////////////////////
+
+
 /// la vieja se dejo por si de problema sen cambiar opcones ya agregadas
 	public function AgregarOpcion($cod,$opcion,$mesa,$cliente,$identificador) {
 		$db = new dbConn();
@@ -1472,6 +1516,10 @@ echo '<div class="row d-flex justify-content-center">';
 /// si es en delivery
 	if($_SESSION["delivery_on"] == TRUE){
 		echo '<a id="deliveryedo" class="btn-floating red"><i class="fas fa-user" aria-hidden="true" title="Opciones" data-toggle="tooltip" data-placement="bottom"></i></a>';
+
+
+		echo '<a id="envio" class="btn-floating btn-cyan"><i class="fas fa-dollar-sign" aria-hidden="true" title="Establecer Envio" data-toggle="tooltip" data-placement="bottom"></i></a>';
+
 
 		if($_SESSION['opcionesactivas'] == TRUE){
 		echo '<a href="?modal=modificar&mesa='.$_SESSION["mesa"].'" class="btn-floating btn-success" title="Cambios al platillo" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-hamburger"></i></a>'; }

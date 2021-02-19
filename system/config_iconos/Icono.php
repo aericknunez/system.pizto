@@ -344,15 +344,24 @@ class Icono{
 	public function DelOpciones($cod){
     	$db = new dbConn();
 			Helpers::DeleteId("opciones", "cod='$cod' and td = ".$_SESSION["td"]."");
+			// elimino las imagenes antes de borrar el registro
+		    $a = $db->query("SELECT cod FROM opciones_name WHERE opcion='$cod' and td = ".$_SESSION["td"]."");
+		    foreach ($a as $b) {
+		    	Helpers::DeleteId("images", "cod='".$b["cod"]."' and td = ".$_SESSION["td"]."");
+		    }$a->close();
+
 			Helpers::DeleteId("opciones_name", "opcion='$cod' and td = ".$_SESSION["td"]."");
 			Helpers::DeleteId("opciones_asig", "opcion='$cod' and td = ".$_SESSION["td"]."");
 			$db->close();
 			$this->VerOpciones();
+
     	}
 
 
 	public function DelOpcionesName($cod, $opcion){
     	$db = new dbConn();
+			// elimino las imagenes antes de borrar el registro
+		    Helpers::DeleteId("images", "cod='$cod' and td = ".$_SESSION["td"]."");
 			Helpers::DeleteId("opciones_name", "cod='$cod' and td = ".$_SESSION["td"]."");
 			Helpers::DeleteId("opciones_asig", "opcion='$cod' and td = ".$_SESSION["td"]."");
 			$db->close();

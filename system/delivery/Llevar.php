@@ -419,6 +419,78 @@ class Llevar{
 
 
 
+  public function VerListaEnvios(){
+    $db = new dbConn();
+
+        echo '<div class="row d-flex justify-content-center">
+          <div class="btn-group mt-3 mb-3 justify-content-center" role="group">
+            <button id="BtnGroup" type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Establecer Envío
+            </button>
+            <div class="dropdown-menu" aria-labelledby="BtnGroup">';
+
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="0" class="dropdown-item" >$0.00</a>';
+
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="0.25" class="dropdown-item" >$0.25</a>';
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="0.50" class="dropdown-item" >$0.50</a>';  
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="0.75" class="dropdown-item" >$0.75</a>';  
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="1" class="dropdown-item" >$1.00</a>';      
+
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="1.25" class="dropdown-item" >$1.25</a>';
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="1.50" class="dropdown-item" >$1.50</a>';  
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="1.75" class="dropdown-item" >$1.75</a>';  
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="2" class="dropdown-item" >$2.00</a>';      
+
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="2.25" class="dropdown-item" >$2.25</a>';
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="2.50" class="dropdown-item" >$2.50</a>';  
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="2.75" class="dropdown-item" >$2.75</a>';  
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="3" class="dropdown-item" >$3.00</a>';      
+
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="3.25" class="dropdown-item" >$3.25</a>';
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="3.50" class="dropdown-item" >$3.50</a>';  
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="3.75" class="dropdown-item" >$3.75</a>';  
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="4" class="dropdown-item" >$4.00</a>';      
+
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="4.25" class="dropdown-item" >$4.25</a>';
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="4.50" class="dropdown-item" >$4.50</a>';  
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="4.75" class="dropdown-item" >$4.75</a>';  
+              echo '<a id="addenvio" cod="8887" mesa="'.$_SESSION["mesa"].'" cant="5" class="dropdown-item" >$5.00</a>';      
+
+
+            echo '</div>
+          </div>
+        </div>';
+
+
+    $s = $db->query("SELECT total FROM ticket_temp WHERE cod='8887' and mesa = ".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");
+    foreach ($s as $t) {
+        $max=$t["total"];
+    } $s->close();
+
+
+    echo ' <div class="card">
+          <div class="card-body text-center">
+            <h3>'.Helpers::Dinero($max).'</h3>
+          </div>
+        </div>';
+
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 } // clase
 ?>

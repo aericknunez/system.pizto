@@ -240,7 +240,7 @@ if($edo == 1 or $edo == NULL){
 
 
 <!-- Ver agregar delivery -->
-<div class="modal" id="ModalOpciones" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-backdrop="false">
+<div class="modal" id="ModalOpcion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-backdrop="false">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -251,9 +251,7 @@ if($edo == 1 or $edo == NULL){
 <!-- ./  content -->
 
 
-<div id="vistaopciones">
-  
-</div>
+<div id="vistaopcion"></div>
 
 
 <!-- ./  content -->
@@ -299,6 +297,37 @@ if($edo == 1 or $edo == NULL){
   </div>
 </div>
 <!-- ./  Modal -->
+
+
+
+
+
+
+
+<!-- Ver agregar delivery -->
+<div class="modal" id="ModalEnvio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-backdrop="false">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+         ENVIO</h5>
+      </div>
+      <div class="modal-body">
+<!-- ./  content -->
+<div id="vistaenvio"></div>
+<!-- ./  content -->
+      </div>
+      <div class="modal-footer">
+
+      <a class="btn btn-primary btn-rounded" data-dismiss="modal">Regresar</a>
+         
+    
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ./  Modal -->
+
 
 
 

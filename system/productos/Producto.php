@@ -22,7 +22,7 @@ class Producto{
 		    	Helpers::UpdateId("pro_unidades_medida", $cambio, "id=" . $i);
 		       Alerts::Alerta("success","Agregado Correctamente","Unidad de medida Agregado corectamente!");
 		    }else {
-			    	Alerts::Alerta("danger","Error","Error desconocido, no se agrego el registro!");
+			    	Alerts::Alerta("error","Error","Error desconocido, no se agrego el registro!");
 			} 
 			$this->VerUnidad(1);
 	}
@@ -135,7 +135,7 @@ $page <= 1 ? $enable = 'disabled' : $enable = '';
 		    
 		    if (Helpers::DeleteId("pro_unidades_medida", "iden='$iden' and td = ".$_SESSION["td"]."")) {
 		        
-		        Alerts::Alerta("warning","Unidad Eliminado","Se ha eliminado el registo correctamente!");
+		        Alerts::Alerta("success","Unidad Eliminado","Se ha eliminado el registo correctamente!");
 			    $this->VerUnidad(1);
 		    }
 
@@ -161,7 +161,7 @@ $page <= 1 ? $enable = 'disabled' : $enable = '';
 		    	Helpers::UpdateId("pro_dependiente", $cambio, "id=" . $i);
 		       Alerts::Alerta("success","Agregado Correctamente","Porcion de medida Agregado corectamente!");
 		    }else {
-			    	Alerts::Alerta("danger","Error","Error desconocido, no se agrego el registro!");
+			    	Alerts::Alerta("error","Error","Error desconocido, no se agrego el registro!");
 			} 
 			$this->VerPorciones(1);
 	}
@@ -285,7 +285,7 @@ $page <= 1 ? $enable = 'disabled' : $enable = '';
 		    
 		    if (Helpers::DeleteId("pro_dependiente", "iden='$iden' and td = ".$_SESSION["td"]."")) {
 		        
-		        Alerts::Alerta("warning","Porcion Eliminado","Se ha eliminado el registo correctamente!");
+		        Alerts::Alerta("errorerror","Porcion Eliminado","Se ha eliminado el registo correctamente!");
 			    $this->VerPorciones(1);
 		    }
 
@@ -295,13 +295,15 @@ $page <= 1 ? $enable = 'disabled' : $enable = '';
 
 
 
-	public function AddMateria($nombre,$cantidad,$unidad){
+	public function AddMateria($data){
 	    $db = new dbConn();
 
-	         $datos = array();
-		    $datos["nombre"] = $nombre;		    
-		    $datos["cantidad"] = $cantidad;
-		     $datos["um"] = $unidad;
+if($data["nombre"] != NULL and $data["cantidad"] != NULL and $data["unidad"] != NULL and $data["minimo"] != NULL){
+	        $datos = array();
+		    $datos["nombre"] = $data["nombre"];		    
+		    $datos["cantidad"] = $data["cantidad"];
+		    $datos["um"] = $data["unidad"];
+		    $datos["minimo"] = $data["minimo"];
 		    $datos["td"] = $_SESSION["td"];
 		    $datos["hash"] = Helpers::HashId();
 			$datos["time"] = Helpers::TimeId();
@@ -313,8 +315,13 @@ $page <= 1 ? $enable = 'disabled' : $enable = '';
 		    	Helpers::UpdateId("pro_bruto", $cambio, "id=" . $i);
 		       Alerts::Alerta("success","Agregado Correctamente","Materia de medida Agregado corectamente!");
 		    }else {
-			    	Alerts::Alerta("danger","Error","Error desconocido, no se agrego el registro!");
+			    	Alerts::Alerta("error","Error","Error desconocido, no se agrego el registro!");
 			} 
+
+} else {
+	Alerts::Alerta("error","Error","Error! debe detallar su ingreso");
+}
+
 			$this->VerMateria(1);
 	}
 
@@ -450,7 +457,7 @@ $page <= 1 ? $enable = 'disabled' : $enable = '';
 		    
 		    if (Helpers::DeleteId("pro_bruto", "iden='$iden' and td = ".$_SESSION["td"]."")) {
 		        Helpers::DeleteId("alter_materiaprima_reporte", "producto=" . $iden);
-		        Alerts::Alerta("warning","Materia Eliminado","Se ha eliminado el registo correctamente!");
+		        Alerts::Alerta("danger","Materia Eliminado","Se ha eliminado el registo correctamente!");
 			    $this->VerMateria(1);
 		    }
 
@@ -741,6 +748,11 @@ $page <= 1 ? $enable = 'disabled' : $enable = '';
 			}
 		  $ad->close();
    	}
+
+
+
+
+
 
 
 

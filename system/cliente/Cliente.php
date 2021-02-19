@@ -51,9 +51,11 @@ class Clientes {
 
 
   public function CompruebaForm($datos){
-        if($datos["nombre"] == NULL or
-          $datos["direccion"] == NULL or
-          $datos["telefono"] == NULL){
+        if($datos["nombre"] == NULL 
+          // or
+          // $datos["direccion"] == NULL or
+          // $datos["telefono"] == NULL
+        ){
           return FALSE;
         } else {
          return TRUE;

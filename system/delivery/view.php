@@ -135,7 +135,7 @@ if($edo == 1 or $edo == NULL){
     </div>
 
     <div class="col-md-4 mb-2 md-form">
-      <label for="cod">* Documento</label>
+      <label for="cod">Documento</label>
       <input type="text" class="form-control" id="documento" name="documento" >
     </div>
 
@@ -145,12 +145,12 @@ if($edo == 1 or $edo == NULL){
   <div class="form-row">
 
  <div class="col-md-6 mb-2 md-form">
-      <label for="descripcion">* Tel&eacutefono</label>
+      <label for="descripcion">Tel&eacutefono</label>
       <input type="text" class="form-control" id="telefono" name="telefono" >
     </div>
 
   <div class="col-md-6 mb-2 md-form">
-      <label for="descripcion">* Direcci&oacuten</label>
+      <label for="descripcion">Direcci&oacuten</label>
       <input type="text" class="form-control" id="direccion" name="direccion" >
     </div>
 
@@ -397,7 +397,7 @@ if($edo == 1 or $edo == NULL){
     </div>
 
     <div class="col-md-4 mb-2 md-form">
-      <label for="cod">* Documento</label>
+      <label for="cod">Documento</label>
       <input type="text" class="form-control" id="documento" name="documento" >
     </div>
 
@@ -407,12 +407,12 @@ if($edo == 1 or $edo == NULL){
   <div class="form-row">
 
  <div class="col-md-6 mb-2 md-form">
-      <label for="descripcion">* Tel&eacutefono</label>
+      <label for="descripcion">Tel&eacutefono</label>
       <input type="text" class="form-control" id="telefono" name="telefono" >
     </div>
 
   <div class="col-md-6 mb-2 md-form">
-      <label for="descripcion">* Direcci&oacuten</label>
+      <label for="descripcion">Direcci&oacuten</label>
       <input type="text" class="form-control" id="direccion" name="direccion" >
     </div>
 

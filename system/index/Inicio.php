@@ -268,7 +268,7 @@ if($_SESSION["caduca"] == 3){
 	public function Efectivo(){
 		$db = new dbConn();
 
-    if ($r = $db->select("efectivo,fecha", "corte_diario", "WHERE td = ".$_SESSION["td"]." order by id DESC LIMIT 1")) { 
+    if ($r = $db->select("efectivo,fecha", "corte_diario", "WHERE edo = 1 and td = ".$_SESSION["td"]." order by id DESC LIMIT 1")) { 
         $efectivo = $r["efectivo"];
         $fecha = $r["fecha"];
     } unset($r);  

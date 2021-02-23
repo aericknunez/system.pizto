@@ -1740,9 +1740,8 @@ break;
 case  "161": // ImprimirRanfo
 $factura = $_REQUEST["factura"];
 include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
-include_once '../../system/facturar/Facturar.php';
     require_once ('../ticket/autoload.php'); 
-      $fact = new Facturar();
+      $fact = new Impresiones();
       
 
 if($_SESSION["tx"] == 1){
@@ -1758,7 +1757,7 @@ if($_SESSION["tx"] == 1){
 		for ($x = $_REQUEST["inicio"]; $x <= $_REQUEST["final"]; $x++) {
 			$counter = $counter + 1;
 
-			$fact->ObtenerEstadoFactura($_REQUEST["efectivo"], $ticket);
+			$fact->Facturax(0, $x);
 		}
 
 	$texto = "<br>Se estan imprimiendo las facturas desde la factura ".$_REQUEST["inicio"]." hasta la factura ".$_REQUEST["final"]." con un total de facturas de " . $counter . ". Por favor espere hasta que se hayan impreso todas las facturas.";

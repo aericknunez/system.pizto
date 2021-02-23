@@ -1757,8 +1757,8 @@ if($_SESSION["tx"] == 1){
 		for ($x = $_REQUEST["inicio"]; $x <= $_REQUEST["final"]; $x++) {
 			$counter = $counter + 1;
 
-			// $fact->Facturax(0, $x);
-			echo $x . "<br>";
+			$fact->Facturax(0, $x);
+			// echo $x . "<br>";
 		}
 
 	$texto = "<br>Se estan imprimiendo las facturas desde la factura ".$_REQUEST["inicio"]." hasta la factura ".$_REQUEST["final"]." con un total de facturas de " . $counter . ". Por favor espere hasta que se hayan impreso todas las facturas.";

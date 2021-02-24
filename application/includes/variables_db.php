@@ -18,14 +18,6 @@ define("PASSWORD", "caca007125-"); 	// The database password.
 	}
   
 
-} else if(Helpers::AmazonServer() == TRUE){
-
-define("HOST", "localhost"); 			//35.225.56.157 The host you want to connect to. 
-define("USER", "root"); 			// The database username. 
-define("PASSWORD", "caca007125-"); 	// The database password. 
-define("DATABASE", "cozto_ventas"); 
-
-define("PATH", "./cozto/");	
 } else {
 
 define("HOST", "localhost"); 			//35.225.56.157 The host you want to connect to. 

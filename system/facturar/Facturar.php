@@ -730,7 +730,7 @@ if($_SESSION["tx"] == 0){
         $ax1 = $r["ax1"]; $bx1 = $r["bx1"];
     } unset($r);  
  
-     if($bx1 == 1 or $bx1 == 1){ 
+     if($ax1 == 1 or $bx1 == 1){ 
 
         if($ax1 == 1){ // tx1 ticket
         		if($_SESSION["root_plataforma"] == 0){ // si es local

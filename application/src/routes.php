@@ -999,8 +999,13 @@ case "63": // imprime corte
     include_once '../../system/facturar/facturas/'.$_SESSION["td"].'/Impresiones.php';
     require_once ('../ticket/autoload.php'); 
     $imprimir = new Impresiones(); 
-Alerts::Alerta("success","Imprimiendo","Imprimiendo reporte");
-    $imprimir->ReporteCorte();
+	Alerts::Alerta("success","Imprimiendo","Imprimiendo reporte");
+
+	if(isset($_POST["inicio"]) and isset($_POST["fin"])){
+		$imprimir->ReporteCorte($_POST["inicio"], $_POST["fin"]); //
+	} else {
+		$imprimir->ReporteCorte(); //
+	}
 break; 
 
 

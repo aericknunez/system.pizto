@@ -350,6 +350,28 @@ $(document).ready(function()
 
 
 
+    $("body").on("click","#imprimir_corte",function(){
+    	var inicio = $(this).attr('inicio');
+        var fin = $(this).attr('fin');
+        var dataString = "op=63&inicio="+inicio+"&fin="+fin;
+
+        $.ajax({
+            type: "POST",
+            url: "application/src/routes.php",
+            data: dataString,
+            beforeSend: function () {
+               $("#msjimprimir").html('<div class="row justify-content-md-center" ><img src="assets/img/load.gif" alt=""></div>');
+            },
+            success: function(data) {           
+                $("#msjimprimir").html(data); 
+            }
+        });
+    });       
+
+
+
+
+
 
 
 

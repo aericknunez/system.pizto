@@ -196,7 +196,10 @@ $this->LoMasVendido($inicio, $fin);
 if($tipocorte != NULL){
 	echo '<a href="?resumen&hash='.$_REQUEST["hash"].'" title="">Ir a la versión con mas detalles</a>';
 }
-			// echo '<a id="imprimir_corte" class="btn-floating cyan" title="Imprimir Corte" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-print"></i></a>';
+
+if ($_SESSION["td"] = 16) {
+echo '<a id="imprimir_corte" inicio="'.$inicio.'" fin="'.$fin.'" class="btn-floating cyan" title="Imprimir Corte" data-toggle="tooltip" data-placement="bottom"><i class="fas fa-print"></i></a> <div id="msjimprimir"></div>';
+}
 	
 
 

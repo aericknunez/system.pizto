@@ -10,6 +10,7 @@ class Helpers{
     public static function ServerDomain(){
           if($_SERVER["SERVER_NAME"] == "pizto.com" 
           or $_SERVER["SERVER_NAME"] == "www.pizto.com"
+          or $_SERVER["SERVER_NAME"] == "system.hibridosv.com"
           or $_SERVER["SERVER_NAME"] == "superpollo.net"
           or $_SERVER["SERVER_NAME"] == "www.superpollo.net"){
             return TRUE;

@@ -2067,6 +2067,13 @@ case  "210": // Resumen meseros
 break; 
 
 
+case "249": // Elimiar data del sistema
+include_once '../../system/bdbackup/LimpiarData.php';
+	$data = new DataClear();
+	$data-> Clear();
+break;
+
+
 
 
 case "300": // agregar empleado

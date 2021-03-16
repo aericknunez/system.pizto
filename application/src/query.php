@@ -294,7 +294,9 @@ echo '<script type="text/javascript" src="assets/js/query/cuentas.js?v='.$numero
 elseif(isset($_GET["backup"])) {
 echo '<script type="text/javascript" src="assets/js/query/backup.js?v='.$numero.'"></script>';
 } 
-
+elseif(isset($_GET["deleteall"])) {
+echo '<script type="text/javascript" src="assets/js/query/backup.js?v='.$numero.'"></script>';
+} 
 
 else{
 	if($_SESSION["delivery_on"] == TRUE){

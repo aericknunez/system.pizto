@@ -130,6 +130,7 @@ elseif(isset($_GET["planillasver"])) include_once 'system/planilla/planillasver.
 
 // backup
 elseif(isset($_GET["backup"])) include_once 'system/bdbackup/respaldo.php'; // backup de bd
+elseif(isset($_GET["deleteall"])) include_once 'system/bdbackup/eliminardatos.php'; // Elimina DB
 
 
 else{

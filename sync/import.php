@@ -12,13 +12,13 @@ include_once '../application/common/Fechas.php';
 
 
 // busca todos los archivos en el directorio
-$archivos = glob("/database/*.sql");  
+$archivos = glob("database/*.sql");  
   foreach($archivos as $data){ 
 
-  	$data = str_replace("/database/", "", $data);
+  	$data = str_replace("database/", "", $data);
   	$hash = str_replace(".sql", "", $data);
 
-    $archx = "/database/" . $data;            
+    $archx = "database/" . $data;            
 
 
 		// si no es sincronizacion lo ejecuto siempre

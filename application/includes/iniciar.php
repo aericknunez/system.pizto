@@ -72,12 +72,12 @@ $_SESSION["aquiLlevar"] = "on"; // deja activo la mesa para comer aqui desde el 
         $inicia = new Inicio;
         $inicia->CompruebaIconos("../iconos/", NULL); // creo iconos si no exite el archivo
  
-if($_SESSION['root_plataforma'] == 1 and ServerDomain() == TRUE){
+if($_SESSION['root_plataforma'] == 1 and Helpers::ServerDomain() == TRUE){
  ImportFtp(); 
 }
     
 
- 
+
 // comprueba si esta el logo
 // if (!file_exists("../../assets/img/logo/" . $_SESSION['config_imagen'])) {
 //     $_SESSION['config_imagen'] = "piztog.png";

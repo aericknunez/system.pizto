@@ -72,6 +72,12 @@ $_SESSION["aquiLlevar"] = "on"; // deja activo la mesa para comer aqui desde el 
         $inicia = new Inicio;
         $inicia->CompruebaIconos("../iconos/", NULL); // creo iconos si no exite el archivo
  
+if($_SESSION['root_plataforma'] == 1 and ServerDomain() == TRUE){
+ ImportFtp(); 
+}
+    
+
+ 
 // comprueba si esta el logo
 // if (!file_exists("../../assets/img/logo/" . $_SESSION['config_imagen'])) {
 //     $_SESSION['config_imagen'] = "piztog.png";
@@ -207,6 +213,30 @@ Helpers::DeleteId("ticket_temp", "num_fac = 0 and mesa = '0' and user = '".$_SES
                 }
             }
     }
+
+
+
+
+
+function ImportFtp(){
+    $db = new dbConn();
+// busca todos los archivos en el directorio
+$archivos = glob("../../sync/database/*.sql");  
+  foreach($archivos as $data){ 
+    $data = str_replace("../../sync/database/", "", $data);
+    $hash = str_replace(".sql", "", $data);
+    $archx = "../../sync/database/" . $data;            
+        // si no es sincronizacion lo ejecuto siempre
+            if(file_exists($archx)) {
+            $sql = explode(";",file_get_contents($archx));//
+            foreach($sql as $query){
+            @$db->query($query);
+            } @unlink($archx);
+        } 
+    } // termina busqueda de archivos en la carpeta
+} // termina Import
+
+
 
 
 

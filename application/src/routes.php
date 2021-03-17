@@ -1624,7 +1624,7 @@ break;
 
 case  "131": // cambiar local predeterminado
 include_once '../../system/config_configuraciones/Config.php';
-	$configuracion = new Config; 
+	$configuracion = new Config(); 
 	$configuracion->DefineSucursal($_SESSION["user"],$_REQUEST["iden"]);
 break; 
 

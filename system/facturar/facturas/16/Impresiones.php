@@ -881,12 +881,13 @@ printer_draw_text($handle, Helpers::Dinero($counte), $col4, $oi);
  
 
 //// venta con tarjeta
-$a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 2 and td = ".$_SESSION["td"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."'");
+$a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 2 and td = ".$_SESSION["td"]." and time BETWEEN '".$timeinicial."' and '".$timefinal."'");
 foreach ($a as $b) {
  $ttarjeta=$b["sum(total)"];
 } $a->close();
+
 // venta en efectivo
-$a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 1 and td = ".$_SESSION["td"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."'");
+$a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 1 and td = ".$_SESSION["td"]." and time BETWEEN '".$timeinicial."' and '".$timefinal."'");
 foreach ($a as $b) {
  $tefectivo=$b["sum(total)"];
 } $a->close();

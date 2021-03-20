@@ -773,121 +773,6 @@ printer_close($handle);
   $db = new dbConn();
 
 
-$txt1   = "17"; 
-$txt2   = "10";
-$txt3   = "15";
-$txt4   = "8";
-$n1   = "30";
-$n2   = "45";
-$n3   = "21";
-$n4   = "10";
-
-// $print
-$print = "EPSON TM-U220 Receipt";
-
-
-    $handle = printer_open($print);
-    printer_set_option($handle, PRINTER_MODE, "RAW");
-
-    printer_start_doc($handle, "Mi Documento");
-    printer_start_page($handle);
-
-    $font = printer_create_font("Arial", $txt1, $txt2, PRINTER_FW_NORMAL, false, false, false, 0);
-    printer_select_font($handle, $font);
-
-$oi=0;
-//// comienza la factura
-printer_draw_text($handle, $_SESSION['config_cliente'], 110, $oi);
-
-$oi=$oi+$n1;
-printer_draw_text($handle, "Bo. El centro 1/2 Cdra al Este", 0, $oi);
-$oi=$oi+$n1;
-printer_draw_text($handle, "del Elektra, Choluteca, Honduras.", 0, $oi);
-
-
-$oi=$oi+$n1;
-printer_draw_text($handle, "Email: " . $_SESSION['config_email'], 0, $oi);
-$oi=$oi+$n1;
-printer_draw_text($handle, $_SESSION['config_nombre_documento'] . ": " . $_SESSION['config_nit'], 0, $oi);
-$oi=$oi+$n1;
-printer_draw_text($handle, "Tel: " . $_SESSION['config_telefono'], 0, $oi);
-
-
-
-
-      // inicial y final
-          $ax = $db->query("SELECT max(num_fac), min(num_fac), count(num_fac)  FROM ticket_num WHERE fecha = '$fecha' and tx = 1 and edo = 1 and td = ".$_SESSION["td"]."");
-        foreach ($ax as $bx) {
-            $max=$bx["max(num_fac)"]; $min=$bx["min(num_fac)"]; $count=$bx["count(num_fac)"];
-        } $ax->close();
-        
-        
-        
-$oi=$oi+$n1;
-printer_draw_text($handle, "Fact. Inicial: " . Helpers::NFactura($min), 0, $oi);
-
-$oi=$oi+$n1;
-printer_draw_text($handle, "Fact. Final: " . Helpers::NFactura($max), 0, $oi);
-
-$oi=$oi+$n1;
-printer_draw_text($handle, "FACTURAS: " .  $count, 0, $oi);
-
-
-
-      // total
-      $ay = $db->query("SELECT sum(total) FROM ticket WHERE fecha = '$fecha' and tx = 1 and edo = 1 and td = ".$_SESSION["td"]."");
-        foreach ($ay as $by) {
-            $total=$by["sum(total)"];
-        } $ay->close();
-
-$oi=$oi+$n2;
-    printer_draw_text($handle, "____________________________________", 0, 220);
-    //consulta cuantos productos imprimir
-    $oi=250;
-    printer_draw_text($handle, $fecha, 15, $oi);
-
-    $oi=$oi+30;
-    printer_draw_text($handle, "EXENTO:  " . Helpers::Dinero(0), 10, $oi);
-
-    $oi=$oi+30;
-    printer_draw_text($handle, "GRAVADO:  " . Helpers::Dinero(Helpers::STotal($total, $_SESSION['config_imp'])), 10, $oi);
-
-    $oi=$oi+30;
-    printer_draw_text($handle, "SUBTOTAL:  " . Helpers::Dinero(Helpers::STotal($total, $_SESSION['config_imp'])), 10, $oi);
-
-    $oi=$oi+30;
-    printer_draw_text($handle, "ISV:  " . Helpers::Dinero(Helpers::Impuesto(Helpers::STotal($total, $_SESSION['config_imp']), $_SESSION['config_imp'])), 10, $oi);
-
-    $oi=$oi+30;
-    printer_draw_text($handle, "____________________________________", 0, $oi);
-    $oi=$oi+30;
-    printer_draw_text($handle, "TOTAL:  " . Helpers::Dinero($total), 10, $oi);
-    printer_delete_font($font);
-
-
-    //////////////////
-    $oi=$oi+30;
-    printer_draw_text($handle, "Cajero: " . $_SESSION['nombre'], 20, $oi);
-
-
-      // Eliminadas
-          $axy = $db->query("SELECT count(num_fac) FROM ticket_num WHERE fecha = '$fecha' and tx = 1 and edo = 2 and td = ".$_SESSION["td"]."");
-        foreach ($axy as $bxy) {
-            $counte=$bxy["count(num_fac)"];
-        } $axy->close();
-
-
-    $oi=$oi+30;
-    printer_draw_text($handle, "Total Eliminadas: " . $counte, 20, $oi);
-      
-
-    printer_end_page($handle);
-    printer_end_doc($handle, 20);
-    printer_close($handle);
-
-
-
-
 }   // termina reporte diario
 
 
@@ -994,6 +879,34 @@ $oi=$oi+$n2;
 printer_draw_text($handle, "TOTAL DE VENTA: ", 20, $oi);
 printer_draw_text($handle, Helpers::Dinero($counte), $col4, $oi);
  
+
+//// venta con tarjeta
+$a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 2 and td = ".$_SESSION["td"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."'");
+foreach ($a as $b) {
+ $ttarjeta=$b["sum(total)"];
+} $a->close();
+// venta en efectivo
+$a = $db->query("SELECT sum(total) FROM ticket WHERE edo = 1 and tipo_pago = 1 and td = ".$_SESSION["td"]." and time BETWEEN '".$this->GetInicio()."' and '".Helpers::TimeId()."'");
+foreach ($a as $b) {
+ $tefectivo=$b["sum(total)"];
+} $a->close();
+
+$oi=$oi+$n2;
+printer_draw_text($handle, "TOTAL EN EFECTIVO: ", 20, $oi);
+printer_draw_text($handle, Helpers::Dinero($tefectivo), $col4, $oi);
+ 
+
+
+$oi=$oi+$n2;
+printer_draw_text($handle, "TOTAL TARJETA: ", 20, $oi);
+printer_draw_text($handle, Helpers::Dinero($ttarjeta), $col4, $oi);
+ 
+
+
+
+
+
+
 
 
 

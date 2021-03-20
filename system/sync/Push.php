@@ -41,7 +41,7 @@ class Push{
 	    $db = new dbConn();
 
 		$a = $db->query("SELECT * FROM corte_diario 
-			WHERE fecha = '$fecha' and td = ".$_SESSION["temporal_td"]."");
+			WHERE fecha = '$fecha' and edo = 1  and td = ".$_SESSION["temporal_td"]."");
 		if($a->num_rows > 0){
 			return TRUE;
 		} else {

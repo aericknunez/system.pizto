@@ -38,8 +38,58 @@ exit();
 switch ($_REQUEST["op"]) {
 
 
-case "2": //
+case "22": // MUESTRA EL LATERAL (FACTURA)
+		include_once '../../system/ventas/Venta.php';
+		include_once '../../system/corte/Corte.php';
+		$ventas = new Venta;
+		$ventas->VerFactura($_SESSION["mesa"]);
+break; 
 
+
+
+case "20": //venta normal
+	include_once '../../system/ventas/Venta.php';
+	$ventas = new Venta;
+	if($_REQUEST["cliente"] == NULL) { $clientes = 1; }
+	else { $clientes = $_REQUEST["cliente"]; } 			
+
+$identificador = $ventas->Execute($_REQUEST["cod"], $_SESSION["mesa"], $clientes, $_SESSION['config_imp']);
+
+	// para pantallas
+	include_once '../../system/tv/Pantallas.php';
+	$pantalla = new Pantallas;
+	if($_REQUEST["panel"] != NULL and $_REQUEST["panel"] != 0){
+	$pantalla->AgregarControl($identificador, $_SESSION["mesa"],$clientes,0,$_REQUEST["panel"]);
+	}
+	$pantalla->Cambia(1);
+
+break; 
+
+
+
+case "19": // venta con opciones
+	include_once '../../system/ventas/Venta.php';
+	$ventas = new Venta;
+	if($_REQUEST["cliente"] == NULL) { $clientes = 1; }
+	else { $clientes = $_REQUEST["cliente"]; } 			
+
+	$id = $ventas->Execute($_REQUEST["cod"], $_SESSION["mesa"], $clientes, $_SESSION['config_imp']);
+
+	$datos = $ventas->AddOpcion($id, $_REQUEST["cod"], $clientes);	
+
+	$data = json_decode($datos, true);
+
+	$identificador = $data["identificador"];
+
+	// para pantallas
+	include_once '../../system/tv/Pantallas.php';
+	$pantalla = new Pantallas;
+	if($_REQUEST["panel"] != NULL and $_REQUEST["panel"] != 0){
+	$pantalla->AgregarControl($identificador, $_SESSION["mesa"],$clientes,1,$_REQUEST["panel"]);
+	}
+	$pantalla->Cambia(1);
+
+	echo $datos;
 break; 
 
 
@@ -231,54 +281,6 @@ include_once '../../system/tv/Pantallas.php';
 break;
 
 
-
-case "19": // venta con opciones
-	include_once '../../system/ventas/Venta.php';
-	$ventas = new Venta;
-	if($_REQUEST["cliente"] == NULL) { $clientes = 1; }
-	else { $clientes = $_REQUEST["cliente"]; } 			
-
-	$id = $ventas->Execute($_REQUEST["cod"], $_SESSION["mesa"], $clientes, $_SESSION['config_imp']);
-
-	$datos = $ventas->AddOpcion($id, $_REQUEST["cod"], $clientes);	
-
-	$data = json_decode($datos, true);
-
-	$identificador = $data["identificador"];
-
-	// para pantallas
-	include_once '../../system/tv/Pantallas.php';
-	$pantalla = new Pantallas;
-	if($_REQUEST["panel"] != NULL and $_REQUEST["panel"] != 0){
-	$pantalla->AgregarControl($identificador, $_SESSION["mesa"],$clientes,1,$_REQUEST["panel"]);
-	}
-	$pantalla->Cambia(1);
-
-	echo $datos;
-break; 
-
-
-
-case "20": //venta normal
-	include_once '../../system/ventas/Venta.php';
-	$ventas = new Venta;
-	if($_REQUEST["cliente"] == NULL) { $clientes = 1; }
-	else { $clientes = $_REQUEST["cliente"]; } 			
-
-$identificador = $ventas->Execute($_REQUEST["cod"], $_SESSION["mesa"], $clientes, $_SESSION['config_imp']);
-
-	// para pantallas
-	include_once '../../system/tv/Pantallas.php';
-	$pantalla = new Pantallas;
-	if($_REQUEST["panel"] != NULL and $_REQUEST["panel"] != 0){
-	$pantalla->AgregarControl($identificador, $_SESSION["mesa"],$clientes,0,$_REQUEST["panel"]);
-	}
-	$pantalla->Cambia(1);
-
-break; 
-
-
-
 case "20q": //cambiar cantidad de producto
 	include_once '../../system/ventas/Venta.php';
 	$ventas = new Venta;
@@ -431,14 +433,6 @@ $ventas = new Venta;
 $num = $ventas->Facturar($_SESSION["mesa"],$_POST["total"]);
 
 header("location: ../../?modal=factura&factura=$num&efectivo=".$_POST["total"]."");
-break; 
-
-
-case "22": // MUESTRA EL LATERAL (FACTURA)
-		include_once '../../system/ventas/Venta.php';
-		include_once '../../system/corte/Corte.php';
-		$ventas = new Venta;
-		$ventas->VerFactura($_SESSION["mesa"]);
 break; 
 
 

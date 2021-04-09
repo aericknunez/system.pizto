@@ -536,7 +536,11 @@ $page <= 1 ? $enable = 'disabled' : $enable = '';
 		       <th>Nombre</th>
 		       <th>Categoria</th>
 		       <th>Detalle</th>
-		       <th>Pantalla</th>
+		       <th>';
+		       if($_SESSION['config_o_ticket_pantalla'] == 1) echo "Pantalla";
+		       else if($_SESSION['config_o_ticket_pantalla'] == 2) echo "Ticket";
+		       else echo "Sin Opcion";
+		       echo '</th>
 		     </tr>
 		   </thead>
 		   <tbody>';

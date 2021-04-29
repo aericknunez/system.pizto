@@ -248,10 +248,10 @@ if($nmesa == NULL){ $mesax = $b["mesa"]; } else { $mesax = $nmesa; }
 
 if($cantidadx != NULL){ // sino es vacia entoces hafo un bucle para meter los del modal cantidad
 
-    $ax= $db->query("SELECT sum(cant) FROM ticket_temp WHERE hash = '".$identificador."' and mesa='$mesa' and cliente='$cliente' and td=".$_SESSION["td"]."");
-    foreach ($ax as $bx) {
-        $cantidad_productos=$bx["sum(cant)"];
-    } $ax->close();
+$ax= $db->query("SELECT sum(cant) FROM ticket_temp WHERE hash = '".$identificador."' and mesa='$mesa' and cliente='$cliente' and td=".$_SESSION["td"]."");
+foreach ($ax as $bx) {
+    $cantidad_productos=$bx["sum(cant)"];
+} $ax->close();
 
 
 $ar = $db->query("SELECT * FROM control_cocina WHERE identificador = '".$identificador."' and mesa='$mesa' and cliente='$cliente' and td=".$_SESSION["td"]."");
@@ -264,12 +264,12 @@ $ncheck = $cantidad_productos - $cantidad_control;
 
 if($ncheck > 0){ // (9) resultado
 
-$inicio = $cantidad_productos - $cantidad_control;
+$inicio = $cantidad_control + 1;
 
-	for ($i=0; $i <= $inicio; $i++) { 
+	for ($i=$inicio; $i < $ncheck ; $i++) { 
 
 		$datos = array();
-	    $datos["cod"] = $cod;
+	    $datos["cod"] = $i;
 	    $datos["identificador"] = $identificador;
 	    $datos["producto"] = $producto;
 	    $datos["mesa"] = $mesa;
@@ -291,7 +291,7 @@ echo "agregar";
 
 $inicio = $cantidad_productos - $cantidad_control;
 
-	for ($i=0; $i < $inicio; $i++) { 
+	for ($i=$inicio; $i < $ncheck; $i++) { 
 
 			$cambio = array();
 		    $cambio["edo"] = 3;

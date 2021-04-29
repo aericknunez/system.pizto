@@ -308,7 +308,7 @@ $fin =  $cantidad_productos;
 			Helpers::DeleteId("control_cocina", "identificador = '".$identificador."' and mesa='$mesa' and cliente='$cliente' and td=".$_SESSION["td"]." and edo = 1 limit $inicio");
 		} else {
 
-		$del_check = $can_imp - ($can_imp - $cantidad_productos);
+		$del_check = $can_imp - $cantidad_productos;
 
 		$cambio = array();
 		$cambio["edo"] = 3;    

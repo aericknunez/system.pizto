@@ -387,9 +387,8 @@ $printer->close();
 
 
  public function Comanda(){
+$db = new dbConn();
 
-// registro el envio  
-  $db = new dbConn();
 $cambio = array();
 $cambio["edo"] = 0;  
 Helpers::UpdateId("mesa_comanda_edo", $cambio, "mesa = ".$_SESSION["mesa"]." and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."");

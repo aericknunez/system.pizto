@@ -242,15 +242,18 @@ if($nmesa == NULL){ $mesax = $b["mesa"]; } else { $mesax = $nmesa; }
 
     }
 
-    	if ($r = $db->select("cant, cod", "ticket_temp", "WHERE hash = '".$identificador."' and mesa='$mesa' and cliente='$cliente' and td=".$_SESSION["td"]."")) { 
-		        $cod=$r["cant"]; $producto=$r["cod"];
-		    } unset($r); 
+if ($r = $db->select("cant, cod", "ticket_temp", "WHERE hash = '".$identificador."' and mesa='$mesa' and cliente='$cliente' and td=".$_SESSION["td"]."")) { 
+    $cod=$r["cant"]; $producto=$r["cod"];
+} unset($r); 
+
+
+
 
 if($cantidadx != NULL){ // sino es vacia entoces hafo un bucle para meter los del modal cantidad
 
-$ax= $db->query("SELECT sum(cant) FROM ticket_temp WHERE hash = '".$identificador."' and mesa='$mesa' and cliente='$cliente' and td=".$_SESSION["td"]."");
+$ax= $db->query("SELECT cant FROM ticket_temp WHERE hash = '".$identificador."' and mesa='$mesa' and cliente='$cliente' and td=".$_SESSION["td"]."");
 foreach ($ax as $bx) {
-    $cantidad_productos=$bx["sum(cant)"];
+    $cantidad_productos=$bx["cant"];
 } $ax->close();
 
 
@@ -265,41 +268,56 @@ $ncheck = $cantidad_productos - $cantidad_control;
 if($ncheck > 0){ // (9) resultado
 
 $inicio = $cantidad_control + 1;
+$fin =  $cantidad_productos;
+		for ($i=$inicio; $i <= $fin ; $i++) { 
 
-	for ($i=$inicio; $i < $ncheck ; $i++) { 
+			$datos = array();
+		    $datos["cod"] = $i;
+		    $datos["identificador"] = $identificador;
+		    $datos["producto"] = $producto;
+		    $datos["mesa"] = $mesa;
+		    $datos["cliente"] = $cliente;
+		    $datos["opciones"] = $opciones;
+		    $datos["panel"] = $panel;
+		    $datos["fecha"] = date("d-m-Y");
+		    $datos["hora"] = date("H:i:s");
+		    $datos["edo"] = 1;
+		    $datos["td"] = $_SESSION["td"];
+		    $datos["hash"] = Helpers::HashId();
+			$datos["time"] = Helpers::TimeId();
+		    $db->insert("control_cocina", $datos);
 
-		$datos = array();
-	    $datos["cod"] = $i;
-	    $datos["identificador"] = $identificador;
-	    $datos["producto"] = $producto;
-	    $datos["mesa"] = $mesa;
-	    $datos["cliente"] = $cliente;
-	    $datos["opciones"] = $opciones;
-	    $datos["panel"] = $panel;
-	    $datos["fecha"] = date("d-m-Y");
-	    $datos["hora"] = date("H:i:s");
-	    $datos["edo"] = 1;
-	    $datos["td"] = $_SESSION["td"];
-	    $datos["hash"] = Helpers::HashId();
-		$datos["time"] = Helpers::TimeId();
-	    $db->insert("control_cocina", $datos);
+		}
+
+	} else { 
+
+
+	$ar = $db->query("SELECT * FROM control_cocina WHERE identificador = '".$identificador."' and mesa='$mesa' and cliente='$cliente' and td=".$_SESSION["td"]." and edo = 2");
+	$can_imp = $ar->num_rows;
+	$ar->close();
+
+	$ar = $db->query("SELECT * FROM control_cocina WHERE identificador = '".$identificador."' and mesa='$mesa' and cliente='$cliente' and td=".$_SESSION["td"]." and edo = 1");
+	$can_no_imp = $ar->num_rows;
+	$ar->close();
+
+
+	$inicio = $cantidad_control - $cantidad_productos;
+
+
+		if($can_no_imp >= $can_imp){
+			Helpers::DeleteId("control_cocina", "identificador = '".$identificador."' and mesa='$mesa' and cliente='$cliente' and td=".$_SESSION["td"]." and edo = 1 limit $inicio");
+		} else {
+
+		$del_check = $can_imp - ($can_imp - $cantidad_productos);
+
+		$cambio = array();
+		$cambio["edo"] = 3;    
+		Helpers::UpdateId("control_cocina", $cambio, "identificador = '$identificador' and edo != 3 and td = ".$_SESSION["td"]." limit $del_check");
+
+		}
+
 
 	}
-echo "agregar";
-} else { // (9) 1
-
-
-$inicio = $cantidad_productos - $cantidad_control;
-
-	for ($i=$inicio; $i < $ncheck; $i++) { 
-
-			$cambio = array();
-		    $cambio["edo"] = 3;
-		    Helpers::UpdateId("control_cocina", $cambio, "mesa = '$mesa' and td = ".$_SESSION["td"]."");
-	}
-
-echo "Actualizar";
-}
 
 
 } else {
@@ -333,8 +351,7 @@ echo "Actualizar";
 		$db = new dbConn();
 
 			$cambio = array();
-		    $cambio["edo"] = 3;
-		    
+		    $cambio["edo"] = 3;	    
 		    Helpers::UpdateId("control_cocina", $cambio, "mesa = '$mesa' and td = ".$_SESSION["td"]."");
 	}
 
@@ -342,9 +359,8 @@ echo "Actualizar";
 		$db = new dbConn();
 
 			$cambio = array();
-		    $cambio["edo"] = 3;
-		    
-		    Helpers::UpdateId("control_cocina", $cambio, "identificador = '$iden' and td = ".$_SESSION["td"]."");
+		    $cambio["edo"] = 3;  
+		    Helpers::UpdateId("control_cocina", $cambio, "identificador = '$iden' and edo != 3 and td = ".$_SESSION["td"]." limit 1");
 	}
 
 	public function PasarProducto($iden,$cod,$identificador) {

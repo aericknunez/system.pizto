@@ -291,7 +291,7 @@ echo "agregar";
 
 $inicio = $cantidad_productos - $cantidad_control;
 
-	for ($i=0; $i <= $inicio; $i++) { 
+	for ($i=0; $i < $inicio; $i++) { 
 
 			$cambio = array();
 		    $cambio["edo"] = 3;

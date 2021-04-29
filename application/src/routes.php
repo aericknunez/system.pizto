@@ -291,7 +291,7 @@ $identificador = $ventas->NewCantidad($_REQUEST["codigox"], $_SESSION["mesa"], $
 
 
 
-    if ($r = $db->select("panel", "control_panel_mostrar", "WHERE producto = '".$_REQUEST["codigox"]."' and tx = " . $_SESSION["tx"])) { 
+    if ($r = $db->select("panel", "control_panel_mostrar", "WHERE producto = '".$_REQUEST["codigox"]."' and td = " . $_SESSION["td"])) { 
         $panelx = $r["panel"];
     } unset($r);  
 
@@ -299,11 +299,10 @@ $identificador = $ventas->NewCantidad($_REQUEST["codigox"], $_SESSION["mesa"], $
 	// para pantallas
 	include_once '../../system/tv/Pantallas.php';
 	$pantalla = new Pantallas;
-	if($panelx != NULL and $panelx != 0){
-	$pantalla->AgregarControl($identificador, $_SESSION["mesa"], $_REQUEST["cliente"],0,$panelx);
+	if($panelx != NULL){
+	$pantalla->AgregarControl($identificador, $_SESSION["mesa"], $_REQUEST["cliente"],0,$panelx, "cantidadx");
 	}
 	$pantalla->Cambia(1);
-
 break; 
 
 

@@ -231,7 +231,7 @@ if($nmesa == NULL){ $mesax = $b["mesa"]; } else { $mesax = $nmesa; }
 
 
 
-	public function AgregarControl($identificador,$mesa,$cliente,$opciones,$panel) {
+	public function AgregarControl($identificador,$mesa,$cliente,$opciones,$panel, $cantidadx = NULL) {
 		$db = new dbConn();
 
 		if($identificador == NULL){
@@ -245,7 +245,29 @@ if($nmesa == NULL){ $mesax = $b["mesa"]; } else { $mesax = $nmesa; }
     	if ($r = $db->select("cant, cod", "ticket_temp", "WHERE hash = '".$identificador."' and mesa='$mesa' and cliente='$cliente' and td=".$_SESSION["td"]."")) { 
 		        $cod=$r["cant"]; $producto=$r["cod"];
 		    } unset($r); 
-		
+
+if($cantidadx != NULL){ // sino es vacia entoces hafo un bucle para meter los del modal cantidad
+
+    $ax= $db->query("SELECT sum(cant) FROM ticket_temp WHERE hash = '".$identificador."' and mesa='$mesa' and cliente='$cliente' and td=".$_SESSION["td"]."");
+    foreach ($ax as $bx) {
+        $cantidad_productos=$bx["sum(cant)"];
+    } $ax->close();
+
+
+$ar = $db->query("SELECT * FROM control_cocina WHERE identificador = '".$identificador."' and mesa='$mesa' and cliente='$cliente' and td=".$_SESSION["td"]."");
+$cantidad_control = $ar->num_rows;
+$ar->close();
+
+$ncheck = $cantidad_productos - $cantidad_control;
+
+// si el ncheck es mayor a 0 agregar mas. sino borrar
+
+if($ncheck > 0){ // (9) resultado
+
+$inicio = $cantidad_productos - $cantidad_control;
+
+	for ($i=0; $i <= $inicio; $i++) { 
+
 		$datos = array();
 	    $datos["cod"] = $cod;
 	    $datos["identificador"] = $identificador;
@@ -261,6 +283,48 @@ if($nmesa == NULL){ $mesax = $b["mesa"]; } else { $mesax = $nmesa; }
 	    $datos["hash"] = Helpers::HashId();
 		$datos["time"] = Helpers::TimeId();
 	    $db->insert("control_cocina", $datos);
+
+	}
+echo "agregar";
+} else { // (9) 1
+
+
+$inicio = $cantidad_productos - $cantidad_control;
+
+	for ($i=0; $i <= $inicio; $i++) { 
+
+			$cambio = array();
+		    $cambio["edo"] = 3;
+		    Helpers::UpdateId("control_cocina", $cambio, "mesa = '$mesa' and td = ".$_SESSION["td"]."");
+	}
+
+echo "Actualizar";
+}
+
+
+} else {
+
+		$datos = array();
+	    $datos["cod"] = $cod;
+	    $datos["identificador"] = $identificador;
+	    $datos["producto"] = $producto;
+	    $datos["mesa"] = $mesa;
+	    $datos["cliente"] = $cliente;
+	    $datos["opciones"] = $opciones;
+	    $datos["panel"] = $panel;
+	    $datos["fecha"] = date("d-m-Y");
+	    $datos["hora"] = date("H:i:s");
+	    $datos["edo"] = 1;
+	    $datos["td"] = $_SESSION["td"];
+	    $datos["hash"] = Helpers::HashId();
+		$datos["time"] = Helpers::TimeId();
+	    $db->insert("control_cocina", $datos);
+
+}
+
+
+
+
 
 	}
 

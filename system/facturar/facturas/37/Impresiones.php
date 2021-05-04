@@ -32,10 +32,10 @@ $printer -> setLineSpacing(80);
 
 
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
-// $logo = EscposImage::load($img, false);
-// $printer->bitImage($logo);
+$logo = EscposImage::load($img, false);
+$printer->bitImage($logo);
 
-$printer->text("ZONA CERO RESTAURANT");
+// $printer->text("ZONA CERO RESTAURANT");
 
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 
@@ -217,10 +217,10 @@ $printer -> setLineSpacing(80);
 
 
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
-$logo = EscposImage::load($img, false);
-$printer->bitImage($logo);
+// $logo = EscposImage::load($img, false);
+// $printer->bitImage($logo);
 
-// $printer->text("ZONA CERO RESTAURANT");
+$printer->text("ZONA CERO RESTAURANT");
 
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 

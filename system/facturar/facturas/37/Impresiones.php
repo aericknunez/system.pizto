@@ -39,6 +39,7 @@ $printer->text("ZONA CERO RESTAURANT");
 
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 
+$printer->feed();
 $printer->text("Carretera ex - panamericana Km 14 1/2, Salida a colonia Santa Lucia, Cojutepeque");
 
 $printer->feed();
@@ -1204,8 +1205,8 @@ $printer->close();
 
  public function Item($cant,  $name = '', $price = '', $total = '', $dollarSign = false)
     {
-        $rightCols = 10;
-        $leftCols = 42;
+        $rightCols = 8;
+        $leftCols = 38;
         if ($dollarSign) {
             $leftCols = $leftCols / 2 - $rightCols / 2;
         }

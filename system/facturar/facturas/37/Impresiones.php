@@ -13,7 +13,7 @@ class Impresiones{
  
  public function Ticket($efectivo, $numero){
   $db = new dbConn();
-  $nombre_impresora = "lr2000";
+  $nombre_impresora = "CAJA";
   $img  = "C:/AppServ/www/pizto/assets/img/logo_factura/zonacero.jpg";
 
 
@@ -198,7 +198,7 @@ $printer->close();
  public function ImprimirAntes($efectivo, $numero, $cancelar){
   $db = new dbConn();
 
-  $nombre_impresora = "LR2000 en Ah110-pc1";
+  $nombre_impresora = "CAJA";
   $img  = "C:/AppServ/www/pizto/assets/img/logo_factura/zonacero.jpg";
 
 
@@ -589,7 +589,7 @@ $a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket
 
 
 
-$nombre_impresora = "LR2000";
+$nombre_impresora = "CAJA";
 
 $connector = new WindowsPrintConnector($nombre_impresora);
 $printer = new Printer($connector);
@@ -752,7 +752,7 @@ $printer->close();
 
 
  public function AbrirCaja(){
-$nombre_impresora = "LR2000";
+$nombre_impresora = "CAJA";
 
 $connector = new WindowsPrintConnector($nombre_impresora);
 $printer = new Printer($connector);
@@ -773,7 +773,7 @@ $printer->close();
 
 
 
-  $nombre_impresora = "LR2000";
+  $nombre_impresora = "CAJA";
 
 
 $connector = new WindowsPrintConnector($nombre_impresora);

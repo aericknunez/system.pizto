@@ -13,7 +13,7 @@ class Impresiones{
  
  public function Ticket($efectivo, $numero){
   $db = new dbConn();
-  $nombre_impresora = "LR2000";
+  $nombre_impresora = "lr2000";
   $img  = "C:/AppServ/www/pizto/assets/img/logo_factura/zonacero.jpg";
 
 

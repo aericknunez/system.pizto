@@ -30,14 +30,21 @@ $printer -> setLineSpacing(80);
 
 
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
-$logo = EscposImage::load($img, false);
-$printer->bitImage($logo);
+// $logo = EscposImage::load($img, false);
+// $printer->bitImage($logo);
+
+$printer->text("ZONA CERO RESTAURANT");
+
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 
-$printer->text("Km 35 carretera panamericana, Cojutepeque");
+$printer->text("Carretera ex - panamericana Km 14 1/2, Salida a colonia Santa Lucia, Cojutepeque");
 
 $printer->feed();
-$printer->text("Tel: 2313-4541");
+$printer->text("Tel: 2397-7940");
+
+$printer->feed();
+$printer->text("WhatsApp: 7895-9941");
+
 
 $printer->feed();
 $printer->text("FACTURA NUMERO: " . $numero);
@@ -142,7 +149,7 @@ $printer -> text("Cajero: " . $_SESSION['nombre']);
 
 $printer->feed();
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
-$printer -> text("GRACIAS POR SU PREFERENCIA...");
+$printer -> text("GRACIAS POR SU VISITA, VUELVA PRONTO");
 $printer -> setJustification();
 
 
@@ -203,15 +210,23 @@ $printer -> setTextSize(1, 2);
 $printer -> setLineSpacing(80);
 
 
+
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
-$logo = EscposImage::load($img, false);
-$printer->bitImage($logo);
+// $logo = EscposImage::load($img, false);
+// $printer->bitImage($logo);
+
+$printer->text("ZONA CERO RESTAURANT");
+
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 
-$printer->text("Km 35 carretera panamericana, Cojutepeque");
+$printer->text("Carretera ex - panamericana Km 14 1/2, Salida a colonia Santa Lucia, Cojutepeque");
 
 $printer->feed();
-$printer->text("Tel: 2313-4541");
+$printer->text("Tel: 2397-7940");
+
+$printer->feed();
+$printer->text("WhatsApp: 7895-9941");
+
 
 $printer->feed();
 $printer->text("ORDEN NUMERO: " . $numero);

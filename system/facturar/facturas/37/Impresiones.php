@@ -198,12 +198,12 @@ $printer->close();
  public function ImprimirAntes($efectivo, $numero, $cancelar){
   $db = new dbConn();
 
-  $nombre_impresora = "LR2000";
+  $nombre_impresora = "LR2000 en Ah110-pc1";
   $img  = "C:/AppServ/www/pizto/assets/img/logo_factura/zonacero.jpg";
 
 
-// $connector = new WindowsPrintConnector($nombre_impresora);
-$connector= new NetworkPrintConnector("192.168.0.14", 9100);
+$connector = new WindowsPrintConnector($nombre_impresora);
+// $connector= new NetworkPrintConnector("192.168.0.14", 9100);
 
 $printer = new Printer($connector);
 $printer -> initialize();

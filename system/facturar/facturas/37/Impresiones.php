@@ -17,7 +17,9 @@ class Impresiones{
   $img  = "C:/AppServ/www/pizto/assets/img/logo_factura/zonacero.jpg";
 
 
-$connector = new WindowsPrintConnector($nombre_impresora);
+// $connector = new WindowsPrintConnector($nombre_impresora);
+$connector= new NetworkPrintConnector("192.168.0.14", 9100);
+
 $printer = new Printer($connector);
 $printer -> initialize();
 
@@ -200,7 +202,9 @@ $printer->close();
   $img  = "C:/AppServ/www/pizto/assets/img/logo_factura/zonacero.jpg";
 
 
-$connector = new WindowsPrintConnector($nombre_impresora);
+// $connector = new WindowsPrintConnector($nombre_impresora);
+$connector= new NetworkPrintConnector("192.168.0.14", 9100);
+
 $printer = new Printer($connector);
 $printer -> initialize();
 

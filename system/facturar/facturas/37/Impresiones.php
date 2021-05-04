@@ -56,7 +56,7 @@ $printer->text("FACTURA NUMERO: " . $numero);
 /* Stuff around with left margin */
 $printer->feed();
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 $printer->feed();
 /* Items */
@@ -96,7 +96,7 @@ $subtotalf = $subtotalf + $stotal;
     }    $a->close();
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
@@ -118,7 +118,7 @@ $xtotal = $subtotalf + $propina;
 $printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($xtotal), 20));
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
@@ -138,13 +138,13 @@ $cambios = $efectivo - $xtotal;
 $printer -> text($this->DosCol("Cambio " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($cambios), 20));
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
 
 
-$printer -> text($this->DosCol($fechaf, 30, $horaf, 30));
+$printer -> text($this->DosCol($fechaf, 30, $horaf, 20));
 
 
 
@@ -245,7 +245,7 @@ $printer->text("PRECUENTA");
 /* Stuff around with left margin */
 $printer->feed();
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 $printer->feed();
 /* Items */
@@ -291,7 +291,7 @@ $subtotalf = $subtotalf + $stotal;
 
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
@@ -316,14 +316,14 @@ $printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . "
 
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
 
 
 
-$printer -> text($this->DosCol($fechaf, 30, $horaf, 30));
+$printer -> text($this->DosCol($fechaf, 30, $horaf, 20));
 
 
 $printer -> text("Cajero: " . $_SESSION['nombre']);
@@ -386,7 +386,7 @@ if($llevar == 3){
    $printer->feed();
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
@@ -460,7 +460,7 @@ $printer -> setTextSize(1, 2);
 $printer -> setLineSpacing(80);
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
@@ -505,7 +505,7 @@ if($_SESSION["config_o_ticket_pantalla"] == 2){
     }    $a->close();
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
@@ -613,7 +613,7 @@ $printer -> setTextSize(1, 2);
 $printer -> setLineSpacing(80);
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
@@ -658,7 +658,7 @@ if($_SESSION["config_o_ticket_pantalla"] == 2){
     }    $a->close();
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
@@ -794,7 +794,7 @@ $printer -> text("RESUMEN DE CORTE DE CAJA");
 /* Stuff around with left margin */
 $printer->feed();
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 $printer->feed();
 /* Items */
@@ -831,7 +831,7 @@ $subtotalf = $subtotalf + $stotal;
 }    $a->close();
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
   // total de venta
@@ -931,7 +931,7 @@ $printer -> text($this->DosCol("TOTAL: ", 40, Helpers::Dinero($counte + $propina
 
 
   
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
@@ -947,7 +947,7 @@ foreach ($axy as $bxy) {
 $printer -> text($this->DosCol("TICKET ELIMINADOS: ", 40, $counte, 20));
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
@@ -986,7 +986,7 @@ $printer -> text($this->DosCol("EFECTIVO INGRESADO: ", 40, Helpers::Dinero($efec
 
 $printer -> text($this->DosCol("DIFERENCIA: ", 40, Helpers::Dinero($diferencia), 20));
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
@@ -1001,7 +1001,7 @@ $printer -> text($this->Item("#", 'Cant', 'Descripcion', 'Total'));
 $printer -> setEmphasis(false);
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
@@ -1087,7 +1087,7 @@ $printer -> setTextSize(1, 2);
 $printer -> setLineSpacing(80);
 
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 
@@ -1098,7 +1098,7 @@ $printer->feed();
 $printer -> text("MOTIVO: " . $motivo);
 $printer->feed();
 
-$printer -> text("____________________________________________________________");
+$printer -> text("_______________________________________________________");
 $printer->feed();
 
 

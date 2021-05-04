@@ -296,19 +296,19 @@ $printer->feed();
 
 
 
-$printer -> text($this->DosCol("Sub Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($subtotalf), 30));
+$printer -> text($this->DosCol("Sub Total " . $_SESSION['config_moneda_simbolo'] . ":", 30, Helpers::Format($subtotalf), 10));
 
 
 
 if($_SESSION['config_propina'] != 0.00 and $_SESSION["delivery_on"] == FALSE and $_SESSION["aquiLlevar"] == "on"){ ///  prara agregarle la propina -- sino borrar
-$printer -> text($this->DosCol("Propina " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format(Helpers::Propina($subtotalf)), 30));
+$printer -> text($this->DosCol("Propina " . $_SESSION['config_moneda_simbolo'] . ":", 30, Helpers::Format(Helpers::Propina($subtotalf)), 10));
   $subtotalf = Helpers::PropinaTotal($subtotalf);
 }
 
 
 
 $xtotal = $subtotalf + $propina;
-$printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . ":", 40, Helpers::Format($xtotal), 30));
+$printer -> text($this->DosCol("Total " . $_SESSION['config_moneda_simbolo'] . ":", 30, Helpers::Format($xtotal), 10));
 
 
 

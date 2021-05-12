@@ -49,7 +49,13 @@ if ($seslog->login_check() == TRUE) {
 						
 					}
 			} else { // si esta en la web
-				include_once 'catalog/login.php';
+
+				if($_SERVER["SERVER_NAME"] == "superpollo.net"){
+					include_once 'catalog/login_sp.php';
+				} else {
+					include_once 'catalog/login.php';
+				}
+				
 			}   
 
 	} else {

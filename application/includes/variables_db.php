@@ -4,19 +4,19 @@ date_default_timezone_set('America/El_Salvador');
 if(Helpers::ServerDomain() == TRUE){
 
 	if(Helpers::ServerDemo() == TRUE){
-		define("HOST", "localhost"); 
-		define("USER", "superpol_erick"); 
-		define("PASSWORD", "caca007125-"); 
-		define("DATABASE", "superpol_demo_pizto");
-		define("PATH", "/demo/pizto/");
-		define("TYPE", "Demo");
+			define("HOST", "db5001931616.hosting-data.io"); 
+			define("USER", "dbu1170228"); 
+			define("PASSWORD", "Caca007125-"); 
+			define("DATABASE", "dbs1580844");
+			define("PATH", "/admin/");
+			define("TYPE", "Demo");
 	} elseif(Helpers::ServerPractica() == TRUE){
-		define("HOST", "localhost"); 
-		define("USER", "superpol_erick"); 
-		define("PASSWORD", "caca007125-"); 
-		define("DATABASE", "superpol_practica_pizto");
-		define("PATH", "/practica/pizto/");	
-		define("TYPE", "Practica");
+			define("HOST", "db5001931620.hosting-data.io"); 
+			define("USER", "dbu841125"); 
+			define("PASSWORD", "Caca007125-"); 
+			define("DATABASE", "dbs1580846");
+			define("PATH", "/admin/");
+			define("TYPE", "Practica");
 	} else {
 
 		if($_SERVER["SERVER_NAME"] == "system.hibridosv.com"){

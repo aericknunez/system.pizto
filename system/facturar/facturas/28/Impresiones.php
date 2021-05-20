@@ -34,9 +34,9 @@ $logo = EscposImage::load($img, false);
 $printer->bitImage($logo);
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 
-$printer->text("Km 49 Canton Agua Zarca, Ilobasco");
+$printer->text("6ta Av. Norte, Barrio San Miguel, Ilobasco. Cabañas");
 $printer->feed();
-$printer->text("Tel: 7127-3649");
+$printer->text("Tel: 7127-3649 y 2349-0257");
 
 $printer->feed();
 $printer->text("FACTURA NUMERO: " . $numero);
@@ -207,10 +207,10 @@ $logo = EscposImage::load($img, false);
 $printer->bitImage($logo);
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 
-$printer->text("Km 49 Canton Agua Zarca, Ilobasco");
-
+$printer->text("6ta Av. Norte, Barrio San Miguel, Ilobasco. Cabañas");
 $printer->feed();
-$printer->text("Tel: 7127-3649");
+$printer->text("Tel: 7127-3649 y 2349-0257");
+
 
 $printer->feed();
 $printer->text("ORDEN NUMERO: " . $numero);

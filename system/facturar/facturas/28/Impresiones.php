@@ -569,7 +569,7 @@ $a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket
 
 
 
-$nombre_impresora = "BAR";
+$nombre_impresora = "TICKET";
 
 $connector = new WindowsPrintConnector($nombre_impresora);
 $printer = new Printer($connector);

@@ -13,8 +13,8 @@ class Impresiones{
  
  public function Ticket($efectivo, $numero){
   $db = new dbConn();
-  $nombre_impresora = "CAJA";
-  $img  = "C:/AppServ/www/pizto/assets/img/logo_factura/pizzbox.jpg";
+  $nombre_impresora = "TICKET";
+  $img  = "C:/AppServ/www/pizto/assets/img/logo_factura/pizzabox.jpg";
 
 
 $connector = new WindowsPrintConnector($nombre_impresora);
@@ -35,19 +35,15 @@ $printer -> setJustification(Printer::JUSTIFY_CENTER);
 $logo = EscposImage::load($img, false);
 $printer->bitImage($logo);
 
-// $printer->text("ZONA CERO RESTAURANT");
+// $printer->text("PIZZA BOX");
 
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 
 $printer->feed();
-$printer->text("Carretera ex - panamericana Km 14 1/2, Salida a colonia Santa Lucia, Cojutepeque");
+$printer->text("Urb Alta Vista, Ave, Vera Cruz Sur 3 Pol. 47. San Martin");
 
 $printer->feed();
-$printer->text("Tel: 2397-7940");
-
-$printer->feed();
-$printer->text("WhatsApp: 7895-9941");
-
+$printer->text("Tel: 7863-4365");
 
 $printer->feed();
 $printer->text("FACTURA NUMERO: " . $numero);
@@ -199,8 +195,8 @@ $printer->close();
  public function ImprimirAntes($efectivo, $numero, $cancelar){
   $db = new dbConn();
 
-  $nombre_impresora = "CAJA";
-  $img  = "C:/AppServ/www/pizto/assets/img/logo_factura/pizzobox.jpg";
+  $nombre_impresora = "TICKET";
+  $img  = "C:/AppServ/www/pizto/assets/img/logo_factura/pizzabox.jpg";
 
 
 $connector = new WindowsPrintConnector($nombre_impresora);
@@ -217,21 +213,18 @@ $printer -> setLineSpacing(80);
 
 
 $printer -> setJustification(Printer::JUSTIFY_CENTER);
-// $logo = EscposImage::load($img, false);
-// $printer->bitImage($logo);
+$logo = EscposImage::load($img, false);
+$printer->bitImage($logo);
 
-$printer->text("ZONA CERO RESTAURANT");
+// $printer->text("PIZZA BOX");
 
 $printer -> setJustification(Printer::JUSTIFY_LEFT);
 
 $printer->feed();
-$printer->text("Carretera ex - panamericana Km 14 1/2, Salida a colonia Santa Lucia, Cojutepeque");
+$printer->text("Urb Alta Vista, Ave, Vera Cruz Sur 3 Pol. 47. San Martin");
 
 $printer->feed();
-$printer->text("Tel: 2397-7940");
-
-$printer->feed();
-$printer->text("WhatsApp: 7895-9941");
+$printer->text("Tel: 7863-4365");
 
 
 $printer->feed();
@@ -417,7 +410,6 @@ Helpers::UpdateId("mesa_comanda_edo", $cambio, "mesa = ".$_SESSION["mesa"]." and
 
 
   $this->ComandaCocina();
-  $this->ComandaBar();
 
  }
 
@@ -578,159 +570,6 @@ $printer->close();
 
 
 
- public function ComandaBar(){
-  $db = new dbConn();
-
-$a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket_temp.cant as cant, ticket_temp.producto as producto, control_cocina.cod as codigo 
-  FROM ticket_temp, control_panel_mostrar, control_cocina 
-  WHERE ticket_temp.mesa = '".$_SESSION["mesa"]."' and ticket_temp.tx = ".$_SESSION["tx"]." and ticket_temp.td = ".$_SESSION["td"]." and control_panel_mostrar.producto = ticket_temp.cod and control_panel_mostrar.panel = 2 AND control_cocina.identificador = ticket_temp.hash and control_cocina.edo = 1 and control_cocina.cod = ticket_temp.cant");
-
- $cantidadproductos = $a->num_rows;
-
- if($cantidadproductos > 0){
-
-
-
-$nombre_impresora = "CAJA";
-
-$connector = new WindowsPrintConnector($nombre_impresora);
-$printer = new Printer($connector);
-$printer -> initialize();
-
-
-$printer -> setJustification(Printer::JUSTIFY_LEFT);
-
-$printer -> selectPrintMode(Printer::MODE_DOUBLE_HEIGHT);
-$printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
-$printer -> text("COMANDA DE BAR");
-$printer -> selectPrintMode();
-$printer->feed();
-
-
-$printer -> setFont(Printer::FONT_B);
-
-$printer -> setTextSize(1, 2);
-$printer -> setLineSpacing(80);
-
-
-$printer -> text("_______________________________________________________");
-$printer->feed();
-
-
-    foreach ($a as $b) {
-//////
-// obtener cantidad (la cantidad se cuentan cuantos hay activos en controlcocina)
-$cont = $db->query("SELECT * FROM control_cocina WHERE edo = 1 and identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]."");
-$canti_p = $cont->num_rows;
-$cont->close();
-///
- 
-
-$printer -> text($canti_p . " - " .  $b["producto"]);
-$printer->feed();
-
-
-  $ap = $db->query("SELECT cod FROM control_cocina WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and edo = 1");
-  foreach ($ap as $bp) {
-
-    $ar = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and cod = '".$bp["cod"]."'");
-    foreach ($ar as $br) {
-
-if ($r = $db->select("nombre", "opciones_name", "WHERE cod = '".$br["opcion"]."' and td = ".$_SESSION["td"]."")) {
-
-
-$printer -> text("* " . $r["nombre"]);
-$printer->feed();
-
-} unset($r); 
-
-    } $ar->close();
-
-} $ap->close();
-
-// aqui debo actualizar para borrar si es ticket el que lleva el control de panel mostrar (paso a estado 2)
-if($_SESSION["config_o_ticket_pantalla"] == 2){
-    $cambio = array();
-    $cambio["edo"] = 2;
-    Helpers::UpdateId("control_cocina", $cambio, "identificador = '".$b["hash"]."' and td = ".$_SESSION["td"]."");
-}
-
-    }    $a->close();
-
-
-$printer -> text("_______________________________________________________");
-$printer->feed();
-
-
-
-    if ($r = $db->select("llevar", "mesa", "WHERE mesa = '".$_SESSION["mesa"]."' and tx = ".$_SESSION["tx"]." and td = ".$_SESSION["td"]."")) { 
-        $llevar = $r["llevar"];
-    } unset($r);  
-
-if($llevar == 1){
-  $lleva = "COMER AQUI";
-}
-if($llevar == 2){
-  $lleva = "PARA LLEVAR";
-}
-if($llevar == 3){
-  $lleva = "DELIVERY";
-}
-
-
-
-$printer -> text($this->DosCol($lleva, 11, "MESA: " . $_SESSION['mesa'], 30));
-
-
-$printer -> text($this->DosCol(date("d-m-Y"), 11, date("H:i:s"), 30));
-
-$printer -> text("Cajero: " . $_SESSION['nombre']);
-$printer->feed();
-
-
-// nombre de mesa
-if ($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and tx = ".$_SESSION["tx"]."")) { 
-    $nombre_mesa = $r["nombre"];
-} unset($r);  
-
-if($nombre_mesa != NULL){
-
-$printer -> text("Mesa: " . $nombre_mesa);
-$printer->feed();
-}
-
-
-
-
-// COMENTARIOS DE LA MESA
-if ($r = $db->select("comentario", "mesa_comentarios", "WHERE mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and tx = ".$_SESSION["tx"]."")) { 
-    $comentario = $r["comentario"];
-} unset($r);  
-
-if($comentario != NULL){
-$printer -> text("OBSERVACIONES: " . $comentario);
-$printer->feed();
-}
-
-
-
-
-
-
-
-$printer->feed();
-$printer->cut();
-$printer->close();
-
-
-} // cantidad de productos
-
-
-}
-
-
-
-
 
 
 
@@ -754,7 +593,7 @@ $printer->close();
 
 
  public function AbrirCaja(){
-$nombre_impresora = "CAJA";
+$nombre_impresora = "TICKET";
 
 $connector = new WindowsPrintConnector($nombre_impresora);
 $printer = new Printer($connector);
@@ -775,7 +614,7 @@ $printer->close();
 
 
 
-  $nombre_impresora = "CAJA";
+  $nombre_impresora = "TICKET";
 
 
 $connector = new WindowsPrintConnector($nombre_impresora);

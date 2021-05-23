@@ -10,8 +10,14 @@ class Impresiones{
      } 
 
 
- 
  public function Ticket($efectivo, $numero){
+    $this->Ticketx($efectivo, $numero);
+    $this->Ticketx($efectivo, $numero);
+
+ }
+ 
+
+ public function Ticketx($efectivo, $numero){
   $db = new dbConn();
   $nombre_impresora = "TICKET";
   $img  = "C:/AppServ/www/pizto/assets/img/logo_factura/pizzabox.jpg";
@@ -43,7 +49,7 @@ $printer->feed();
 $printer->text("Urb Alta Vista, Ave, Vera Cruz Sur 3 Pol. 47. San Martin");
 
 $printer->feed();
-$printer->text("Tel: 7863-4365");
+$printer->text("Tel: 2553-8224 y 7608-6274");
 
 $printer->feed();
 $printer->text("FACTURA NUMERO: " . $numero);
@@ -224,7 +230,7 @@ $printer->feed();
 $printer->text("Urb Alta Vista, Ave, Vera Cruz Sur 3 Pol. 47. San Martin");
 
 $printer->feed();
-$printer->text("Tel: 7863-4365");
+$printer->text("Tel: 2553-8224 y 7608-6274");
 
 
 $printer->feed();

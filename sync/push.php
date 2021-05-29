@@ -47,14 +47,15 @@ $sync = $pushed->Execute($_REQUEST["corte"]);
 if($sync != NULL){
 	if(SubirFtp($sync) == TRUE){
 		@unlink($sync . ".sql");
-
-		$data =  file_get_contents('https://data.hibridosv.com/sync/import_i.php?x=' . $_SESSION["temporal_td"]);
-		$datos = json_decode($data, true);
 	}
 } 
 
-unset($_SESSION["temporal_td"]);
 
+		$data =  file_get_contents('https://data.hibridosv.com/sync/import_i.php?x=' . $_SESSION["temporal_td"]);
+		$datos = json_decode($data, true);
+
+unset($_SESSION["temporal_td"]);
+unset($datos);
 
 
 

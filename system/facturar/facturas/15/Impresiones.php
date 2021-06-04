@@ -1202,7 +1202,7 @@ $a = $db->query("select cod, cant, producto, pv, total, fecha, hora, num_fac fro
 $subtotalf = 0;
 
     $oi=$oi+$n1;
-    printer_draw_text($handle, "(". $b["num_fac"] . ")", $col1, $oi);
+    printer_draw_text($handle, "(". $b["cant"] . ")", $col1, $oi);
     printer_draw_text($handle, $b["cant"], $col2, $oi);
     printer_draw_text($handle, $b["producto"], $col3, $oi);
     printer_draw_text($handle, $b["total"], $col4, $oi);

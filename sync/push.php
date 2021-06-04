@@ -51,7 +51,7 @@ if($sync != NULL){
 } 
 
 
-		$data =  file_get_contents('https://data.hibridosv.com/sync/import_i.php?x=' . $_SESSION["temporal_td"]);
+		$data =  file_get_contents("https://data.hibridosv.com/sync/import_i.php?x=" . $_SESSION["temporal_td"]);
 		$datos = json_decode($data, true);
 
 unset($_SESSION["temporal_td"]);

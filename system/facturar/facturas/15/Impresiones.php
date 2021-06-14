@@ -1202,9 +1202,9 @@ $a = $db->query("select cod, cant, producto, pv, total, fecha, hora, num_fac fro
 $subtotalf = 0;
 
     $oi=$oi+$n1;
-    printer_draw_text($handle, "(". $b["cant"] . ")", $col1, $oi);
-    printer_draw_text($handle, $b["cant"], $col2, $oi);
-    printer_draw_text($handle, $b["producto"], $col3, $oi);
+    printer_draw_text($handle, $b["cant"], $col1, $oi);
+    printer_draw_text($handle, $b["producto"], $col2, $oi);
+    printer_draw_text($handle, $b["pv"], $col3, $oi);
     printer_draw_text($handle, $b["total"], $col4, $oi);
 ////
 $subtotalf = $subtotalf + $stotal;
@@ -1416,7 +1416,7 @@ $print = "PRINTER-BAR";
 
 
 
-$a = $db->query("select ticket_borrado.cod as cod, ticket_borrado.hash as hash, ticket_borrado.cant as cant, ticket_borrado.producto as producto, control_cocina.cod as codigo 
+$a = $db->query("select ticket_borrado.cod as csod, ticket_borrado.hash as hash, ticket_borrado.cant as cant, ticket_borrado.producto as producto, control_cocina.cod as codigo 
   FROM ticket_borrado, control_panel_mostrar, control_cocina 
   WHERE ticket_borrado.mesa = '".$_SESSION["mesa"]."' and ticket_borrado.tx = ".$_SESSION["tx"]." and ticket_borrado.td = ".$_SESSION["td"]." and control_panel_mostrar.producto = ticket_borrado.cod and control_panel_mostrar.panel = 2 AND control_cocina.identificador = ticket_borrado.hash and control_cocina.edo = 3 and control_cocina.cod = ticket_borrado.cant");
 

@@ -52,10 +52,6 @@ if($sync != NULL){
 } 
 
 
-		// $data =  file_get_contents("https://data.hibridosv.com/sync/import_i.php?x=" . $_SESSION["temporal_td"]);
-		// $datos = json_decode($data, true);
-		// unset($datos);
-
 unset($_SESSION["temporal_td"]);
 
 
@@ -83,7 +79,10 @@ if($_REQUEST["corte"] != NULL){
 			window.location.href="?corte";
 	</script>';
 } else {
-	header("location: https://data.hibridosv.com/sync/import_i.php?x=" . $td);
+
+		$data =  file_get_contents("https://data.hibridosv.com/sync/import_i.php?x=" . $td);
+		$datos = json_decode($data, true);
+		unset($datos);
 }
 
 

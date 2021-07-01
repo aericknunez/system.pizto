@@ -17,6 +17,7 @@ include_once '../application/common/SFTP/Net/SFTP.php';
         $_SESSION["temporal_td"] = $r["td"];
     } unset($r);  
 
+    $td = $_SESSION["temporal_td"];
 
 
 // busca todos los respaldo no subidos y los sube
@@ -51,11 +52,12 @@ if($sync != NULL){
 } 
 
 
-		$data =  file_get_contents("https://data.hibridosv.com/sync/import_i.php?x=" . $_SESSION["temporal_td"]);
-		$datos = json_decode($data, true);
+		// $data =  file_get_contents("https://data.hibridosv.com/sync/import_i.php?x=" . $_SESSION["temporal_td"]);
+		// $datos = json_decode($data, true);
+		// unset($datos);
 
 unset($_SESSION["temporal_td"]);
-unset($datos);
+
 
 
 
@@ -80,6 +82,9 @@ if($_REQUEST["corte"] != NULL){
 	echo '<script>
 			window.location.href="?corte";
 	</script>';
+} else {
+	header("location: https://data.hibridosv.com/sync/import_i.php?x=" . $td);
 }
+
 
 ?>

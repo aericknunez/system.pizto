@@ -423,7 +423,13 @@ Helpers::UpdateId("mesa_comanda_edo", $cambio, "mesa = ".$_SESSION["mesa"]." and
 
 $a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket_temp.cant as cant, ticket_temp.producto as producto, control_cocina.cod as codigo 
   FROM ticket_temp, control_panel_mostrar, control_cocina 
-  WHERE ticket_temp.mesa = '".$_SESSION["mesa"]."' and ticket_temp.tx = ".$_SESSION["tx"]." and ticket_temp.td = ".$_SESSION["td"]." and control_panel_mostrar.producto = ticket_temp.cod and control_panel_mostrar.panel = 1 AND control_cocina.identificador = ticket_temp.hash and control_cocina.edo = 1 and control_cocina.cod = ticket_temp.cant");
+  WHERE ticket_temp.mesa = '".$_SESSION["mesa"]."' and 
+  ticket_temp.tx = ".$_SESSION["tx"]." and 
+  ticket_temp.td = ".$_SESSION["td"]." and 
+  control_panel_mostrar.producto = ticket_temp.cod and 
+  control_panel_mostrar.panel = 1 AND 
+  control_cocina.identificador = ticket_temp.hash and 
+  control_cocina.cod = ticket_temp.cant");
 
  $cantidadproductos = $a->num_rows;
 
@@ -576,7 +582,13 @@ $printer->close();
 
 $a = $db->query("select ticket_temp.cod as cod, ticket_temp.hash as hash, ticket_temp.cant as cant, ticket_temp.producto as producto, control_cocina.cod as codigo 
   FROM ticket_temp, control_panel_mostrar, control_cocina 
-  WHERE ticket_temp.mesa = '".$_SESSION["mesa"]."' and ticket_temp.tx = ".$_SESSION["tx"]." and ticket_temp.td = ".$_SESSION["td"]." and control_panel_mostrar.producto = ticket_temp.cod and control_panel_mostrar.panel = 2 AND control_cocina.identificador = ticket_temp.hash and control_cocina.edo = 1 and control_cocina.cod = ticket_temp.cant");
+  WHERE ticket_temp.mesa = '".$_SESSION["mesa"]."' and 
+  ticket_temp.tx = ".$_SESSION["tx"]." and 
+  ticket_temp.td = ".$_SESSION["td"]." and 
+  control_panel_mostrar.producto = ticket_temp.cod and 
+  control_panel_mostrar.panel = 2 AND 
+  control_cocina.identificador = ticket_temp.hash and 
+  and control_cocina.cod = ticket_temp.cant");
 
  $cantidadproductos = $a->num_rows;
 

@@ -36,12 +36,11 @@ class Mesas{
 		    	if($b["estado"] == 1){ $tbl_ticket = "ticket_temp"; }
 		    	if($b["estado"] == 2){ $tbl_ticket = "ticket"; }
 		    
-		    if($_SESSION["tipo_cuenta"] == 1){	
 		    	if($r = $db->select("nombre", "mesa_nombre", "WHERE mesa = ".$b["mesa"]." and tx = ".$b["tx"]." and 
 		    		td = ".$_SESSION["td"]."")) { 
 			        $nombre = $r["nombre"];
 			    } unset($r);  
-		    }
+		    
 		    if($nombre == NULL){ $nombre = "Unknow"; }
 		     
 		   

@@ -19,8 +19,7 @@ class Mesas{
 		     <tr>
 		       <th>Mesa</th>';
 
-		if($_SESSION["tipo_cuenta"] == 1){
-		 echo '<th>Nombre</th>'; } 
+		 echo '<th>Nombre</th>'; 
 		 echo '<th>Clientes</th>
 		       <th>Mesero</th>
 		       <th>Hora</th>
@@ -116,8 +115,8 @@ class Mesas{
 		  echo '<tr>
 		       <th scope="row">'. $b["mesa"] . '</th>';
 
-		  if($_SESSION["tipo_cuenta"] == 1){     
-		  echo '<td>'. $nombre . '</td>'; unset($nombre); }
+   
+		  echo '<td>'. $nombre . '</td>'; unset($nombre); 
 		  echo '<td>'. $b["clientes"] . '</td>
 		       <td>'. $b["empleado"] . '</td>
 		       <td>'. $b["hora"] . '</td>

@@ -466,7 +466,7 @@ $printer->feed();
     foreach ($a as $b) {
 //////
 // obtener cantidad (la cantidad se cuentan cuantos hay activos en controlcocina)
-$cont = $db->query("SELECT * FROM control_cocina WHERE edo = 1 and identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]."");
+$cont = $db->query("SELECT * FROM control_cocina WHERE  identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]."");
 $canti_p = $cont->num_rows;
 $cont->close();
 ///
@@ -476,7 +476,7 @@ $printer -> text($canti_p . " - " .  $b["producto"]);
 $printer->feed();
 
 
-  $ap = $db->query("SELECT cod FROM control_cocina WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and edo = 1");
+  $ap = $db->query("SELECT cod FROM control_cocina WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]."");
   foreach ($ap as $bp) {
 
     $ar = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and cod = '".$bp["cod"]."'");
@@ -625,7 +625,7 @@ $printer->feed();
     foreach ($a as $b) {
 //////
 // obtener cantidad (la cantidad se cuentan cuantos hay activos en controlcocina)
-$cont = $db->query("SELECT * FROM control_cocina WHERE edo = 1 and identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]."");
+$cont = $db->query("SELECT * FROM control_cocina WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]."");
 $canti_p = $cont->num_rows;
 $cont->close();
 ///
@@ -635,7 +635,7 @@ $printer -> text($canti_p . " - " .  $b["producto"]);
 $printer->feed();
 
 
-  $ap = $db->query("SELECT cod FROM control_cocina WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and edo = 1");
+  $ap = $db->query("SELECT cod FROM control_cocina WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]."");
   foreach ($ap as $bp) {
 
     $ar = $db->query("SELECT opcion FROM opciones_ticket WHERE identificador = '".$b["hash"]."' and mesa = ".$_SESSION["mesa"]." and td = ".$_SESSION["td"]." and cod = '".$bp["cod"]."'");

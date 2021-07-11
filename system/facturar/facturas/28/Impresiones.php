@@ -13,7 +13,7 @@ class Impresiones{
  
  public function Ticket($efectivo, $numero){
   $db = new dbConn();
-  $nombre_impresora = "TICKET";
+  $nombre_impresora = "LR2000";
   $img  = "C:/AppServ/www/pizto/assets/img/logo_factura/mathi.jpg";
 
 
@@ -188,7 +188,7 @@ $printer->close();
  public function ImprimirAntes($efectivo, $numero, $cancelar){
   $db = new dbConn();
 
-  $nombre_impresora = "TICKET";
+  $nombre_impresora = "LR2000";
   $img  = "C:/AppServ/www/pizto/assets/img/logo_factura/mathi.jpg";
 
 

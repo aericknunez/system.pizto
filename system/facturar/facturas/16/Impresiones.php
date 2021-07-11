@@ -236,8 +236,8 @@ printer_draw_text($handle, "Mesero: " . $mesero, 25, $oi);
 
 
 
-$oi=$oi+$n1+$n4;
-printer_draw_text($handle, "Nuestros precios incluyen IVA", 50, $oi);
+// $oi=$oi+$n1+$n4;
+// printer_draw_text($handle, "Nuestros precios incluyen IVA", 50, $oi);
 
 $oi=$oi+$n1+$n4;
 printer_draw_text($handle, "GRACIAS POR SU COMPRA...", 50, $oi);
@@ -496,8 +496,8 @@ printer_draw_text($handle, "Mesero: " . $mesero, 25, $oi);
 
 
 
-$oi=$oi+$n1+$n4;
-printer_draw_text($handle, "Nuestros precios incluyen IVA", 50, $oi);
+// $oi=$oi+$n1+$n4;
+// printer_draw_text($handle, "Nuestros precios incluyen IVA", 50, $oi);
 
 $oi=$oi+$n1+$n4;
 printer_draw_text($handle, "GRACIAS POR SU COMPRA...", 50, $oi);
